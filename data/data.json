@@ -1,0 +1,1154 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+		{
+			"type":"Feature",
+			"id": "000",
+			"properties":{
+				"tags": {
+                    "buildingpart": "bounds",
+					"category": "Limites"
+                },
+				"relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Limites"
+                        }
+                    }
+                ]
+            },
+			"geometry":{
+				"type":"LineString",
+				"coordinates":[
+					[	[-51.22668180623533, -30.035285121877315], [-51.2265336609083, -30.035087224146654], [-51.22647355243277, -30.03512094793035],
+						[-51.22644383540727, -30.035081250849945], [-51.226048765364894, -30.035302904197504], [-51.22607762249031, -30.0353414525062],
+						[-51.22602248063556, -30.035372389694686],[-51.22604615745694, -30.035404017959696], [-51.22556564497819, -30.035673607691603],
+						[-51.225665301849794, -30.035806732096372], [-51.22571812974482, -30.03577709327882], [-51.225742071542506, -30.03580907537713],
+						[-51.22607061675038, -30.035624746646363], [-51.226047618473885, -30.03559402487214], [-51.22619445159744, -30.03551164470813],
+						[-51.2262191796104, -30.03554467714227], [-51.22668180623533, -30.035285121877315]	]
+				]
+			}
+		
+		},
+		{
+            "type": "Feature",
+            "id": "001",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Portaria"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22653419020295, -30.03509282853612], [-51.22646299419628, -30.03513279023087], [-51.226482387047504, -30.035158684698104],
+						[-51.226553583054155, -30.035118723013777], [-51.22653419020295, -30.03509282853612]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "002",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Acessos",
+                            "name": "Elevador 1"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22639885240984, -30.03510975580834], [-51.226379242266766, -30.0351208203109], [-51.22639494428421, -30.03514167760444],
+						[-51.226414554427265, -30.035130613104197], [-51.22639885240984, -30.03510975580834]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "003",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Acessos",
+                            "name": "Elevador 2"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22641536977195, -30.03513222632849], [-51.22639575962889, -30.03514329082855], [-51.226411461646336, -30.035164148117374],
+						[-51.22643107178939, -30.035153083619644], [-51.22641536977195, -30.03513222632849]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "004",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Coordenação de turno"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226379242266766, -30.0351208203109], [-51.22633713551334, -30.03514388683755], [-51.22636934634077, -30.035187954989492],
+					[-51.226411453094194, -30.03516488847308], [-51.226379242266766, -30.0351208203109]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "005",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sanitário Masculino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226335664283425, -30.035144952143384], [-51.22629355752999, -30.035168018664397], [-51.22632576835741, -30.03521208680563],
+						[-51.22636787511085, -30.03518902029482], [-51.226335664283425, -30.035144952143384]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "006",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sanitário Feminino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22629127682, -30.035170032801506], [-51.22625355893822, -30.035191092349066], [-51.22628615806474, -30.035234850323242],
+						[-51.22632387594651, -30.035213790784987], [-51.22629127682, -30.035170032801506]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "007",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Outros",
+                            "name": "Escada"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226250876422405, -30.035192957012022], [-51.22622616575536, -30.03520678713825], [-51.2262593898999, -30.03525127740028],
+						[-51.226284100566964, -30.035237447280277], [-51.226250876422405, -30.035192957012022]	]
+                ]
+            }
+		},		
+		{
+            "type": "Feature",
+            "id": "008",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Shaft"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22622059523455, -30.035209641554907], [-51.2261998645119, -30.035221338302936], [-51.226233459525965, -30.035265963159443],
+						[-51.22625419024862, -30.035254266416672], [-51.22622059523455, -30.035209641554907]	]		
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "009",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Acessos",
+                            "name": "Elevador de Carga"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22619714808119,-30.035223562061518],[-51.226176466385255,-30.035235553546684],[-51.22621001237259,-30.03527988365812],
+						[-51.22623074309525,-30.035268186917],[-51.22619714808119,-30.035223562061518]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "009",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Administrativo Comunicação Marketing Eventos"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226176466385255, -30.035235553546684], [-51.226091887087314, -30.035283321364677], [-51.226114565163165, -30.035313415865367],
+						[-51.226199144461106, -30.03526564806186], [-51.226176466385255,-30.035235553546684]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "010",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Financeiro"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22611450650076, -30.035320713188366], [-51.22608794210534, -30.03528511356644], [-51.226058449896826, -30.035301607108963],
+						[-51.22608501429223, -30.03533720672493], [-51.22611450650076, -30.035320713188366]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "012",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Outros",
+                            "name": "Porta corta-fogo"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226119699020884, -30.035322788440762], [-51.22610104493147, -30.035333307360226], [-51.22612670833349, -30.035367416352535],
+						[-51.22614536242292, -30.035356897436714], [-51.226119699020884, -30.035322788440762]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "013",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Outros",
+                            "name": "Escada"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22610104493147, -30.035333307360226], [-51.22603166043076, -30.03537222076501], [-51.2260556551733, -30.03540428606696],
+						[-51.226125039333816, -30.03536537327242], [-51.22610104493147, -30.035333307360226]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "014",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Alimentação"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Alimentação",
+                            "name": "Área da Cantina"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22612670833349, -30.035367416352535], [-51.2260317612533, -30.03542070787538], [-51.226098684958764, -30.035510066927042],
+						[-51.22619363156507, -30.03545677377264], [-51.22612670833349, -30.035367416352535]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "015",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Alimentação"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Alimentação",
+                            "name": "Cantina"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.2260293369737, -30.035424044033164], [-51.2259975902687, -30.035441866431476], [-51.22605640093745, -30.03552034051973],
+						[-51.22608812607183, -30.03550250701313], [-51.2260293369737, -30.035424044033164]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "016",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços",
+                            "name": "Reprografia"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22599102129816, -30.035444012122824], [-51.22595927459316, -30.035461834517534], [-51.22601808526191, -30.035540308590004],
+						[-51.226049810396276, -30.035522475086974], [-51.22599102129816, -30.035444012122824]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "017",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Coordenação de Ensino Superior"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225954748622485, -30.035463944319773], [-51.22586269870042, -30.035515604907477], [-51.22592061893559, -30.035592943068394],
+						[-51.226012679677325, -30.035541270417525], [-51.225954748622485, -30.035463944319773]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "018",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sala dos Professores"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225854651356414, -30.03551581453706], [-51.225815984408854, -30.03553751786532], [-51.225875729828395, -30.035617293090265],
+						[-51.22591439677594, -30.035595589779472], [-51.225854651356414, -30.03551581453706]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "019",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Salas de Aula"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "102",
+                            "level:usage": "Salas de Aula",
+                            "name": "Sala 102"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225816, -30.0355375], [-51.2257453, -30.0355774], [-51.2258062, -30.0356585],
+						[-51.225877, -30.0356186], [-51.225816, -30.0355375]	]
+                ]
+            }
+		},	
+		{
+            "type": "Feature",
+            "id": "020",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Salas de Aula"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "103",
+                            "level:usage": "Salas de Aula",
+                            "name": "Laboratório Produção Multimídia"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225744750665235, -30.035580469624183], [-51.225701161932534,-30.035605048960825], [-51.22576008932337,-30.035683368583403],
+						[-51.22580367805605,-30.035658789266144], [-51.225744750665235,-30.035580469624183]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "021",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Interagir"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22569597435609, -30.0356064707202], [-51.225649216229044, -30.035632837245767], [-51.225707635531464, -30.03571048155313],
+						[-51.22575439365851, -30.035684115048237], [-51.22569597435609, -30.0356064707202]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "022",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Coordenação de Pós Graduação"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22562173022471, -30.035644301464888], [-51.22557421804121,-30.035671093186412], [-51.22566765985128,-30.035795285359548],
+						[-51.22571517203477, -30.035768493671586], [-51.22562173022471,-30.035644301464888]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "023",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Soluções Corporativas"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225780692730005, -30.035732487314476], [-51.22572126441971, -30.035765998408948], [-51.22574502028452, -30.03579757197353],
+						[-51.22580444859479, -30.035764060889765], [-51.225780692730005,-30.035732487314476	]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "024",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Área de Convivência Terceirizados"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225821619990015, -30.035710372674586], [-51.22578120191934, -30.03573316407073], [-51.22580444859479, -30.035764060889765],
+						[-51.22584486666548, -30.035741269500733],[-51.225821619990015, -30.035710372674586]	]
+                ]
+            }
+			
+		},	
+		{
+            "type": "Feature",
+            "id": "025",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sanitário Masculino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.2258485735882,-30.03569452319113],[-51.225823788917836,-30.035708499052575],[-51.22584758886679,-30.035740131227115],[-51.22587237353716,-30.03572615537013],[-51.2258485735882,-30.03569452319113]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "026",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sanitário Feminino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225880531279024, -30.03567615639874], [-51.22585041622249, -30.035693138021774], [-51.225874189426264, -30.035724734654572],
+						[-51.225904304482796, -30.03570775303696], [-51.225880531279024, -30.03567615639874]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "027",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Qualidade"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22590299357392, -30.035662505376834], [-51.225880011080825, -30.03567546501035], [-51.225904304482796, -30.03570775303696],
+						[-51.22592728697591, -30.035694793407686], [-51.22590299357392, -30.035662505376834]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "028",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Indeterminado"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22593413645, -30.03564688861024], [-51.22590402075967, -30.03566387059569], [-51.22592728697591, -30.035694793407686],
+						[-51.22595740266625, -30.035677811427544], [-51.22593413645, -30.03564688861024]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "029",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Ouvidoria"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.2259589403706,-30.035634848409835],[-51.22593516473665,-30.03564825529246],[-51.22595740266625,-30.035677811427544],[-51.225981178300195,-30.035664404548903],[-51.2259589403706,-30.035634848409835]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "030",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Atendimento SEAP"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.225984331675214, -30.035617590095264], [-51.225957387069386, -30.03563278393733], [-51.225981178300195, -30.035664404548903],
+						[-51.226008122906016, -30.035649210711664], [-51.225984331675214, -30.035617590095264]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "031",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sanitário Feminino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226011788654795, -30.0356030756407], [-51.22598484320392, -30.035618269961546], [-51.226008122906016, -30.035649210711664],
+						[-51.22603506835689, -30.03563401639558], [-51.226011788654795, -30.0356030756407]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "032",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Apoio"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Apoio",
+                            "name": "Sanitário Masculino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226039005166335, -30.035586742181046], [-51.22601126763092, -30.035602383154444], [-51.22603506835689, -30.03563401639558],
+						[-51.22606280589231, -30.035618375427177], [-51.226039005166335, -30.035586742181046]	]
+                ]
+            }
+		},		
+		{
+            "type": "Feature",
+            "id": "033",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Salas de Aula"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "101",
+                            "level:usage": "Salas de Aula",
+                            "name": "Sala 101"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22631674443995, -30.035439809206842], [-51.2262017507065, -30.03550435394791], [-51.22622302404018, -30.035532759238247],
+						[-51.22633801777363, -30.035468214515674], [-51.22631674443995, -30.035439809206842]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "034",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Outros",
+                            "name": "Escada"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22629661038484, -30.035413469699385], [-51.22625513828008, -30.03543674755509], [-51.22626975546736, -30.035456265217743],
+						[-51.22631122757212, -30.03543298736665], [-51.22629661038484, -30.035413469699385]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "035",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "Sei lá",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Sei lá"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22626958830831, -30.035377575848077], [-51.22622870808957, -30.035400521492747], [-51.22625169243413, -30.0354312114479],
+						[-51.22629257265289, -30.03540826581036], [-51.22626958830831, -30.035377575848077]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "036",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Assessoria Direção"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226235092931276, -30.035330694704484], [-51.226193682286464, -30.03535393808277], [-51.22622503552083, -30.035395802655092],
+						[-51.226266446165646, -30.03537255928661], [-51.226235092931276, -30.035330694704484]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "037",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Direção de Ensino"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22636231584722, -30.03526352861832], [-51.22627265114349, -30.03531014993138], [-51.22630499812646, -30.035356775354792],
+						[-51.22639466283018, -30.035310154063666], [-51.22636231584722, -30.03526352861832]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "038",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Protocolo"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22641610500685, -30.035234489517563], [-51.2263659671682, -30.03526208283054], [-51.22639869406222, -30.035306650397736],
+						[-51.22644883190087, -30.035279057097164], [-51.22641610500685, -30.035234489517563]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "040",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Acessos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Outros",
+                            "name": "Escada"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226419328153646, -30.035232939331216], [-51.226449806772926, -30.035276246585347], [-51.22650388401319, -30.035247723164662],
+						[-51.22647340539392, -30.035204415898065], [-51.226419328153646, -30.035232939331216]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "041",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Secretaria"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22651448820414, -30.035247105662087], [-51.22627955661723, -30.035377321212263], [-51.22634538459412, -30.03546633157352],
+						[-51.22658031618103, -30.0353361161403], [-51.22651448820414, -30.035247105662087]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "042",
+            "properties": {
+                "tags": {
+                    "buildingpart": "room",
+					"category": "Serviços Administrativos"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "level": "0",
+							"room": "",
+                            "level:usage": "Serviços Administrativos",
+                            "name": "Atendimento ao Público"
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.226592590446565, -30.03517054674161], [-51.22649939650604, -30.03522224887061], [-51.226580646303375, -30.035332011416102],
+						[-51.226673840243876, -30.035280309344365], [-51.226592590446565, -30.03517054674161]	]
+                ]
+            }
+		}
+
+		
+    ]
+}
