@@ -7,15 +7,15 @@
 			"properties":{
 				"tags": {
                     "buildingpart": "bounds",
-					"category": "Limites"
+					"category": "Limites",
+                    "name": "Limites"
                 },
 				"relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Limites"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -39,15 +39,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Portaria"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Portaria"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -67,15 +67,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+					"name": "Elevador 1"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Acessos",
-                            "name": "Elevador 1"
+                            "level:usage": "Acessos"
                         }
                     }
                 ]
@@ -95,15 +95,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Elevador 2"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Acessos",
-                            "name": "Elevador 2"
+                            "level:usage": "Acessos"
                         }
                     }
                 ]
@@ -122,15 +122,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Coordenação de turno"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Coordenação de turno"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -149,15 +149,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sanitário Masculino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sanitário Masculino"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -176,15 +176,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sanitário Feminino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sanitário Feminino"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -204,15 +204,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Escada"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Outros",
-                            "name": "Escada"
+                            "level:usage": "Outros"
                         }
                     }
                 ]
@@ -231,15 +231,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Shaft"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Shaft"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -258,15 +258,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Elevador de Carga"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Acessos",
-                            "name": "Elevador de Carga"
+                            "level:usage": "Acessos"
                         }
                     }
                 ]
@@ -285,15 +285,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Administrativo Comunicação Marketing Eventos"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Administrativo Comunicação Marketing Eventos"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -312,15 +312,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Indeterminado"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Financeiro"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -339,15 +339,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Porta corta-fogo"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Outros",
-                            "name": "Porta corta-fogo"
+                            "level:usage": "Outros"
                         }
                     }
                 ]
@@ -366,15 +366,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Escada"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Outros",
-                            "name": "Escada"
+                            "level:usage": "Outros"
                         }
                     }
                 ]
@@ -393,15 +393,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Alimentação"
+					"category": "Alimentação",
+                    "name": "Área da Cantina"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Alimentação",
-                            "name": "Área da Cantina"
+                            "level:usage": "Alimentação"
                         }
                     }
                 ]
@@ -421,15 +421,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Alimentação"
+					"category": "Alimentação",
+                    "name": "Cantina"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Alimentação",
-                            "name": "Cantina"
+                            "level:usage": "Alimentação"
                         }
                     }
                 ]
@@ -448,15 +448,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços"
+					"category": "Serviços",
+                    "name": "Reprografia"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços",
-                            "name": "Reprografia"
+                            "level:usage": "Serviços"
                         }
                     }
                 ]
@@ -475,15 +475,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Coordenação de Ensino Superior"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Coordenação de Ensino Superior"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -502,15 +502,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sala dos Professores"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sala dos Professores"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -529,15 +529,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Salas de Aula"
+					"category": "Salas de Aula",
+                    "name": "Sala 102"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "102",
-                            "level:usage": "Salas de Aula",
-                            "name": "Sala 102"
+                            "level:usage": "Laboratório Produção Multimídia"
                         }
                     }
                 ]
@@ -556,15 +556,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Salas de Aula"
+					"category": "Salas de Aula",
+                    "name": "Laboratório Produção Multimídia"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "103",
-                            "level:usage": "Salas de Aula",
-                            "name": "Laboratório Produção Multimídia"
+                            "level:usage": "Salas de Aula"
                         }
                     }
                 ]
@@ -583,15 +583,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Interagir"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Interagir"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -611,15 +611,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Coordenação de Pós Graduação"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Coordenação de Pós Graduação"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -638,15 +638,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Soluções Corporativas"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Soluções Corporativas"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -665,15 +665,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Área de Convivência Terceirizados"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Área de Convivência Terceirizados"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -693,15 +693,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sanitário Masculino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sanitário Masculino"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -719,15 +719,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sanitário Feminino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sanitário Feminino"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -746,15 +746,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Financeiro"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Qualidade"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -773,15 +773,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Atendimento SEAP - Outros Cursos"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Indeterminado"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -800,15 +800,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Ouvidoria"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Ouvidoria"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -827,15 +827,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Atendimento SEAP Graduação"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Atendimento SEAP"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -854,15 +854,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sanitário Feminino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sanitário Feminino"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -882,15 +882,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Apoio"
+					"category": "Apoio",
+                    "name": "Sanitário Masculino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Apoio",
-                            "name": "Sanitário Masculino"
+                            "level:usage": "Apoio"
                         }
                     }
                 ]
@@ -909,15 +909,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Salas de Aula"
+					"category": "Salas de Aula",
+                    "name": "Sala 101"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "101",
-                            "level:usage": "Salas de Aula",
-                            "name": "Sala 101"
+                            "level:usage": "Salas de Aula"
                         }
                     }
                 ]
@@ -936,15 +936,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Escada"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Outros",
-                            "name": "Escada"
+                            "level:usage": "Outros"
                         }
                     }
                 ]
@@ -963,15 +963,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Sei lá"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "Sei lá",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Sei lá"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -990,15 +990,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Assessoria Direção"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Assessoria Direção"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -1018,15 +1018,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Direção de Ensino"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Direção de Ensino"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -1045,15 +1045,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Protocolo"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Protocolo"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -1072,15 +1072,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Acessos"
+					"category": "Acessos",
+                    "name": "Escada"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Outros",
-                            "name": "Escada"
+                            "level:usage": "Outros"
                         }
                     }
                 ]
@@ -1100,15 +1100,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Secretaria"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Secretaria"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]
@@ -1127,15 +1127,15 @@
             "properties": {
                 "tags": {
                     "buildingpart": "room",
-					"category": "Serviços Administrativos"
+					"category": "Serviços Administrativos",
+                    "name": "Atendimento ao Público"
                 },
                 "relations": [
                     {
                         "reltags": {
                             "level": "0",
 							"room": "",
-                            "level:usage": "Serviços Administrativos",
-                            "name": "Atendimento ao Público"
+                            "level:usage": "Serviços Administrativos"
                         }
                     }
                 ]

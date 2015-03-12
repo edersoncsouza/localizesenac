@@ -4,16 +4,22 @@
 	<title>LocalizeSenac - Mapa dos Ambientes</title>
 	<meta charset="utf-8" />
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 	<link rel="stylesheet" href="style/leaf/leaflet.css" />
+	<link rel="stylesheet" href="style/leaf/leaflet.label.css" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
 
     <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->
 
 	<style>
 		#map {
-			width: 800px;
-			height: 500px;
+			height: 100%;
+			width: 100%;
+			
+			<!-- width: 800px; height: 500px; -->
 		}
 
 		.info {
@@ -41,6 +47,13 @@
 			margin-right: 8px;
 			opacity: 0.7;
 		}
+	
+	 #toggle {
+		width: 100px;
+		height: 100px;
+		background: #ccc; 
+	}
+	
 	</style>
 </head>
 <body>
@@ -49,12 +62,13 @@
 	<script src="script/jquery-2.1.3.min.js"></script>
     <script src="script/leaf/leaflet-src.js"></script>
 	<script src="script/leaf/leaflet-indoor.js"></script>
-	<!-- <script type="text/javascript" src="script/leaf/1andar_unidade1.js"></script>  -->
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script type="text/javascript">
 		
 		// cria a variavel mapa, define o centro de visão e o nivel do zoom
 		var map = L.map('map').setView([-30.035476, -51.22593], 19.5);
-
+		
+		/*
 		// configura a camada quadriculada (tileLayer) que fica de fundo para o mapa vetorial
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 24,
@@ -63,11 +77,13 @@
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'examples.map-20v6611k'
 		}).addTo(map);
-
+		*/
+		
 		// armazena os limites do mapa para posterior reset
 		var limites = map.getBounds();
 		
 		// desativa o zoom por duplo clique ou no scrooll do mouse
+		map.dragging.disable();
 		map.doubleClickZoom.disable();
 		map.scrollWheelZoom.disable();
 		
@@ -77,13 +93,15 @@
 		info.onAdd = function (map) {
 			this._div = L.DomUtil.create('div', 'info');
 			this.update();
+			this._div.id = 'informacoes'; // acrescenta a id a div
 			return this._div;
 		};
 
 		info.update = function (props) {
 			this._div.innerHTML = '<h4>Descrição do ambiente</h4>' +  (props ?
-				'<b>' + props.name + '</b><br /> Id:' +  props.id
-				: 'Aponte para o ambiente<br>Clique para ampliar o ambiente<br>Duplo clique para voltar');
+				'<b>' + props.name 
+				//+ '</b><br /> Id:' +  props.id
+				: 'Aponte para o ambiente<br>Clique para ampliar o ambiente<br>Outro clique para voltar');
 		};
 
 		info.addTo(map);
@@ -127,8 +145,7 @@
 				layer.bringToFront();
 			}
 
-			//info.update(layer.feature.properties);
-			info.update(layer.feature.properties.relations.reltags);
+			info.update(layer.feature.properties.tags);
 		}
 
 		var indoorLayer;
@@ -138,15 +155,21 @@
 			indoorLayer.resetStyle(e.target);
 			info.update();
 		}
-			
-		// funcao de zoom nos poligonos selecionados com evento click
+	
+		/* funcao de zoom nos poligonos selecionados com evento click
+		 * caso o conteudo ja esteja ampliado retorna a visualizacao inicial 
+		 */
 		function zoomToFeature(e) {
-			map.fitBounds(e.target.getBounds());
+			if (!map.fitBounds(e.target.getBounds()) == limites){
+				
+				// configura os limites do zoom para o centro do poligono selecionado
+				map.fitBounds(e.target.getBounds().getCenter()); 
+				info.update();
+
+				addPanel(); // funcao que exibira o menu na lateral direita do mapa
+				
+			} else resetView();
 			
-		/*
-		* Colocar aqui a opção de mostrar a foto da sala ao dar o zoom
-		* <br><img src=\"images/bkg_sunset.jpg\" />
-		*/
 		}
 
 		// funcao que retorna o mapa para o centro e zoom iniciais
@@ -172,10 +195,7 @@
 		}).addTo(map);	
 		*/
 		
-// This example uses a GeoJSON FeatureCollection saved to a file
-// (data.json), see the other example (live/index.html) for details on
-// fetching data using the OverpassAPI (this is also how the data in
-// data.json was generated)
+// carregamento do Json em uma layer
 $.getJSON("data/data.json", function(geoJSON) {
 	
 	 indoorLayer = new L.Indoor(geoJSON, {
@@ -239,7 +259,6 @@ $.getJSON("data/data.json", function(geoJSON) {
 	
 	
 	// Connect the level control to the indoor layer
-	
 	levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
 	levelControl.addTo(map);
 	
@@ -257,7 +276,8 @@ $.getJSON("data/data.json", function(geoJSON) {
 				categorias = ['Serviços Administrativos', 'Salas de Aula', 'Alimentação', 'Serviços', 'Acessos', 'Apoio'],
 				cores = ['#EF7126', '#F9E559',  '#D7191C', '#8EDC9D', '#FF0000', '#4575B4'],
 				labels=[];	
-
+			div.id = 'legenda'; // acrescenta a id legenda a esta div
+			
 			for (var i = 0; i < categorias.length; i++) {
 				from = categorias[i];
 
@@ -266,11 +286,69 @@ $.getJSON("data/data.json", function(geoJSON) {
 			}
 
 			div.innerHTML = labels.join('<br>');
+			
 			return div;
 		};
-
+		
 		legend.addTo(map);
+		
+		/*
+		
+		// Tentativa de criar a div do painel de informacoes
+		var panel = L.control({position: 'topright'});
+		
+		panel.onAdd = function (map) {
+		
+			var div_painel = L.DomUtil.create('div', 'panel');
+			div_painel.id = 'painel'; // acrescenta a id painel a esta div
+			div_painel.innerHTML ='<a href="#menu" class="menu-link">&#9776;</a>';
+			return this.div_painel;
+		}
+		panel.addTo(map);
+		
+		
+		function addPanel(){
+			
+			painel = L.DomUtil.create('div', 'panel');
+			this.update();
+			this.painel.id = 'painel'; // acrescenta a id painel a div
+			this.painel.innerHTML ='<a href="#menu" class="menu-link">&#9776;</a>';
+			return this.painel;
 
+		}
+		*/
+			
 	</script>
+
+	<div class="leaflet-info-control leaflet-control"><a class="button" href="#" title="Information"></a>
+		<a class="button" href="#" title="Information"></a>
+	</div>
+	
+	<div class="leaflet-info-pane right visible"><div id="infopane" class="content">
+            <h2>Descrição do Ambiente</h2>
+            <p>
+                Público Alvo: Alunos 
+                Serviços prestados: 
+            <ul>
+                <li>Emissão de documentos acadêmicos </li>
+                <li>Informações acadêmicas </li>
+
+            </ul>
+            </p>
+        </div><a class="close">×</a></div>
+	
+	        <!-- Include Info pane -->
+        <script src="script/leaf/leaflet.infopane.js"></script>
+        <link rel="stylesheet" href="style/leaf/leaflet.infopane.css" />
+	
+	<!-- 
+	<div id="toggle"></div>
+	<script>
+	$( document ).click(function() {
+		$( "#toggle" ).toggle( "slide" );
+	});
+	</script>
+	-->
 </body>
+	
 </html>
