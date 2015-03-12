@@ -4,13 +4,9 @@
 	<title>LocalizeSenac - Mapa dos Ambientes</title>
 	<meta charset="utf-8" />
 
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 	<link rel="stylesheet" href="style/leaf/leaflet.css" />
-	<link rel="stylesheet" href="style/leaf/leaflet.label.css" />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
 
     <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->
 
@@ -48,23 +44,20 @@
 			opacity: 0.7;
 		}
 	
-	 #toggle {
-		width: 100px;
-		height: 100px;
-		background: #ccc; 
-	}
-	
 	</style>
 </head>
 <body>
 	<div id="map"></div>
 
 	<script src="script/jquery-2.1.3.min.js"></script>
+
     <script src="script/leaf/leaflet-src.js"></script>
 	<script src="script/leaf/leaflet-indoor.js"></script>
+				<script src="script/leaf/leaflet.infopane.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	
 	<script type="text/javascript">
-		
+
 		// cria a variavel mapa, define o centro de visão e o nivel do zoom
 		var map = L.map('map').setView([-30.035476, -51.22593], 19.5);
 		
@@ -129,7 +122,6 @@
 			};
 		}
 
-
 		// funcao que define as propriedades dos poligonos com evento mouseover
 		function highlightFeature(e) {
 			var layer = e.target;
@@ -148,7 +140,7 @@
 			info.update(layer.feature.properties.tags);
 		}
 
-		var indoorLayer;
+		var indoorLayer; var controleInfopane; 
 		
 		// funcao que define as propriedades dos poligonos com evento mouseout
 		function resetHighlight(e) {
@@ -156,9 +148,10 @@
 			info.update();
 		}
 	
-		/* funcao de zoom nos poligonos selecionados com evento click
+			 			/* funcao de zoom nos poligonos selecionados com evento click
 		 * caso o conteudo ja esteja ampliado retorna a visualizacao inicial 
 		 */
+		
 		function zoomToFeature(e) {
 			if (!map.fitBounds(e.target.getBounds()) == limites){
 				
@@ -166,7 +159,7 @@
 				map.fitBounds(e.target.getBounds().getCenter()); 
 				info.update();
 
-				addPanel(); // funcao que exibira o menu na lateral direita do mapa
+				controleInfopane.showPane(); // funcao que exibira o menu na lateral direita do mapa
 				
 			} else resetView();
 			
@@ -199,6 +192,7 @@
 $.getJSON("data/data.json", function(geoJSON) {
 	
 	 indoorLayer = new L.Indoor(geoJSON, {
+		 
 		getLevel: function(feature) {
 			if (feature.properties.relations.length === 0)
 			return null;
@@ -247,28 +241,32 @@ $.getJSON("data/data.json", function(geoJSON) {
 		}
 	});
 	
+	
 	indoorLayer.setLevel("0");
 	
-	indoorLayer.addTo(map);
-	
+	indoorLayer.addTo(map);	
 	
 	var levelControl = new L.Control.Level({
 		level: "0",
 		levels: indoorLayer.getLevels()
 	});
-	
-	
+		
 	// Connect the level control to the indoor layer
 	levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
 	levelControl.addTo(map);
 	
-	});
+	// Information pane
+	var controleInfopane = L.control.infoPane('infopane', {position: 'bottomright'});
+	controleInfopane.addTo(map);
+	
+
+	}); // final da montagem de layer do mapa
 		
 		// adiciona os creditos da imagem
 		//map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
 		// criacao da legenda do mapa
-		var legend = L.control({position: 'bottomright'});
+		var legend = L.control({position: 'bottomleft'});
 
 		legend.onAdd = function (map) {
 
@@ -291,64 +289,29 @@ $.getJSON("data/data.json", function(geoJSON) {
 		};
 		
 		legend.addTo(map);
-		
-		/*
-		
-		// Tentativa de criar a div do painel de informacoes
-		var panel = L.control({position: 'topright'});
-		
-		panel.onAdd = function (map) {
-		
-			var div_painel = L.DomUtil.create('div', 'panel');
-			div_painel.id = 'painel'; // acrescenta a id painel a esta div
-			div_painel.innerHTML ='<a href="#menu" class="menu-link">&#9776;</a>';
-			return this.div_painel;
-		}
-		panel.addTo(map);
-		
-		
-		function addPanel(){
-			
-			painel = L.DomUtil.create('div', 'panel');
-			this.update();
-			this.painel.id = 'painel'; // acrescenta a id painel a div
-			this.painel.innerHTML ='<a href="#menu" class="menu-link">&#9776;</a>';
-			return this.painel;
 
-		}
-		*/
-			
 	</script>
-
-	<div class="leaflet-info-control leaflet-control"><a class="button" href="#" title="Information"></a>
-		<a class="button" href="#" title="Information"></a>
-	</div>
 	
-	<div class="leaflet-info-pane right visible"><div id="infopane" class="content">
+	
+	<div class="leaflet-info-pane right visible">
+		<div id="infopane" class="content">
             <h2>Descrição do Ambiente</h2>
             <p>
-                Público Alvo: Alunos 
-                Serviços prestados: 
-            <ul>
-                <li>Emissão de documentos acadêmicos </li>
-                <li>Informações acadêmicas </li>
+					Público Alvo: Alunos 
+					Serviços prestados: 
+				<ul>
+					<li>Emissão de documentos acadêmicos </li>
+					<li>Informações acadêmicas </li>
 
-            </ul>
+				</ul>
             </p>
-        </div><a class="close">×</a></div>
+		</div>
+	</div>
+	    
+	<!-- Include Info pane -->
+    <script src="script/leaf/leaflet.infopane.js"></script>
+    <link rel="stylesheet" href="style/leaf/leaflet.infopane.css" />
 	
-	        <!-- Include Info pane -->
-        <script src="script/leaf/leaflet.infopane.js"></script>
-        <link rel="stylesheet" href="style/leaf/leaflet.infopane.css" />
-	
-	<!-- 
-	<div id="toggle"></div>
-	<script>
-	$( document ).click(function() {
-		$( "#toggle" ).toggle( "slide" );
-	});
-	</script>
-	-->
 </body>
 	
 </html>
