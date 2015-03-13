@@ -1101,7 +1101,8 @@
                 "tags": {
                     "buildingpart": "room",
 					"category": "Serviços Administrativos",
-                    "name": "Secretaria"
+                    "name": "Secretaria",
+					"image": "sala-408"
                 },
                 "relations": [
                     {

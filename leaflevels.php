@@ -12,10 +12,12 @@
 
 	<style>
 		#map {
+			<!--
 			height: 100%;
 			width: 100%;
+			-->
 			
-			<!-- width: 800px; height: 500px; -->
+			width: 800px; height: 600px;
 		}
 
 		.info {
@@ -50,10 +52,8 @@
 	<div id="map"></div>
 
 	<script src="script/jquery-2.1.3.min.js"></script>
-
     <script src="script/leaf/leaflet-src.js"></script>
 	<script src="script/leaf/leaflet-indoor.js"></script>
-				<script src="script/leaf/leaflet.infopane.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	
 	<script type="text/javascript">
@@ -92,7 +92,7 @@
 
 		info.update = function (props) {
 			this._div.innerHTML = '<h4>Descrição do ambiente</h4>' +  (props ?
-				'<b>' + props.name 
+				'<b>' + props.name + '</b> <br><br>Clique na sala para maiores informações'
 				//+ '</b><br /> Id:' +  props.id
 				: 'Aponte para o ambiente<br>Clique para ampliar o ambiente<br>Outro clique para voltar');
 		};
@@ -148,26 +148,65 @@
 			info.update();
 		}
 	
-			 			/* funcao de zoom nos poligonos selecionados com evento click
+		/* funcao de zoom nos poligonos selecionados com evento click
 		 * caso o conteudo ja esteja ampliado retorna a visualizacao inicial 
 		 */
 		
+		// booleano para controlar se o zoom foi aplicado
+		var zoomed = false;
 		function zoomToFeature(e) {
-			if (!map.fitBounds(e.target.getBounds()) == limites){
+			
+			if (!zoomed){
+				// armazena os limites do poligono clicado
+				var limitesFeature = e.target.getBounds();
+				// exibe o painel lateral
+				abrePainel(e);
+				// configura os limites do zoom para o centro do poligono selecionado				
+				map.fitBounds(limitesFeature).getCenter();
+				// inverte o valor do boolean do zoom
+				zoomed = true;
 				
-				// configura os limites do zoom para o centro do poligono selecionado
-				map.fitBounds(e.target.getBounds().getCenter()); 
-				info.update();
-
-				controleInfopane.showPane(); // funcao que exibira o menu na lateral direita do mapa
-				
-			} else resetView();
+				// ocultar o painel de informacoes - deixar por enquanto
+				//$("#informacoes").css("display", "none");
+			}
+			else {
+				// volta as configuracoes padrao do mapa
+				resetView();
+				// inverte o valor do boolean do zoom
+				zoomed = false;
+				// reexibir o painel de informacoes - deixar por enquanto
+				//$("#informacoes").css("display", "block");
+			}
 			
 		}
-
+		
+		
+		//info.update = function (props) {
+		function atualizaPainel(e){
+			var newContent = '<h2>Descrição do Ambiente</h2><br><br>' + 
+			'<img src="images/fotos/' + e.properties.image + '" height="300" width="300" /img>' + 
+			'<strong>Horários de funcionamento:</strong> ' + props.horario + '<br>'+
+			'<strong>Email:</strong> ' + props.email + ' <br>' +
+			'<strong>Telefone:</strong> '+ props.telefone + ' <br>';
+			
+			$('#infopane').empty().append(newContent);
+		}
+		
+		function fechaPainel(){
+			// remove a classe visible para ocultar o painel lateral
+			$('.leaflet-info-pane').removeClass('visible');
+		}
+		function abrePainel(e){
+			// atualiza informacoes da sala no painel
+			//atualizaPainel(e);
+			// adiciona a classe visible para exibir o painel lateral
+			$('.leaflet-info-pane').addClass('visible');
+		}
+		
 		// funcao que retorna o mapa para o centro e zoom iniciais
 		function resetView(){
 			map.setView([-30.035476, -51.22593], 19.5);
+			fechaPainel();
 		}
 		
 		// funcao que acrescenta funcoes para todos os poligonos (features)
@@ -179,14 +218,6 @@
 				dblclick: resetView
 			});
 		}
-		
-		// armazena o GeoJson na variavel
-		/*
-		geojson = L.geoJson(coordSala, {
-			style: style,
-			onEachFeature: onEachFeature
-		}).addTo(map);	
-		*/
 		
 // carregamento do Json em uma layer
 $.getJSON("data/data.json", function(geoJSON) {
@@ -203,9 +234,10 @@ $.getJSON("data/data.json", function(geoJSON) {
 			return null;
 			return feature.properties.relations[0].reltags.name;
 		},
+		
 		onEachFeature: function(feature, layer) {
 			//layer.bindPopup(JSON.stringify(feature.properties, null, 4));
-			onEachFeature(feature, layer);
+			//onEachFeature(feature, layer);
 			layer.on({
 				mouseover: highlightFeature,
 				mouseout: resetHighlight,
@@ -256,7 +288,7 @@ $.getJSON("data/data.json", function(geoJSON) {
 	levelControl.addTo(map);
 	
 	// Information pane
-	var controleInfopane = L.control.infoPane('infopane', {position: 'bottomright'});
+	var controleInfopane = L.control.infoPane('infopane', {position: 'topright'});
 	controleInfopane.addTo(map);
 	
 
@@ -290,13 +322,20 @@ $.getJSON("data/data.json", function(geoJSON) {
 		
 		legend.addTo(map);
 
-	</script>
+	</script>	
 	
-	
-	<div class="leaflet-info-pane right visible">
+	<div id="painel" class="leaflet-info-pane">
 		<div id="infopane" class="content">
-            <h2>Descrição do Ambiente</h2>
-            <p>
+            
+			<h2>Descrição do Ambiente</h2>
+			<h4>Sala da Ouvidoria<h4>
+			<img src="images/fotos/sala-408.jpg" height="300" width="300" /img>
+			<strong>Horários de funcionamento:</strong> 9h30 às 19h30 <br>
+			<strong>Email:</strong>  ouvidoria@senacrs.com.br <br>
+			<strong>Telefone:</strong>  (51)30424429 <br>
+			
+			<!--
+		   <p>
 					Público Alvo: Alunos 
 					Serviços prestados: 
 				<ul>
@@ -305,6 +344,7 @@ $.getJSON("data/data.json", function(geoJSON) {
 
 				</ul>
             </p>
+			-->
 		</div>
 	</div>
 	    
