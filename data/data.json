@@ -1102,7 +1102,10 @@
                     "buildingpart": "room",
 					"category": "Serviços Administrativos",
                     "name": "Secretaria",
-					"image": "sala-408"
+					"image": "sala-408",
+					"horario": "8:00 às 21:00",
+					"email": "atendimentofatecpoa@senacrs.com.br",
+					"telefone": "(51) 30221044"
                 },
                 "relations": [
                     {
