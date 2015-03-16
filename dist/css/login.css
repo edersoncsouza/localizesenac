@@ -1,0 +1,97 @@
+@import "http://fonts.googleapis.com/css?family=Raleway";
+
+* { margin: 0; padding: 0; }
+
+
+html, body { 
+    background: url(../images/bkg_citylight.jpg) no-repeat center center fixed; 
+/* background: url(../images/nw_1680x1050_blur.jpg) no-repeat center center fixed;  */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Open Sans',Arial,Helvetica,Sans-Serif;
+    padding-top: 100px;
+    height:100%;
+
+}
+
+#formulario {     
+    background: #fff;
+    border-radius: 5px 5px 5px 5px; 
+    width: 400px;   
+    margin: auto; 
+    padding: 20px; 
+    -moz-box-shadow: 0 0 20px black; 
+    -webkit-box-shadow: 0 0 20px black; 
+    box-shadow: 0 0 20px black; 
+}
+
+input#usuario{
+    background-image: url('../images/icon_name.png');
+	background-repeat: no-repeat;
+	background-position: 6px;
+	padding-left: 35px;
+	/*border: 1px solid #DADADA;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+	width: 310px; 
+	height: 30px; 
+	font-size: 14px;
+	box-shadow: 0 0 10px; */
+	-webkit-box-shadow:  0 0 10px;	/* for I.E */
+	-moz-box-shadow: 0 0 10px;	/* for Mozilla web browser*/
+    border-radius: 5px;
+	-webkit-border-radius: 5px;	/* for I.E */
+	-moz-border-radius: 5px; 	/* for Mozilla web browser*/
+}
+
+input#senha{
+    background-image: url('../images/icon_password.svg');
+	background-size: 25px 22px;
+	background-repeat: no-repeat;
+	background-position: 6px;
+	padding-left: 35px;
+	/*border: 1px solid #DADADA;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+	width: 310px; 
+	height: 30px; 
+	font-size: 14px;
+	box-shadow: 0 0 10px; */
+	-webkit-box-shadow:  0 0 10px;	/* for I.E */
+	-moz-box-shadow: 0 0 10px;	/* for Mozilla web browser*/
+    border-radius: 5px;
+	-webkit-border-radius: 5px;	/* for I.E */
+	-moz-border-radius: 5px; 	/* for Mozilla web browser*/
+}
+
+#legendaForm{
+    color: #fff;
+    background: #6699FF;
+    text-align: center;
+}
+
+img#logo{
+height: 154px;
+width: 220px;
+padding-bottom: 10px;
+display: block;
+margin-left: auto;
+margin-right: auto
+
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+
+  background-color: #6699FF !important;
+  border-color: #6699FF;
+ }
+
+.btn
+{
+  background-color: #6699FF !important;
+  border-color: #6699FF;
+}

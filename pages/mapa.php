@@ -4,9 +4,7 @@
         <title>LocalizeSenac - Mapa dos Ambientes</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="stylesheet" href="../style/leaf/leaflet.css" />
-        <link type="text/css" rel="stylesheet" href="../style/bootstrap-responsive.css" />
-
+        <link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.css" />
 
         <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->
 
@@ -59,11 +57,10 @@
 
         </div>
 
-        <script src="../script/jquery-2.1.3.min.js"></script>
-        <script src="../script/leaf/leaflet-src.js"></script>
-        <script src="../script/leaf/leaflet-indoor.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="../script/bootstrap.min.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/leaflet/dist/js/leaflet-src.js"></script>
+        <script src="../bower_components/leaflet/dist/js/leaflet-indoor.js"></script>
+        <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
 
         <script type="text/javascript">
 
@@ -363,9 +360,8 @@
         </script>	
 
         <!-- Include Info pane -->
-        <script src="../script/leaf/leaflet.infopane.js"></script>
-        <link rel="stylesheet" href="../style/leaf/leaflet.infopane.css" />
-
+        <script src="../bower_components/leaflet/dist/js/leaflet.infopane.js"></script>
+		<link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.infopane.css" />
     </body>
 
 </html>
