@@ -110,7 +110,13 @@ global $_SG;
 // Remove as variáveis da sessão (caso elas existam)
 unset($_SESSION['usuarioID'], $_SESSION['usuarioNome'], $_SESSION['usuarioLogin'], $_SESSION['usuarioSenha']);
 
+	echo "<script>
+	alert(\"Login incorreto\");
+	</script>";
+
+	
 // Manda pra tela de login
-header("Location: ".$_SG['paginaLogin']);
+//header("Location: ".$_SG['paginaLogin']);
+echo "<script>window.location = 'index.php'</script>";
 }
 ?>

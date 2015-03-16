@@ -15,10 +15,6 @@
     <!-- <link href="style/normalize.css" rel="stylesheet" type="text/css"/> -->
     <link href="../dist/css/login.css" rel="stylesheet" type="text/css"/>
 
-	<!--
-		<script src="script/jquery-1.11.1.min.js" type="text/javascript"></script>
-		<script src="script/bootstrap.js" type="text/javascript"></script>
-	-->
 		<!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -28,7 +24,7 @@
 
     <body>
 
-		<div class="container-fluid"> <!-- tentativa de bootstrap grid system -->
+		<div class="container-fluid">
 			<div class="row">
 				<div role="main">
 					

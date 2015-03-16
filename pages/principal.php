@@ -54,6 +54,7 @@
 		}
 		p.TabContent{
 			line-height:40px;
+			text-align: center;
 		}
 	</style>
 	
@@ -72,7 +73,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">LocalizeSenac</a>
+                <a class="navbar-brand" href="principal.php">LocalizeSenac</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -81,7 +82,7 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        Olá <?php echo $_SESSION['usuarioNome']; ?>! <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
@@ -116,60 +117,43 @@
                             <!-- /input-group -->
                         </li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="flot.html">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-						<li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                       <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+						 <?php
+                                /* Inicio do acordion */
+                                if (isset($_GET['cd_andar'])) {
+                                    $cd_andar = $_GET['cd_andar'];
+                                }
+                                $sql = "SELECT CD_CATEGORIA, NM_CATEGORIA, parametro_imagem FROM categoria";
+
+                                $result = mysql_query($sql, $_SG['link']);
+                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
+
+                                while ($consulta = mysql_fetch_array($result)) {
+                                    echo "<li>";
+									echo "<a href=\"#\"><i class=\"fa' '$consulta[parametro_imagem]' fa-fw\"></i> $consulta[NM_CATEGORIA] <span class=\"fa arrow\"></span></a>";
+											
+                                    /* Escrever itens secundários do menu */
+
+                                    $sql2 = "SELECT  CD_LOCAL, NM_LOCAL, CORD_X, CORD_Y, CD_ANDAR FROM andar_locais WHERE CD_CATEGORIA = $consulta[CD_CATEGORIA] ORDER BY CD_ANDAR, NR_MAPA";
+                                    $result2 = mysql_query($sql2, $_SG['link']);
+
+                                    echo "<ul class=\"nav nav-second-level\">";
+									
+										while ($consulta2 = mysql_fetch_array($result2)) {
+											echo "<li>";
+											echo "<p><a href=\"#\" onclick=\" abrirPag('mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]');atualizaServicos('servicos.php?cd_andar=$consulta2[CD_ANDAR]'); \"> $consulta2[NM_LOCAL]</a></p>\n";                                        
+											echo "</li>";
+										}
+										
+                                    echo "</ul>";
+                                    echo "</li>";
+                                    
+
+                                    $i++;
+                                }
+
+                                /* fim do acordion */
+                                ?>
+						
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -225,13 +209,72 @@
                             <div class="clearfix"></div>
                         </div>
 
+												<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
+                            <?php					
+                            
+							$sql3 = "SELECT
+                                            dia_semana AS DIA, nm_local AS SALA, nm_disciplina AS DISC
+                                    FROM
+                                            aluno, aluno_disciplina AD, andar_locais, disciplina
+                                    WHERE
+                                            aluno.CD_ALUNO = AD.fk_id_aluno
+                                    AND
+                                            disciplina.CD_DISCIPLINA = AD.fk_id_disciplina
+                                    AND
+                                            andar_locais.CD_LOCAL = AD.fk_id_local
+                                    AND
+                                            cd_aluno =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID_AULA";
+							
+                            $result3 = mysql_query($sql3, $_SG['link']);
+							
+							$contDiscp = mysql_num_rows($result3);
+							
+                            $discSeg = "Não tem aulas no dia de hoje";
+                            $discTer = "Não tem aulas no dia de hoje";
+                            $discQua = "Não tem aulas no dia de hoje";
+                            $discQui = "Não tem aulas no dia de hoje";
+                            $discSex = "Não tem aulas no dia de hoje";
+							$discSab = "Não tem aulas no dia de hoje";
+							$discDom = "Não tem aulas no dia de hoje";
+
+                            /*  incio do while para preencher os conteudos das pills */
+                            
+							while ($row = mysql_fetch_assoc($result3)) {
+                                if ($row['DIA'] == "SEG") {
+                                    $discSeg = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "TER") {
+                                    $discTer = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "QUA") {
+                                    $discQua = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "QUI") {
+                                    $discQui = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "SEX") {
+                                    $discSex = $row['SALA'] . " - " . $row['DISC'];
+                                }
+								if ($row['DIA'] == "SAB") {
+                                    $discSab = $row['SALA'] . " - " . $row['DISC'];
+                                }
+								if ($row['DIA'] == "DOM") {
+                                    $discDom = $row['SALA'] . " - " . $row['DISC'];
+                                }
+								
+                            }
+							
+							/*fim do while para preencher os conteudos das pills*/
+							
+                            ?>
+						
 					    <div class="panel-heading"> <!-- Disciplinas -->
                             <div class="row">
                                 <div class="col-xs-3">
                                     <i class="fa fa-book fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">5</div>
+                                    <div class="huge"><?php echo $contDiscp; ?></div>
                                     <div>Disciplinas</div>
                                 </div>
                             </div>
@@ -276,65 +319,9 @@
                                 </li>
                             </ul>
 						</div>
-						<!-- panel-footer Pills>
+						<!-- panel-footer Pills> -->
 						
-						<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
-                            <?php					
-                            
-							$sql3 = "SELECT
-                                            dia_semana AS DIA, nm_local AS SALA, nm_disciplina AS DISC
-                                    FROM
-                                            aluno, aluno_disciplina AD, andar_locais, disciplina
-                                    WHERE
-                                            aluno.CD_ALUNO = AD.fk_id_aluno
-                                    AND
-                                            disciplina.CD_DISCIPLINA = AD.fk_id_disciplina
-                                    AND
-                                            andar_locais.CD_LOCAL = AD.fk_id_local
-                                    AND
-                                            cd_aluno =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID_AULA";
-							
-                            $result3 = mysql_query($sql3, $_SG['link']);
-							
-							
-                            $discSeg = "Não tem aulas no dia de hoje";
-                            $discTer = "Não tem aulas no dia de hoje";
-                            $discQua = "Não tem aulas no dia de hoje";
-                            $discQui = "Não tem aulas no dia de hoje";
-                            $discSex = "Não tem aulas no dia de hoje";
-							$discSab = "Não tem aulas no dia de hoje";
-							$discDom = "Não tem aulas no dia de hoje";
 
-                            /*  incio do while para preencher os conteudos das pills */
-                            
-							while ($row = mysql_fetch_assoc($result3)) {
-                                if ($row['DIA'] == "SEG") {
-                                    $discSeg = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "TER") {
-                                    $discTer = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUA") {
-                                    $discQua = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUI") {
-                                    $discQui = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "SEX") {
-                                    $discSex = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "SAB") {
-                                    $discSab = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "DOM") {
-                                    $discDom = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								
-                            }
-							
-							/*fim do while para preencher os conteudos das pills*/
-							
-                            ?>
 	
                             <div class="tab-content">
 
@@ -397,11 +384,10 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">
+						<div class="panel-heading" style="background-color:#337ab7; color: #FFFFFF;">
 							<h4><i class="fa fa-location-arrow"></i>Indoor Map<h4>
 								<div class="pull-right">
-										
-										
+	
 								</div>
 						</div>
 						<!-- /.panel-heading -->
