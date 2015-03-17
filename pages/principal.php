@@ -128,7 +128,7 @@
                                 $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
 
                                 while ($consulta = mysql_fetch_array($result)) {
-                                    echo "<li>";
+                                    echo "<li>"; // cria a estrutura do menu de categoria
 									echo "<a href=\"#\"><i class=\"fa' '$consulta[parametro_imagem]' fa-fw\"></i> $consulta[NM_CATEGORIA] <span class=\"fa arrow\"></span></a>";
 											
                                     /* Escrever itens secundários do menu */
@@ -136,17 +136,15 @@
                                     $sql2 = "SELECT  CD_LOCAL, NM_LOCAL, CORD_X, CORD_Y, CD_ANDAR FROM andar_locais WHERE CD_CATEGORIA = $consulta[CD_CATEGORIA] ORDER BY CD_ANDAR, NR_MAPA";
                                     $result2 = mysql_query($sql2, $_SG['link']);
 
-                                    echo "<ul class=\"nav nav-second-level\">";
-									
+                                    echo "<ul class=\"nav nav-second-level\">"; // cria a estrutura dos itens de menu
 										while ($consulta2 = mysql_fetch_array($result2)) {
-											echo "<li>";
-											echo "<p><a href=\"#\" onclick=\" abrirPag('mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]');atualizaServicos('servicos.php?cd_andar=$consulta2[CD_ANDAR]'); \"> $consulta2[NM_LOCAL]</a></p>\n";                                        
+											echo "<li>"; // cria o item de categoria
+											echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]');atualizaServicos('servicos.php?cd_andar=$consulta2[CD_ANDAR]'); \"> $consulta2[NM_LOCAL]</a>\n";                                        
 											echo "</li>";
-										}
-										
+										}	
                                     echo "</ul>";
+									
                                     echo "</li>";
-                                    
 
                                     $i++;
                                 }
