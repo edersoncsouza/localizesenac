@@ -56,7 +56,7 @@
  * Copyright Adam Wulf 2013
  */
  
- 
+ /*
 include("config.php");
 include("include.classloader.php");
 $classLoader->addToClasspath(ROOT);
@@ -70,7 +70,7 @@ $obj = json_decode($contents);
 
 // save it to a table
 $db->save($obj, "brandnewtable");
-
+*/
 ?> 
 		
     </head>
