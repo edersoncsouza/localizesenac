@@ -14,6 +14,7 @@
 	
 	<script src="../bower_components/leaflet/dist/js/leaflet.js"></script>
 	<script src="../bower_components/leafletdraw/dist/js/leaflet.draw.js"></script>
+	<script type="text/javascript" src="../script/leaf/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
 </head>
 <body>
 
@@ -22,12 +23,31 @@
 <script>
 	
 		//var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-		var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		var osmUrl = 'http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png',
 			osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			osm = L.tileLayer(osmUrl, {maxZoom: 24, attribution: osmAttrib}),
-			map = new L.Map('map', {layers: [osm], center: new L.LatLng(-30.035476, -51.22593), zoom: 18 });
-			//map = L.map('map', {drawControl: true}).setView([51.505, -0.09], 13);
+			//map = new L.Map('map', {layers: [osm], center: new L.LatLng(-30.035476, -51.22593), zoom: 19.5 });
+			map = L.map('map').setView([-30.035476, -51.22593], 20.2);
 
+		// configuracao de estilo dos poligonos
+		function style(feature) {
+			return {
+				weight: 2,
+				opacity: 1,
+				color: 'white',
+				dashArray: '3',
+				fillOpacity: 0.7,
+				fillColor: '#00FF00'
+			};
+		}
+	
+		// armazena o GeoJson na variavel
+		var geojson = L.geoJson(limites, {
+			style: style
+			//,			onEachFeature: onEachFeature
+		}).addTo(map);	
+	
+		
 		var drawnItems = new L.FeatureGroup();
 		map.addLayer(drawnItems);
 
@@ -71,24 +91,19 @@
 
 			drawnItems.addLayer(layer);
 		});
-		
-		var drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
-
-map.on('draw:created', function (e) {
-
-    var type = e.layerType,
-        layer = e.layer;
-
-    drawnItems.addLayer(layer);
+	
+/*
+ *  Inicio do armazenamento das formas para enviar ao banco
+ */
+ 
 
     var shapes = getShapes(drawnItems);
 
     // Process them any way you want and save to DB
     //...
 
-});
 
+ /*
 var getShapes = function(drawnItems) {
 
     var shapes = [];
@@ -113,7 +128,7 @@ var getShapes = function(drawnItems) {
 
     return shapes;
 };
-		
+	*/
 	</script>
 </body>
 </html>
