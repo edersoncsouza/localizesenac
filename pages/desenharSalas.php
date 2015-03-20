@@ -43,8 +43,7 @@
 	
 		// armazena o GeoJson na variavel
 		var geojson = L.geoJson(limites, {
-			style: style
-			//,			onEachFeature: onEachFeature
+			//style: style
 		}).addTo(map);	
 	
 		
@@ -81,6 +80,8 @@
 		});
 		map.addControl(drawControl);
 
+		// metodo map.on original, apenas desenha
+		/*
 		map.on('draw:created', function (e) {
 			var type = e.layerType,
 				layer = e.layer;
@@ -91,19 +92,71 @@
 
 			drawnItems.addLayer(layer);
 		});
+		*/
+		
+		map.on('draw:created', function (e) {
+			var type = e.layerType,
+				layer = e.layer;
+
+			// gerar GeoJson dos poligonos
+			if (type === 'polygon') {
+				// structure the geojson object
+				var geojson = {};
+				geojson['type'] = 'Feature';
+				geojson['geometry'] = {};
+				geojson['geometry']['type'] = "Polygon";
+
+				// export the coordinates from the layer
+				coordinates = [];
+				latlngs = layer.getLatLngs();
+				for (var i = 0; i < latlngs.length; i++) {
+					coordinates.push([latlngs[i].lng, latlngs[i].lat])
+				}
+
+				// push the coordinates to the json geometry
+				geojson['geometry']['coordinates'] = [coordinates];
+
+				// Finally, show the poly as a geojson object in the console
+				console.log(JSON.stringify(geojson));
+
+			}
+			else if(type === 'rectangle'){
+				// structure the geojson object
+				var geojson = {};
+				geojson['type'] = 'Feature';
+				geojson['geometry'] = {};
+				geojson['geometry']['type'] = "Rectangle";
+
+				// export the coordinates from the layer
+				coordinates = [];
+				latlngs = layer.getLatLngs();
+				for (var i = 0; i < latlngs.length; i++) {
+					coordinates.push([latlngs[i].lng, latlngs[i].lat])
+				}
+
+				// push the coordinates to the json geometry
+				geojson['geometry']['coordinates'] = [coordinates];
+
+				// Finally, show the poly as a geojson object in the console
+				console.log(JSON.stringify(geojson));
+			}
+			
+
+			drawnItems.addLayer(layer);
+		});
 	
 /*
  *  Inicio do armazenamento das formas para enviar ao banco
  */
  
-
+ /*
     var shapes = getShapes(drawnItems);
 
     // Process them any way you want and save to DB
     //...
 
 
- /*
+
 var getShapes = function(drawnItems) {
 
     var shapes = [];
