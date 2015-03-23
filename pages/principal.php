@@ -119,27 +119,27 @@
 
 						 <?php
                                 /* Inicio do acordion */
-                                if (isset($_GET['cd_andar'])) {
-                                    $cd_andar = $_GET['cd_andar'];
+                                if (isset($_GET['andar'])) {
+                                    $andar = $_GET['andar'];
                                 }
-                                $sql = "SELECT CD_CATEGORIA, NM_CATEGORIA, parametro_imagem FROM categoria";
+                                $sql = "SELECT id, nome, parametro_imagem FROM categoria";
 
                                 $result = mysql_query($sql, $_SG['link']);
                                 $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
 
                                 while ($consulta = mysql_fetch_array($result)) {
                                     echo "<li>"; // cria a estrutura do menu de categoria
-									echo "<a href=\"#\"><i class=\"fa' '$consulta[parametro_imagem]' fa-fw\"></i> $consulta[NM_CATEGORIA] <span class=\"fa arrow\"></span></a>";
+									echo "<a href=\"#\"><i class=\"fa' '$consulta[parametro_imagem]' fa-fw\"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
 											
                                     /* Escrever itens secundários do menu */
 
-                                    $sql2 = "SELECT  CD_LOCAL, NM_LOCAL, CORD_X, CORD_Y, CD_ANDAR FROM andar_locais WHERE CD_CATEGORIA = $consulta[CD_CATEGORIA] ORDER BY CD_ANDAR, NR_MAPA";
+                                    $sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
                                     $result2 = mysql_query($sql2, $_SG['link']);
 
                                     echo "<ul class=\"nav nav-second-level\">"; // cria a estrutura dos itens de menu
 										while ($consulta2 = mysql_fetch_array($result2)) {
 											echo "<li>"; // cria o item de categoria
-											echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]');atualizaServicos('servicos.php?cd_andar=$consulta2[CD_ANDAR]'); \"> $consulta2[NM_LOCAL]</a>\n";                                        
+											echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
 											echo "</li>";
 										}	
                                     echo "</ul>";
@@ -211,19 +211,19 @@
                             <?php					
                             
 							$sql3 = "SELECT
-                                            dia_semana AS DIA, nm_local AS SALA, nm_disciplina AS DISC
+                                            dia_semana AS DIA, andar_locais.nome AS SALA, disciplina.nome AS DISC
                                     FROM
                                             aluno, aluno_disciplina AD, andar_locais, disciplina
                                     WHERE
-                                            aluno.CD_ALUNO = AD.fk_id_aluno
+                                            aluno.id = AD.fk_id_aluno
                                     AND
-                                            disciplina.CD_DISCIPLINA = AD.fk_id_disciplina
+                                            disciplina.id = AD.fk_id_disciplina
                                     AND
-                                            andar_locais.CD_LOCAL = AD.fk_id_local
+                                            andar_locais.id = AD.fk_id_local
                                     AND
-                                            cd_aluno =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID_AULA";
+                                            aluno.id =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID";
 							
-                            $result3 = mysql_query($sql3, $_SG['link']);
+							$result3 = mysql_query($sql3, $_SG['link']);
 							
 							$contDiscp = mysql_num_rows($result3);
 							
