@@ -20,19 +20,26 @@
 
 <div class="form-group">
 
-<form action="" method="post">
+<? 
+include('config.php'); 
+if (isset($_POST['submitted'])) { 
+foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+$sql = "INSERT INTO `aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` ,  `ativo`  ) VALUES(  '{$_POST['matricula']}' ,  '{$_POST['senha']}' ,  '{$_POST['nome']}' ,  '{$_POST['celular']}' ,  '{$_POST['email']}' ,  '{$_POST['ativo']}'  ) "; 
+mysql_query($sql) or die(mysql_error()); 
+echo "Added row.<br />"; 
+echo "<a href='list.php'>Back To Listing</a>"; 
+} 
+?>
 
-<label for="pos1">Posição 1:</label>
-   <input name="pos1" type="text" class="form-control"/>
-<label for="pos2">Posição 2:</label>
-	<input name="pos2" type="text" class="form-control"/>
-<label for="pos2">Posição 3:</label>
-	<input name="pos3" type="text" class="form-control"/>
-<label for="pos2">Posição 3:</label>
-	<input name="pos4" type="text" class="form-control" />
-	
-	<input name="submit" type="submit" />
-</form>
+<form action='' method='POST'> 
+<p><b>Matricula:</b><br /><input type='text' name='matricula'/> 
+<p><b>Senha:</b><br /><input type='text' name='senha'/> 
+<p><b>Nome:</b><br /><input type='text' name='nome'/> 
+<p><b>Celular:</b><br /><input type='text' name='celular'/> 
+<p><b>Email:</b><br /><input type='text' name='email'/> 
+<p><b>Ativo:</b><br /><input type='text' name='ativo'/> 
+<p><input type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
+</form> 
 
 </div>
 

@@ -1,13 +1,16 @@
 <?
-/**
- * Licensed under Creative Commons 3.0 Attribution
- * Copyright Adam Wulf 2013
- */
+// connect to db
 
-define("ROOT", dirname(__FILE__) . "/");
-define("DATABASE_HOST", "127.0.0.1");
-define("DATABASE_NAME", "u430563209_local");
-define("DATABASE_USER", "root");
-define("DATABASE_PASS", "nikolatesla");
+$conexao = mysql_connect("localhost","root","usbw") or die(mysql_error()); // Conexão com o mysql
+$db = mysql_select_db("localizesenac") or die(mysql_error()); // Seleciona o banco
 
+/*
+if (!$conexao) {
+    die('Não há conexão : ' . mysql_error());
+}
+
+if (!$db) {
+    die ('Não pude usar localizesenac : ' . mysql_error());
+}
+*/
 ?>
