@@ -5,7 +5,7 @@ var coordSala = {"type":"FeatureCollection","features":[
 ]}},
 
 // ponto selecionado
-{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-51.225816,-30.0355375]}},
+//{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-51.225816,-30.0355375]}},
 
 // salas
 

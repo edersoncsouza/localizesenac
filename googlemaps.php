@@ -52,6 +52,8 @@
 			  //mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			
+			var limitesSenac;
+			
 			map = new google.maps.Map(document.getElementById("map-canvas"),
 				mapOptions);
 			
@@ -61,6 +63,10 @@
 				title: 'Click to zoom'
 			});
 
+			map.data.loadGeoJson('data/data2.json');
+			map.data.loadGeoJson('data/data.json');
+
+			
 		  google.maps.event.addListener(map, 'center_changed', function() {
 			// 3 seconds after the center of the map has changed, pan back to the marker.
 			window.setTimeout(function() {
@@ -68,13 +74,61 @@
 			}, 3000);
 		  });
 		
-			camada1 = new google.maps.GroundOverlay('images/1andar.svg', limitesCamada);
-			camada2 = new google.maps.GroundOverlay('images/2andar.svg', limitesCamada);
-			addOverlay();
+			//camada1 = new google.maps.GroundOverlay('images/1andar.svg', limitesCamada);
+			//camada2 = new google.maps.GroundOverlay('images/2andar.svg', limitesCamada);
+			//addOverlay();
 			
+// Define the LatLng coordinates for the polygon's path.
+  var triangleCoords = [
+    new google.maps.LatLng(25.77425200000001, -80.19026200000001),
+    new google.maps.LatLng(18.46646500000001, -66.11829200000001),
+    new google.maps.LatLng(32.32138400000001, -64.7573700000001),
+    new google.maps.LatLng(25.77425200000001, -80.19026200000001)
+  ];
+  
+   var limitesSenacCoord = [
+		new google.maps.LatLng(-51.22668180623533, -30.035285121877315),
+		new google.maps.LatLng(-51.2265336609083, -30.035087224146654),
+		new google.maps.LatLng(-51.22647355243277, -30.03512094793035),
+		new google.maps.LatLng(-51.22644383540727, -30.035081250849945),
+		new google.maps.LatLng(-51.226048765364894, -30.035302904197504),
+		new google.maps.LatLng(-51.22607762249031, -30.0353414525062),
+		new google.maps.LatLng(-51.22602248063556, -30.035372389694686),
+		new google.maps.LatLng(-51.22604615745694, -30.035404017959696),
+		new google.maps.LatLng(-51.22556564497819, -30.035673607691603),
+		new google.maps.LatLng(-51.225665301849794, -30.035806732096372),
+		new google.maps.LatLng(-51.22571812974482, -30.03577709327882),
+		new google.maps.LatLng(-51.225742071542506, -30.03580907537713),
+		new google.maps.LatLng(-51.22607061675038, -30.035624746646363),
+		new google.maps.LatLng(-51.226047618473885, -30.03559402487214),
+		new google.maps.LatLng(-51.22619445159744, -30.03551164470813),
+		new google.maps.LatLng(-51.2262191796104, -30.03554467714227),
+		new google.maps.LatLng(-51.22668180623533, -30.035285121877315)
+];
+  // Construct the polygon.
+ var bermudaTriangle = new google.maps.Polygon({
+    paths: triangleCoords,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35
+  });
 			
-		  }
-		  
+limitesSenac = new google.maps.Polygon({
+    paths: limitesSenacCoord,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35
+  });
+
+	limitesSenac.setMap(map);
+	//bermudaTriangle.setMap(map);
+  
+}
+		/*  
 		function addOverlay() {
 			camada1.setMap(map);
 			camada2.setMap(map);
@@ -84,6 +138,7 @@
 		  camada1.setMap(null);
 		  camada1.setMap(null);
 		}
+		*/
 		
 		google.maps.event.addDomListener(window, 'load', initialize);
 		  

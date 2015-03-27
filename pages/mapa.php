@@ -84,10 +84,10 @@ $db->save($obj, "brandnewtable");
         </div>
 
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="../bower_components/leaflet/dist/js/leaflet-src.js"></script>
-        <script src="../bower_components/leaflet/dist/js/leaflet-indoor.js"></script>
-			<script type="text/javascript" src="../script/leaf/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
-        <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <script src="../bower_components/leaflet/dist/js/leaflet-src.js"></script>
+    <script src="../bower_components/leaflet/dist/js/leaflet-indoor.js"></script>
+	<script type="text/javascript" src="../script/leaf/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
+    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
 
         <script type="text/javascript">
 

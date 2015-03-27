@@ -53,7 +53,7 @@ $nusuario = addslashes($usuario);
 $nsenha = addslashes($senha);
 
 // Monta uma consulta SQL (query) para procurar um usuário
-$sql = "SELECT `cd_aluno`, `nm_aluno` FROM `".$_SG['tabela']."` WHERE ".$cS." `nr_matricula` = '".$nusuario."' AND ".$cS." `senha` = '".$nsenha."' LIMIT 1";
+$sql = "SELECT `id`, `nome` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."' AND ".$cS." `senha` = '".$nsenha."' LIMIT 1";
 $query = mysql_query($sql);
 $resultado = mysql_fetch_assoc($query);
 
@@ -66,8 +66,8 @@ return false;
 // O registro foi encontrado => o usuário é valido
 
 // Definimos dois valores na sessão com os dados do usuário
-$_SESSION['usuarioID'] = $resultado['cd_aluno']; // Pega o valor da coluna 'id do registro encontrado no MySQL
-$_SESSION['usuarioNome'] = $resultado['nm_aluno']; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
+$_SESSION['usuarioID'] = $resultado['id']; // Pega o valor da coluna 'id do registro encontrado no MySQL
+$_SESSION['usuarioNome'] = $resultado['nome']; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
 
 // Verifica a opção se sempre validar o login
 if ($_SG['validaSempre'] == true) {
