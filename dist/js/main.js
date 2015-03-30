@@ -4,11 +4,11 @@ $(function() {
 	  "sPaginationType": "full_numbers",
 	  "bProcessing": true,
 	  "bServerSide": true,
-	  "sAjaxSource": "service.php?action=getMembersAjx",
-	  	  
-		"sDom": 'T<"clear">lfrtip',
-		"oTableTools": {
-			"sSwfPath": "..images/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
+	  "sAjaxSource": "service.php?action=getMembersAjx", 
+	  "sDom": 'T<"clear">lfrtip',
+	  "oTableTools": {
+			//"sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+			"sSwfPath": "../bower_components/datatables-tabletools/swf/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
 			}
 	  
     }).makeEditable({
@@ -53,10 +53,12 @@ $(function() {
 	
 
 			oAddNewRowButtonOptions: { label: "Incluir...",
-				icons: {primary: "btn-default glyphicon glyphicon-plus btn-md"}
+				icons: {primary: "btn btn-default glyphicon glyphicon-floppy-save btn-md"}
+				//icons: {primary: "btn-default glyphicon glyphicon-floppy-save btn-md"} //glyphicon-plus btn-md"}
 			},
 			oDeleteRowButtonOptions: { label: "Remover",
-				icons: {primary: "btn-default glyphicon glyphicon-remove btn-md"}
+				icons: {primary: "btn btn-default glyphicon glyphicon-remove-circle btn-md"}
+				//icons: {primary: "btn-default glyphicon glyphicon-remove-circle btn-md"} //glyphicon-remove btn-md"}
 			},
 			oAddNewRowFormOptions: {
 				title: "Incluir um novo Aluno",
