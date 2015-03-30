@@ -634,7 +634,8 @@ returns true if plugin should continue with sending AJAX request, false will abo
             ///<param name="id" type="String">Id of the record that wil be deleted</param>
             ///<param name="fnDeleteRow" type="Function(id)">Function that will be called to delete a row. Default - fnDeleteRow(id)</param>
 
-            return confirm("Are you sure that you want to delete this record?"); ;
+            //return confirm("Are you sure that you want to delete this record?"); ;
+			return confirm("Você tem certeza que deseja excluir este registro?"); ;
         }
         
         

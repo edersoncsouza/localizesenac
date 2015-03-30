@@ -38,87 +38,11 @@
 }
 </style>
 
-<script type="text/javascript" charset="utf-8">
-/*
-	$(document).ready( function () { "use strict";
-		var id = -1;//simulation of id
-		$("#tabelaAlunos").dataTable({
-			"sPaginationType": "full_numbers",
-			"sDom": 'T<"clear">lfrtip',
-			"oTableTools": {
-				"sSwfPath": "swf/copy_csv_xls_pdf.swf"
-			}
-		});
-		$("#tabelaAlunos").dataTable().api({
-			responsive: true
-		});
-		$("#tabelaAlunos").dataTable().makeEditable({
-			sUpdateURL: function(value, settings) {
-				return value; //Simulation of server-side response using a callback function
-			},
-			sAddURL: "api/AddData.txt",
-			sAddHttpMethod: "GET",
-			sDeleteHttpMethod: "GET",
-			sDeleteURL: "api/DeleteData.txt",
-			"aoColumns": [
-				{
-					cssclass: "required"
-				},
-				{ },
-				{
-					indicator: "Saving platforms...",
-					tooltip: "Click to edit platforms",
-					type: "textarea",
-					submit: "Save changes"
-				},
-				{
-					indicator: "Saving Engine Version...",
-					tooltip: "Click to select engine version",
-					loadtext: "loading...",
-					type: "select",
-					onblur: "cancel",
-					submit: "Ok",
-					loadurl: "api/EngineVersionList.json",
-					loadtype: "GET"
-				},
-				{
-					indicator: "Saving CSS Grade...",
-					tooltip: "Click to select CSS Grade",
-					loadtext: "loading...",
-					type: "select",
-					onblur: "submit",
-					data: "{'':'Please select...', 'A':'A','B':'B','C':'C'}"
-				}
-			],
-			oAddNewRowButtonOptions: { label: "Add...",
-				icons: {primary: "btn-default glyphicon glyphicon-plus btn-md"}
-			},
-			oDeleteRowButtonOptions: { label: "Remove",
-				icons: {primary: "btn-default glyphicon glyphicon-remove btn-md"}
-			},
-
-			oAddNewRowFormOptions: {
-				title: "Add a new browser",
-				show: "blind",
-				hide: "explode",
-				modal: true
-			},
-			sAddDeleteToolbarSelector: ".dataTables_length"
-
-		});
-	});
-	*/
-</script>
 </head>
 
 <body id="index" class="">
 
   <div class="container-fluid">
-
-
-<!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>-->
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
 	<div class="modal-dialog">

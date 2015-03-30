@@ -8,7 +8,7 @@ $(function() {
 	  	  
 		"sDom": 'T<"clear">lfrtip',
 		"oTableTools": {
-			"sSwfPath": "swf/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
+			"sSwfPath": "..images/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
 			}
 	  
     }).makeEditable({
@@ -52,10 +52,10 @@ $(function() {
 								],
 	
 
-			oAddNewRowButtonOptions: { label: "Add...",
+			oAddNewRowButtonOptions: { label: "Incluir...",
 				icons: {primary: "btn-default glyphicon glyphicon-plus btn-md"}
 			},
-			oDeleteRowButtonOptions: { label: "Remove",
+			oDeleteRowButtonOptions: { label: "Remover",
 				icons: {primary: "btn-default glyphicon glyphicon-remove btn-md"}
 			},
 			oAddNewRowFormOptions: {
