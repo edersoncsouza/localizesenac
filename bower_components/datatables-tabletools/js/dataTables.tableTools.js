@@ -2858,8 +2858,8 @@ TableTools.BUTTONS = {
             if (oConfig.bHeader) lines--;
             if (this.s.dt.nTFoot !== null && oConfig.bFooter) lines--;
 			var plural = (lines==1) ? "" : "s";
-			this.fnInfo( '<h6>Table copied</h6>'+
-				'<p>Copied '+lines+' row'+plural+' to the clipboard.</p>',
+			this.fnInfo( '<h6>Tabela copiada</h6>'+
+				'<p>Copiadas '+lines+' linha'+plural+' para a área de transferência.</p>',
 				1500
 			);
 		}
@@ -2888,8 +2888,10 @@ TableTools.BUTTONS = {
 	} ),
 
 	"print": $.extend( {}, TableTools.buttonBase, {
-		"sInfo": "<h6>Print view</h6><p>Please use your browser's print function to "+
-		  "print this table. Press escape when finished.</p>",
+		"sInfo": "<h6>Visualizar impressão</h6><p>Utilize a opção de imprimir do browser para "+
+		  "imprimir esta tabela. Pressione a tecla Esc ao terminar.</p>",
+		//"sInfo": "<h6>Print view</h6><p>Please use your browser's print function to "+
+		//  "print this table. Press escape when finished.</p>",
 		"sMessage": null,
 		"bShowAll": true,
 		"sToolTip": "View print view",

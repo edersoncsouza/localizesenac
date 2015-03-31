@@ -8,6 +8,28 @@ $(function() {
 	  "sDom": 'T<"clear">lfrtip',
 	  "oTableTools": {
 			//"sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"
+			"aButtons": [
+                                {  
+                                    "sExtends": "xls",
+                                    "sButtonText": "XLS"
+                                },
+								{  
+                                    "sExtends": "csv",
+                                    "sButtonText": "CSV"
+                                },
+								{  
+                                    "sExtends": "pdf",
+                                    "sButtonText": "PDF"
+                                },
+                                {
+                                    "sExtends": "copy",
+                                    "sButtonText": "Copiar"
+                                },
+                                {
+                                    "sExtends": "print",
+                                    "sButtonText": "Imprimir"
+                                }                              
+                            ],
 			"sSwfPath": "../bower_components/datatables-tabletools/swf/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
 			}
 	  
