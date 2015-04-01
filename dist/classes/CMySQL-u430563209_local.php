@@ -12,7 +12,7 @@ class CMySQL {
     // constructor
     function CMySQL() {
 	
-        $this->sDbName = 'localizesenac';
+        $this->sDbName = 'u430563209_local';
         $this->sDbUser = 'root';
         $this->sDbPass = 'usbw';
 

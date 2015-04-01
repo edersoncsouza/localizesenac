@@ -1,4 +1,7 @@
 <?php
+
+var $entidades = array('aluno', 'area_ensino', 'categoria', 'curso', 'disciplina', 'evento_aluno', 'nivel_ensino', 'sala', 'unidade');
+
 if ($_GET) {
     require_once('../dist/classes/CMySQL.php');
     switch ($_GET['action']) {
