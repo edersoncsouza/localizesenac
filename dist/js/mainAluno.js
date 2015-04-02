@@ -1,7 +1,7 @@
 $(function() {
 
-var entidade = 'Disciplinas';
-var labelform = 'Incluir uma nova disciplina';
+var entidade = 'Alunos';
+var labelform = 'Incluir um novo Aluno';
 
   var oMemTable = $('#tabela'+ entidade).dataTable({
 	  "sPaginationType": "full_numbers",
@@ -44,15 +44,35 @@ var labelform = 'Incluir uma nova disciplina';
 		
 		'aoColumns': [
 									{
-										tooltip: 'Nome',
+										tooltip: 'Matrícula',
 										oValidationOptions : { rules:{ value: {minlength: 9 }  },
 										messages: { value: {minlength: 'Tamanho mínimo - 9'} } }
 									},
 									{
-										tooltip: 'Créditos',
+										tooltip: 'Senha',
 										oValidationOptions : { rules:{ value: {minlength: 5 }  },
 										messages: { value: {minlength: 'Tamanho mínimo - 5'} } },
 
+									},
+									{
+										tooltip: 'Nome',
+										oValidationOptions : { rules:{ value: {minlength: 5 }  },
+										messages: { value: {minlength: 'Tamanho mínimo - 5'} } }
+									},
+									{
+										tooltip: 'Celular',
+										oValidationOptions :{ rules:{ value: {required : true, number : true, minlength: 8} },
+										messages: { value: {minlength: 'Tamanho mínimo - 8', number: 'Por favor digite apenas números', required: 'Este campo é obrigatório'} } }
+									},
+									{
+										tooltip: 'E-mail',
+										cssclass:"email",
+									},
+									{
+										tooltip: 'Ativo',
+										type: 'select',
+										data: "{'S':'Ativo','N':'Desativado'}",
+										submit: 'Ok',
 									}
 								],
 	

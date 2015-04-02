@@ -1,7 +1,7 @@
 $(function() {
 
-var entidade = 'Disciplinas';
-var labelform = 'Incluir uma nova disciplina';
+var entidade = 'Categorias';
+var labelform = 'Incluir uma nova categoria de ambiente';
 
   var oMemTable = $('#tabela'+ entidade).dataTable({
 	  "sPaginationType": "full_numbers",
@@ -45,14 +45,13 @@ var labelform = 'Incluir uma nova disciplina';
 		'aoColumns': [
 									{
 										tooltip: 'Nome',
-										oValidationOptions : { rules:{ value: {minlength: 9 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 9'} } }
+										oValidationOptions : { rules:{ value: {minlength: 5 }  },
+										messages: { value: {minlength: 'Tamanho mínimo - 5'} } }
 									},
 									{
-										tooltip: 'Créditos',
+										tooltip: 'Imagem',
 										oValidationOptions : { rules:{ value: {minlength: 5 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 5'} } },
-
+										messages: { value: {minlength: 'Tamanho mínimo - 5'} } }
 									}
 								],
 	

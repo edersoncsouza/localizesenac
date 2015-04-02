@@ -73,7 +73,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="principal.php">LocalizeSenac</a>
+                <a class="navbar-brand" href="principal.php">LocalizeSenac 2.0 - Site para Indoor Mapping da Faculdade Senac Porto Alegre</a>
             </div>
             <!-- /.navbar-header -->
 

@@ -1,7 +1,7 @@
 $(function() {
 
-var entidade = 'Disciplinas';
-var labelform = 'Incluir uma nova disciplina';
+var entidade = 'Niveis';
+var labelform = 'Incluir um novo nível de ensino';
 
   var oMemTable = $('#tabela'+ entidade).dataTable({
 	  "sPaginationType": "full_numbers",
@@ -44,15 +44,9 @@ var labelform = 'Incluir uma nova disciplina';
 		
 		'aoColumns': [
 									{
-										tooltip: 'Nome',
-										oValidationOptions : { rules:{ value: {minlength: 9 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 9'} } }
-									},
-									{
-										tooltip: 'Créditos',
+										tooltip: 'Descrição',
 										oValidationOptions : { rules:{ value: {minlength: 5 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 5'} } },
-
+										messages: { value: {minlength: 'Tamanho mínimo - 5'} } }
 									}
 								],
 	

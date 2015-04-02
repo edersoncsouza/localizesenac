@@ -2,7 +2,7 @@
 <html>
 <head>
 
-        <title>LocalizeSenac - Listagem de Disciplinas</title>
+        <title>LocalizeSenac - Listagem de Níveis de Ensino</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -21,7 +21,7 @@
 
 <!--  -->
 
-<script src="../dist/js/mainDisciplina.js"></script>
+<script src="../dist/js/mainNiveisEnsino.js"></script>
 
 <style type="text/css">
 .dataTables_length, .DTTT, .dataTables_filter {
@@ -49,18 +49,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="addModalLabel">Incluir Disciplina</h4>
+				<h4 class="modal-title" id="addModalLabel">Incluir um Nível de Ensino</h4>
 			</div>
 			<!-- THIS FORM IS NECESSARY, EDITABLE DEPENDS ON THIS ID -->
 			<form id="formAddNewRow" action="#" title="Incluir uma nova Disciplina">
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="recipient-name" class="control-label">Nome</label>
+						<label for="recipient-name" class="control-label">Descrição</label>
 						<input type="text" class="form-control" name="nome" id="nome" rel="0">
-					</div>
-					<div class="form-group">
-						<label for="message-text" class="control-label">Créditos</label>
-						<input type="text" class="form-control" name="creditos" id="creditos" rel="1">
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -78,24 +74,22 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <strong> Listagem de Disciplinas </strong>
+                            <strong> Listagem de Níveis de Ensino </strong>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 
                             <div class="dataTable_wrapper">
 
-<table class="display table table-hover table-striped" id="tabelaDisciplinas">
+<table class="display table table-hover table-striped" id="tabelaNiveis">
 	<thead>
 		<tr>
-			<th width="15%">NOME</th>
-			<th width="25%">CREDITOS</th>
+			<th width="15%">DESCRICAO</th>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr>
-			<th width="15%">NOME</th>
-			<th width="25%">CREDITOS</th>
+			<th width="15%">DESCRICAO</th>
 		</tr>
 
 	</tfoot>
