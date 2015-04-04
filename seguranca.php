@@ -13,7 +13,7 @@ $_SG['validaSempre'] = true;       // Deseja validar o usuário e a senha a cada
 $_SG['servidor'] = 'localhost';    // Servidor MySQL
 $_SG['usuario'] = 'root';          // Usuário MySQL
 $_SG['senha'] = 'usbw';                // Senha MySQL
-$_SG['banco'] = 'u430563209_local';            // Banco de dados MySQL
+$_SG['banco'] = 'localizesenac';            // Banco de dados MySQL
 
 $_SG['paginaLogin'] = 'index.php'; // Página de login
 

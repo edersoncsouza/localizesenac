@@ -141,7 +141,7 @@ function getMembersAjx() {
 				$aItem = array( $aInfo['nome'], $aInfo['parametro_imagem'], 'DT_RowId' => $aInfo['id'] );
 				break;
 			case 'curso':
-				$aItem = array( $aInfo['descricao'], $aInfo['area'], $aInfo['nivel'], 'DT_RowId' => $aInfo['id'] );
+				$aItem = array( $aInfo['descricao'], $aInfo['fk_id_area_ensino'], $aInfo['fk_id_nivel_ensino'], 'DT_RowId' => $aInfo['id'] );
 				break;
 			case 'disciplina':
 				$aItem = array( $aInfo['nome'], $aInfo['creditos'], 'DT_RowId' => $aInfo['id'] );

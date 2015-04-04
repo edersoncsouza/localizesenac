@@ -2,7 +2,7 @@
 <html lang="en">
 
     <?php
-    include("../seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
     include("../funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
@@ -56,29 +56,6 @@
 			line-height:40px;
 			text-align: center;
 		}
-		
-		#scrollable-dropdown-menu .tt-dropdown-menu {
-			max-height: 150px;
-			overflow-y: auto;
-			
-			width: 160px;
-			margin-top: 12px;
-			padding: 8px 0px;
-			background-color: #FFF;
-			border: 1px solid rgba(0, 0, 0, 0.2);
-			border-radius: 8px;
-			box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-		}
-		
-		.tt-suggestion {
-		  padding: 3px 20px;
-		  font-size: 14px;
-		  line-height: 16px;
-		}
-
-			
-		} 
-		
 	</style>
 	
 </head>
@@ -122,80 +99,50 @@
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
-			
+
             <div class="navbar-default sidebar" role="navigation">
-			
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         
 						<!-- caixa de pesquisa -->
-						
 						<li class="sidebar-search">
-                            <div id="the-basics" class="input-group custom-search-form">
-							
-								<form class="search" action="search.php">
-								
-								
-									<!-- typeahead -->
-									<div id="scrollable-dropdown-menu">
-										<input 
-											type="text" 
-											name="busca"
-											class="form-control typeahead"
-
-											placeholder="Digite aqui sua busca..."
-										>
-									</div>
-									<!-- typeahead -->
-									
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="submit">
-											<i class="fa fa-search"></i>
-										</button>
-									</span>
-								
-								
-								</form>	
-							
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Buscar...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
-						
+
 						 <?php
                                 /* Inicio do acordion */
                                 if (isset($_GET['andar'])) {
                                     $andar = $_GET['andar'];
                                 }
-                                $sql = "SELECT id, nome, parametro_imagem FROM categoria";
+                                
+								//$sql = "SELECT id, nome, parametro_imagem FROM categoria";
+								$sql = "SELECT id, nome, parametro_imagem FROM categoria";
 
                                 $result = mysql_query($sql, $_SG['link']);
-                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
 								
+                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
+
                                 while ($consulta = mysql_fetch_array($result)) {
-									
                                     echo "<li>"; // cria a estrutura do menu de categoria
-									echo "<a href=\"#\"><i class=\" {$consulta['parametro_imagem']} \"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
+									echo "<a href=\"#\"><i class=\"fa' '$consulta[parametro_imagem]' fa-fw\"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
 											
                                     /* Escrever itens secundários do menu */
 
-                                    //$sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
-									$sql2 = "SELECT
-										sala.id, descricao, andar
-									FROM
-										sala, info_locais
-									WHERE
-										sala.numero = info_locais.sala_numero
-									AND
-										fk_id_categoria = $consulta[id]
-									ORDER BY andar";
-
+                                    $sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
                                     $result2 = mysql_query($sql2, $_SG['link']);
 
                                     echo "<ul class=\"nav nav-second-level\">"; // cria a estrutura dos itens de menu
 										while ($consulta2 = mysql_fetch_array($result2)) {
 											echo "<li>"; // cria o item de categoria
-											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
-											echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[descricao]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[descricao]</a>\n";                                        
+											echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
 											echo "</li>";
 										}	
                                     echo "</ul>";
@@ -265,7 +212,7 @@
 
 												<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
                             <?php					
-                            /*
+                            
 							$sql3 = "SELECT
                                             dia_semana AS DIA, andar_locais.nome AS SALA, disciplina.nome AS DISC
                                     FROM
@@ -278,21 +225,8 @@
                                             andar_locais.id = AD.fk_id_local
                                     AND
                                             aluno.id =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID";
-							*/
-							$sql3 = "SELECT
-								aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
-							FROM
-								aluno_disciplina, disciplina, aluno
-							WHERE
-								aluno.id = aluno_disciplina.fk_id_aluno
-							AND
-								disciplina.id = aluno_disciplina.fk_id_disciplina
-							AND
-								aluno_disciplina.fk_id_aluno=" . $_SESSION['usuarioID'] . " ORDER BY aluno_disciplina.id";
 							
 							$result3 = mysql_query($sql3, $_SG['link']);
-							
-							//echo ("<script> alert($result3); </script>");
 							
 							$contDiscp = mysql_num_rows($result3);
 							
@@ -490,53 +424,10 @@
 	<!-- funcoes personalizadas -->
 	<script type="text/javascript" src="../dist/js/funcoes.js"></script>
 	
-	<script src="../bower_components/typeahead/dist/js/typeahead.bundle.js"></script>
-	
-	    <script type="text/javascript">
+	<script>
 		selecionaTab();
 		$("#result").load("mapa.php");	
-		</script>
-
-	    <script type="text/javascript">
-
-			var substringMatcher = function(strs) {
-			return function findMatches(q, cb) {
-			var matches, substrRegex;
-			 
-			// an array that will be populated with substring matches
-			matches = [];
-			 
-			// regex used to determine if a string contains the substring `q`
-			substrRegex = new RegExp(q, 'i');
-			 
-			// iterate through the pool of strings and for any string that
-			// contains the substring `q`, add it to the `matches` array
-			$.each(strs, function(i, str) {
-			if (substrRegex.test(str)) {
-			// the typeahead jQuery plugin expects suggestions to a
-			// JavaScript object, refer to typeahead docs for more info
-			matches.push({ value: str });
-			}
-			});
-			 
-			cb(matches);
-			};
-			};
-			 
-			var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
-			 
-			$('#the-basics .typeahead').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-			},
-			{
-			name: 'salas',
-			displayKey: 'value',
-			source: substringMatcher(salas)
-			}); 
-
-    </script>
+	</script>
 	
 
 </body>
