@@ -219,7 +219,7 @@
 	
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="page-header"> <i class="fa fa-graduation-cap fa-2x"></i> Eventos Acadêmicos</h1>
+                    <h4 class="page-header"> <i class="fa fa-graduation-cap fa-2x"></i> Eventos Acadêmicos</h1>		
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -245,10 +245,22 @@
                             </div>
                         </div>
                         <a href="#">
-                            <div class="panel-footer">
+                            <div class="panel-footer" id="agenda">
                                 <span class="pull-left">Exibir Agenda</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
                                 <div class="clearfix"></div>
+								
+								        <script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
+                
+                $('#agenda').datepicker({
+                    format: "dd/mm/yyyy"
+                });  
+            
+            });
+        </script>
+								
                             </div>
                         </a>
                     </div>

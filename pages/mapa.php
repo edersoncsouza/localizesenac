@@ -305,6 +305,7 @@ $db->save($obj, "brandnewtable");
             });
         }
 
+/*		
 		// carregamento do Json em uma layer do tipo Indoor
         $.getJSON("../data/data.json", function (geoJSON) {
 
@@ -365,12 +366,23 @@ $db->save($obj, "brandnewtable");
                 level: "0",
                 levels: indoorLayer.getLevels()
             });
-
+		
             // connect the level control to the indoor layer
             levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
             levelControl.addTo(map);
 
-            // painel de informacoes dos ambientes
+			
+			
+            
+		
+		//L.marker(feature.).addTo(map);
+		
+		
+        }); // final da montagem de layer do mapa
+*/
+
+/*
+// painel de informacoes dos ambientes
             var controleInfopane = L.control.infoPane('infopane', {position: 'topright'});
 
             controleInfopane.update = function (props) {
@@ -384,7 +396,8 @@ $db->save($obj, "brandnewtable");
 
             };
             controleInfopane.addTo(map);
-
+*/
+			
 		// Exibe os limites da unidade 1 do Senac
 		var limites = {
 						"type":"Feature",
@@ -401,12 +414,11 @@ $db->save($obj, "brandnewtable");
 							]
 							}
 						};
-		L.geoJson(limites).addTo(map);	
-			
-        }); // final da montagem de layer do mapa
+		L.geoJson(limites).addTo(map);
+		</script>	
 
-        </script>	
-
+		<script src="carregarMapas.js"></script>
+		
         <!-- Include Info pane -->
         <script src="../bower_components/leaflet/dist/js/leaflet.infopane.js"></script>
 		<link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.infopane.css" />
