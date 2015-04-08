@@ -105,7 +105,7 @@ $db->save($obj, "brandnewtable");
 		// variavel que contem os dados do senac qdo nenhum ambiente foi selecionado
         var infoSenac = "<h3>Faculdade Senac Porto Alegre<h3>" +
                 "<a href=\"http://portal.senacrs.com.br/unidades.asp?unidade=63\">WWW.SENACRS.COM.BR</a>" +
-                "<img src=\"../images/fotos/fachadaSenac.jpg\" height=\"300\" width=\"300\" alt=\"Clio de ourto maciço da Prof. Aline de Campos\"/img></br>" +
+                "<img src=\"../images/fotos/fachadaSenac.jpg\" height=\"300\" width=\"300\" alt=\"Clio de ouro maciço da Prof. Aline de Campos\"/img></br>" +
                 "<h4>Rua Coronel Genuino, 130</br>" +
                 "Porto Alegre / RS</br>" +
                 "CEP 90010350<br>" +
@@ -204,6 +204,7 @@ $db->save($obj, "brandnewtable");
                 layer.bringToFront();
             }
             info.update(layer.feature.properties.tags);
+
         }
         var indoorLayer; //var controleInfopane; 
 
@@ -284,6 +285,7 @@ $db->save($obj, "brandnewtable");
 
             // atualiza informacoes da sala no painel
             atualizaPainel(layer.feature.properties.tags);
+			
             // adiciona a classe visible para exibir o painel lateral
             $('.leaflet-info-pane').addClass('visible');
 
@@ -375,7 +377,7 @@ $db->save($obj, "brandnewtable");
 			
             
 		
-		//L.marker(feature.).addTo(map);
+		L.marker(feature.getCenter()).addTo(map);
 		
 		
         }); // final da montagem de layer do mapa
@@ -415,6 +417,13 @@ $db->save($obj, "brandnewtable");
 							}
 						};
 		L.geoJson(limites).addTo(map);
+		
+		// recebe o centro do mapa como valor inicial para o marcador
+		var marcador = L.marker(map.getCenter());
+		
+		// insere o marcador no mapa
+		marcador.addTo(map);
+		
 		</script>	
 
 		<script src="carregarMapas.js"></script>

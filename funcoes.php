@@ -11,5 +11,11 @@ function defineDiaSemana(){
 
 }
 
+function insertMarker($feature){
+	
+	echo $feature;
+	
+}
+
 ?>
 

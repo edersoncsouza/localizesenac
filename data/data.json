@@ -103,14 +103,15 @@
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
+					"telefone": "(51) 302210",
+					"room": "777"
                 },
                 "relations": [
                     {
                         "reltags": {
 						    "buildingpart": "room",
                             "level": "0",
-							"room": ""
+							"room": "666"
                         }
                     }
                 ]
@@ -555,7 +556,8 @@
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
+					"telefone": "(51) 302210",
+					"room": "102"
                 },
                 "relations": [
                     {

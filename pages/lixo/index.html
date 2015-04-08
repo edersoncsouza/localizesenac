@@ -54,31 +54,7 @@
 		}
 		p.TabContent{
 			line-height:40px;
-			text-align: center;
 		}
-		
-		#scrollable-dropdown-menu .tt-dropdown-menu {
-			max-height: 150px;
-			overflow-y: auto;
-			
-			width: 160px;
-			margin-top: 12px;
-			padding: 8px 0px;
-			background-color: #FFF;
-			border: 1px solid rgba(0, 0, 0, 0.2);
-			border-radius: 8px;
-			box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-		}
-		
-		.tt-suggestion {
-		  padding: 3px 20px;
-		  font-size: 14px;
-		  line-height: 16px;
-		}
-
-			
-		} 
-		
 	</style>
 	
 </head>
@@ -96,7 +72,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="principal.php">LocalizeSenac 2.0 - Site para Indoor Mapping da Faculdade Senac Porto Alegre</a>
+                <a class="navbar-brand" href="index.html">LocalizeSenac</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -105,7 +81,7 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Olá <?php echo $_SESSION['usuarioNome']; ?>! <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
@@ -113,8 +89,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
                         <li class="divider"></li>
-                        <!-- <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Sair</a> -->
-						<li><a href="index.php"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -122,93 +97,78 @@
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
-			
+
             <div class="navbar-default sidebar" role="navigation">
-			
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         
 						<!-- caixa de pesquisa -->
-						
 						<li class="sidebar-search">
-                            <div id="the-basics" class="input-group custom-search-form">
-							
-								<form class="search" action="search.php">
-								
-								
-									<!-- typeahead -->
-									<div id="scrollable-dropdown-menu">
-										<input 
-											type="text" 
-											name="busca"
-											class="form-control typeahead"
-
-											placeholder="Digite aqui sua busca..."
-										>
-									</div>
-									<!-- typeahead -->
-									
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="submit">
-											<i class="fa fa-search"></i>
-										</button>
-									</span>
-								
-								
-								</form>	
-							
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Buscar...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
-						
-						 <?php
-                                /* Inicio do acordion */
-                                if (isset($_GET['andar'])) {
-                                    $andar = $_GET['andar'];
-                                }
-                                $sql = "SELECT id, nome, parametro_imagem FROM categoria";
 
-                                $result = mysql_query($sql, $_SG['link']);
-                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
-								
-                                while ($consulta = mysql_fetch_array($result)) {
-									
-                                    echo "<li>"; // cria a estrutura do menu de categoria
-									echo "<a href=\"#\"><i class=\" {$consulta['parametro_imagem']} \"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
-											
-                                    /* Escrever itens secundários do menu */
-
-                                    //$sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
-									$sql2 = "SELECT
-										sala.id, descricao, andar
-									FROM
-										sala, info_locais
-									WHERE
-										sala.numero = info_locais.fk_numero_sala
-									AND
-										fk_id_categoria = $consulta[id]
-									ORDER BY andar";
-
-                                    $result2 = mysql_query($sql2, $_SG['link']);
-									
-                                    echo "<ul class=\"nav nav-second-level\">"; // cria a estrutura dos itens de menu
-										while ($consulta2 = mysql_fetch_array($result2)) {
-											echo "<li>"; // cria o item de categoria
-											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
-											echo "<a href=\"#\" onclick=\"alert('$consulta2[id]'); \"> $consulta2[descricao]</a>\n";    
-											// insertMarker($consulta2[id]); 
-											echo "</li>";
-										}	
-                                    echo "</ul>";
-									
-                                    echo "</li>";
-
-                                    $i++;
-                                }
-
-                                /* fim do acordion */
-                                ?>
-						
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="flot.html">Flot Charts</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Morris.js Charts</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+						<li>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Second Level Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Second Level Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Third Level <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                </li>
+                            </ul>
+                       <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="blank.html">Blank Page</a>
+                                </li>
+                                <li>
+                                    <a href="login.html">Login Page</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -220,7 +180,7 @@
 	
             <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="page-header"> <i class="fa fa-graduation-cap fa-2x"></i> Eventos Acadêmicos</h1>		
+                    <h4 class="page-header"> <i class="fa fa-graduation-cap fa-2x"></i> Eventos Acadêmicos</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -246,22 +206,10 @@
                             </div>
                         </div>
                         <a href="#">
-                            <div class="panel-footer" id="agenda">
+                            <div class="panel-footer">
                                 <span class="pull-left">Exibir Agenda</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
                                 <div class="clearfix"></div>
-								
-								        <script type="text/javascript">
-            // When the document is ready
-            $(document).ready(function () {
-                
-                $('#agenda').datepicker({
-                    format: "dd/mm/yyyy"
-                });  
-            
-            });
-        </script>
-								
                             </div>
                         </a>
                     </div>
@@ -276,85 +224,13 @@
                             <div class="clearfix"></div>
                         </div>
 
-												<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
-                            <?php					
-                            /*
-							$sql3 = "SELECT
-                                            dia_semana AS DIA, andar_locais.nome AS SALA, disciplina.nome AS DISC
-                                    FROM
-                                            aluno, aluno_disciplina AD, andar_locais, disciplina
-                                    WHERE
-                                            aluno.id = AD.fk_id_aluno
-                                    AND
-                                            disciplina.id = AD.fk_id_disciplina
-                                    AND
-                                            andar_locais.id = AD.fk_id_local
-                                    AND
-                                            aluno.id =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID";
-							*/
-							$sql3 = "SELECT
-								aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
-							FROM
-								aluno_disciplina, disciplina, aluno
-							WHERE
-								aluno.id = aluno_disciplina.fk_id_aluno
-							AND
-								disciplina.id = aluno_disciplina.fk_id_disciplina
-							AND
-								aluno_disciplina.fk_id_aluno=" . $_SESSION['usuarioID'] . " ORDER BY aluno_disciplina.id";
-							
-							$result3 = mysql_query($sql3, $_SG['link']);
-							
-							//echo ("<script> alert($result3); </script>");
-							
-							$contDiscp = mysql_num_rows($result3);
-							
-                            $discSeg = "Não tem aulas no dia de hoje";
-                            $discTer = "Não tem aulas no dia de hoje";
-                            $discQua = "Não tem aulas no dia de hoje";
-                            $discQui = "Não tem aulas no dia de hoje";
-                            $discSex = "Não tem aulas no dia de hoje";
-							$discSab = "Não tem aulas no dia de hoje";
-							$discDom = "Não tem aulas no dia de hoje";
-
-                            /*  incio do while para preencher os conteudos das pills */
-                            
-							while ($row = mysql_fetch_assoc($result3)) {
-                                if ($row['DIA'] == "SEG") {
-                                    $discSeg = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "TER") {
-                                    $discTer = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUA") {
-                                    $discQua = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUI") {
-                                    $discQui = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "SEX") {
-                                    $discSex = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "SAB") {
-                                    $discSab = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "DOM") {
-                                    $discDom = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								
-                            }
-							
-							/*fim do while para preencher os conteudos das pills*/
-							
-                            ?>
-						
 					    <div class="panel-heading"> <!-- Disciplinas -->
                             <div class="row">
                                 <div class="col-xs-3">
                                     <i class="fa fa-book fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo $contDiscp; ?></div>
+                                    <div class="huge">5</div>
                                     <div>Disciplinas</div>
                                 </div>
                             </div>
@@ -399,7 +275,65 @@
                                 </li>
                             </ul>
 						</div>
-						<!-- panel-footer Pills> -->
+						<!-- panel-footer Pills>
+						
+						<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
+                            <?php					
+                            
+							$sql3 = "SELECT
+                                            dia_semana AS DIA, nm_local AS SALA, nm_disciplina AS DISC
+                                    FROM
+                                            aluno, aluno_disciplina AD, andar_locais, disciplina
+                                    WHERE
+                                            aluno.CD_ALUNO = AD.fk_id_aluno
+                                    AND
+                                            disciplina.CD_DISCIPLINA = AD.fk_id_disciplina
+                                    AND
+                                            andar_locais.CD_LOCAL = AD.fk_id_local
+                                    AND
+                                            cd_aluno =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID_AULA";
+							
+                            $result3 = mysql_query($sql3, $_SG['link']);
+							
+							
+                            $discSeg = "Não tem aulas no dia de hoje";
+                            $discTer = "Não tem aulas no dia de hoje";
+                            $discQua = "Não tem aulas no dia de hoje";
+                            $discQui = "Não tem aulas no dia de hoje";
+                            $discSex = "Não tem aulas no dia de hoje";
+							$discSab = "Não tem aulas no dia de hoje";
+							$discDom = "Não tem aulas no dia de hoje";
+
+                            /*  incio do while para preencher os conteudos das pills */
+                            
+							while ($row = mysql_fetch_assoc($result3)) {
+                                if ($row['DIA'] == "SEG") {
+                                    $discSeg = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "TER") {
+                                    $discTer = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "QUA") {
+                                    $discQua = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "QUI") {
+                                    $discQui = $row['SALA'] . " - " . $row['DISC'];
+                                }
+                                if ($row['DIA'] == "SEX") {
+                                    $discSex = $row['SALA'] . " - " . $row['DISC'];
+                                }
+								if ($row['DIA'] == "SAB") {
+                                    $discSab = $row['SALA'] . " - " . $row['DISC'];
+                                }
+								if ($row['DIA'] == "DOM") {
+                                    $discDom = $row['SALA'] . " - " . $row['DISC'];
+                                }
+								
+                            }
+							
+							/*fim do while para preencher os conteudos das pills*/
+							
+                            ?>
 	
                             <div class="tab-content">
 
@@ -438,6 +372,10 @@
                                         <?php echo $discDom; ?>
                                     </p>
                                 </div>
+                                
+								<script type="text/javascript">
+                                    //selecionaTab();
+                                </script> 
 
                             </div> <!-- <div id="conteudoPillsMinhasAulas" class="tab-content"> -->
 						
@@ -458,10 +396,11 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading" style="background-color:#337ab7; color: #FFFFFF;">
+						<div class="panel-heading">
 							<h4><i class="fa fa-location-arrow"></i>Indoor Map<h4>
 								<div class="pull-right">
-	
+										
+										
 								</div>
 						</div>
 						<!-- /.panel-heading -->
@@ -497,83 +436,15 @@
 	<!-- funcoes personalizadas -->
 	<script type="text/javascript" src="../dist/js/funcoes.js"></script>
 	
-	<script src="../bower_components/typeahead/dist/js/typeahead.bundle.js"></script>
+	<!-- login do facebook -->
+	<script type="text/javascript" src="facebooklogin.js"></script>
 	
-	    <script type="text/javascript">
-		selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
-		$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
-		</script>
-
-		<!-- typeahead -->
-	    <script type="text/javascript">
-
-			var substringMatcher = function(strs) {
-			return function findMatches(q, cb) {
-			var matches, substrRegex;
-			 
-			// an array that will be populated with substring matches
-			matches = [];
-			 
-			// regex used to determine if a string contains the substring `q`
-			substrRegex = new RegExp(q, 'i');
-			 
-			// iterate through the pool of strings and for any string that
-			// contains the substring `q`, add it to the `matches` array
-			$.each(strs, function(i, str) {
-			if (substrRegex.test(str)) {
-			// the typeahead jQuery plugin expects suggestions to a
-			// JavaScript object, refer to typeahead docs for more info
-			matches.push({ value: str });
-			}
-			});
-			 
-			cb(matches);
-			};
-			};
-			 
-			var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
-			 
-			$('#the-basics .typeahead').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-			},
-			{
-			name: 'salas',
-			displayKey: 'value',
-			source: substringMatcher(salas)
-			}); 
-
-    </script>
+	<script>
+		selecionaTab();
+		$("#result").load("mapa2.php");	
+	</script>
 	
-<?php
-									/*
-									 * busca as coordenadas de cada sala e armazena em um array
-									 */
-									 
-									 // select de coordenadas
-									 $Scoordenadas = "SELECT
-									 `fk_numero_sala` ,  `longitude` ,  `latitude` 
-									FROM
-										`coordenadas` 
-									ORDER BY
-										id";
-									
-									// resultset de coordenadas
-									$Rcoordenadas = mysql_query($Scoordenadas);
 
-									// vetor de coordenadas
-									$Vcoordenadas = mysql_fetch_array($Rcoordenadas, MYSQL_NUM);
-									
-									//imprime todo o vetor de coordenadas
-									while ($row = mysql_fetch_array($Rcoordenadas, MYSQL_NUM)) {
-										printf("Sala: %s  Longitude: %s Latitude: %s", $row[0], $row[1], $row[2]);
-										echo"<br>";
-									}
-									
-
-?>
-	
 </body>
 
 </html>

@@ -19,7 +19,7 @@
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-	
+		
     </head>
 
     <body>
@@ -36,6 +36,18 @@
 
 						<form class= "loginForm" method="POST" action="valida.php" accept-charset="UTF-8">
 
+							<ul class="social-icons invert" style="margin-top:-15px; margin-bottom:-5px;">
+								<li>
+									<a href="https://www.facebook.com/dialog/oauth/?client_id=1622249498010646&redirect_uri=http%3A%2F%2Flocalizesenac.com/principal.php%2Fpublic%2Foauth%2Fprovider%2Ffacebook%2Ftype%2Fregister&scope=email" class="facebook social_login">
+									</a>
+								</li>
+								<li>
+									<a href="https://accounts.google.com/o/oauth2/auth?response_type=code&amp;client_id=407647315469-0785ljr0q9ijh95dj7qetu0agaq97m5l.apps.googleusercontent.com&amp;redirect_uri=http%3A%2F%2Flocalizesenac.com/principal.php&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&amp;state=55250354ae2de" class="googleplus social_login">
+									</a>
+								</li> 
+							</ul>
+							<br>
+							
 							<input type="text" id="usuario" class="form-control" name="usuario" placeholder="Usuário">
 
 							<br>
@@ -46,6 +58,15 @@
 
 							<button type="submit" name="submit" class="btn btn-info btn-block" >OK</button>
 
+							  <!-- Below we include the Login Button social plugin. This button uses
+							  the JavaScript SDK to present a graphical Login button that triggers
+							  the FB.login() function when clicked. -->
+
+
+							<br><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+							</fb:login-button>
+							
+							
 						</form>
 					</div>
 					
