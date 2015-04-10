@@ -269,6 +269,10 @@
                 click: zoomToFeature,
                 dblclick: resetView
             });
+			
+			L.marker(layer.getBounds().getCenter())
+			.bindLabel(feature.properties.tags['name'], { noHide: true })
+			.addTo(map);
 
         }
 
@@ -398,8 +402,12 @@
 			}
 		?>
 		
+		// recebe na variavel javascript sala o conteudo da variavel php $sala
+		//var sala = "<?php echo $sala;?>"
 		
 	//http://bl.ocks.org/zross/47760925fcb1643b4225
+	
+	//http://jsfiddle.net/FranceImage/ro54bqbz/
 	
 	// Adding GeoJSON to Leaflet with Link Relations
 	//http://lyzidiamond.com/posts/osgeo-august-meeting/
@@ -411,8 +419,6 @@
 	promise.then(function(data) {
 
         var allbusinesses = L.geoJson(data);
-		
-		
 		
         var cafes = L.geoJson(data, {
             filter: function(feature, layer) {
@@ -428,10 +434,10 @@
                 });
             }
 			*/
+			//var newMarker = new L.marker(e.latlng).addTo(map);
 			pointToLayer: function(feature, latlng) {
-                return L.marker(latlng, {
-                    //icon: cafeIcon
-                }).on('mouseover', function() {
+
+				return L.marker(coord, {}).on('mouseover', function() {
                     this.bindPopup(feature.properties.Name).openPopup();
                 });
             }
@@ -483,21 +489,20 @@
     });
 
 		
-		// recebe na variavel javascript sala o conteudo da variavel php $sala
-		//var sala = "<?php echo $sala;?>"
+
+		/*
+		alert("<?php echo $_GET['sala'];?>");
+		alert (sala);
 		
-		//alert("<?php echo $_GET['sala'];?>");
-		//alert (sala);
-		
-		//var marcador;
+		var marcador;
 		// se recebeu a sala por parametro pega o valor do parametro para o marcador
-		//marcador = L.marker(map.getCenter());
-		// recebe o centro do mapa como valor inicial para o marcador
-		//marcador = L.marker(map.getCenter());
+		marcador = L.marker(map.getCenter());
+		 recebe o centro do mapa como valor inicial para o marcador
+		marcador = L.marker(map.getCenter());
 		
 		// insere o marcador no mapa
-		//marcador.addTo(map);
-		
+		marcador.addTo(map);
+		*/
 		</script>	
 
 		<!-- botao de filtro -->
