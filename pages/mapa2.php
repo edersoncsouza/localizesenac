@@ -48,31 +48,6 @@
 
         </style>
 		
-<?php 
-
-
-/**
- * Licensed under Creative Commons 3.0 Attribution
- * Copyright Adam Wulf 2013
- */
- 
- /*
-include("config.php");
-include("include.classloader.php");
-$classLoader->addToClasspath(ROOT);
-$mysql = new MySQLConn(DATABASE_HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASS);
-$db = new JSONtoMYSQL($mysql);
-// create some json
-//$obj = json_decode('{"id":4,"asdf" : "asfd"}'); // vou utilizar meu arquivo Json
-$contents = file_get_contents('../data/data.json'); 
-$contents = utf8_encode($contents); 
-$obj = json_decode($contents); 
-
-// save it to a table
-$db->save($obj, "brandnewtable");
-*/
-?> 
-		
     </head>
     <body onload="resetPanel();">
         <div id="map"> <!-- class="row" --> 
@@ -112,17 +87,6 @@ $db->save($obj, "brandnewtable");
                 "<a><strong>Horários de funcionamento:</strong></a> 8h30 às 22h40 </br>" +
                 "<a><strong>Email:</strong></a>  atendimentofatecpoa@senacrs.com.br / </br> faculdadesenacpoa@senacrs.com.br</br>" +
                 "<a><strong>Telefone:</strong></a>  (51) 30221044</h4>";
-
-        /*
-         // configura a camada quadriculada (tileLayer) que fica de fundo para o mapa vetorial
-         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-         maxZoom: 24,
-         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-         id: 'examples.map-20v6611k'
-         }).addTo(map);
-         */
 
         // metodo para criacao da legenda do mapa
         var legend = L.control({position: 'bottomleft'});
@@ -434,20 +398,39 @@ $db->save($obj, "brandnewtable");
 			}
 		?>
 		
-	var promise = $.getJSON("businesses.json");
-    promise.then(function(data) {
-
+		
+	//http://bl.ocks.org/zross/47760925fcb1643b4225
+	
+	// Adding GeoJSON to Leaflet with Link Relations
+	//http://lyzidiamond.com/posts/osgeo-august-meeting/
+	var promise = $.getJSON("../data/data.json");
+	
+	// variavel criada para filtrar a sala desejada
+	var sala = "777";
+    
+	promise.then(function(data) {
 
         var allbusinesses = L.geoJson(data);
-
-
-                var cafes = L.geoJson(data, {
+		
+		
+		
+        var cafes = L.geoJson(data, {
             filter: function(feature, layer) {
-                return feature.properties.BusType == "Cafe";
+				//return feature.properties.BusType == "Cafe";
+                return feature.properties.tags.room == sala; // comparacao para colocar no filtro
             },
-            pointToLayer: function(feature, latlng) {
+            /*
+			pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: cafeIcon
+                }).on('mouseover', function() {
+                    this.bindPopup(feature.properties.Name).openPopup();
+                });
+            }
+			*/
+			pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {
+                    //icon: cafeIcon
                 }).on('mouseover', function() {
                     this.bindPopup(feature.properties.Name).openPopup();
                 });
@@ -457,11 +440,12 @@ $db->save($obj, "brandnewtable");
 
         var others = L.geoJson(data, {
             filter: function(feature, layer) {
-                return feature.properties.BusType != "Cafe";
+                //return feature.properties.BusType != "Cafe";
+				return feature.properties.tags.room != sala;
             },
             pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
-
+                    //icon: cafeIcon
                 }).on('mouseover', function() {
                     this.bindPopup(feature.properties.Name).openPopup();
                 });
@@ -472,7 +456,7 @@ $db->save($obj, "brandnewtable");
             padding: [50, 50]
         });
 
-
+		//alert(sala);
         cafes.addTo(map)
         others.addTo(map)
 
@@ -500,23 +484,28 @@ $db->save($obj, "brandnewtable");
 
 		
 		// recebe na variavel javascript sala o conteudo da variavel php $sala
-		var sala = "<?php echo $sala;?>"
+		//var sala = "<?php echo $sala;?>"
 		
 		//alert("<?php echo $_GET['sala'];?>");
-		alert (sala);
+		//alert (sala);
 		
-		var marcador;
+		//var marcador;
 		// se recebeu a sala por parametro pega o valor do parametro para o marcador
 		//marcador = L.marker(map.getCenter());
 		// recebe o centro do mapa como valor inicial para o marcador
-		marcador = L.marker(map.getCenter());
+		//marcador = L.marker(map.getCenter());
 		
 		// insere o marcador no mapa
-		marcador.addTo(map);
+		//marcador.addTo(map);
 		
 		</script>	
 
-		<script src="carregarMapas.js"></script>
+		<!-- botao de filtro -->
+				<button type="button" id="cafes" class="btn btn-danger">Cafes</button>
+				<button type="button" id="others" class="btn btn-danger">Others</button>
+				<button type="button" id="allbus" class="btn btn-danger">Allbus</button>
+				
+		<!-- <script src="carregarMapas.js"></script> -->
 		
         <!-- Include Info pane -->
         <script src="../bower_components/leaflet/dist/js/leaflet.infopane.js"></script>

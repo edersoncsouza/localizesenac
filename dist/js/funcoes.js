@@ -3,6 +3,10 @@ function atualizaMapa(mapa){
     $('#mapas').load(mapa);
 }
 
+function insertMarker(sala){
+	$("#result").load("mapa.php?sala="+sala);
+}
+
 function selecionaTab(){
     $('#' + diaDaSemana()).addClass("in active"); // seleciona e ativa o texto da tab do dia atual
     $('[href=#' + diaDaSemana() + ']').tab('show'); // seleciona a tab (guia) do dia atual

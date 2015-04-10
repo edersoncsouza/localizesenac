@@ -195,9 +195,14 @@
 										while ($consulta2 = mysql_fetch_array($result2)) {
 											echo "<li>"; // cria o item de categoria
 											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
-											echo "<a href=\"#\" onclick=\"alert('$consulta2[id]'); \"> $consulta2[descricao]</a>\n";    
+											//echo "<a href=\"#\" onclick=\"alert('$consulta2[id]'); \"> $consulta2[descricao]</a>\n";  
+											//echo "<a href=\"#\" onclick=\"insertMarker($consulta2[id]); \"> $consulta2[descricao]</a>\n";  
+											echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[id]'; \"> $consulta2[descricao]</a>\n";
 											// insertMarker($consulta2[id]); 
 											echo "</li>";
+											
+											// acrescenta cada descricao de sala ao vetor $salas para uso do typeahead
+											$salas[] = $consulta2['descricao'];
 										}	
                                     echo "</ul>";
 									
@@ -531,8 +536,10 @@
 			};
 			};
 			 
-			var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
-			 
+			//var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
+			// coloca cada elemento do vetor $salas do php no vetor javascript salas
+			var salas = <?php echo '["' . implode('", "', $salas) . '"]' ?>;
+			
 			$('#the-basics .typeahead').typeahead({
 			hint: true,
 			highlight: true,

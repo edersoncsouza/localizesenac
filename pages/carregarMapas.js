@@ -1,5 +1,3 @@
-
-
 		// carregamento do Json em uma layer do tipo Indoor
         $.getJSON("../data/data.json", function (geoJSON) {
 
@@ -14,6 +12,18 @@
                         return null;
                     return feature.properties.relations[0].reltags.name;
                 },
+				
+				// funcao criada para se a propriedade Room for igual ao parametro sala recebido,
+				// insere um marcador no centro da feature
+				setMarker: function (feature) {
+					if (feature.properties.relations.length === 0)
+                        return null;
+                    if (feature.properties.relations[0].reltags.room === sala) {
+						L.marker(feature.getCenter()).addTo(map);
+					}
+					return feature.properties.relations[0].reltags.room;
+				},
+				
                 onEachFeature: function (feature, layer) {
                     //layer.bindPopup(JSON.stringify(feature.properties, null, 4));
                     //onEachFeature(feature, layer);
@@ -21,8 +31,12 @@
                         mouseover: highlightFeature,
                         mouseout: resetHighlight,
                         click: zoomToFeature,
-                        dblclick: resetView
+                        dblclick: resetView,
+						
                     });
+					
+				
+				
                 },
                 style: function (feature) {
                     var fill = '#D2FAF8';
