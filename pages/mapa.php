@@ -47,34 +47,10 @@
             }
 
         </style>
-		
-<?php 
-
-
-/**
- * Licensed under Creative Commons 3.0 Attribution
- * Copyright Adam Wulf 2013
- */
- 
- /*
-include("config.php");
-include("include.classloader.php");
-$classLoader->addToClasspath(ROOT);
-$mysql = new MySQLConn(DATABASE_HOST, DATABASE_NAME, DATABASE_USER, DATABASE_PASS);
-$db = new JSONtoMYSQL($mysql);
-// create some json
-//$obj = json_decode('{"id":4,"asdf" : "asfd"}'); // vou utilizar meu arquivo Json
-$contents = file_get_contents('../data/data.json'); 
-$contents = utf8_encode($contents); 
-$obj = json_decode($contents); 
-
-// save it to a table
-$db->save($obj, "brandnewtable");
-*/
-?> 
-		
+	
     </head>
-    <body onload="resetPanel();">
+    <!-- <body onload="resetPanel();"> -->
+	<body>
         <div id="map"> <!-- class="row" --> 
 
             <div id="painel" class="leaflet-info-pane col-md-12" hidden>
@@ -83,13 +59,32 @@ $db->save($obj, "brandnewtable");
 
         </div>
 
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../bower_components/leaflet/dist/js/leaflet-src.js"></script>
-    <script src="../bower_components/leaflet/dist/js/leaflet-indoor.js"></script>
-	<script type="text/javascript" src="../script/leaf/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
-    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="../bower_components/leaflet/dist/js/leaflet-src.js" type="text/javascript"></script>
+    <script src="../bower_components/leaflet/dist/js/leaflet-indoor.js" type="text/javascript"></script>
+	<script src="../script/leaf/limitesUnidade1Senac.js" type="text/javascript"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
+	<script src="http://maximeh.github.io/leaflet.bouncemarker/bouncemarker.js"></script>
+	
+	<script>
+	$( document ).ready(function() {
+		resetPanel();
+	});
+	</script>
+	
+	<?php
+		// Verifica se recebeu o parametro de sala
+		if (isset($_GET['sala'])) {
+			// armazena a sala
+			$sala = $_GET['sala'];
+			// tranfere o valor de $sala(PHP) para sala(JavaScript)
+			echo "<script> sala = {$sala};</script>";
+		}
+	?>
 
-        <script type="text/javascript">
+	<!-- Chama o arquivo JavaScript que carrega o mapa apos armazenar a variavel sala -->
+	<script src="carregarMapas.js" type="text/javascript"></script>
+    
+	<script type="text/javascript">
 
 		// configuracao dos limites maximos de exibicao do mapa
         var sudOeste = L.latLng(-30.035996, -51.227157);
@@ -98,9 +93,6 @@ $db->save($obj, "brandnewtable");
         // cria a variavel mapa, define o centro de visão e o nivel do zoom
         var map = L.map('map').setView([-30.035476, -51.22593], 19.5);
         map.setMaxBounds(new L.LatLngBounds(sudOeste, nordEste));
-
-		// identifica o centro do objeto e inclui um marcador
-		//L.marker(map.getCenter()).addTo(map);
 		
 		// variavel que contem os dados do senac qdo nenhum ambiente foi selecionado
         var infoSenac = "<h3>Faculdade Senac Porto Alegre<h3>" +
@@ -124,7 +116,7 @@ $db->save($obj, "brandnewtable");
          }).addTo(map);
          */
 
-        // metodo para criacao da legenda do mapa
+        // metodo para criacao da legenda do mapa (adaptar para buscar do banco)
         var legend = L.control({position: 'bottomleft'});
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'info legend'),
@@ -206,7 +198,8 @@ $db->save($obj, "brandnewtable");
             info.update(layer.feature.properties.tags);
 
         }
-        var indoorLayer; //var controleInfopane; 
+		
+        var indoorLayer; 
 
         // funcao que define as propriedades dos poligonos com evento mouseout
         function resetHighlight(e) {
@@ -276,7 +269,6 @@ $db->save($obj, "brandnewtable");
             window.setTimeout(function () {
                 resetPanel();
             }, 600);
-
         }
         
 		// metodo para qdo o painel e exibido
@@ -288,7 +280,6 @@ $db->save($obj, "brandnewtable");
 			
             // adiciona a classe visible para exibir o painel lateral
             $('.leaflet-info-pane').addClass('visible');
-
         }
 
         // funcao que retorna o mapa para o centro e zoom iniciais
@@ -305,101 +296,7 @@ $db->save($obj, "brandnewtable");
                 click: zoomToFeature,
                 dblclick: resetView
             });
-
         }
-
-/*		
-		// carregamento do Json em uma layer do tipo Indoor
-        $.getJSON("../data/data.json", function (geoJSON) {
-
-            indoorLayer = new L.Indoor(geoJSON, {
-                getLevel: function (feature) {
-                    if (feature.properties.relations.length === 0)
-                        return null;
-                    return feature.properties.relations[0].reltags.level;
-                },
-                getName: function (feature) {
-                    if (feature.properties.relations.length === 0)
-                        return null;
-                    return feature.properties.relations[0].reltags.name;
-                },
-                onEachFeature: function (feature, layer) {
-                    //layer.bindPopup(JSON.stringify(feature.properties, null, 4));
-                    //onEachFeature(feature, layer);
-                    layer.on({
-                        mouseover: highlightFeature,
-                        mouseout: resetHighlight,
-                        click: zoomToFeature,
-                        dblclick: resetView
-                    });
-                },
-                style: function (feature) {
-                    var fill = '#D2FAF8';
-                    if (feature.properties.tags.buildingpart === 'corridor') {
-                        fill = '#169EC6';
-                    } else if (feature.properties.tags.buildingpart === 'verticalpassage') {
-                        fill = '#0A485B';
-                    } else if (feature.properties.tags.category === 'Serviços Administrativos') {
-                        fill = '#EF7126';
-                    } else if (feature.properties.tags.category === 'Salas de Aula') {
-                        fill = '#F9E559';
-                    } else if (feature.properties.tags.category === 'Alimentação') {
-                        fill = '#D7191C';
-                    } else if (feature.properties.tags.category === 'Serviços') {
-                        fill = '#8EDC9D';
-                    } else if (feature.properties.tags.category === 'Apoio') {
-                        fill = '#4575B4';
-                    } else if (feature.properties.tags.category === 'Acessos') {
-                        fill = '#FF0000';
-                    }
-                    return {
-                        fillColor: fill,
-                        weight: 1,
-                        color: '#666',
-                        fillOpacity: 0.7
-                    };
-                }
-            });
-
-            indoorLayer.setLevel("0");
-
-            indoorLayer.addTo(map);
-
-            var levelControl = new L.Control.Level({
-                level: "0",
-                levels: indoorLayer.getLevels()
-            });
-		
-            // connect the level control to the indoor layer
-            levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
-            levelControl.addTo(map);
-
-			
-			
-            
-		
-		L.marker(feature.getCenter()).addTo(map);
-		
-		
-        }); // final da montagem de layer do mapa
-*/
-
-/*
-// painel de informacoes dos ambientes
-            var controleInfopane = L.control.infoPane('infopane', {position: 'topright'});
-
-            controleInfopane.update = function (props) {
-                this._div.innerHTML = '<h2>Descrição do Ambiente</h2><br>' + (props ?
-                        '<h2>' + props.name + '</h2>' +
-                        '<img src="../images/fotos/' + props.image + '.jpg" height="300" width="300"> </img><br>' +
-                        '<strong>Horários de funcionamento:</strong> ' + props.horario + '<br>' +
-                        '<strong>Email:</strong> ' + props.email + ' <br>' +
-                        '<strong>Telefone:</strong> ' + props.telefone + ' <br>'
-                        : 'Ambiente sem informações');
-
-            };
-            controleInfopane.addTo(map);
-*/
 			
 		// Exibe os limites da unidade 1 do Senac
 		var limites = {
@@ -419,108 +316,12 @@ $db->save($obj, "brandnewtable");
 						};
 		L.geoJson(limites).addTo(map);
 		
-
-/*
-*	INICIO DO PROCESSO PARA INSERIR MARCADOR NA SALA
-*/		
-		<?php
-			// se recebeu sala por parametro
-			if (isset($_GET['sala'])) {
-				// armazena a sala
-				$sala = $_GET['sala'];
-			}
-			else{
-				$sala = "";
-			}
-		?>
+	</script>
 		
-	var promise = $.getJSON("businesses.json");
-    promise.then(function(data) {
-
-
-        var allbusinesses = L.geoJson(data);
-
-
-                var cafes = L.geoJson(data, {
-            filter: function(feature, layer) {
-                return feature.properties.BusType == "Cafe";
-            },
-            pointToLayer: function(feature, latlng) {
-                return L.marker(latlng, {
-                    icon: cafeIcon
-                }).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
-                });
-            }
-        });
-
-
-        var others = L.geoJson(data, {
-            filter: function(feature, layer) {
-                return feature.properties.BusType != "Cafe";
-            },
-            pointToLayer: function(feature, latlng) {
-                return L.marker(latlng, {
-
-                }).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
-                });
-            }
-        });
-
-        map.fitBounds(allbusinesses.getBounds(), {
-            padding: [50, 50]
-        });
-
-
-        cafes.addTo(map)
-        others.addTo(map)
-
-
-        // The JavaScript below is new
-
-        $("#others").click(function() {
-            map.addLayer(others)
-            map.removeLayer(cafes)
-
-        });
-
-        $("#cafes").click(function() {
-            map.addLayer(cafes)
-            map.removeLayer(others)
-
-        });
-
-        $("#allbus").click(function() {
-            map.addLayer(cafes)
-            map.addLayer(others)
-
-        });
-    });
-
+    <!-- Include Info pane -->
+    <script src="../bower_components/leaflet/dist/js/leaflet.infopane.js"></script>
+	<link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.infopane.css" />
 		
-		// recebe na variavel javascript sala o conteudo da variavel php $sala
-		var sala = "<?php echo $sala;?>"
-		
-		//alert("<?php echo $_GET['sala'];?>");
-		alert (sala);
-		
-		var marcador;
-		// se recebeu a sala por parametro pega o valor do parametro para o marcador
-		//marcador = L.marker(map.getCenter());
-		// recebe o centro do mapa como valor inicial para o marcador
-		marcador = L.marker(map.getCenter());
-		
-		// insere o marcador no mapa
-		marcador.addTo(map);
-		
-		</script>	
-
-		<script src="carregarMapas.js"></script>
-		
-        <!-- Include Info pane -->
-        <script src="../bower_components/leaflet/dist/js/leaflet.infopane.js"></script>
-		<link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.infopane.css" />
     </body>
 
 </html>

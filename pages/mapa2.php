@@ -5,6 +5,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.css" />
+		<link rel="stylesheet" href="leaflet_awesome_markers.css"><!--this is new-->
 
         <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->
 
@@ -47,7 +48,7 @@
             }
 
         </style>
-		
+	
     </head>
     <body onload="resetPanel();">
         <div id="map"> <!-- class="row" --> 
@@ -62,9 +63,8 @@
     <script src="../bower_components/leaflet/dist/js/leaflet-src.js"></script>
     <script src="../bower_components/leaflet/dist/js/leaflet-indoor.js"></script>
 	<script type="text/javascript" src="../script/leaf/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
-    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
 
-        <script type="text/javascript">
+    <script type="text/javascript">
 
 		// configuracao dos limites maximos de exibicao do mapa
         var sudOeste = L.latLng(-30.035996, -51.227157);
@@ -73,9 +73,6 @@
         // cria a variavel mapa, define o centro de visão e o nivel do zoom
         var map = L.map('map').setView([-30.035476, -51.22593], 19.5);
         map.setMaxBounds(new L.LatLngBounds(sudOeste, nordEste));
-
-		// identifica o centro do objeto e inclui um marcador
-		//L.marker(map.getCenter()).addTo(map);
 		
 		// variavel que contem os dados do senac qdo nenhum ambiente foi selecionado
         var infoSenac = "<h3>Faculdade Senac Porto Alegre<h3>" +
@@ -271,103 +268,10 @@
             });
 			
 			L.marker(layer.getBounds().getCenter())
-			.bindLabel(feature.properties.tags['name'], { noHide: true })
+			//.bindLabel(feature.properties.tags['name'], { noHide: true })
 			.addTo(map);
 
         }
-
-/*		
-		// carregamento do Json em uma layer do tipo Indoor
-        $.getJSON("../data/data.json", function (geoJSON) {
-
-            indoorLayer = new L.Indoor(geoJSON, {
-                getLevel: function (feature) {
-                    if (feature.properties.relations.length === 0)
-                        return null;
-                    return feature.properties.relations[0].reltags.level;
-                },
-                getName: function (feature) {
-                    if (feature.properties.relations.length === 0)
-                        return null;
-                    return feature.properties.relations[0].reltags.name;
-                },
-                onEachFeature: function (feature, layer) {
-                    //layer.bindPopup(JSON.stringify(feature.properties, null, 4));
-                    //onEachFeature(feature, layer);
-                    layer.on({
-                        mouseover: highlightFeature,
-                        mouseout: resetHighlight,
-                        click: zoomToFeature,
-                        dblclick: resetView
-                    });
-                },
-                style: function (feature) {
-                    var fill = '#D2FAF8';
-                    if (feature.properties.tags.buildingpart === 'corridor') {
-                        fill = '#169EC6';
-                    } else if (feature.properties.tags.buildingpart === 'verticalpassage') {
-                        fill = '#0A485B';
-                    } else if (feature.properties.tags.category === 'Serviços Administrativos') {
-                        fill = '#EF7126';
-                    } else if (feature.properties.tags.category === 'Salas de Aula') {
-                        fill = '#F9E559';
-                    } else if (feature.properties.tags.category === 'Alimentação') {
-                        fill = '#D7191C';
-                    } else if (feature.properties.tags.category === 'Serviços') {
-                        fill = '#8EDC9D';
-                    } else if (feature.properties.tags.category === 'Apoio') {
-                        fill = '#4575B4';
-                    } else if (feature.properties.tags.category === 'Acessos') {
-                        fill = '#FF0000';
-                    }
-                    return {
-                        fillColor: fill,
-                        weight: 1,
-                        color: '#666',
-                        fillOpacity: 0.7
-                    };
-                }
-            });
-
-            indoorLayer.setLevel("0");
-
-            indoorLayer.addTo(map);
-
-            var levelControl = new L.Control.Level({
-                level: "0",
-                levels: indoorLayer.getLevels()
-            });
-		
-            // connect the level control to the indoor layer
-            levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
-            levelControl.addTo(map);
-
-			
-			
-            
-		
-		L.marker(feature.getCenter()).addTo(map);
-		
-		
-        }); // final da montagem de layer do mapa
-*/
-
-/*
-// painel de informacoes dos ambientes
-            var controleInfopane = L.control.infoPane('infopane', {position: 'topright'});
-
-            controleInfopane.update = function (props) {
-                this._div.innerHTML = '<h2>Descrição do Ambiente</h2><br>' + (props ?
-                        '<h2>' + props.name + '</h2>' +
-                        '<img src="../images/fotos/' + props.image + '.jpg" height="300" width="300"> </img><br>' +
-                        '<strong>Horários de funcionamento:</strong> ' + props.horario + '<br>' +
-                        '<strong>Email:</strong> ' + props.email + ' <br>' +
-                        '<strong>Telefone:</strong> ' + props.telefone + ' <br>'
-                        : 'Ambiente sem informações');
-
-            };
-            controleInfopane.addTo(map);
-*/
 			
 		// Exibe os limites da unidade 1 do Senac
 		var limites = {
@@ -389,21 +293,8 @@
 		
 
 /*
-*	INICIO DO PROCESSO PARA INSERIR MARCADOR NA SALA
-*/		
-		<?php
-			// se recebeu sala por parametro
-			if (isset($_GET['sala'])) {
-				// armazena a sala
-				$sala = $_GET['sala'];
-			}
-			else{
-				$sala = "";
-			}
-		?>
-		
-		// recebe na variavel javascript sala o conteudo da variavel php $sala
-		//var sala = "<?php echo $sala;?>"
+ *	INICIO DO PROCESSO PARA INSERIR MARCADOR NA SALA
+ */		
 		
 	//http://bl.ocks.org/zross/47760925fcb1643b4225
 	
@@ -411,42 +302,101 @@
 	
 	// Adding GeoJSON to Leaflet with Link Relations
 	//http://lyzidiamond.com/posts/osgeo-august-meeting/
-	var promise = $.getJSON("../data/data.json");
+			
+	// funcao que filtra por regex a URL em busca de parametros e os retorna por nome
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 	
-	// variavel criada para filtrar a sala desejada
-	var sala = "777";
-    
-	promise.then(function(data) {
+	var jsonSala = $.getJSON("../data/data.json");
 
-        var allbusinesses = L.geoJson(data);
+	// variavel criada para filtrar a sala desejada
+	var sala;
+	
+	// variaveis criadas para armazenar o layer o marcador unico e o array de marcadores
+	var marker; var Vmarkers = [];
+
+	jsonSala.then(function(data) {
+
+	/* OPCAO DE BUSCA DE PARAMETRO EM PHP
+	<?php
+			// se recebeu sala por parametro
+			if (isset($_GET['sala'])) {
+				// armazena a sala
+				$sala = $_GET['sala'];
+				// transfere o valor de $sala em php para sala em javascript
+				echo "sala = {$sala};";
+			}
+	?>
+	*/
+
+	// recebe o valor de parametro sala da URL
+	sala = getParameterByName('sala');
+
+		// variavel que armazena todas as salas
+        var todasSalas = L.geoJson(data,{
+				
+				// funcao executada com cada feature do GeoJson
+				onEachFeature: function (feature, layer) {
+					// Verifica se a feature é do tipo polygon
+					if (feature.geometry.type === 'Polygon') {
+						// Recebe os limites do polygon
+						var bounds = layer.getBounds();
+						// Recebe o centro dos limites do polygon
+						var center = bounds.getCenter();
+						// Adiciona o centro do objeto no array indexando pela tag room do json
+						Vmarkers[feature.properties.tags.room]=center;
+					}
+					
+					// Verifica se o polygon e igual a sala passada por parametro pelo item de menu
+					if (sala == feature.properties.tags.room){
+						// Adiciona o popup com a descricao da sala ao marcador e o adiciona no centro do polygon
+						L.marker(Vmarkers[feature.properties.tags.room]).bindPopup(feature.properties.tags.name).openPopup().addTo(map);
+					}
+				},
+				filter: function(feature, layer) {
+					return feature.properties.tags.room; // retorna a exibicao do polygon se houver propriedade room
+				}
 		
-        var cafes = L.geoJson(data, {
-            filter: function(feature, layer) {
-				//return feature.properties.BusType == "Cafe";
-                return feature.properties.tags.room == sala; // comparacao para colocar no filtro
-            },
-            /*
+		});
+		
+		/*
+		// INICIO DA FILTRAGEM POR CATEGORIA
+		
+        var category = L.geoJson(data, {
+			// inserir o marker no centro dos polygons
+			// https://stackoverflow.com/questions/27804460/show-a-marker-for-polygons-from-a-geojson-file-in-leaflet#new-answer
+			onEachFeature: function (feature, layer) {
+					// Verifica se a feature é do tipo polygon
+					if (feature.geometry.type === 'Polygon') {
+						// Recebe os limites do polygon
+						var bounds = layer.getBounds();
+						// Recebe o centro dos limites do polygon
+						var center = bounds.getCenter();
+						// Adiciona o popup com a descricao da sala ao marcador //e o adiciona no centro do polygon no mapa
+						marker = L.marker(center).bindPopup(feature.properties.tags.name).openPopup();//.addTo(map);
+					}
+				},
 			pointToLayer: function(feature, latlng) {
                 return L.marker(latlng, {
                     icon: cafeIcon
                 }).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
+                    this.bindPopup(feature.properties.tags.name).openPopup();
                 });
+            },
+			filter: function(feature, layer) {
+                return feature.properties.tags.category; // // retorna a exibicao do polygon se houver propriedade category
             }
-			*/
-			//var newMarker = new L.marker(e.latlng).addTo(map);
-			pointToLayer: function(feature, latlng) {
+		});
 
-				return L.marker(coord, {}).on('mouseover', function() {
-                    this.bindPopup(feature.properties.Name).openPopup();
-                });
-            }
-        });
-
-
-        var others = L.geoJson(data, {
+		var others = L.geoJson(data, {
+			
             filter: function(feature, layer) {
                 //return feature.properties.BusType != "Cafe";
+
 				return feature.properties.tags.room != sala;
             },
             pointToLayer: function(feature, latlng) {
@@ -457,26 +407,25 @@
                 });
             }
         });
+		
+		// FINAL DA FILTRAGEM POR CATEGORIA
+		*/ 
 
-        map.fitBounds(allbusinesses.getBounds(), {
-            padding: [50, 50]
-        });
-
-		//alert(sala);
-        cafes.addTo(map)
-        others.addTo(map)
-
-
-        // The JavaScript below is new
-
-        $("#others").click(function() {
+		// insere o layer filtrado
+		todasSalas.addTo(map)
+        
+		// chamadas dos botoes de filtragem caso sejam inseridos
+        /*
+		$("#others").click(function() {
             map.addLayer(others)
             map.removeLayer(cafes)
+			map.removeLayer(marker)
 
         });
 
         $("#cafes").click(function() {
             map.addLayer(cafes)
+			map.addLayer(marker)
             map.removeLayer(others)
 
         });
@@ -486,30 +435,18 @@
             map.addLayer(others)
 
         });
+		*/
+		
     });
 
-		
-
-		/*
-		alert("<?php echo $_GET['sala'];?>");
-		alert (sala);
-		
-		var marcador;
-		// se recebeu a sala por parametro pega o valor do parametro para o marcador
-		marcador = L.marker(map.getCenter());
-		 recebe o centro do mapa como valor inicial para o marcador
-		marcador = L.marker(map.getCenter());
-		
-		// insere o marcador no mapa
-		marcador.addTo(map);
-		*/
 		</script>	
 
-		<!-- botao de filtro -->
+		<!-- botoes de filtro 
 				<button type="button" id="cafes" class="btn btn-danger">Cafes</button>
 				<button type="button" id="others" class="btn btn-danger">Others</button>
 				<button type="button" id="allbus" class="btn btn-danger">Allbus</button>
-				
+		-->
+		
 		<!-- <script src="carregarMapas.js"></script> -->
 		
         <!-- Include Info pane -->

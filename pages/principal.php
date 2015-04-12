@@ -81,6 +81,17 @@
 		
 	</style>
 	
+	<!-- jQuery -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	
+	<!--
+		<script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
+                $("#result").load('mapa.php')
+            });
+        </script>
+	-->
 </head>
 
 <body>
@@ -180,7 +191,7 @@
 
                                     //$sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
 									$sql2 = "SELECT
-										sala.id, descricao, andar
+										sala.id, numero, descricao, andar
 									FROM
 										sala, info_locais
 									WHERE
@@ -195,10 +206,8 @@
 										while ($consulta2 = mysql_fetch_array($result2)) {
 											echo "<li>"; // cria o item de categoria
 											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
-											//echo "<a href=\"#\" onclick=\"alert('$consulta2[id]'); \"> $consulta2[descricao]</a>\n";  
-											//echo "<a href=\"#\" onclick=\"insertMarker($consulta2[id]); \"> $consulta2[descricao]</a>\n";  
-											echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[id]'; \"> $consulta2[descricao]</a>\n";
-											// insertMarker($consulta2[id]); 
+											//echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[numero]&andar=$consulta2[andar]'; \"> $consulta2[descricao]</a>\n";
+											echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
 											echo "</li>";
 											
 											// acrescenta cada descricao de sala ao vetor $salas para uso do typeahead
@@ -210,6 +219,8 @@
 
                                     $i++;
                                 }
+								
+								// ATUALIZAR - INSERIR UM MENU DE SALAS POR ANDAR
 
                                 /* fim do acordion */
                                 ?>
@@ -255,8 +266,8 @@
                                 <span class="pull-left">Exibir Agenda</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
                                 <div class="clearfix"></div>
-								
-								        <script type="text/javascript">
+	<!--							
+		<script type="text/javascript">
             // When the document is ready
             $(document).ready(function () {
                 
@@ -266,7 +277,7 @@
             
             });
         </script>
-								
+	-->							
                             </div>
                         </a>
                     </div>
@@ -281,7 +292,7 @@
                             <div class="clearfix"></div>
                         </div>
 
-												<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
+							<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
                             <?php					
                             /*
 							$sql3 = "SELECT
@@ -309,8 +320,6 @@
 								aluno_disciplina.fk_id_aluno=" . $_SESSION['usuarioID'] . " ORDER BY aluno_disciplina.id";
 							
 							$result3 = mysql_query($sql3, $_SG['link']);
-							
-							//echo ("<script> alert($result3); </script>");
 							
 							$contDiscp = mysql_num_rows($result3);
 							
@@ -487,9 +496,6 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -552,34 +558,6 @@
 			}); 
 
     </script>
-	
-<?php
-									/*
-									 * busca as coordenadas de cada sala e armazena em um array
-									 */
-									 
-									 // select de coordenadas
-									 $Scoordenadas = "SELECT
-									 `fk_numero_sala` ,  `longitude` ,  `latitude` 
-									FROM
-										`coordenadas` 
-									ORDER BY
-										id";
-									
-									// resultset de coordenadas
-									$Rcoordenadas = mysql_query($Scoordenadas);
-
-									// vetor de coordenadas
-									$Vcoordenadas = mysql_fetch_array($Rcoordenadas, MYSQL_NUM);
-									
-									//imprime todo o vetor de coordenadas
-									while ($row = mysql_fetch_array($Rcoordenadas, MYSQL_NUM)) {
-										printf("Sala: %s  Longitude: %s Latitude: %s", $row[0], $row[1], $row[2]);
-										echo"<br>";
-									}
-									
-
-?>
 	
 </body>
 
