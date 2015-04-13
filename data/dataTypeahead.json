@@ -1,6 +1,3 @@
-{
-    "type": "FeatureCollection",
-    "features": [
 		{
             "type": "Feature",
             "id": "043",
@@ -1461,7 +1458,3 @@
                 ]
             }
 		}
-
-		
-    ]
-}

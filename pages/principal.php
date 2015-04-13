@@ -143,7 +143,7 @@
 						<!-- caixa de pesquisa -->
 						
 						<li class="sidebar-search">
-                            <div id="the-basics" class="input-group custom-search-form">
+                            <div id="idBusca" class="input-group custom-search-form">
 							
 								<form class="search" action="search.php">
 								
@@ -217,9 +217,10 @@
 											
 											// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR UMA FUNCAO
 											// PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
-											$nomeAndarNumero[] = array($consulta2['descricao'],$consulta2['andar'],$consulta2['numero']);
-											$JsonNomeAndarNumero = json_encode($nomeAndarNumero,JSON_FORCE_OBJECT);
-											//echo ($JsonNomeAndarNumero);
+											//$nomeAndarNumero[] = array($consulta2['descricao'],$consulta2['andar'],$consulta2['numero']);
+											$nomeAndarNumero[] = array('descricao' => $consulta2['descricao'], 'andar' =>$consulta2['andar'], 'numero' =>$consulta2['numero']);
+											//$JsonNomeAndarNumero = json_encode($nomeAndarNumero,JSON_FORCE_OBJECT);
+											$JsonNomeAndarNumero = json_encode($nomeAndarNumero);
 										}	
                                     echo "</ul>";
 									
@@ -228,6 +229,7 @@
                                     $i++;
                                 }
 								
+								//echo ($JsonNomeAndarNumero);
 								// PENDENCIA - INSERIR UM MENU DE SALAS POR ANDAR
 
                                 /* fim do acordion */
@@ -273,19 +275,7 @@
                             <div class="panel-footer" id="agenda">
                                 <span class="pull-left">Exibir Agenda</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
-                                <div class="clearfix"></div>
-	<!--							
-		<script type="text/javascript">
-            // When the document is ready
-            $(document).ready(function () {
-                
-                $('#agenda').datepicker({
-                    format: "dd/mm/yyyy"
-                });  
-            
-            });
-        </script>
-	-->							
+                                <div class="clearfix"></div>					
                             </div>
                         </a>
                     </div>
@@ -302,20 +292,6 @@
 
 							<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
                             <?php					
-                            /*
-							$sql3 = "SELECT
-                                            dia_semana AS DIA, andar_locais.nome AS SALA, disciplina.nome AS DISC
-                                    FROM
-                                            aluno, aluno_disciplina AD, andar_locais, disciplina
-                                    WHERE
-                                            aluno.id = AD.fk_id_aluno
-                                    AND
-                                            disciplina.id = AD.fk_id_disciplina
-                                    AND
-                                            andar_locais.id = AD.fk_id_local
-                                    AND
-                                            aluno.id =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID";
-							*/
 							$sql3 = "SELECT
 								aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
 							FROM
@@ -525,66 +501,99 @@
 
 		<!-- typeahead -->
 	    <script type="text/javascript">
-
+			
+			
 			var substringMatcher = function(strs) {
-			return function findMatches(q, cb) {
-			var matches, substrRegex;
-			 
-			// an array that will be populated with substring matches
-			matches = [];
-			 
-			// regex used to determine if a string contains the substring `q`
-			substrRegex = new RegExp(q, 'i');
-			 
-			// iterate through the pool of strings and for any string that
-			// contains the substring `q`, add it to the `matches` array
-			$.each(strs, function(i, str) {
-			if (substrRegex.test(str)) {
-			// the typeahead jQuery plugin expects suggestions to a
-			// JavaScript object, refer to typeahead docs for more info
-			matches.push({ value: str });
-			}
-			});
-			 
-			cb(matches);
+				return function findMatches(q, cb) {
+					var matches, substrRegex;
+					 
+					// an array that will be populated with substring matches
+					matches = [];
+					 
+					// regex used to determine if a string contains the substring `q`
+					substrRegex = new RegExp(q, 'i');
+					 
+					// iterate through the pool of strings and for any string that
+					// contains the substring `q`, add it to the `matches` array
+					$.each(strs, function(i, str) {
+						if (substrRegex.test(str)) {
+							// the typeahead jQuery plugin expects suggestions to a
+							// JavaScript object, refer to typeahead docs for more info
+							matches.push({ value: str });
+						}
+					});
+					 
+					cb(matches);
+				};
 			};
-			};
 			 
-			//var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
+
 			// coloca cada elemento do vetor $salas do php no vetor javascript salas
+			// var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
 			var salas = <?php echo '["' . implode('", "', $salas) . '"]' ?>;
 			
-			/* 
-			// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR UMA FUNCAO
-			// PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
-			
 			var JsonNomeAndarNumero = <?php echo $JsonNomeAndarNumero ?>;
-			alert(JsonNomeAndarNumero);
-			var jsonObj = $.parseJSON(JsonNomeAndarNumero);
-			var sourceArr = [];
 			
-			for (var i=0; i<jsonObj.length; i++) {
-			  sourceArr.push(jsonObj[i].label);
+			var jsonString = '[ {"descricao":"Elevador 1","andar":"0","numero":"161"},{"descricao":"Elevador 2","andar":"0","numero":"162"} ]';
+			var jsonObj = $.parseJSON(jsonString);
+			var sourceArr = [];
+ 
+			for (var i = 0; i < jsonObj.length; i++) {
+			   sourceArr.push(jsonObj[i].descricao);
 			}
+			 
+			$('#idBusca .typeahead').typeahead({
+			   source: sourceArr
+			});
+			
+			/*
+			modelo de resultado:  [
+									{"descricao":"Elevador 1","andar":"0","numero":"161"},
+									{"descricao":"Elevador 2","andar":"0","numero":"162"}
+									]
 			*/
 			
-			
-			//var nomeAndarNumero = <?php json_encode($nomeAndarNumero)?>;
-			//alert(nomeAndarNumero);
-			
-			$('#the-basics .typeahead').typeahead({
-				hint: true,
-				highlight: true,
-				minLength: 1
-				},
-				{
-				name: 'salas',
-				displayKey: 'value',
-				source: substringMatcher(salas)
-				//source: sourceArr
-			}); 
+			/* 
+			// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR
+			// UMA FUNCAO PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
+			*/
+					/*
+					$('#idBusca .typeahead').typeahead({
+					hint: true,
+					highlight: true,
+					minLength: 1
+					},
+					{
+					name: 'salas',
+					displayKey: 'value',
+					
+					//source: substringMatcher(JsonNomeAndarNumero)
+					
+					source: substringMatcher(salas)
+					});
+					*/
+					/*
+					source: function (query, process) {
+							
+							salas = [];
+							map = {};
 
+							$.each(JsonNomeAndarNumero, function (i, sala) {
+								map[sala.descricao] = sala;
+								salas.push(sala.descricao);
+							});
+					 
+							process(salas);
+						
+						}
+					*/
+					
+					
+		
+			
     </script>
+	
+	<!-- <script type="text/javascript" src="prefetch.js"></script> -->
 	
 </body>
 
