@@ -153,7 +153,7 @@ function getMembersAjx() {
 				$aItem = array( $aInfo['descricao'], 'DT_RowId' => $aInfo['id'] );
 				break;
 			case 'sala':
-				$aItem = array( $aInfo['unidade'], $aInfo['andar'], $aInfo['numero'], $aInfo['categoria'], 'DT_RowId' => $aInfo['id'] );
+				$aItem = array( $aInfo['fk_id_unidade'], $aInfo['andar'], $aInfo['numero'], $aInfo['fk_id_categoria'], 'DT_RowId' => $aInfo['id'] );
 				break;
 			case 'unidade':
 				$aItem = array( $aInfo['nome'], $aInfo['endereco'], 'DT_RowId' => $aInfo['id'] );			

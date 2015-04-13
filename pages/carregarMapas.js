@@ -66,9 +66,8 @@
 				
 				// Verifica se o polygon e igual a sala passada por parametro pelo item de menu
 				if (sala == feature.properties.tags.room){
-					// Adiciona o popup com a descricao da sala ao marcador e o adiciona no centro do polygon
-					L.marker(Vmarkers[feature.properties.tags.room], {bounceOnAdd: true}).bindPopup(feature.properties.tags.name+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>").openPopup().addTo(map);
-					//new L.Marker([48.85, 2.35], {bounceOnAdd: true}).addTo(map);
+					// Adiciona o popup com a descricao da sala ao marcador e o adiciona no centro do polygon buscado(bounceOnAdd é para os bounce markers)
+					L.marker(Vmarkers[feature.properties.tags.room], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1000, height: 100, loop: true}}).bindPopup(feature.properties.tags.name+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>").openPopup().addTo(map);
 				}
 				
 				// Insere os eventos de mouse no layer
@@ -78,9 +77,9 @@
                     click: zoomToFeature,
                     dblclick: resetView,		
                 });
-
 			},
 			
+			// formata os polygonos de acrodo com as caracteristicas
 			style: function (feature) {
                     var fill = '#D2FAF8';
                     if (feature.properties.tags.buildingpart === 'corridor') {
@@ -111,7 +110,7 @@
 			filter: function(feature, layer) {
 				return feature.properties.tags.room; // retorna a exibicao do polygon se houver propriedade room
 			}
-	
+			
 		});
 
 			// define o numero do nivel

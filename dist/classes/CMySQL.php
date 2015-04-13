@@ -1,5 +1,5 @@
 <?php
-
+// Fonte: 
 class CMySQL {
 
     // variables

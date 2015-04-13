@@ -1,6 +1,5 @@
-function atualizaMapa(mapa){
-    alert("vou atualizar!");
-    $('#mapas').load(mapa);
+function atualizaMapa(andar, sala){
+	$("#result").load("mapa.php?sala=sala&andar=andar");
 }
 
 function selecionaTab(){

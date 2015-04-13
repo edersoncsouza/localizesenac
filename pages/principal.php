@@ -88,7 +88,8 @@
 		<script type="text/javascript">
             // When the document is ready
             $(document).ready(function () {
-                $("#result").load('mapa.php')
+                //$("#result").load('mapa.php')
+				$("#menuCategoria").removeClass();
             });
         </script>
 	-->
@@ -159,12 +160,13 @@
 									</div>
 									<!-- typeahead -->
 									
+									<!-- removendo o botão de busca
 									<span class="input-group-btn">
 										<button class="btn btn-default" type="submit">
 											<i class="fa fa-search"></i>
 										</button>
 									</span>
-								
+									-->
 								
 								</form>	
 							
@@ -184,7 +186,7 @@
 								
                                 while ($consulta = mysql_fetch_array($result)) {
 									
-                                    echo "<li>"; // cria a estrutura do menu de categoria
+                                    echo "<li id=\"menuCategoria\">"; // cria a estrutura do menu de categoria
 									echo "<a href=\"#\"><i class=\" {$consulta['parametro_imagem']} \"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
 											
                                     /* Escrever itens secundários do menu */
@@ -202,7 +204,7 @@
 
                                     $result2 = mysql_query($sql2, $_SG['link']);
 									
-                                    echo "<ul class=\"nav nav-second-level\">"; // cria a estrutura dos itens de menu
+                                    echo "<ul class=\"nav nav-second-level collapse\">"; // cria a estrutura dos itens de menu
 										while ($consulta2 = mysql_fetch_array($result2)) {
 											echo "<li>"; // cria o item de categoria
 											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
@@ -212,6 +214,12 @@
 											
 											// acrescenta cada descricao de sala ao vetor $salas para uso do typeahead
 											$salas[] = $consulta2['descricao'];
+											
+											// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR UMA FUNCAO
+											// PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
+											$nomeAndarNumero[] = array($consulta2['descricao'],$consulta2['andar'],$consulta2['numero']);
+											$JsonNomeAndarNumero = json_encode($nomeAndarNumero,JSON_FORCE_OBJECT);
+											//echo ($JsonNomeAndarNumero);
 										}	
                                     echo "</ul>";
 									
@@ -220,7 +228,7 @@
                                     $i++;
                                 }
 								
-								// ATUALIZAR - INSERIR UM MENU DE SALAS POR ANDAR
+								// PENDENCIA - INSERIR UM MENU DE SALAS POR ANDAR
 
                                 /* fim do acordion */
                                 ?>
@@ -546,15 +554,34 @@
 			// coloca cada elemento do vetor $salas do php no vetor javascript salas
 			var salas = <?php echo '["' . implode('", "', $salas) . '"]' ?>;
 			
+			/* 
+			// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR UMA FUNCAO
+			// PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
+			
+			var JsonNomeAndarNumero = <?php echo $JsonNomeAndarNumero ?>;
+			alert(JsonNomeAndarNumero);
+			var jsonObj = $.parseJSON(JsonNomeAndarNumero);
+			var sourceArr = [];
+			
+			for (var i=0; i<jsonObj.length; i++) {
+			  sourceArr.push(jsonObj[i].label);
+			}
+			*/
+			
+			
+			//var nomeAndarNumero = <?php json_encode($nomeAndarNumero)?>;
+			//alert(nomeAndarNumero);
+			
 			$('#the-basics .typeahead').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-			},
-			{
-			name: 'salas',
-			displayKey: 'value',
-			source: substringMatcher(salas)
+				hint: true,
+				highlight: true,
+				minLength: 1
+				},
+				{
+				name: 'salas',
+				displayKey: 'value',
+				source: substringMatcher(salas)
+				//source: sourceArr
 			}); 
 
     </script>

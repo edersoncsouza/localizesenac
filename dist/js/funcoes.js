@@ -1,10 +1,12 @@
-function atualizaMapa(mapa){
-    alert("vou atualizar!");
-    $('#mapas').load(mapa);
+function atualizaMapa(andar, sala){
+
+	$("#result").load('mapa.php?sala='+sala+'&andar='+andar);
+
 }
 
 function insertMarker(sala){
-	$("#result").load("mapa.php?sala="+sala);
+	//$("#result").load("mapa.php?sala="+sala);
+	L.marker(Vmarkers[sala]).bindPopup(feature.properties.tags.name).openPopup().addTo(map);
 }
 
 function selecionaTab(){

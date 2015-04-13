@@ -1,14 +1,118 @@
 {
     "type": "FeatureCollection",
     "features": [
+{
+            "type": "Feature",
+            "id": "043",
+            "properties": {
+                "tags": {
+					"unidade" : "1",
+	                "level": "1",
+					"room": "150",					
+					"category": "Apoio",
+                    "name": "Portaria",
+					"image": "portaria",
+					"horario": "8:00 às 21:00",
+					"email": "@senacrs.com.br",
+					"telefone": "(51) 302210"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+						    "buildingpart": "room",
+                            "level": "1",
+							"room": ""
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22653419020295, -30.03509282853612], [-51.22646299419628, -30.03513279023087], [-51.226482387047504, -30.035158684698104],
+						[-51.226553583054155, -30.035118723013777], [-51.22653419020295, -30.03509282853612]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "044",
+            "properties": {
+                "tags": {
+					"unidade" : "1",
+	                "level": "1",
+					"room": "151",
+					"category": "Acessos",
+					"name": "Elevador 1",
+					"image": "",
+					"horario": "8:00 às 21:00",
+					"email": "@senacrs.com.br",
+					"telefone": "(51) 302210"	
+                },
+                "relations": [
+                    {
+                        "reltags": {
+						    "buildingpart": "room",
+                            "level": "1",
+							"room": ""
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22639885240984, -30.03510975580834], [-51.226379242266766, -30.0351208203109], [-51.22639494428421, -30.03514167760444],
+						[-51.226414554427265, -30.035130613104197], [-51.22639885240984, -30.03510975580834]	]
+                ]
+            }
+			
+		},
+		{
+            "type": "Feature",
+            "id": "045",
+            "properties": {
+                "tags": {
+					"unidade" : "1",
+	                "level": "1",
+					"room": "152",
+					"category": "Acessos",
+                    "name": "Elevador 2",
+					"image": "",
+					"horario": "8:00 às 21:00",
+					"email": "@senacrs.com.br",
+					"telefone": "(51) 302210"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+						    "buildingpart": "room",
+                            "level": "1",
+							"room": ""
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22641536977195, -30.03513222632849], [-51.22639575962889, -30.03514329082855], [-51.226411461646336, -30.035164148117374],
+						[-51.22643107178939, -30.035153083619644], [-51.22641536977195, -30.03513222632849]	]
+                ]
+            }
+		},
 		{
             "type": "Feature",
             "id": "001",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "160",					
 					"category": "Apoio",
                     "name": "Portaria",
-					"image": "",
+					"image": "portaria",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -37,12 +141,15 @@
             "id": "002",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "161",
 					"category": "Acessos",
 					"name": "Elevador 1",
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
+					"telefone": "(51) 302210"	
                 },
                 "relations": [
                     {
@@ -68,6 +175,9 @@
             "id": "003",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "162",
 					"category": "Acessos",
                     "name": "Elevador 2",
 					"image": "",
@@ -98,13 +208,15 @@
             "id": "004",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "163",
 					"category": "Apoio",
                     "name": "Coordenação de turno",
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210",
-					"room": "777"
+					"telefone": "(51) 302210"
                 },
                 "relations": [
                     {
@@ -129,6 +241,9 @@
             "id": "005",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "164",
 					"category": "Apoio",
                     "name": "Sanitário Masculino",
 					"image": "",
@@ -159,6 +274,9 @@
             "id": "006",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "165",
 					"category": "Apoio",
                     "name": "Sanitário Feminino",
 					"image": "",
@@ -190,6 +308,9 @@
             "id": "007",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "166",
 					"category": "Acessos",
                     "name": "Escada",
 					"image": "",
@@ -220,6 +341,9 @@
             "id": "008",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "167",
 					"category": "Apoio",
                     "name": "Shaft",
 					"image": "",
@@ -250,12 +374,12 @@
             "id": "009",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "168",
 					"category": "Acessos",
                     "name": "Elevador de Carga",
-					"image": "",
-					"horario": "8:00 às 21:00",
-					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
+					"image": ""
                 },
                 "relations": [
                     {
@@ -280,6 +404,9 @@
             "id": "009",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "169",
 					"category": "Serviços Administrativos",
                     "name": "Administrativo Comunicação Marketing Eventos",
 					"image": "",
@@ -310,6 +437,9 @@
             "id": "010",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "170",
 					"category": "Serviços Administrativos",
                     "name": "Indeterminado",
 					"image": "",
@@ -340,6 +470,9 @@
             "id": "012",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "171",
 					"category": "Acessos",
                     "name": "Porta corta-fogo",
 					"image": "",
@@ -370,6 +503,9 @@
             "id": "013",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "172",
 					"category": "Acessos",
                     "name": "Escada",
 					"image": "",
@@ -400,6 +536,9 @@
             "id": "014",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room":"173",
 					"category": "Alimentação",
                     "name": "Área da Cantina",
 					"image": "",
@@ -431,6 +570,9 @@
             "id": "015",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "174",
 					"category": "Alimentação",
                     "name": "Cantina",
 					"image": "",
@@ -461,6 +603,9 @@
             "id": "016",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "175",
 					"category": "Serviços",
                     "name": "Reprografia",
 					"image": "",
@@ -491,6 +636,9 @@
             "id": "017",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "176",
 					"category": "Serviços Administrativos",
                     "name": "Coordenação de Ensino Superior",
 					"image": "",
@@ -521,6 +669,9 @@
             "id": "018",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "177",
 					"category": "Apoio",
                     "name": "Sala dos Professores",
 					"image": "",
@@ -551,13 +702,15 @@
             "id": "019",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "102",
 					"category": "Salas de Aula",
-                    "name": "Sala 102",
+                    "name": "Laboratório Produção Multimídia",
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210",
-					"room": "102"
+					"telefone": "(51) 302210"
                 },
                 "relations": [
                     {
@@ -583,6 +736,9 @@
             "id": "020",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "103",
 					"category": "Salas de Aula",
                     "name": "Laboratório Produção Multimídia",
 					"image": "",
@@ -613,6 +769,9 @@
             "id": "021",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "178",
 					"category": "Serviços Administrativos",
                     "name": "Interagir",
 					"image": "",
@@ -644,6 +803,9 @@
             "id": "022",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "179",
 					"category": "Serviços Administrativos",
                     "name": "Coordenação de Pós Graduação",
 					"image": "",
@@ -674,6 +836,9 @@
             "id": "023",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "180",
 					"category": "Serviços Administrativos",
                     "name": "Soluções Corporativas",
 					"image": "",
@@ -704,6 +869,9 @@
             "id": "024",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "181",
 					"category": "Apoio",
                     "name": "Área de Convivência Terceirizados",
 					"image": "",
@@ -735,6 +903,9 @@
             "id": "025",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "182",
 					"category": "Apoio",
                     "name": "Sanitário Masculino",
 					"image": "",
@@ -764,6 +935,9 @@
             "id": "026",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "183",
 					"category": "Apoio",
                     "name": "Sanitário Feminino",
 					"image": "",
@@ -794,6 +968,9 @@
             "id": "027",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "184",
 					"category": "Serviços Administrativos",
                     "name": "Financeiro",
 					"image": "",
@@ -824,6 +1001,9 @@
             "id": "028",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "185",
 					"category": "Serviços Administrativos",
                     "name": "Atendimento SEAP - Outros Cursos",
 					"image": "",
@@ -854,6 +1034,9 @@
             "id": "029",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "186",
 					"category": "Serviços Administrativos",
                     "name": "Ouvidoria",
 					"image": "",
@@ -884,6 +1067,9 @@
             "id": "030",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "187",
 					"category": "Serviços Administrativos",
                     "name": "Atendimento SEAP Graduação",
 					"image": "",
@@ -914,6 +1100,9 @@
             "id": "031",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "188",
 					"category": "Apoio",
                     "name": "Sanitário Feminino",
 					"image": "",
@@ -945,6 +1134,9 @@
             "id": "032",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "189",
 					"category": "Apoio",
                     "name": "Sanitário Masculino",
 					"image": "",
@@ -975,8 +1167,11 @@
             "id": "033",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "190",
 					"category": "Salas de Aula",
-                    "name": "Sala 101",
+                    "name": "Estúdio de rádio",
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
@@ -1005,6 +1200,9 @@
             "id": "034",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "191",
 					"category": "Acessos",
                     "name": "Escada",
 					"image": "",
@@ -1035,8 +1233,11 @@
             "id": "035",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "192",
 					"category": "Serviços Administrativos",
-                    "name": "Sei lá",
+                    "name": "Direção",
 					"image": "",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
@@ -1065,6 +1266,9 @@
             "id": "036",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "193",
 					"category": "Serviços Administrativos",
                     "name": "Assessoria Direção",
 					"image": "",
@@ -1096,66 +1300,9 @@
             "id": "037",
             "properties": {
                 "tags": {
-					"category": "Serviços Administrativos",
-                    "name": "Direção de Ensino",
-					"image": "",
-					"horario": "8:00 às 21:00",
-					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
-                },
-                "relations": [
-                    {
-                        "reltags": {
-						    "buildingpart": "room",
-                            "level": "0",
-							"room": ""
-                        }
-                    }
-                ]
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [	[-51.22636231584722, -30.03526352861832], [-51.22627265114349, -30.03531014993138], [-51.22630499812646, -30.035356775354792],
-						[-51.22639466283018, -30.035310154063666], [-51.22636231584722, -30.03526352861832]	]
-                ]
-            }
-		},
-		{
-            "type": "Feature",
-            "id": "038",
-            "properties": {
-                "tags": {
-					"category": "Serviços Administrativos",
-                    "name": "Protocolo",
-					"image": "",
-					"horario": "8:00 às 21:00",
-					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
-                },
-                "relations": [
-                    {
-                        "reltags": {
-						    "buildingpart": "room",
-                            "level": "0",
-							"room": ""
-                        }
-                    }
-                ]
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [	[-51.22641610500685, -30.035234489517563], [-51.2263659671682, -30.03526208283054], [-51.22639869406222, -30.035306650397736],
-						[-51.22644883190087, -30.035279057097164], [-51.22641610500685, -30.035234489517563]	]
-                ]
-            }
-		},
-		{
-            "type": "Feature",
-            "id": "040",
-            "properties": {
-                "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "194",
 					"category": "Acessos",
                     "name": "Escada",
 					"image": "",
@@ -1184,12 +1331,81 @@
 		},
 		{
             "type": "Feature",
-            "id": "041",
+            "id": "038",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "195",
+					"category": "Serviços Administrativos",
+                    "name": "Protocolo",
+					"image": "",
+					"horario": "8:00 às 21:00",
+					"email": "@senacrs.com.br",
+					"telefone": "(51) 302210"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+						    "buildingpart": "room",
+                            "level": "0",
+							"room": ""
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22641610500685, -30.035234489517563], [-51.2263659671682, -30.03526208283054], [-51.22639869406222, -30.035306650397736],
+						[-51.22644883190087, -30.035279057097164], [-51.22641610500685, -30.035234489517563]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "039",
+            "properties": {
+                "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "196",
+					"category": "Serviços Administrativos",
+                    "name": "Direção de Ensino",
+					"image": "",
+					"horario": "8:00 às 21:00",
+					"email": "@senacrs.com.br",
+					"telefone": "(51) 302210"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+						    "buildingpart": "room",
+                            "level": "0",
+							"room": ""
+                        }
+                    }
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [	[-51.22636231584722, -30.03526352861832], [-51.22627265114349, -30.03531014993138], [-51.22630499812646, -30.035356775354792],
+						[-51.22639466283018, -30.035310154063666], [-51.22636231584722, -30.03526352861832]	]
+                ]
+            }
+		},
+		{
+            "type": "Feature",
+            "id": "040",
+            "properties": {
+                "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "197",
 					"category": "Serviços Administrativos",
                     "name": "Secretaria",
-					"image": "sala-408",
+					"image": "secretaria",
 					"horario": "8:00 às 21:00",
 					"email": "atendimentofatecpoa@senacrs.com.br",
 					"telefone": "(51) 30221044"
@@ -1214,9 +1430,12 @@
 		},
 		{
             "type": "Feature",
-            "id": "042",
+            "id": "041",
             "properties": {
                 "tags": {
+					"unidade" : "1",
+	                "level": "0",
+					"room": "198",
 					"category": "Serviços Administrativos",
                     "name": "Atendimento ao Público",
 					"image": "",

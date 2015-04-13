@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 06-Abr-2015 às 02:22
+-- Data de Criação: 13-Abr-2015 às 02:32
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -67,17 +67,6 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   KEY `fk_aluno_disciplina_disciplina1_idx` (`fk_id_disciplina`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Extraindo dados da tabela `aluno_disciplina`
---
-
-INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
-(0, 'SEG', 'N', 2, 1, 3, 301, 32),
-(0, 'TER', 'N', 2, 1, 6, 603, 30),
-(0, 'QUA', 'N', 2, 1, 6, 603, 28),
-(0, 'QUI', 'N', 2, 1, 4, 409, 31),
-(0, 'SEX', 'N', 2, 1, 7, 704, 23);
-
 -- --------------------------------------------------------
 
 --
@@ -132,8 +121,9 @@ CREATE TABLE IF NOT EXISTS `categoria` (
 --
 
 INSERT INTO `categoria` (`id`, `nome`, `parametro_imagem`) VALUES
+(5, 'Acessos', 'glyphicon glyphicon-screenshot'),
 (3, 'Alimentação', 'glyphicon glyphicon glyphicon-cutlery'),
-(5, 'Apoio', 'glyphicon glyphicon-wrench'),
+(6, 'Apoio', 'glyphicon glyphicon-wrench'),
 (2, 'Salas de Aula', 'glyphicon glyphicon glyphicon-book'),
 (4, 'Serviços', 'glyphicon glyphicon glyphicon-list-alt'),
 (1, 'Serviços Administrativos', 'glyphicon glyphicon glyphicon-file');
@@ -155,16 +145,6 @@ CREATE TABLE IF NOT EXISTS `coordenadas` (
   KEY `id` (`id`),
   KEY `fk_coordenadas_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
-
---
--- Extraindo dados da tabela `coordenadas`
---
-
-INSERT INTO `coordenadas` (`id`, `longitude`, `latitude`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`) VALUES
-(1, -51.225877, -30.0356186, 1, 0, 102),
-(2, -51.225816, -30.0355375, 1, 0, 102),
-(3, -51.2258062, -30.0356585, 1, 0, 102),
-(4, -51.2257453, -30.0355774, 1, 0, 102);
 
 -- --------------------------------------------------------
 
@@ -302,19 +282,54 @@ CREATE TABLE IF NOT EXISTS `info_locais` (
   `fk_numero_sala` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_info_locais_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=50 ;
 
 --
 -- Extraindo dados da tabela `info_locais`
 --
 
 INSERT INTO `info_locais` (`id`, `descricao`, `tags_local`, `imagem`, `email`, `telefone`, `horario`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`) VALUES
-(1, 'Sala 102', '', 'sala-102', '', '', '', 1, 0, 102),
-(2, 'Sala 301', '', 'sala-301', '', '', '', 1, 3, 301),
-(3, 'Sala 409', '', 'sala-409', '', '', '', 1, 4, 409),
-(4, 'Sala 603', '', 'sala-603', '', '', '', 1, 6, 603),
-(5, 'Sala 704', '', 'sala-704', '', '', '', 1, 7, 704),
-(6, 'Lancheria', 'lancheria alimentação café lanche comida', 'sala-199', '', '', '', 1, 0, 199);
+(8, 'Portaria', 'portaria', '', '', '', '', 1, 0, 160),
+(9, 'Elevador 1', 'elevador', '', '', '', '', 1, 0, 161),
+(10, 'Elevador 2', 'elevador', '', '', '', '', 1, 0, 162),
+(11, 'Coordenação de turno', 'coordenação turno', '', '', '', '', 1, 0, 163),
+(12, 'Sanitário Masculino - 1', 'sanitário masculino banheiro', '', '', '', '', 1, 0, 164),
+(13, 'Sanitário Feminino - 1', 'sanitário feminino banheiro', '', '', '', '', 1, 0, 165),
+(14, 'Escada', 'escada acesso', '', '', '', '', 1, 0, 166),
+(15, 'Shaft', 'shaft', '', '', '', '', 1, 0, 167),
+(16, 'Elevador de carga', 'elevador acesso vertical', '', '', '', '', 1, 0, 168),
+(17, 'Administrativo Comunicação Marketing Eventos', 'administrativo comunicação marketing eventos', '', '', '', '', 1, 0, 169),
+(18, 'Indeterminado', '', '', '', '', '', 1, 0, 170),
+(19, 'Porta corta-fogo', 'incêndio porta emergência fogo saída', '', '', '', '', 1, 0, 171),
+(20, 'Escada', 'escada', '', '', '', '', 1, 0, 172),
+(21, 'Área da Cantina', 'cantina alimentação lancheria lanche comida', '', '', '', '', 1, 0, 173),
+(22, 'Cantina', 'cantina alimentação lancheria lanche comida', '', '', '', '', 1, 0, 174),
+(23, 'Reprografia', 'xerox cópias encadernação', '', '', '', '', 1, 0, 175),
+(24, 'Coordenação de Ensino Superior', 'coordenação curso coordenador', '', '', '', '', 1, 0, 176),
+(25, 'Sala dos Professores', 'professor professores', '', '', '', '', 1, 0, 177),
+(26, 'Laboratório Produção Multimídia - 1', 'laboratório produção multimídia design', '', '', '', '', 1, 0, 102),
+(27, 'Laboratório Produção Multimídia - 2', 'laboratório produção multimídia design', '', '', '', '', 1, 0, 103),
+(28, 'Interagir', 'interagir', '', '', '', '', 1, 0, 178),
+(29, 'Coordenação de Pós Graduação', 'coordenação pós coordenador', '', '', '', '', 1, 0, 179),
+(30, 'Soluções Corporativas', 'soluções corporativas corporativo', '', '', '', '', 1, 0, 180),
+(31, 'Área de Convivência Terceirizados', 'área convivência terceirizados terceiros', '', '', '', '', 1, 0, 181),
+(32, 'Sanitário Masculino - 3', 'sanitário masculino banheiro', '', '', '', '', 1, 0, 182),
+(33, 'Sanitário Feminino- 3', 'sanitário feminino banheiro', '', '', '', '', 1, 0, 183),
+(34, 'Financeiro', 'financeiro pagamentos', '', '', '', '', 1, 0, 184),
+(35, 'Atendimento SEAP - Outros Cursos', 'serviço estágio aperfeiçoamento profissional ', '', '', '', '', 1, 0, 185),
+(36, 'Ouvidoria', 'ouvidoria', '', '', '', '', 1, 0, 186),
+(37, 'Atendimento SEAP Graduação', 'serviço estágio aperfeiçoamento profissional ', '', '', '', '', 1, 0, 187),
+(38, 'Sanitário Feminino - 2', 'sanitário feminino banheiro wc', '', '', '', '', 1, 0, 188),
+(39, 'Sanitário Masculino - 2', 'sanitário masculino banheiro wc', '', '', '', '', 1, 0, 189),
+(40, 'Estúdio de rádio', 'estúdio rádio', '', '', '', '', 1, 0, 190),
+(41, 'Escada', 'escada', '', '', '', '', 1, 0, 191),
+(42, 'Direção', 'direção diretoria', '', '', '', '', 1, 0, 192),
+(43, 'Assessoria Direção', 'assessoria direção', '', '', '', '', 1, 0, 193),
+(44, 'Escada', 'escada', '', '', '', '', 1, 0, 194),
+(45, 'Protocolo Secretaria', 'protocolo secretaria', '', '', '', '', 1, 0, 195),
+(46, 'Direção de Ensino', 'direção ensino', '', '', '', '', 1, 0, 196),
+(47, 'Secretaria', 'secretaria', 'secretaria', 'atendimentofatecpoa@senacrs.com.br', '(51) 30221044', '8:00 às 21:00', 1, 0, 197),
+(49, 'Atendimento ao Público', 'atendimento publico venda informações', '', '', '', '', 1, 0, 198);
 
 -- --------------------------------------------------------
 
@@ -359,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `nivel_ensino_area` (
 --
 
 CREATE TABLE IF NOT EXISTS `sala` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned DEFAULT NULL,
   `fk_id_unidade` int(11) NOT NULL,
   `andar` tinyint(4) NOT NULL,
   `numero` int(11) NOT NULL,
@@ -368,19 +383,54 @@ CREATE TABLE IF NOT EXISTS `sala` (
   KEY `id` (`id`),
   KEY `fk_sala_unidade1_idx` (`fk_id_unidade`),
   KEY `fk_sala_categoria1_idx` (`fk_id_categoria`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Extraindo dados da tabela `sala`
 --
 
 INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`) VALUES
-(1, 1, 0, 102, 2),
-(6, 1, 0, 199, 3),
-(2, 1, 3, 301, 2),
-(4, 1, 4, 409, 2),
-(3, 1, 6, 603, 2),
-(5, 1, 7, 704, 2);
+(19, 1, 0, 102, 2),
+(20, 1, 0, 103, 2),
+(1, 1, 0, 160, 6),
+(2, 1, 0, 161, 5),
+(3, 1, 0, 162, 5),
+(4, 1, 0, 163, 6),
+(5, 1, 0, 164, 6),
+(6, 1, 0, 165, 6),
+(7, 1, 0, 166, 5),
+(8, 1, 0, 167, 6),
+(9, 1, 0, 168, 5),
+(10, 1, 0, 169, 1),
+(11, 1, 0, 170, 1),
+(12, 1, 0, 171, 5),
+(13, 1, 0, 172, 5),
+(14, 1, 0, 173, 3),
+(15, 1, 0, 174, 3),
+(16, 1, 0, 175, 4),
+(17, 1, 0, 176, 1),
+(18, 1, 0, 177, 6),
+(21, 1, 0, 178, 1),
+(22, 1, 0, 179, 1),
+(23, 1, 0, 180, 1),
+(24, 1, 0, 181, 6),
+(25, 1, 0, 182, 6),
+(26, 1, 0, 183, 6),
+(27, 1, 0, 184, 1),
+(28, 1, 0, 185, 1),
+(29, 1, 0, 186, 1),
+(30, 1, 0, 187, 1),
+(31, 1, 0, 188, 6),
+(32, 1, 0, 189, 6),
+(33, 1, 0, 190, 2),
+(34, 1, 0, 191, 5),
+(35, 1, 0, 192, 1),
+(36, 1, 0, 193, 1),
+(37, 1, 0, 194, 5),
+(38, 1, 0, 195, 1),
+(39, 1, 0, 196, 1),
+(40, 1, 0, 197, 1),
+(41, 1, 0, 198, 1);
 
 -- --------------------------------------------------------
 

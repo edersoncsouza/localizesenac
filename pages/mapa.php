@@ -154,9 +154,11 @@
             return this._div;
         };
         info.update = function (props) {
+			// exibe as informações da tela no evento hover do mouse atraves de uma funcao ternaria
             this._div.innerHTML = '<h4>Descrição do ambiente</h4>' + (props ?
-                    '<b>' + props.name + '</b> <br><br>Clique na sala para maiores informações'
-                    //+ '</b><br /> Id:' +  props.id
+                    '<strong>' + props.name +
+					'</strong> <br><strong>Sala: ' + props.room +
+					'</strong> <br><br>Clique na sala para maiores informações'
                     : 'Aponte para o ambiente<br>Clique para ampliar o ambiente<br>Outro clique para voltar');
         };
         info.addTo(map);
@@ -245,7 +247,7 @@
 
             var newContent = '<h2>Descrição do Ambiente</h2><br>' + (props ?
                     '<h2>' + props.name + '</h2>' +
-                    '<img src="../images/fotos/' + props.image + '.jpg" height="300" width="300"> </img><br>' +
+                    '<img src="../images/fotos/unidade' + props.unidade + '/' + props.image + '.jpg" height="300" width="300"> </img><br>' +
                     '<a><strong>Horários de funcionamento:</strong></a> ' + props.horario + '<br>' +
                     '<a><strong>Email:</strong></a> ' + props.email + ' <br>' +
                     '<a><strong>Telefone:</strong></a> ' + props.telefone + ' <br>'
