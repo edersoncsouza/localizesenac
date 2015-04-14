@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 13-Abr-2015 às 02:32
+-- Data de Criação: 14-Abr-2015 às 00:33
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -54,7 +54,7 @@ INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `at
 --
 
 CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `dia_semana` char(3) COLLATE utf8_unicode_ci NOT NULL,
   `turno` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `fk_id_aluno` int(11) NOT NULL,
@@ -62,10 +62,22 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   `fk_andar_sala` tinyint(4) NOT NULL,
   `fk_numero_sala` int(11) NOT NULL,
   `fk_id_disciplina` int(11) NOT NULL,
+  KEY `id` (`id`),
   KEY `fk_aluno_disciplina_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_disciplina_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
   KEY `fk_aluno_disciplina_disciplina1_idx` (`fk_id_disciplina`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+
+--
+-- Extraindo dados da tabela `aluno_disciplina`
+--
+
+INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
+(1, 'SEG', 'N', 2, 1, 3, 301, 32),
+(2, 'TER', 'N', 2, 1, 6, 603, 30),
+(3, 'QUA', 'N', 2, 1, 6, 603, 28),
+(4, 'QUI', 'N', 2, 1, 4, 409, 31),
+(5, 'SEX', 'N', 2, 1, 7, 704, 23);
 
 -- --------------------------------------------------------
 
@@ -114,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `parametro_imagem` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`nome`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Extraindo dados da tabela `categoria`
@@ -144,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `coordenadas` (
   PRIMARY KEY (`longitude`,`latitude`),
   KEY `id` (`id`),
   KEY `fk_coordenadas_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -374,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `nivel_ensino_area` (
 --
 
 CREATE TABLE IF NOT EXISTS `sala` (
-  `id` int(11) unsigned DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `fk_id_unidade` int(11) NOT NULL,
   `andar` tinyint(4) NOT NULL,
   `numero` int(11) NOT NULL,
@@ -383,7 +395,7 @@ CREATE TABLE IF NOT EXISTS `sala` (
   KEY `id` (`id`),
   KEY `fk_sala_unidade1_idx` (`fk_id_unidade`),
   KEY `fk_sala_categoria1_idx` (`fk_id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=46 ;
 
 --
 -- Extraindo dados da tabela `sala`
@@ -430,7 +442,11 @@ INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`)
 (38, 1, 0, 195, 1),
 (39, 1, 0, 196, 1),
 (40, 1, 0, 197, 1),
-(41, 1, 0, 198, 1);
+(41, 1, 0, 198, 1),
+(42, 1, 3, 301, 2),
+(44, 1, 4, 409, 2),
+(43, 1, 6, 603, 2),
+(45, 1, 7, 704, 2);
 
 -- --------------------------------------------------------
 

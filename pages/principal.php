@@ -16,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>LocalizeSenac 2.0 - Site para Indoor Mapping da Faculdade Senac Porto Alegre</title>
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -83,16 +83,7 @@
 	
 	<!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-	
-	<!--
-		<script type="text/javascript">
-            // When the document is ready
-            $(document).ready(function () {
-                //$("#result").load('mapa.php')
-				$("#menuCategoria").removeClass();
-            });
-        </script>
-	-->
+
 </head>
 
 <body>
@@ -212,13 +203,10 @@
 											echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
 											echo "</li>";
 											
-											// acrescenta cada descricao de sala ao vetor $salas para uso do typeahead
-											$salas[] = $consulta2['descricao'];
-											
-											// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR UMA FUNCAO
-											// PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
-											//$nomeAndarNumero[] = array($consulta2['descricao'],$consulta2['andar'],$consulta2['numero']);
+											// acrescenta cada descricao, andar e sala ao vetor associativo $nomeAndarNumero para uso do typeahead
 											$nomeAndarNumero[] = array('descricao' => $consulta2['descricao'], 'andar' =>$consulta2['andar'], 'numero' =>$consulta2['numero']);
+											
+											// codifica o vetor em formato JSON
 											//$JsonNomeAndarNumero = json_encode($nomeAndarNumero,JSON_FORCE_OBJECT);
 											$JsonNomeAndarNumero = json_encode($nomeAndarNumero);
 										}	
@@ -493,16 +481,16 @@
 	<script type="text/javascript" src="../dist/js/funcoes.js"></script>
 	
 	<script src="../bower_components/typeahead/dist/js/typeahead.bundle.js"></script>
-	
+		
 	    <script type="text/javascript">
 		selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 		$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
 		</script>
 
-		<!-- typeahead -->
+		<!-- typeahead 	-->
 	    <script type="text/javascript">
 			
-			
+			// funcao utilizada para verificar se parte dos termos digitados constam na lista de locais fornecidos
 			var substringMatcher = function(strs) {
 				return function findMatches(q, cb) {
 					var matches, substrRegex;
@@ -527,73 +515,68 @@
 				};
 			};
 			 
-
+			
 			// coloca cada elemento do vetor $salas do php no vetor javascript salas
 			// var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
-			var salas = <?php echo '["' . implode('", "', $salas) . '"]' ?>;
+			/* var Vsalas = < ?php echo '["' . implode('", "', $salas) . '"]' ?>; */
 			
-			var JsonNomeAndarNumero = <?php echo $JsonNomeAndarNumero ?>;
+			// armazena o vetor PHP em um vetor JavaScript
+			var JsonNomeAndarNumero = '<?php echo $JsonNomeAndarNumero ?>';
 			
-			var jsonString = '[ {"descricao":"Elevador 1","andar":"0","numero":"161"},{"descricao":"Elevador 2","andar":"0","numero":"162"} ]';
-			var jsonObj = $.parseJSON(jsonString);
+			var VjsonNomeAndarNumero = <?php echo $JsonNomeAndarNumero ?>;
+			
+			// transforma o vetor em um objeto JSON
+			var jsonObj = $.parseJSON(JsonNomeAndarNumero);
+			
+			// instancia o vetor source para uso do Typeahead
 			var sourceArr = [];
  
+			// loop de alimentacao do vetor sourceArr
 			for (var i = 0; i < jsonObj.length; i++) {
 			   sourceArr.push(jsonObj[i].descricao);
 			}
-			 
-			$('#idBusca .typeahead').typeahead({
-			   source: sourceArr
-			});
 			
-			/*
-			modelo de resultado:  [
-									{"descricao":"Elevador 1","andar":"0","numero":"161"},
-									{"descricao":"Elevador 2","andar":"0","numero":"162"}
-									]
-			*/
-			
-			/* 
-			// TENTATIVA DE TRANSFORMAR A QUERY EM JSON PARA PESQUISAR E ATIVAR
-			// UMA FUNCAO PARA ATUALIZAR O MAPA COMO OS ITENS DE MENU FAZEM
-			*/
-					/*
-					$('#idBusca .typeahead').typeahead({
+			// instancia o controle typehead
+			$('#idBusca .typeahead').typeahead(
+				{
 					hint: true,
 					highlight: true,
 					minLength: 1
-					},
-					{
+				},
+				{
 					name: 'salas',
 					displayKey: 'value',
-					
-					//source: substringMatcher(JsonNomeAndarNumero)
-					
-					source: substringMatcher(salas)
-					});
-					*/
-					/*
-					source: function (query, process) {
-							
-							salas = [];
-							map = {};
-
-							$.each(JsonNomeAndarNumero, function (i, sala) {
-								map[sala.descricao] = sala;
-								salas.push(sala.descricao);
-							});
-					 
-							process(salas);
-						
+					source: substringMatcher(sourceArr), // fonte das palavras chave to typeahead
+					//source: substringMatcher(Vsalas)
+						templates: {
+							empty: [
+								'<div class="empty-message" style="padding: 5px 10px; text-align: center;">',
+								'Sem sugestões...',
+								'</div>'
+								].join('\n')
 						}
-					*/
-					
-					
-		
+				}
+				).on('typeahead:selected', onSelected); // acrescenta o evento "ao selecionar" do menu dropdown
 			
+			function onSelected($e, datum) {
+				console.log('function onSelected'); // loga no console a funcao utilizada
+				console.log(datum); // loga no console o objeto de dados selecionado
+				console.log(datum.value); // loga no console a propriedade valor do objeto de dados selecionado
+				getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
+			}
+		
+			function getAndarSala(descricao){
+				
+				for (var i = 0; i < VjsonNomeAndarNumero.length; i++) {
+					
+				   if(VjsonNomeAndarNumero[i].descricao == descricao){
+					   
+					    atualizaMapa(VjsonNomeAndarNumero[i].andar,VjsonNomeAndarNumero[i].numero);
+
+				   }
+				}
+			}
     </script>
-	
-	<!-- <script type="text/javascript" src="prefetch.js"></script> -->
 	
 </body>
 
