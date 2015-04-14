@@ -1,22 +1,24 @@
-/*
-function inserirMarkerAjax(andarP, salaP){
-	
-	$.ajax({
-		url: "mapa.php",
-        data: {
-            andar : andarP,
-            sala : salaP
-            }
-		success: function (response) {
+function insereMarker(andarP, salaP){
 
-			geojsonLayer = L.geoJson(response, {
-				style: yourLeafletStyle
-			}).addTo(map);
-		}
-	});
+// remove o layer de marcadores existentes no mapa
+map.removeLayer(markers);
+
+// apaga o marcador do FeatureGroup markers
+markers.removeLayer(marker);
+
+// cria o marcador do ponto selecionado, do tipo Bouncem 
+marker = new L.marker(Vmarkers[salaP], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1500, height: 100, loop: true}})
+			.bindPopup(salaP+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>")
+			.openPopup();
+
+// adiciona o marcador no FeatureGroup markers
+markers.addLayer(marker);
+			
+// adiciona o layer de marcadores ao mapa
+map.addLayer(markers);
 
 }
-*/
+
 function atualizaMapaAjax(andarP, salaP){
 
 	 $.ajax({
@@ -40,11 +42,6 @@ function atualizaMapa(andar, sala){
 
 	$("#result").load('mapa.php?sala='+sala+'&andar='+andar);
 
-}
-
-function insertMarker(sala){
-	//$("#result").load("mapa.php?sala="+sala);
-	L.marker(Vmarkers[sala]).bindPopup(feature.properties.tags.name).openPopup().addTo(map);
 }
 
 function selecionaTab(){

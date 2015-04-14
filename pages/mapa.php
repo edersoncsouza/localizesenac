@@ -85,7 +85,7 @@
 	<script src="carregarMapas.js" type="text/javascript"></script>
     
 	<script type="text/javascript">
-	
+		
 		// configuracao dos limites maximos de exibicao do mapa
         var sudOeste = L.latLng(-30.035996, -51.227157);
         var nordEste = L.latLng(-30.035025, -51.224985);
@@ -93,6 +93,9 @@
         // cria a variavel mapa, define o centro de visão e o nivel do zoom
         var map = L.map('map').setView([-30.035476, -51.22593], 19.5);
         map.setMaxBounds(new L.LatLngBounds(sudOeste, nordEste));
+		
+		// cria o layer de markers
+		var markers = new L.FeatureGroup();
 		
 		// variavel que contem os dados do senac qdo nenhum ambiente foi selecionado
         var infoSenac = "<h3>Faculdade Senac Porto Alegre<h3>" +

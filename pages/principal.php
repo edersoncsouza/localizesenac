@@ -1,3 +1,12 @@
+<!--								
+								
+PENDENCIAS LOCAIS:
+
+ - INSERIR UM SUBMENU DE CATEGORIAS(SALAS POR ANDAR POR EXEMPLO);
+ - ALIMENTAR TYPEAHEAD COM AS TAGS DE SALAS DO BANCO DE DADOS;
+								
+								 
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -200,11 +209,10 @@
 											echo "<li>"; // cria o item de categoria
 											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
 											//echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[numero]&andar=$consulta2[andar]'; \"> $consulta2[descricao]</a>\n";
-											
 											//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
 											
-											
-											echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero]) \"> $consulta2[descricao]</a>\n";
+											//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero]) \"> $consulta2[descricao]</a>\n";
+											  echo "<a href=\"#\" onclick=\" insereMarker($consulta2[andar],$consulta2[numero]); \"> $consulta2[descricao]</a>\n";
 											
 											echo "</li>";
 											
@@ -221,9 +229,6 @@
 
                                     $i++;
                                 }
-								
-								//echo ($JsonNomeAndarNumero);
-								// PENDENCIA - INSERIR UM MENU DE SALAS POR ANDAR
 
                                 /* fim do acordion */
                                 ?>
@@ -284,7 +289,10 @@
                         </div>
 
 							<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
-                            <?php					
+							<?php
+							
+							defineDisciplinas();
+							/*
 							$sql3 = "SELECT
 								aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
 							FROM
@@ -308,7 +316,7 @@
 							$discSab = "Não tem aulas no dia de hoje";
 							$discDom = "Não tem aulas no dia de hoje";
 
-                            /*  incio do while para preencher os conteudos das pills */
+                            //  incio do while para preencher os conteudos das pills 
                             
 							while ($row = mysql_fetch_assoc($result3)) {
                                 if ($row['DIA'] == "SEG") {
@@ -335,7 +343,9 @@
 								
                             }
 							
-							/*fim do while para preencher os conteudos das pills*/
+							//fim do while para preencher os conteudos das pills
+							
+							*/
 							
                             ?>
 						
@@ -345,7 +355,7 @@
                                     <i class="fa fa-book fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo $contDiscp; ?></div>
+									<div class="huge"><?php echo$_SESSION['contDiscp']; ?></div>
                                     <div>Disciplinas</div>
                                 </div>
                             </div>
@@ -563,20 +573,23 @@
 				}
 				).on('typeahead:selected', onSelected); // acrescenta o evento "ao selecionar" do menu dropdown
 			
+			// funcao executada ao selecionar um item do menu dropdown do typeahead
 			function onSelected($e, datum) {
 				console.log('function onSelected'); // loga no console a funcao utilizada
 				console.log(datum); // loga no console o objeto de dados selecionado
 				console.log(datum.value); // loga no console a propriedade valor do objeto de dados selecionado
 				getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
 			}
-		
+			
+			// funcao que busca a correspondencia da descrição da sala com andar e numero da sala
 			function getAndarSala(descricao){
 				
 				for (var i = 0; i < VjsonNomeAndarNumero.length; i++) {
 					
 				   if(VjsonNomeAndarNumero[i].descricao == descricao){
 					   
-					    atualizaMapa(VjsonNomeAndarNumero[i].andar,VjsonNomeAndarNumero[i].numero);
+					    //atualizaMapa(VjsonNomeAndarNumero[i].andar,VjsonNomeAndarNumero[i].numero);
+						insereMarker(VjsonNomeAndarNumero[i].andar, VjsonNomeAndarNumero[i].numero);
 
 				   }
 				}
