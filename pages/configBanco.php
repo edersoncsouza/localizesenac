@@ -2,6 +2,7 @@
 // connect to db
 
 $conexao = mysql_connect("localhost","root","usbw") ; // Conexão com o mysql
+$_SESSION['conexao'] = $conexao;
 if (!$conexao) {
     die('Não há conexão : ' . mysql_error());
 }

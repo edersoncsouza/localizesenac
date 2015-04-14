@@ -1,5 +1,6 @@
 <?php
-    include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
+
+    include_once("configBanco.php"); // Inclui o arquivo com o sistema de segurança
 	//$link = mysql_connect('localhost', 'root', 'usbw') or die;
 	//mysql_select_db('localizesenac', $link) or die;	
 	
@@ -27,7 +28,7 @@ function defineDisciplinas(){
 							AND
 								aluno_disciplina.fk_id_aluno=" . $_SESSION['usuarioID'] . " ORDER BY aluno_disciplina.id";
 							
-							$result3 = mysql_query($sql3, $_SG['link']);
+							$result3 = mysql_query($sql3, $_SESSION['conexao']);
 							
 							$contDiscp = mysql_num_rows($result3);
 							$_SESSION['contDiscp'] = $contDiscp; // passa a varivel para a sessão
@@ -66,7 +67,18 @@ function defineDisciplinas(){
                                 }
 								
                             }
+							
+							$_SESSION['discSeg'] = $discSeg;
+							$_SESSION['discTer'] = $discTer;
+							$_SESSION['discQua'] = $discQua;
+							$_SESSION['discQui'] = $discQui;
+							$_SESSION['discSex'] = $discSex;
+							$_SESSION['discSab'] = $discSab;
+							$_SESSION['discDom'] = $discDom;
+							
 }
 
+
+							
 ?>
 

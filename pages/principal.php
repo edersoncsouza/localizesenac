@@ -11,8 +11,8 @@ PENDENCIAS LOCAIS:
 <html lang="en">
 
     <?php
-    include("../seguranca.php"); // Inclui o arquivo com o sistema de segurança
-    include("../funcoes.php");
+    include_once("../seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include_once("../funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
     ?>
@@ -291,62 +291,8 @@ PENDENCIAS LOCAIS:
 							<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
 							<?php
 							
-							defineDisciplinas();
-							/*
-							$sql3 = "SELECT
-								aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
-							FROM
-								aluno_disciplina, disciplina, aluno
-							WHERE
-								aluno.id = aluno_disciplina.fk_id_aluno
-							AND
-								disciplina.id = aluno_disciplina.fk_id_disciplina
-							AND
-								aluno_disciplina.fk_id_aluno=" . $_SESSION['usuarioID'] . " ORDER BY aluno_disciplina.id";
-							
-							$result3 = mysql_query($sql3, $_SG['link']);
-							
-							$contDiscp = mysql_num_rows($result3);
-							
-                            $discSeg = "Não tem aulas no dia de hoje";
-                            $discTer = "Não tem aulas no dia de hoje";
-                            $discQua = "Não tem aulas no dia de hoje";
-                            $discQui = "Não tem aulas no dia de hoje";
-                            $discSex = "Não tem aulas no dia de hoje";
-							$discSab = "Não tem aulas no dia de hoje";
-							$discDom = "Não tem aulas no dia de hoje";
-
-                            //  incio do while para preencher os conteudos das pills 
-                            
-							while ($row = mysql_fetch_assoc($result3)) {
-                                if ($row['DIA'] == "SEG") {
-                                    $discSeg = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "TER") {
-                                    $discTer = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUA") {
-                                    $discQua = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUI") {
-                                    $discQui = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "SEX") {
-                                    $discSex = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "SAB") {
-                                    $discSab = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "DOM") {
-                                    $discDom = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								
-                            }
-							
-							//fim do while para preencher os conteudos das pills
-							
-							*/
-							
+								defineDisciplinas();
+					
                             ?>
 						
 					    <div class="panel-heading"> <!-- Disciplinas -->
@@ -355,7 +301,7 @@ PENDENCIAS LOCAIS:
                                     <i class="fa fa-book fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-									<div class="huge"><?php echo$_SESSION['contDiscp']; ?></div>
+									<div class="huge"><?php echo $_SESSION['contDiscp']; ?></div>
                                     <div>Disciplinas</div>
                                 </div>
                             </div>
@@ -406,37 +352,37 @@ PENDENCIAS LOCAIS:
 
                                 <div class="tab-pane active" id="seg">
                                     <p class="TabContent">
-                                        <?php echo $discSeg; ?>
+                                        <?php echo $_SESSION['discSeg']; ?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="ter">
                                     <p class="TabContent">
-                                        <?php echo $discTer; ?>
+                                        <?php echo $_SESSION['discTer']; ?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="qua">
                                     <p class="TabContent">
-                                        <?php echo $discQua; ?>
+                                        <?php echo $_SESSION['discQua']; ?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="qui">
                                     <p class="TabContent">
-                                        <?php echo $discQui; ?>
+                                        <?php echo $_SESSION['discQui']; ?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="sex">
                                     <p class="TabContent">
-                                        <?php echo $discSex; ?>
+                                        <?php echo $_SESSION['discSex']; ?>
                                     </p>
                                 </div>
 								 <div class="tab-pane" id="sab">
                                     <p class="TabContent">
-                                        <?php echo $discSab; ?>
+                                        <?php echo $_SESSION['discSab']; ?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="dom">
                                     <p class="TabContent">
-                                        <?php echo $discDom; ?>
+                                        <?php echo $_SESSION['discDom']; ?>
                                     </p>
                                 </div>
 
