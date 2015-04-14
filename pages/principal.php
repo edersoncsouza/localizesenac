@@ -200,7 +200,12 @@
 											echo "<li>"; // cria o item de categoria
 											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
 											//echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[numero]&andar=$consulta2[andar]'; \"> $consulta2[descricao]</a>\n";
-											echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
+											
+											//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
+											
+											
+											echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero]) \"> $consulta2[descricao]</a>\n";
+											
 											echo "</li>";
 											
 											// acrescenta cada descricao, andar e sala ao vetor associativo $nomeAndarNumero para uso do typeahead

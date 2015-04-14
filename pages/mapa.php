@@ -85,7 +85,7 @@
 	<script src="carregarMapas.js" type="text/javascript"></script>
     
 	<script type="text/javascript">
-
+	
 		// configuracao dos limites maximos de exibicao do mapa
         var sudOeste = L.latLng(-30.035996, -51.227157);
         var nordEste = L.latLng(-30.035025, -51.224985);

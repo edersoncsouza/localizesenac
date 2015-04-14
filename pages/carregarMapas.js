@@ -67,7 +67,9 @@
 				// Verifica se o polygon e igual a sala passada por parametro pelo item de menu
 				if (sala == feature.properties.tags.room){
 					// Adiciona o popup com a descricao da sala ao marcador e o adiciona no centro do polygon buscado(bounceOnAdd é para os bounce markers)
-					L.marker(Vmarkers[feature.properties.tags.room], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1000, height: 100, loop: true}}).bindPopup(feature.properties.tags.name+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>").openPopup().addTo(map);
+					//L.marker(Vmarkers[feature.properties.tags.room], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1000, height: 100, loop: true}}).bindPopup(feature.properties.tags.name+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>").openPopup().addTo(map);
+					marker = new L.marker(Vmarkers[feature.properties.tags.room], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1000, height: 100, loop: true}}).bindPopup(feature.properties.tags.name+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>").openPopup();
+					map.addLayer(marker);
 				}
 				
 				// Insere os eventos de mouse no layer

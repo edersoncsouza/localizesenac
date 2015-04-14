@@ -1,3 +1,41 @@
+/*
+function inserirMarkerAjax(andarP, salaP){
+	
+	$.ajax({
+		url: "mapa.php",
+        data: {
+            andar : andarP,
+            sala : salaP
+            }
+		success: function (response) {
+
+			geojsonLayer = L.geoJson(response, {
+				style: yourLeafletStyle
+			}).addTo(map);
+		}
+	});
+
+}
+*/
+function atualizaMapaAjax(andarP, salaP){
+
+	 $.ajax({
+        url: "mapa.php",
+        data: {
+            andar : andarP,
+            sala : salaP
+            }
+    })
+    .done (function() {
+		alert("Success: ") ; 
+		map.invalidateSize(false);
+		
+		})
+    .fail   (function()     { alert("Error")   ; })
+    ;
+
+}
+
 function atualizaMapa(andar, sala){
 
 	$("#result").load('mapa.php?sala='+sala+'&andar='+andar);
