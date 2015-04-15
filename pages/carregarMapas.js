@@ -128,6 +128,12 @@
 			
 			// connect the level control to the indoor layer
             levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
+			
+			// inserido novo event listener para que ao mudar de andar remova o marker existente
+			levelControl.addEventListener("levelchange", function() {
+					map.removeLayer(marker);
+			});
+			
             levelControl.addTo(map);
 		
 			// variavel para criacao do painel deslizante

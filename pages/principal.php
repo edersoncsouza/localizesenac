@@ -11,8 +11,8 @@ PENDENCIAS LOCAIS:
 <html lang="en">
 
     <?php
-    include_once("../seguranca.php"); // Inclui o arquivo com o sistema de segurança
-    include_once("../funcoes.php");
+    include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include("../dist/php/funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
     ?>
@@ -44,6 +44,9 @@ PENDENCIAS LOCAIS:
 
     <!-- Custom Fonts -->
     <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	
+	<!-- Principal CSS -->
+    <link href="../dist/css/principal.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -52,46 +55,15 @@ PENDENCIAS LOCAIS:
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	<style>
-		#conteudoPillsMinhasAulas {
-			background-color: #fff;
-			height: 40px;
-			border-radius:1em;
-			-webkit-border-radius: 1em;
-			-moz-border-radius: 1em;
-			text-align: center;
-		}
-		p.TabContent{
-			line-height:40px;
-			text-align: center;
-		}
-		
-		#scrollable-dropdown-menu .tt-dropdown-menu {
-			max-height: 150px;
-			overflow-y: auto;
-			
-			width: 160px;
-			margin-top: 12px;
-			padding: 8px 0px;
-			background-color: #FFF;
-			border: 1px solid rgba(0, 0, 0, 0.2);
-			border-radius: 8px;
-			box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-		}
-		
-		.tt-suggestion {
-		  padding: 3px 20px;
-		  font-size: 14px;
-		  line-height: 16px;
-		}
-
-			
-		} 
-		
-	</style>
 	
 	<!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	
+	<!-- funcoes personalizadas -->
+	<script type="text/javascript" src="../dist/js/funcoes.js"></script>
+	
+	<!-- Typeahead -->
+	<script src="../bower_components/typeahead/dist/js/typeahead.bundle.js"></script>
 
 </head>
 
@@ -108,7 +80,7 @@ PENDENCIAS LOCAIS:
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="principal.php">LocalizeSenac 2.0 - Site para Indoor Mapping da Faculdade Senac Porto Alegre</a>
+                <a class="navbar-brand" href="principal.php">LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -174,64 +146,41 @@ PENDENCIAS LOCAIS:
                             <!-- /input-group -->
                         </li>
 						
-						 <?php
-                                /* Inicio do acordion */
-                                if (isset($_GET['andar'])) {
-                                    $andar = $_GET['andar'];
-                                }
-                                $sql = "SELECT id, nome, parametro_imagem FROM categoria";
+						<!-- função PHP que faz a query e cria o menu lateral e seus itens -->
+						<!-- tambem cria o vetor com as salas para utilizacao do typeahead -->
+						<?php defineAcordion(); ?>
+						
+						
+						<script type="text/javascript">
 
-                                $result = mysql_query($sql, $_SG['link']);
-                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
+							// recebe o vetor PHP codificado a partir do BD durante a criacao do menu lateral
+							var vetorNomeAndarNumero = <?php echo json_encode($_SESSION['JsonNomeAndarNumero']); ?>;
 								
-                                while ($consulta = mysql_fetch_array($result)) {
-									
-                                    echo "<li id=\"menuCategoria\">"; // cria a estrutura do menu de categoria
-									echo "<a href=\"#\"><i class=\" {$consulta['parametro_imagem']} \"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
-											
-                                    /* Escrever itens secundários do menu */
+							// envia o vetor Json com nome andar e numero da sala e recebe de volta apenas nomes
+							var vetorNomesTypeahead= criaVetorTypeahead(vetorNomeAndarNumero);
 
-                                    //$sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
-									$sql2 = "SELECT
-										sala.id, numero, descricao, andar
-									FROM
-										sala, info_locais
-									WHERE
-										sala.numero = info_locais.fk_numero_sala
-									AND
-										fk_id_categoria = $consulta[id]
-									ORDER BY andar";
-
-                                    $result2 = mysql_query($sql2, $_SG['link']);
-									
-                                    echo "<ul class=\"nav nav-second-level collapse\">"; // cria a estrutura dos itens de menu
-										while ($consulta2 = mysql_fetch_array($result2)) {
-											echo "<li>"; // cria o item de categoria
-											//echo "<a href=\"#\" onclick=\" abrirPag('mapas.php?id_nome=$consulta2[nome]&andar=$consulta2[andar]');atualizaServicos('servicos.php?andar=$consulta2[andar]'); \"> $consulta2[nome]</a>\n";                                        
-											//echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[numero]&andar=$consulta2[andar]'; \"> $consulta2[descricao]</a>\n";
-											//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
-											
-											//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero]) \"> $consulta2[descricao]</a>\n";
-											  echo "<a href=\"#\" onclick=\" insereMarker($consulta2[andar],$consulta2[numero]); \"> $consulta2[descricao]</a>\n";
-											
-											echo "</li>";
-											
-											// acrescenta cada descricao, andar e sala ao vetor associativo $nomeAndarNumero para uso do typeahead
-											$nomeAndarNumero[] = array('descricao' => $consulta2['descricao'], 'andar' =>$consulta2['andar'], 'numero' =>$consulta2['numero']);
-											
-											// codifica o vetor em formato JSON
-											//$JsonNomeAndarNumero = json_encode($nomeAndarNumero,JSON_FORCE_OBJECT);
-											$JsonNomeAndarNumero = json_encode($nomeAndarNumero);
-										}	
-                                    echo "</ul>";
-									
-                                    echo "</li>";
-
-                                    $i++;
-                                }
-
-                                /* fim do acordion */
-                                ?>
+							// instancia o controle typehead
+							$('#idBusca .typeahead').typeahead(
+								{
+									hint: true,
+									highlight: true,
+									minLength: 1
+								},
+								{
+									name: 'salas',
+									displayKey: 'value',
+									source: substringMatcher(vetorNomesTypeahead),// fonte das palavras chave to typeahead
+										templates: {
+											empty: [
+												'<div class="empty-message" style="padding: 5px 10px; text-align: center;">',
+												'Sem sugestões...',
+												'</div>'
+												].join('\n')
+										}
+								}
+							).on('typeahead:selected', onSelected); // acrescenta o evento "ao selecionar" do menu dropdown
+								
+						</script>
 						
                     </ul>
                 </div>
@@ -288,12 +237,8 @@ PENDENCIAS LOCAIS:
                             <div class="clearfix"></div>
                         </div>
 
-							<!-- codigo PHP que faz a query e armazena os valores do conteudo das pills -->
-							<?php
-							
-								defineDisciplinas();
-					
-                            ?>
+							<!-- função PHP que faz a query e armazena os valores do conteudo das pills -->
+							<?php defineDisciplinas(); ?>
 						
 					    <div class="panel-heading"> <!-- Disciplinas -->
                             <div class="row">
@@ -350,9 +295,10 @@ PENDENCIAS LOCAIS:
 	
                             <div class="tab-content">
 
+							<!-- recebe as disciplinas de funcoes.php (defineDisciplinas())-->
                                 <div class="tab-pane active" id="seg">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discSeg']; ?>
+                                        <?php echo $_SESSION['discSeg']; ?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="ter">
@@ -413,8 +359,8 @@ PENDENCIAS LOCAIS:
 						</div>
 						<!-- /.panel-heading -->
 						
-						<div class="panel-body" id="result"> <!--  -->
-									<!-- <div id="morris-area-chart"></div> -->
+						<!-- area de exibicao do mapa -->
+						<div class="panel-body" id="result"> 
 
 						</div>
 						<!-- /.panel-body -->
@@ -437,110 +383,13 @@ PENDENCIAS LOCAIS:
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-	
-	<!-- funcoes personalizadas -->
-	<script type="text/javascript" src="../dist/js/funcoes.js"></script>
-	
-	<script src="../bower_components/typeahead/dist/js/typeahead.bundle.js"></script>
-		
-	    <script type="text/javascript">
+
+	<script type="text/javascript">
 		selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 		$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
-		</script>
+	</script>
 
-		<!-- typeahead 	-->
-	    <script type="text/javascript">
-			
-			// funcao utilizada para verificar se parte dos termos digitados constam na lista de locais fornecidos
-			var substringMatcher = function(strs) {
-				return function findMatches(q, cb) {
-					var matches, substrRegex;
-					 
-					// an array that will be populated with substring matches
-					matches = [];
-					 
-					// regex used to determine if a string contains the substring `q`
-					substrRegex = new RegExp(q, 'i');
-					 
-					// iterate through the pool of strings and for any string that
-					// contains the substring `q`, add it to the `matches` array
-					$.each(strs, function(i, str) {
-						if (substrRegex.test(str)) {
-							// the typeahead jQuery plugin expects suggestions to a
-							// JavaScript object, refer to typeahead docs for more info
-							matches.push({ value: str });
-						}
-					});
-					 
-					cb(matches);
-				};
-			};
-			 
-			
-			// coloca cada elemento do vetor $salas do php no vetor javascript salas
-			// var salas = ['Sala 102', 'Sala 301', 'Sala 409', 'Sala 603', 'Sala 704'];
-			/* var Vsalas = < ?php echo '["' . implode('", "', $salas) . '"]' ?>; */
-			
-			// armazena o vetor PHP em um vetor JavaScript
-			var JsonNomeAndarNumero = '<?php echo $JsonNomeAndarNumero ?>';
-			
-			var VjsonNomeAndarNumero = <?php echo $JsonNomeAndarNumero ?>;
-			
-			// transforma o vetor em um objeto JSON
-			var jsonObj = $.parseJSON(JsonNomeAndarNumero);
-			
-			// instancia o vetor source para uso do Typeahead
-			var sourceArr = [];
- 
-			// loop de alimentacao do vetor sourceArr
-			for (var i = 0; i < jsonObj.length; i++) {
-			   sourceArr.push(jsonObj[i].descricao);
-			}
-			
-			// instancia o controle typehead
-			$('#idBusca .typeahead').typeahead(
-				{
-					hint: true,
-					highlight: true,
-					minLength: 1
-				},
-				{
-					name: 'salas',
-					displayKey: 'value',
-					source: substringMatcher(sourceArr), // fonte das palavras chave to typeahead
-					//source: substringMatcher(Vsalas)
-						templates: {
-							empty: [
-								'<div class="empty-message" style="padding: 5px 10px; text-align: center;">',
-								'Sem sugestões...',
-								'</div>'
-								].join('\n')
-						}
-				}
-				).on('typeahead:selected', onSelected); // acrescenta o evento "ao selecionar" do menu dropdown
-			
-			// funcao executada ao selecionar um item do menu dropdown do typeahead
-			function onSelected($e, datum) {
-				console.log('function onSelected'); // loga no console a funcao utilizada
-				console.log(datum); // loga no console o objeto de dados selecionado
-				console.log(datum.value); // loga no console a propriedade valor do objeto de dados selecionado
-				getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
-			}
-			
-			// funcao que busca a correspondencia da descrição da sala com andar e numero da sala
-			function getAndarSala(descricao){
-				
-				for (var i = 0; i < VjsonNomeAndarNumero.length; i++) {
-					
-				   if(VjsonNomeAndarNumero[i].descricao == descricao){
-					   
-					    //atualizaMapa(VjsonNomeAndarNumero[i].andar,VjsonNomeAndarNumero[i].numero);
-						insereMarker(VjsonNomeAndarNumero[i].andar, VjsonNomeAndarNumero[i].numero);
 
-				   }
-				}
-			}
-    </script>
 	
 </body>
 

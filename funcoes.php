@@ -1,8 +1,6 @@
 <?php
 
-    include_once("configBanco.php"); // Inclui o arquivo com o sistema de segurança
-	//$link = mysql_connect('localhost', 'root', 'usbw') or die;
-	//mysql_select_db('localizesenac', $link) or die;	
+    include_once("../dist/php/configBanco.php"); // Inclui o arquivo com a configuração do banco
 	
 function defineDiaSemana(){
 
@@ -78,7 +76,65 @@ function defineDisciplinas(){
 							
 }
 
+function defineAcordion(){
 
-							
+                                if (isset($_GET['andar'])) {
+                                    $andar = $_GET['andar'];
+                                }
+                                $sql = "SELECT id, nome, parametro_imagem FROM categoria";
+
+                                //$result = mysql_query($sql, $_SG['link']);
+								$result = mysql_query($sql, $_SESSION['conexao']);
+								
+                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
+								
+                                while ($consulta = mysql_fetch_array($result)) {
+									
+                                    echo "<li id=\"menuCategoria\">"; // cria a estrutura do menu de categoria
+									echo "<a href=\"#\"><i class=\" {$consulta['parametro_imagem']} \"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
+											
+                                    /* Escrever itens secundários do menu */
+
+                                    //$sql2 = "SELECT  id, nome, andar FROM andar_locais WHERE fk_id_categoria = $consulta[id] ORDER BY andar";
+									$sql2 = "SELECT
+										sala.id, numero, descricao, andar
+									FROM
+										sala, info_locais
+									WHERE
+										sala.numero = info_locais.fk_numero_sala
+									AND
+										fk_id_categoria = $consulta[id]
+									ORDER BY andar";
+
+                                    //$result2 = mysql_query($sql2, $_SG['link']);
+									$result2 = mysql_query($sql2, $_SESSION['conexao']);
+									
+                                    echo "<ul class=\"nav nav-second-level collapse\">"; // cria a estrutura dos itens de menu
+										while ($consulta2 = mysql_fetch_array($result2)) {
+											echo "<li>"; // cria o item de categoria
+											//echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[numero]&andar=$consulta2[andar]'; \"> $consulta2[descricao]</a>\n";
+											//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
+
+											echo "<a href=\"#\" onclick=\" insereMarker($consulta2[andar],$consulta2[numero]); \"> $consulta2[descricao]</a>\n";
+											
+											echo "</li>";
+											
+											// acrescenta cada descricao, andar e sala ao vetor associativo $nomeAndarNumero para uso do typeahead
+											$nomeAndarNumero[] = array('descricao' => $consulta2['descricao'], 'andar' =>$consulta2['andar'], 'numero' =>$consulta2['numero']);
+											
+											// codifica o vetor em formato JSON
+											//$JsonNomeAndarNumero = json_encode($nomeAndarNumero,JSON_FORCE_OBJECT);
+											$JsonNomeAndarNumero = json_encode($nomeAndarNumero);
+										}	
+                                    echo "</ul>";
+									
+                                    echo "</li>";
+
+                                    $i++;
+                                }
+
+
+}
+						
 ?>
 
