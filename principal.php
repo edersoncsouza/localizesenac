@@ -1,489 +1,396 @@
-﻿<!DOCTYPE html>
-<html lang="pt-br">
-    <!-- /* http://behstant.com/blog/?p=662 */ Ver isso, Ajax --> 
+<!--								
+								
+PENDENCIAS LOCAIS:
+
+ - INSERIR UM SUBMENU DE CATEGORIAS(SALAS POR ANDAR POR EXEMPLO);
+ - ALIMENTAR TYPEAHEAD COM AS TAGS DE SALAS DO BANCO DE DADOS;
+								
+								 
+-->
+<!DOCTYPE html>
+<html lang="en">
 
     <?php
-    include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
-    include("funcoes.php");
+    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include("dist/php/funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
     ?>
 
-    <head>
+<head>
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <title>LocalizeSenac - Sistema de Localização FATEC POA</title>
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 
-        <link type="text/css" rel="stylesheet" href="style/jquery-ui.1.11.2.min.css"  />
-        <link type="text/css" rel="stylesheet" href="style/bootstrap.min.css" />
-        <link type="text/css" rel="stylesheet" href="style/bootstrap-theme.min.css" />
-        <link type="text/css" rel="stylesheet" href="style/principal.css" />
-        <link type="text/css" rel="stylesheet" href="style/bootstrap-responsive.css" />
+    <!-- Bootstrap Core CSS -->
+    <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <script type="text/javascript" src="script/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="script/jquery-ui-1.11.2.min.js"></script>
-        <script type="text/javascript" src="script/jquery.ui.datepicker-pt-BR.js"></script>
-        <script type="text/javascript" src="script/bootstrap.min.js"></script>
+    <!-- MetisMenu CSS -->
+    <link href="dist/components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
-        <!--  para o ajax -->
-        <script type="text/javascript" src="script/ajax.js"></script>
-        <script type="text/javascript" src="script/instrucao.js"></script>
+    <!-- Timeline CSS -->
+    <link href="dist/css/timeline.css" rel="stylesheet">
 
-        <!--  funcoes em javascript -->
-        <script type="text/javascript" src="script/funcoes.js"></script>
-        <!--[if lt IE 9]>
-                <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-                <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+	
+	<!-- Morris Charts CSS -->
+    <!-- <link href="../bower_components/morrisjs/morris.css" rel="stylesheet"> -->
 
-        <script type = "text/javascript" >
-            $(document).ready(function () {
-                $("#conteudo_mostrar_pesquisas").hide();// oculta area de resultado da pesquisa 
-            });
-        </script>
+    <!-- Custom Fonts -->
+    <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	
+	<!-- Principal CSS -->
+    <link href="dist/css/principal.css" rel="stylesheet" type="text/css">
 
-    </head> <!-- <head> -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-    <body>
-        <div class="container-fluid principal">
-            <div class="row cabecalho">
-                <div class="col-md-12 column">
+	
+	<!-- jQuery -->
+    <script src="dist/components/jquery/dist/jquery.min.js"></script>
+	
+	<!-- funcoes personalizadas -->
+	<script type="text/javascript" src="dist/js/funcoes.js"></script>
+	
+	<!-- Typeahead -->
+	<script src="dist/components/typeahead/dist/js/typeahead.bundle.js"></script>
 
-                        <div class="col-md-9 logoLocalizesenac">
-                            <a href="http://www.localizesenac.com/principal.php"> <img src="images/logo_LocalizeSenac_novo_small.png" alt="Logo Senac" height="92" width="170" hspace="20"> </a>
-                        </div>
+</head>
 
-                    <div class="col-md-3 areaSaudacao">
+<body>
 
-                        <span>
-                            Olá <?php echo $_SESSION['usuarioNome']; ?>!
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div id="wrapper">
 
-                            <a style="color:red" href="sair.php">
-                                <span class="glyphicon glyphicon-off">
-                                    SAIR
-                                </span> 
-                            </a>
-                        </span>
-                    </div>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="principal.php">LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</a>
+            </div>
+            <!-- /.navbar-header -->
 
-                </div> <!-- class="col-md-12"> -->
-            </div><!-- class="row cabecalho"> -->
+            <ul class="nav navbar-top-links navbar-right">
 
-            <div class="row menuPesquisas">
-<!--<div class="col-md-12">-->
-                <div class="col-md-3 column blocoPesquisa">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Olá <?php echo $_SESSION['usuarioNome']; ?>! <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        </li>
+                        <li class="divider"></li>
+                        <!-- <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Sair</a> -->
+						<li><a href="index.php"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+			
+            <div class="navbar-default sidebar" role="navigation">
+			
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        
+						<!-- caixa de pesquisa -->
+						
+						<li class="sidebar-search">
+                            <div id="idBusca" class="input-group custom-search-form">
+							
+								<form class="search" action="search.php">
+								
+								
+									<!-- typeahead -->
+									<div id="scrollable-dropdown-menu">
+										<input 
+											type="text" 
+											name="busca"
+											class="form-control typeahead"
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong>Procure aqui locais ou serviços</strong>
-                        </div>
-
-                        <div class="col-md-12">
-                            <form  id="searchForm" name="searchForm" action="" class="search" >
-                                <input type="text" name="inputBusca"  placeholder="Digite aqui sua busca..." />
-                            </form>
-                        </div>
-
-                        <div class="col-md-12 resultadoPesquisa">
-                            <div id="conteudo_mostrar_pesquisas" class="modalDialog">
-                                <script>
-                                    validaBusca(); // chama a funcao de validacao de busca do arquivo funcoes.js
-                                </script>
+											placeholder="Digite aqui sua busca..."
+										>
+									</div>
+									<!-- typeahead -->
+									
+									<!-- removendo o botão de busca
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="submit">
+											<i class="fa fa-search"></i>
+										</button>
+									</span>
+									-->
+								
+								</form>	
+							
                             </div>
+                            <!-- /input-group -->
+                        </li>
+						
+						<!-- função PHP que faz a query e cria o menu lateral e seus itens -->
+						<!-- tambem cria o vetor com as salas para utilizacao do typeahead -->
+						<?php defineAcordion(); ?>
+						
+						
+						<script type="text/javascript">
+
+							// recebe o vetor PHP codificado a partir do BD durante a criacao do menu lateral
+							var vetorNomeAndarNumero = <?php echo json_encode($_SESSION['JsonNomeAndarNumero']); ?>;
+								
+							// envia o vetor Json com nome andar e numero da sala e recebe de volta apenas nomes
+							var vetorNomesTypeahead= criaVetorTypeahead(vetorNomeAndarNumero);
+
+							// instancia o controle typehead
+							$('#idBusca .typeahead').typeahead(
+								{
+									hint: true,
+									highlight: true,
+									minLength: 1
+								},
+								{
+									name: 'salas',
+									displayKey: 'value',
+									source: substringMatcher(vetorNomesTypeahead),// fonte das palavras chave to typeahead
+										templates: {
+											empty: [
+												'<div class="empty-message" style="padding: 5px 10px; text-align: center;">',
+												'Sem sugestões...',
+												'</div>'
+												].join('\n')
+										}
+								}
+							).on('typeahead:selected', onSelected); // acrescenta o evento "ao selecionar" do menu dropdown
+								
+						</script>
+						
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+	<div id="page-wrapper">
+			<!-- novo posicionamento do mapa -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" style="background-color:#337ab7; color: #FFFFFF;">
+							<h4><i class="fa fa-location-arrow"></i>Indoor Map<h4>
+								<div class="pull-right">
+	
+								</div>
+						</div>
+						<!-- /.panel-heading -->
+						
+						<!-- area de exibicao do mapa -->
+						<div class="panel-body" id="result"> 
+
+						</div>
+						<!-- /.panel-body -->
+						
+					</div>
+				</div>
+			</div>
+			
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4 class="page-header"> <i class="fa fa-graduation-cap fa-2x"></i> Eventos Acadêmicos</h1>		
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+			
+			<div class="row"> <!-- Eventos Acadêmicos -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary"> <!-- Agenda Acadêmica -->
+                        <div class="panel-footer">
+                            <span class="pull-left"><strong>Agenda Acadêmica</strong></span>
+                            <div class="clearfix"></div>
                         </div>
-
-                        <div class="col-md-12">
-
-                            <div class="row panel-group" id="accordion">
-
-                                <p></p>
-
-                                <?php
-                                /* Inicio do acordion */
-                                if (isset($_GET['cd_andar'])) {
-                                    $cd_andar = $_GET['cd_andar'];
-                                }
-                                $sql = "SELECT CD_CATEGORIA, NM_CATEGORIA, parametro_imagem FROM categoria";
-
-                                $result = mysql_query($sql, $_SG['link']);
-                                $i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0
-
-                                while ($consulta = mysql_fetch_array($result)) {
-                                    echo "<div class='panel panel-default'>";
-                                    echo "<div class='panel-heading'><h4 class='panel-title'>
-											<span class='$consulta[parametro_imagem]'></span>
-											<a data-toggle='collapse' data-parent='#accordion' href='#collapse" . $i . "'>$consulta[NM_CATEGORIA]</a>
-											</h4></div>";
-
-                                    /* Escrever itens secundários do menu */
-
-                                    $sql2 = "SELECT  CD_LOCAL, NM_LOCAL, CORD_X, CORD_Y, CD_ANDAR FROM andar_locais WHERE CD_CATEGORIA = $consulta[CD_CATEGORIA] ORDER BY CD_ANDAR, NR_MAPA";
-                                    $result2 = mysql_query($sql2, $_SG['link']);
-
-                                    echo "<div id='collapse" . $i . "' class='panel-collapse collapse'>";
-                                    echo "<div class='panel-body'>";
-                                    while ($consulta2 = mysql_fetch_array($result2)) {
-                                        //echo "<p><a href=\"mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]\"> $consulta2[NM_LOCAL]</a></p>\n";
-                                        echo "<p><a href=\"#\" onclick=\" abrirPag('mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]');atualizaServicos('servicos.php?cd_andar=$consulta2[CD_ANDAR]'); \"> $consulta2[NM_LOCAL]</a></p>\n";
-                                        //echo "<p><a href=\"#\" onclick=\" abrirPag('mapas.php?cordx=$consulta2[CORD_X]px&cordy=$consulta2[CORD_Y]px&id_nome=$consulta2[NM_LOCAL]&cd_andar=$consulta2[CD_ANDAR]'); \"> $consulta2[NM_LOCAL]</a></p>\n";
-                                    }
-                                    echo "</div>";
-                                    echo "</div>";
-                                    echo "</div>";
-
-                                    $i++;
-                                }
-
-                                /* fim do acordion */
-                                ?>
-                            </div>
-
-                        </div>
-
-                    </div><!--<div class="row"> linha unica do bloco_pesquisa -->
-
-                </div> <!-- class="col-md-3 bloco_pesquisa"-->
-
-                <div class="col-md-9 column blocoExtras"> <!--  -->
-                    <div class="row linhaExtras">   
-						<!--
-                        <div class="col-md-3 column subBloco_outrosServicos">
-
-                            <p><b> Outros Serviços </b></p>
-
-                            <div id="conteudo_mostrar_servicos">
-                                <script>
-                                    $ajax.ready(function () {
-                                        $.ajax({
-                                            url: 'servicos.php?cd_andar=3',
-                                            async: true
-                                        }).done(function (data) {
-                                            alert(data);
-                                        });
-                                    }
-                                </script>
-                            </div>
-
-                            <?php
-                            echo "<p>";
-                            if (isset($_GET['cd_andar'])) {
-                                $sql5 = "SELECT 
-                                        CONCAT (NR_MAPA,' - ', NM_LOCAL) AS DS_LOC
-                                    FROM parametro_imagem I,
-                                        andar_locais A
-                                    WHERE
-                                        I.CD_ANDAR = A.CD_ANDAR
-                                        AND
-                                        I.CD_PARAMETRO = $cd_andar ORDER BY NR_MAPA";
-                                $result5 = mysql_query($sql5, $_SG['link']);
-                                while ($consulta5 = mysql_fetch_array($result5)) {
-                                    echo "$consulta5[DS_LOC]\n";
-                                    echo "</br>";
-                                }
-                                echo "</p>";
-                            }
-                            ?>                       
-
-                        </div><!--<div class="col-md-4 subBloco_outrosServicos">-->
-
-                        <div class="col-md-4 column subBloco_EventosSenac">
-
-                            <div class="control-group">
-                                <label for="date-picker" class="control-label">Eventos Senac</label>
-                                <div class="controls">
-                                    <div class="input-group">
-                                        <input id="datepicker" type="text" class="date-picker form-control" />
-                                        <label for="datepicker" class="input-group-addon btn">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </label>
-                                    </div>
+					
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calendar fa-5x"></i>
                                 </div>
-                                        <!-- Datepicker -->
-        <script>
-            $(function () {
-                $("#datepicker").datepicker();
-                $("#datepicker").datepicker("setDate", new Date());
-            });
-        </script>
-        <!-- Datepicker -->
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">12</div>
+                                    <div>Eventos</div>
+                                </div>
                             </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer" id="agenda">
+                                <span class="pull-left">Exibir Agenda</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+                                <div class="clearfix"></div>					
+                            </div>
+                        </a>
+                    </div>
+                </div>
+				
+				
+				<div class="col-lg-6 col-md-6">
+                    <div class="panel panel-primary"> <!-- Minhas Aulas -->
+                        <div class="panel-footer">
+                            <span class="pull-left"><strong>Minhas Aulas</strong></span>
+                               
+                            <div class="clearfix"></div>
+                        </div>
 
-                        </div><!--<div class="col-md-4 subBloco_EventosSenac">-->
-
-                        <div class="col-md-5 column subBloco_MinhasAulas" id="postit">
-
-                            <p> <b>Minhas Aulas</b> </p>
-
-                            <ul id="pillsMinhasAulas" class="nav nav-pills">
+							<!-- função PHP que faz a query e armazena os valores do conteudo das pills -->
+							<?php defineDisciplinas(); ?>
+						
+					    <div class="panel-heading"> <!-- Disciplinas -->
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-book fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+									<div class="huge"><?php echo $_SESSION['contDiscp']; ?></div>
+                                    <div>Disciplinas</div>
+                                </div>
+                            </div>
+                        </div>					
+						
+						<div class="panel-footer" id="pills">
+                            <ul class="nav nav-pills nav-justified">
                                 <li class="active">
-                                    <a href="#seg" data-toggle="tab">
+                                    <a href="#seg" data-toggle="pill">
                                         SEG
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#ter" data-toggle="tab">
+                                    <a href="#ter" data-toggle="pill">
                                         TER
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#qua" data-toggle="tab">
+                                    <a href="#qua" data-toggle="pill">
                                         QUA
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#qui" data-toggle="tab">
+                                    <a href="#qui" data-toggle="pill">
                                         QUI
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#sex" data-toggle="tab">
+                                    <a href="#sex" data-toggle="pill">
                                         SEX
                                     </a>
                                 </li>
 								<li>
-                                    <a href="#sab" data-toggle="tab">
+                                    <a href="#sab" data-toggle="pill">
                                         SAB
                                     </a>
                                 </li>
 								<li>
-                                    <a href="#dom" data-toggle="tab">
+                                    <a href="#dom" data-toggle="pill">
                                         DOM
                                     </a>
                                 </li>
                             </ul>
-
-                            <?php
-                            $sql3 = "SELECT
-                                            dia_semana AS DIA, nm_local AS SALA, nm_disciplina AS DISC
-                                    FROM
-                                            aluno, aluno_disciplina AD, andar_locais, disciplina
-                                    WHERE
-                                            aluno.CD_ALUNO = AD.fk_id_aluno
-                                    AND
-                                            disciplina.CD_DISCIPLINA = AD.fk_id_disciplina
-                                    AND
-                                            andar_locais.CD_LOCAL = AD.fk_id_local
-                                    AND
-                                            cd_aluno =" . $_SESSION['usuarioID'] . " ORDER BY AD.ID_AULA";
-
-                            $result3 = mysql_query($sql3, $_SG['link']);
-
-                            $discSeg = "Não tem aulas no dia de hoje";
-                            $discTer = "Não tem aulas no dia de hoje";
-                            $discQua = "Não tem aulas no dia de hoje";
-                            $discQui = "Não tem aulas no dia de hoje";
-                            $discSex = "Não tem aulas no dia de hoje";
-							$discSab = "Não tem aulas no dia de hoje";
-							$discDom = "Não tem aulas no dia de hoje";
-
-                            /*  incio do while para preencher os conteudos das pills */
-                            while ($row = mysql_fetch_assoc($result3)) {
-                                if ($row['DIA'] == "SEG") {
-                                    $discSeg = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "TER") {
-                                    $discTer = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUA") {
-                                    $discQua = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "QUI") {
-                                    $discQui = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                                if ($row['DIA'] == "SEX") {
-                                    $discSex = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "SAB") {
-                                    $discSab = $row['SALA'] . " - " . $row['DISC'];
-                                }
-								if ($row['DIA'] == "DOM") {
-                                    $discDom = $row['SALA'] . " - " . $row['DISC'];
-                                }
-                            }
-                            ?>
-
-                            <!--  fim do while para preencher os conteudos das pills -->
-
-                            <div id="conteudoPillsMinhasAulas" class="tab-content">
-                                <!-- <div class="tab-pane fade in active" id="seg"> -->
-                                <div class="tab-pane fade" id="seg">
-                                    <p class="TabContent">
-                                        <?php echo $discSeg; ?>
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="ter">
-                                    <p class="TabContent">
-                                        <?php echo $discTer; ?>
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="qua">
-                                    <p class="TabContent">
-                                        <?php echo $discQua; ?>
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="qui">
-                                    <p class="TabContent">
-                                        <?php echo $discQui; ?>
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="sex">
-                                    <p class="TabContent">
-                                        <?php echo $discSex; ?>
-                                    </p>
-                                </div>
-								 <div class="tab-pane fade" id="sab">
-                                    <p class="TabContent">
-                                        <?php echo $discSab; ?>
-                                    </p>
-                                </div>
-                                <div class="tab-pane fade" id="dom">
-                                    <p class="TabContent">
-                                        <?php echo $discDom; ?>
-                                    </p>
-                                </div>
-                                <script type="text/javascript">
-                                    selecionaTab();
-                                </script> 
-
-                            </div> <!-- <div id="conteudoPillsMinhasAulas" class="tab-content"> -->
-
-                        </div> <!-- <div class="col-md-5 subBloco_MinhasAulas" id="postit"> -->
-
-                    </div> <!--  <div class="row linhaExtras"> -->
-
-                    <div class="row linhaMapas">
-
-                        <?php
-                        if (isset($_GET['cd_andar'])) {
-                            $sql6 = "SELECT 
-							CAMINHO_IMAGEM,
-							PIX_X,
-							PIX_Y,
-                                  CONCAT ('<B>',NM_UNIDADE, ' - ', DS_ENDERECO,'</B>') DS_UD
-                                  FROM 
-                                    parametro_imagem P,
-                                    unidade U
-             
-                                WHERE 
-                                    U.CD_UNIDADE = P.CD_UNIDADE
-                                AND
-                                    P.CD_ANDAR = $cod";
-
-                            $result6 = mysql_query($sql6, $_SG['link']);
-                            $consulta6 = mysql_fetch_array($result6);
+						</div>
+						<!-- panel-footer Pills> -->
 	
-                            echo "<div style=\"background-color:white\"\">";
-                            echo "$consulta6[DS_UD]" . "<BR>";
-                            echo "</div>";
-                        } //fim do isset de controle da sql
-                        ?>
+                            <div class="tab-content">
 
-                        <div class="col-md-12 blocoMapa">
-<!--                                <img class="mapa" src="images/1andar.jpg" alt="primeiro andar">-->
+							<!-- recebe as disciplinas de funcoes.php (defineDisciplinas())-->
+                                <div class="tab-pane active" id="seg">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discSeg']; ?> 
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="ter">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discTer']; ?>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="qua">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discQua']; ?>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="qui">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discQui']; ?>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="sex">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discSex']; ?>
+                                    </p>
+                                </div>
+								 <div class="tab-pane" id="sab">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discSab']; ?>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="dom">
+                                    <p class="TabContent">
+                                        <?php echo $_SESSION['discDom']; ?>
+                                    </p>
+                                </div>
 
-                            <div id="conteudo_mostrar">
-                                <!-- Aqui aparece o conteudo do ajax -->
-
+                            </div> <!-- < div id="conteudoPillsMinhasAulas" class="tab-content"> -->
+						
+						<!-- <a href="#mostrarSala"> -->
+                            <div class="panel-footer">
+                                <span class="pull-left">Mostrar a Sala</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+                                <div class="clearfix"></div>
                             </div>
+                        <!-- </a> -->
+						
+					</div><!-- div class="panel panel-primary"> Painel Minhas aulas-->
+                     
+				</div> <!-- div class="col-lg-6 col-md-6"> -->
+				
+				
+			</div> <!-- Eventos Acadêmicos - agenda academica e minhas aulas -->	<!-- /.row -->
+	
 
-                        </div> <!-- <div class="col-md-12 blocoMapa"> -->
+	
+	</div> <!-- /#page-wrapper -->
+	
 
-                    </div> <!-- <div class="row linhaMapas"> -->  
+    <!-- Bootstrap Core JavaScript -->
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-                </div> <!-- <div class="col-md-9 blocoExtras"> -->
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="dist/components/metisMenu/dist/metisMenu.min.js"></script> 
 
-            </div> <!--class="row menuPesquisas"-->
-        <footer class="navbar-default navbar-fixed-bottom">
+    <!-- Custom Theme JavaScript -->
+    <script src="dist/js/sb-admin-2.js"></script>
 
-            <div class="row rodape linhaUnicaRodape">
+	<script type="text/javascript">
+		selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
+		$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
+	</script>
 
-                <div class="col-md-12 gridUnicoRodape">
 
-                    <div class="col-md-6 copyRight">
-                        <p>© 2010 Senac-RS - Todos os direitos Reservados.</p>
-                        <p>Serviço Nacional de Aprendizagem Comercial do Rio Grande do Sul - Senac-RS</p>
-                    </div>
-
-                    <div class="col-md-3 redesSociais">
-                        <a href="http://www.facebook.com/senacrsoficial">
-                            <img src="images/link_facebook.png" alt="facebook"/>
-                        </a>
-                        <a href="http://www.twitter.com/senacrs">
-                            <img src="images/link_twitter.png" alt="twitter"/>
-                        </a>
-                        <a href="http://www.youtube.com/senacrsoficial">
-                            <img src="images/link_youtube.png" alt="youtube"/>
-                        </a>
-                    </div> 
-
-                    <div class="col-md-3 sistemaS">
-                        <a href="http://www.fecomercio-rs.org.br" target="_blank">
-                            <img src="images/logo_rodape_fecomercio.jpg" alt="Fecomércio" />
-                        </a>
-
-                        <a href="http://www.senacrs.com.br" target="_blank">
-                            <img src="images/logo_rodape_senac3.jpg" alt="SENAC" />
-                        </a>
-
-                        <a href="http://www.sesc-rs.com.br" target="_blank">
-                            <img src="images/logo_rodape_sesc.png" alt="SESC-RS" />
-                        </a>
-                    </div>
-
-                </div> <!-- <div class="col-md-12 gridUnicoRodape"> -->
-
-            </div><!-- <div class="row rodape linhaUnicaRodape"> -->
-
-        </footer> <!-- <footer class="navbar-default navbar-fixed-bottom"> -->
-        </div> <!-- <div class="container-fluid principal"> -->
-        
-        <footer class="navbar-default navbar-fixed-bottom">
-
-            <div class="row rodape linhaUnicaRodape">
-
-                <div class="col-md-12 gridUnicoRodape">
-
-                    <div class="col-md-6 copyRight">
-                        <p>© 2010 Senac-RS - Todos os direitos Reservados.</p>
-                        <p>Serviço Nacional de Aprendizagem Comercial do Rio Grande do Sul - Senac-RS</p>
-                    </div>
-
-                    <div class="col-md-3 redesSociais">
-                        <a href="http://www.facebook.com/senacrsoficial">
-                            <img src="images/link_facebook.png" alt="facebook"/>
-                        </a>
-                        <a href="http://www.twitter.com/senacrs">
-                            <img src="images/link_twitter.png" alt="twitter"/>
-                        </a>
-                        <a href="http://www.youtube.com/senacrsoficial">
-                            <img src="images/link_youtube.png" alt="youtube"/>
-                        </a>
-                    </div> 
-
-                    <div class="col-md-3 sistemaS">
-                        <a href="http://www.fecomercio-rs.org.br" target="_blank">
-                            <img src="images/logo_rodape_fecomercio.jpg" alt="Fecomércio" />
-                        </a>
-
-                        <a href="http://www.senacrs.com.br" target="_blank">
-                            <img src="images/logo_rodape_senac3.jpg" alt="SENAC" />
-                        </a>
-
-                        <a href="http://www.sesc-rs.com.br" target="_blank">
-                            <img src="images/logo_rodape_sesc.png" alt="SESC-RS" />
-                        </a>
-                    </div>
-
-                </div> <!-- <div class="col-md-12 gridUnicoRodape"> -->
-
-            </div><!-- <div class="row rodape linhaUnicaRodape"> -->
-
-        </footer> <!-- <footer class="navbar-default navbar-fixed-bottom"> -->
-
-    </body>
+	
+</body>
 
 </html>

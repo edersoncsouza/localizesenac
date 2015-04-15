@@ -19,7 +19,7 @@ function insereMarker(andarP, salaP){
 
 	// cria o marcador do ponto selecionado, do tipo Bouncem 
 	marker = new L.marker(Vmarkers[salaP], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1500, height: 100, loop: true}})
-				.bindPopup(salaP+"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\">Senac RS</a><br>")
+				.bindPopup("Sala: " + salaP +"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\" target=\"_blank\">Senac RS</a><br>")
 				.openPopup();
 
 	// adiciona o marcador no FeatureGroup markers

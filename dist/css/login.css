@@ -84,6 +84,7 @@ margin-right: auto
 
 }
 
+/* tentativa de alterar as cores originais dos botoes do bootstrap
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
 
   background-color: #6699FF !important;
@@ -95,6 +96,7 @@ margin-right: auto
   background-color: #6699FF !important;
   border-color: #6699FF;
 }
+*/
 
 li {
     padding: 0
