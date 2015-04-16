@@ -144,13 +144,15 @@
 				// insere as informacoes no DOM atraves de uma funcao ternaria
                 this._div.innerHTML = '<h2>Descrição do Ambiente</h2><br>' + (props ?
                         '<h2>' + props.name + '</h2>' +
-                        '<img src="dist/images/fotos/' + props.image + '.jpg" height="300" width="300"> </img><br>' +
+                        '<img src="dist/images/fotos/unidade' + props.unidade + '/' + props.image + '.jpg" height="300" width="300"> </img><br>' +
                         '<strong>Horários de funcionamento:</strong> ' + props.horario + '<br>' +
                         '<strong>Email:</strong> ' + props.email + ' <br>' +
                         '<strong>Telefone:</strong> ' + props.telefone + ' <br>' 
                         : 'Ambiente sem informações');
             };
 			
+			
+			//controleInfopane.update(indoorLayer);
 			// insere o painel deslizante no mapa
             controleInfopane.addTo(map);
 		

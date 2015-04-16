@@ -33,7 +33,7 @@ var labelform = 'Incluir um novo Aluno';
                                     "sButtonText": "Imprimir"
                                 }                              
                             ],
-			"sSwfPath": "../bower_components/datatables-tabletools/swf/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
+			"sSwfPath": "dist/components/datatables-tabletools/swf/copy_csv_xls_pdf.swf" //exibe a lista de opções de exportacao
 			}
 	  
     }).makeEditable({

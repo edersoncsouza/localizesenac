@@ -213,7 +213,7 @@
 					"room": "163",
 					"category": "Apoio",
                     "name": "Coordenação de turno",
-					"image": "",
+					"image": "coordenacao_de_turno",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -1438,7 +1438,7 @@
 					"room": "198",
 					"category": "Serviços Administrativos",
                     "name": "Atendimento ao Público",
-					"image": "",
+					"image": "atendimento_ao_publico",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
