@@ -9,20 +9,30 @@
     <meta name="author" content="">
 	
 	<!-- Bootstrap Core CSS -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- Custom Fonts -->
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	
+		<script src="dist/jqBootstrapValidation/jqBootstrapValidation.js"></script>
+		
 <?php
-include('configBanco.php'); 
+
+    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include("dist/php/funcoes.php");
+    protegePagina(); // Chama a função que protege a página
+    mysql_set_charset('UTF8', $_SG['link']);
+
+//include('dist/php/configBanco.php'); 
+	
 if (isset($_POST['submitted'])) { 
-foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "INSERT INTO `aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` ,  `ativo`  ) VALUES(  '{$_POST['matricula']}' ,  '{$_POST['senha']}' ,  '{$_POST['nome']}' ,  '{$_POST['celular']}' ,  '{$_POST['email']}' ,  '{$_POST['ativo']}'  ) "; 
-mysql_query($sql) or die(mysql_error()); 
-echo "Aluno incluído.<br />"; 
-echo "<a href='listarAluno.php'>Voltar para listagem de Alunos</a>"; 
+	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
+	$sql = "INSERT INTO `aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` ,  `ativo`  ) VALUES(  '{$_POST['matricula']}' ,  '{$_POST['senha']}' ,  '{$_POST['nome']}' ,  '{$_POST['celular']}' ,  '{$_POST['email']}' ,  '{$_POST['ativo']}'  ) "; 
+	mysql_query($sql) or die(mysql_error()); 
+	echo "Aluno incluído.<br />"; 
+	echo "<a href='listarAluno.php'>Voltar para listagem de Alunos</a>"; 
 } 
+
 ?>
 	
 </head>
@@ -44,7 +54,7 @@ echo "<a href='listarAluno.php'>Voltar para listagem de Alunos</a>";
 				</div>
 
 			</div>
-			
+			<!--
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<div class="form-group">
@@ -57,6 +67,27 @@ echo "<a href='listarAluno.php'>Voltar para listagem de Alunos</a>";
 					</div>
 				</div>
 			</div>
+			-->
+			
+			<!-- campos validados -->
+			<div class="row">
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					<div class="form-group">
+						<input maxlength="10" minlength="5" title="Senha: de 5 a 10 caracteres" type="password" id="password" class="form-control input-lg" name="password" placeholder="Senha" required>
+					</div>
+				</div>
+				
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					<div class="form-group">	
+						<input maxlength="10" minlength="5" title="Confirmação de senha" type="password" id="password2" class="form-control input-lg" name="password2" placeholder="Confirme a Senha" 
+						data-validation-matches-match="password"
+						data-validation-matches-message= "A confirmação de senha deve ser igual a senha"
+						required >
+					</div>
+				</div>
+			
+			</div>
+			<!-- campos validados -->
 			
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
@@ -121,10 +152,14 @@ echo "<a href='listarAluno.php'>Voltar para listagem de Alunos</a>";
 
 </div>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- jQuery -->
+    <script src="dist/components/jquery/dist/jquery.min.js"></script>
 
-	<script src="../bower_components/jasny/js/inputmask.js" type="text/javascript"></script>	
+    <!-- Bootstrap Core JavaScript -->
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	
+
 	
 </body>
 

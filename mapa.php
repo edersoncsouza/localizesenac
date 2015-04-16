@@ -63,7 +63,7 @@
     <script src="dist/components/leaflet/dist/js/leaflet-src.js" type="text/javascript"></script>
     <script src="dist/components/leaflet/dist/js/leaflet-indoor.js" type="text/javascript"></script>
 	<!-- <script src="../script/leaf/limitesUnidade1Senac.js" type="text/javascript"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
-	<script src="http://maximeh.github.io/leaflet.bouncemarker/bouncemarker.js"></script>
+	<script src="dist/components/leaflet.bouncemarker/bouncemarker.js"></script>
 	
 	<script>
 	$( document ).ready(function() {
