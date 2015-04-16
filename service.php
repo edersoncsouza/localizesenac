@@ -19,6 +19,10 @@ if ($_GET) {
 				$aColumns = array('nome','imagem');
 				$entidade = 'categoria';
 				break;
+			case 'Coordenadas':
+				$aColumns = array('unidade','andar', 'numero','longitude', 'latitude');
+				$entidade = 'coordenadas';
+				break;	
 			case 'Cursos':
 				$aColumns = array('descricao','area','nivel');
 				$entidade = 'curso';
@@ -69,6 +73,7 @@ function getMembersAjx() {
 	global $aColumns;
 	global $entidade; // utiliza o escopo global das variaveis
 
+	
     // SQL limit
     $sLimit = '';
     if (isset($_GET['iDisplayStart']) && $_GET['iDisplayLength'] != '-1') {
@@ -79,6 +84,39 @@ function getMembersAjx() {
 	//$aColumns = array( 'NR_MATRICULA', 'SENHA', 'NM_ALUNO', 'NR_CELULAR', 'EMAIL', 'ACTIVO', 'SESSAO' );
 	//$aColumns = array( 'matricula', 'senha', 'nome', 'celular', 'email', 'ativo' );
     $sOrder = '';
+	
+	/* TENTATIVA DE DESCOBRIR PQ TABELAS SEM COLUNAS VARCHAR NÃO FUNCIONAM COM SORTING AUTOMATIZADO PELO PROCEDIMENTO */
+	/*
+    if (isset($_GET['iSortCol_0'])) {
+        $sOrder = 'ORDER BY  ';
+		
+		if (isset($_GET['iSortingCols'])) {
+			for ($i=0 ; $i<(int)$_GET['iSortingCols'] ; $i++) {
+				
+				if (isset($_GET[ $_GET[ 'bSortable_'.(int)$_GET['iSortCol_'.$i] ])) {
+					if ( $_GET[ 'bSortable_'.(int)$_GET['iSortCol_'.$i] ] == 'true' ) {
+						
+						if (isset($_GET['sSortDir_'.$i])) {
+							
+							$sOrder .= '`'.$aColumns[ (int)$_GET['iSortCol_'.$i] ].'` '.
+								($_GET['sSortDir_'.$i]==='asc' ? 'asc' : 'desc') .', ';
+						}
+					}
+				}
+				
+			}
+
+			//$sOrder = substr_replace($sOrder, '', -2);
+			if ($sOrder == 'ORDER BY') {
+				$sOrder = '';
+			}
+		}
+    }
+	*/
+	
+	/* ORDER ORIGINAL */
+	/*
+	$sOrder = '';
     if (isset($_GET['iSortCol_0'])) {
         $sOrder = 'ORDER BY  ';
         for ($i=0 ; $i<(int)$_GET['iSortingCols'] ; $i++) {
@@ -93,7 +131,8 @@ function getMembersAjx() {
             $sOrder = '';
         }
     }
-
+	*/
+	
     // SQL where
     $sWhere = 'WHERE 1';
     if (isset($_GET['sSearch']) && $_GET['sSearch'] != '') {
@@ -140,6 +179,8 @@ function getMembersAjx() {
 			case 'categoria':
 				$aItem = array( $aInfo['nome'], $aInfo['parametro_imagem'], 'DT_RowId' => $aInfo['id'] );
 				break;
+			case 'coordenadas':
+				$aItem = array( $aInfo['fk_sala_fk_id_unidade'], $aInfo['fk_andar_sala'], $aInfo['fk_numero_sala'], $aInfo['longitude'], $aInfo['latitude'], 'DT_RowId' => $aInfo['id'] );
 			case 'curso':
 				$aItem = array( $aInfo['descricao'], $aInfo['fk_id_area_ensino'], $aInfo['fk_id_nivel_ensino'], 'DT_RowId' => $aInfo['id'] );
 				break;

@@ -11,13 +11,14 @@ class CMySQL {
 
     // constructor
     function CMySQL() {
-	
+		
+		$this->sDbServer = 'localhost';
         $this->sDbName = 'localizesenac';
         $this->sDbUser = 'root';
         $this->sDbPass = 'usbw';
 
         // create db link
-        $this->vLink = mysql_connect("localhost", $this->sDbUser, $this->sDbPass);
+        $this->vLink = mysql_connect($this->sDbServer, $this->sDbUser, $this->sDbPass);
 
         //select the database
         mysql_select_db($this->sDbName, $this->vLink);

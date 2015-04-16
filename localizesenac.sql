@@ -387,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `nivel_ensino_area` (
 --
 
 CREATE TABLE IF NOT EXISTS `sala` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `fk_id_unidade` int(11) NOT NULL,
   `andar` tinyint(4) NOT NULL,
   `numero` int(11) NOT NULL,
@@ -397,14 +397,11 @@ CREATE TABLE IF NOT EXISTS `sala` (
   KEY `fk_sala_unidade1_idx` (`fk_id_unidade`),
   KEY `fk_sala_categoria1_idx` (`fk_id_categoria`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=46 ;
-
 --
 -- Extraindo dados da tabela `sala`
 --
 
 INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`) VALUES
-(19, 1, 0, 102, 2),
-(20, 1, 0, 103, 2),
 (1, 1, 0, 160, 6),
 (2, 1, 0, 161, 5),
 (3, 1, 0, 162, 5),
@@ -423,6 +420,8 @@ INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`)
 (16, 1, 0, 175, 4),
 (17, 1, 0, 176, 1),
 (18, 1, 0, 177, 6),
+(19, 1, 0, 102, 2),
+(20, 1, 0, 103, 2),
 (21, 1, 0, 178, 1),
 (22, 1, 0, 179, 1),
 (23, 1, 0, 180, 1),

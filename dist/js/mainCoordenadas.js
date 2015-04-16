@@ -1,7 +1,7 @@
 $(function() {
 
-var entidade = 'Salas';
-var labelform = 'Incluir uma nova Sala';
+var entidade = 'Coordenadas';
+var labelform = 'Incluir as Coordenadas de uma Sala';
 
   var oMemTable = $('#tabela'+ entidade).dataTable({
 	  "sPaginationType": "full_numbers",
@@ -44,35 +44,32 @@ var labelform = 'Incluir uma nova Sala';
 		
 		'aoColumns': [
 									{
+										//'unidade','andar', 'numero','longitude', 'latitude'
 										tooltip: 'Unidade',
 										oValidationOptions : { rules:{ value: {minlength: 1 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 1'} } },
-										/*
-										type: 'select',
-										data: "{'1':'Unidade 1','2':'Unidade 2'}",
-										submit: 'Ok',
-										*/
+										messages: { value: {minlength: 'Tamanho mínimo - 1'} } }
 									},
 									{
 										tooltip: 'Andar',
 										oValidationOptions : { rules:{ value: {minlength: 1 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 1'} } },
-
+										messages: { value: {minlength: 'Tamanho mínimo - 1'} } }
 									},
 									{
-										tooltip: 'Número',
+										tooltip: 'Numero',
 										oValidationOptions : { rules:{ value: {minlength: 3 }  },
 										messages: { value: {minlength: 'Tamanho mínimo - 3'} } }
 									},
 									{
-										tooltip: 'Categoria',
-										oValidationOptions : { rules:{ value: {minlength: 1 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 1'} } },
-										/*
-										type: 'select',
-										data: "{'1':'Serviços Administrativos','2':'Salas de Aula','3':'Alimentação','4':'Serviços','5':'Apoio'}",
-										submit: 'Ok',
-										*/
+										tooltip: 'Longitude',
+										oValidationOptions : { rules:{ value: {minlength: 2 }  },
+										messages: { value: {minlength: 'Tamanho mínimo - 2'} } },
+
+									},
+									{
+										tooltip: 'Latitude',
+										oValidationOptions : { rules:{ value: {minlength: 2 }  },
+										messages: { value: {minlength: 'Tamanho mínimo - 2'} } },
+
 									}
 								],
 	
