@@ -4,17 +4,17 @@
         <title>LocalizeSenac - Mapa dos Ambientes</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="stylesheet" href="../bower_components/leaflet/dist/css/leaflet.css" />
-		<link rel="stylesheet" href="../bower_components/leafletdraw/dist/css/leaflet.draw.css" />
+        <link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.css" />
+		<link rel="stylesheet" href="dist/components/leafletdraw/dist/css/leaflet.draw.css" />
 	
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="lib/leaflet/leaflet.ie.css" />
 		<link rel="stylesheet" href="leaflet.draw.ie.css" />
 	<![endif]-->
 	
-	<script src="../bower_components/leaflet/dist/js/leaflet.js"></script>
-	<script src="../bower_components/leafletdraw/dist/js/leaflet.draw.js"></script>
-	<script type="text/javascript" src="../script/leaf/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
+	<script type="text/javascript" src="dist/components/leaflet/dist/js/leaflet.js"></script>
+	<script type="text/javascript" src="dist/components/leafletdraw/dist/js/leaflet.draw.js"></script>
+	<script type="text/javascript" src="dist/js/limitesUnidade1Senac.js"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
 </head>
 <body>
 
