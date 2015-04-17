@@ -39,7 +39,10 @@
 	
 if (isset($_POST['submitted'])) { 
 	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-	$sql = "INSERT INTO `aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` ,  `ativo`  ) VALUES(  '{$_POST['matricula']}' ,  '{$_POST['senha']}' ,  '{$_POST['nome']}' ,  '{$_POST['celular']}' ,  '{$_POST['email']}' ,  '{$_POST['ativo']}'  ) "; 
+	$sql = "INSERT INTO
+				`aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` ,  `ativo`  )
+			VALUES(  '{$_POST['matricula']}' ,  '{$_POST['password']}' ,  '{$_POST['nome']}' ,  '{$_POST['celular']}' ,  '{$_POST['email']}' ,  '{$_POST['ativo']}'  ) "; 
+			
 	mysql_query($sql) or die(mysql_error()); 
 	echo "Aluno incluído.<br />"; 
 	echo "<a href='listarAluno.php'>Voltar para listagem de Alunos</a>"; 
@@ -69,7 +72,16 @@ if (isset($_POST['submitted'])) {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
-                        <input type="text" name="matricula" id="first_name" class="form-control input-lg" placeholder="Matrícula" tabindex="1">
+                        <input 
+							type="text"
+							name="matricula"
+							id="matricula"
+							title="Senha: de 4 a 30 caracteres"
+							placeholder="Matrícula"
+							class="form-control input-lg"
+							tabindex="1"
+							required
+						>
 					</div>
 				</div>
 
@@ -78,15 +90,30 @@ if (isset($_POST['submitted'])) {
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<div class="form-group">
-						<input maxlength="10" minlength="5" title="Senha: de 5 a 10 caracteres" type="password" id="password" class="form-control input-lg" name="password" placeholder="Senha" required
-						 
+						<input 
+							type="password"
+							name="password"
+							id="password"							
+							title="Senha: de 6 a 10 caracteres"
+							placeholder="Senha"
+							class="form-control input-lg" 
+							tabindex="2"
+							required
 						>
 					</div>
 				</div>
 				
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<div class="form-group">	
-						<input maxlength="10" minlength="5" title="Confirmação de senha" type="password" id="password2" class="form-control input-lg" name="password2" placeholder="Confirme a Senha" required
+						<input     
+							type="password"
+							name="password2"
+							id="password2"
+							title="Confirmação de senha"
+							placeholder="Confirme a Senha"
+							class="form-control input-lg"
+							tabindex="3"
+							required
 						>
 					</div>
 				</div>
@@ -95,15 +122,16 @@ if (isset($_POST['submitted'])) {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
-                        <input type="text" name="nome" id="nome" class="form-control input-lg" placeholder="Nome" tabindex="4">
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<input type="email" name="email" id="email" class="form-control input-lg" placeholder="E-mail" tabindex="5" required>
+                        <input
+							type="text"
+							name="nome"
+							id="nome"
+							title="Nome completo"
+							placeholder="Nome completo"
+							class="form-control input-lg"
+							tabindex="4"
+							required
+						>
 					</div>
 				</div>
 			</div>
@@ -112,7 +140,31 @@ if (isset($_POST['submitted'])) {
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
 						<input
-							type="email" name="confirmaEmail" id="confirmaEmail" class="form-control input-lg" placeholder="Confirme o E-mail" tabindex="5" required
+							type="email"
+							name="email"
+							id="email"
+							title="E-mail"
+							placeholder="E-mail"
+							class="form-control input-lg"
+							tabindex="5"
+							required
+						>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="form-group">
+						<input
+							type="email"
+							name="confirmaEmail"
+							id="confirmaEmail"
+							title="Confirme o E-mail"
+							placeholder="Confirme o E-mail"
+							class="form-control input-lg"
+							tabindex="6"
+							required
 						>
 					</div>
 				</div>
@@ -121,11 +173,18 @@ if (isset($_POST['submitted'])) {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
-						<input  required="required" maxlength="15"
-						name="celular" id="celular" class="form-control input-lg" placeholder="Celular"
-						data-inputmask="'alias':'celular'"
+						<input
+							type="text"
+							name="celular"
+							id="celular"
+							title="Celular"
+							placeholder="Celular"
+							class="form-control input-lg" 
+							tabindex="7"
+							required="required" maxlength="15"
+							data-inputmask="'alias':'celular'"
 						/>
-						 <!-- pattern="\([0-9]{2}\)[\s][0-9]{4}-[0-9]{4,5}" -->
+
 					</div>
 				</div>
 			</div>
@@ -144,6 +203,7 @@ if (isset($_POST['submitted'])) {
 			</div>
 			
 			<div class="row">
+				<br>
 				<div class="col-xs-6 col-md-6"><input type="submit" value="Cadastrar Aluno" class="btn btn-success btn-block btn-lg" tabindex="7"></div>
 				<div class="col-xs-6 col-md-6"><input value="Voltar" class="btn btn-danger btn-block btn-lg"></div>
 				<input type='hidden' value='1' name='submitted' /> 
@@ -153,21 +213,6 @@ if (isset($_POST['submitted'])) {
 
 	<div class="form-group">
 
-
-<!--
-		<form action='' method='POST'> 
-		
-			<p><b>Matricula:</b><br /><input type='text' name='matricula'/> 
-			<p><b>Senha:</b><br /><input type='text' name='senha'/> 
-			<p><b>Nome:</b><br /><input type='text' name='nome'/> 
-			<p><b>Celular:</b><br /><input type='text' name='celular'/> 
-			<p><b>Email:</b><br /><input type='text' name='email'/> 
-			<p><b>Ativo:</b><br /><input type='text' name='ativo'/> 
-			<p><input class="btn btn-success" type='submit' value='Cadastrar Aluno' />
-			<input type='hidden' value='1' name='submitted' /> 
-
-		</form> 
--->
 	</div>
 
 
