@@ -8,14 +8,26 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	
+	<!-- jQuery -->
+    <script src="dist/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- Bootstrap Core CSS -->
     <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-	
 	<!-- Custom Fonts -->
     <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	
-		<script src="dist/jqBootstrapValidation/jqBootstrapValidation.js"></script>
-		
+	<!-- formValidation -->
+    <link rel="stylesheet" 		   href="dist/components/formValidation/dist/css/formValidation.css"/>
+    <script type="text/javascript" src="dist/components/formValidation/dist/js/formValidation.js"></script>
+    <script type="text/javascript" src="dist/components/formValidation/dist/js/framework/bootstrap.js"></script>
+	
+	<!-- Configuracao para validação dos formularios -->
+	<script type="text/javascript" src="dist/js/configFormValidation.js"></script>
+	
+	<!-- RobinHerbots/jquery.inputmask: https://github.com/RobinHerbots/jquery.inputmask -->
+	<script type="text/javascript" src="dist/components/jquery.inputmask/jquery.inputmask.js"></script>
+	
 <?php
 
     include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
@@ -34,7 +46,13 @@ if (isset($_POST['submitted'])) {
 } 
 
 ?>
-	
+
+			<script> 
+			$(document).ready(function(){  
+				$('#celular').inputmask('(99) 9999-9999[9]');
+			});
+			</script>
+
 </head>
 
 <body>
@@ -43,9 +61,11 @@ if (isset($_POST['submitted'])) {
 
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-		<form role="form" action='' method='POST'>
+		
+		<form id="formCadastraAluno" role="form" action='' method='POST'>
 			<h2>LocalizeSenac <small>Cadastro de Alunos</small></h2>
 			<hr class="colorgraph">
+			
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
@@ -54,40 +74,23 @@ if (isset($_POST['submitted'])) {
 				</div>
 
 			</div>
-			<!--
-			<div class="row">
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					<div class="form-group">
-						<input type="password" name="senha" id="senha" class="form-control input-lg" placeholder="Senha" tabindex="2">
-					</div>
-				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					<div class="form-group">
-						<input type="password" name="confirma_senha" id="confirma_senha" class="form-control input-lg" placeholder="Repita a Senha" tabindex="3">
-					</div>
-				</div>
-			</div>
-			-->
 			
-			<!-- campos validados -->
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<div class="form-group">
-						<input maxlength="10" minlength="5" title="Senha: de 5 a 10 caracteres" type="password" id="password" class="form-control input-lg" name="password" placeholder="Senha" required>
+						<input maxlength="10" minlength="5" title="Senha: de 5 a 10 caracteres" type="password" id="password" class="form-control input-lg" name="password" placeholder="Senha" required
+						 
+						>
 					</div>
 				</div>
 				
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<div class="form-group">	
-						<input maxlength="10" minlength="5" title="Confirmação de senha" type="password" id="password2" class="form-control input-lg" name="password2" placeholder="Confirme a Senha" 
-						data-validation-matches-match="password"
-						data-validation-matches-message= "A confirmação de senha deve ser igual a senha"
-						required >
+						<input maxlength="10" minlength="5" title="Confirmação de senha" type="password" id="password2" class="form-control input-lg" name="password2" placeholder="Confirme a Senha" required
+						>
 					</div>
 				</div>
-			
 			</div>
-			<!-- campos validados -->
 			
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
@@ -97,14 +100,32 @@ if (isset($_POST['submitted'])) {
 				</div>
 			</div>
 
-			<div class="form-group">
-				<input type="email" name="email" id="email" class="form-control input-lg" placeholder="E-mail" tabindex="5">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="form-group">
+						<input type="email" name="email" id="email" class="form-control input-lg" placeholder="E-mail" tabindex="5" required>
+					</div>
+				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
-						<input type="tel" required="required" maxlength="15" name="celular" id="celular" class="form-control input-lg" placeholder="Celular" />
+						<input
+							type="email" name="confirmaEmail" id="confirmaEmail" class="form-control input-lg" placeholder="Confirme o E-mail" tabindex="5" required
+						>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="form-group">
+						<input  required="required" maxlength="15"
+						name="celular" id="celular" class="form-control input-lg" placeholder="Celular"
+						data-inputmask="'alias':'celular'"
+						/>
+						 <!-- pattern="\([0-9]{2}\)[\s][0-9]{4}-[0-9]{4,5}" -->
 					</div>
 				</div>
 			</div>
@@ -152,13 +173,6 @@ if (isset($_POST['submitted'])) {
 
 </div>
 
-	<!-- jQuery -->
-    <script src="dist/components/jquery/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-	
 
 	
 </body>

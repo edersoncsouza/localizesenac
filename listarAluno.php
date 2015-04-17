@@ -9,10 +9,10 @@
     <meta name="author" content="">
 	
 	<!-- Bootstrap Core CSS -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	
 	    <!-- Custom Fonts -->
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	
 </head>
 
@@ -20,7 +20,7 @@
 
 
 <?php
-include('configBanco.php');
+include('dist/php/configBanco.php');
 
 echo "<div class=\"container\">";
 echo "<div class=\"row\">";
@@ -66,7 +66,7 @@ echo "<a href=cadastrarAluno.php class=\"btn btn-success\">Novo Aluno</a>";
 ?>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 </body>
 
