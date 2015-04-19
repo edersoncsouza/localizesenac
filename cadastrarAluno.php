@@ -192,12 +192,14 @@ if (isset($_POST['submitted'])) {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div>
-						<label >
-							<input type="radio" id="ativado" name="ativo" value="S" /> Ativado
-						</label> 
-						<label >
-							<input type="radio" id="desativado" name="ativo" value="N" /> Desativado
-						</label>
+						<div class="form-group">
+							<label >
+								<input type="radio" id="ativado" name="ativo" value="S" /> Ativado
+							</label> 
+							<label >
+								<input type="radio" id="desativado" name="ativo" value="N" /> Desativado
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -208,6 +210,7 @@ if (isset($_POST['submitted'])) {
 				<div class="col-xs-6 col-md-6"><input value="Voltar" class="btn btn-danger btn-block btn-lg"></div>
 				<input type='hidden' value='1' name='submitted' /> 
 			</div>
+
 		</form>
 	</div>
 
