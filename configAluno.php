@@ -6,30 +6,6 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 <html lang="en">
 
 <head>
-		<meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-		<!-- Bootstrap Core CSS -->
-        <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-		
-		<!-- Custom Fonts -->
-        <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		
-	    <!-- jQuery -->
-        <script src="dist/components/jquery/dist/jquery.min.js"></script>
-		
-		<!-- RobinHerbots/jquery.inputmask: https://github.com/RobinHerbots/jquery.inputmask -->
-		<script type="text/javascript" src="dist/components/jquery.inputmask/jquery.inputmask.js"></script>
-		
-		<!-- Bootstrap Core JavaScript -->
-		<script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-		
-		<!-- Bootbox -->
-		<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
-		
 <?php
 /*
 		<!-- formValidation -->
@@ -68,17 +44,48 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 		$email = $row['email'];
 		$celular = $row['celular'];
 	}
-?>	
+?>			
+		<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+		<!-- Bootstrap Core CSS -->
+        <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		
+		<!-- Custom Fonts -->
+        <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		
+	    <!-- jQuery -->
+        <script src="dist/components/jquery/dist/jquery.min.js"></script>
+		
+		<!-- RobinHerbots/jquery.inputmask: https://github.com/RobinHerbots/jquery.inputmask -->
+		<script type="text/javascript" src="dist/components/jquery.inputmask/jquery.inputmask.js"></script>
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+		
+		<!-- Bootbox -->
+		<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
+		
+
         <script>
 		$(document).ready(function(){
 			
-			// emite alerta ao selecionar algo do select box
-			$('#curso').on('change', function() {
-			  bootbox.alert( this.value ); // or $(this).val()
-			});
-		
+			$("#minhaGrade").load("calendarioSemana.php");
+			
 			// mascara para o celular
 			$('#celular').inputmask('(99) 9999-9999[9]');
+			
+			// captura o evento onChange do select box curso
+			$('#curso').on('change', function() {
+			  
+			  var cursoP = this.value; // armazena o id do curso
+			  
+			  montarGrade(cursoP); // chama a funcao para montar a grade
+			  
+			});
 		
             // captura o evento submit do formMudaSenha e chama a funcao atualizaSenha
             $("#formMudaSenha").submit(function (event) {
@@ -118,6 +125,30 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
             });
 
 		});
+
+			// funcao que executa o post do curso para montar o select de disciplinas por jQuery
+			function montarGrade(cursoP){
+
+				var url = "dist/php/montarGrade.php";
+				
+				// executa o post enviando os parametros id, passwordAtual, password
+				$.post(url,{ curso: cursoP }, function(json) {
+					
+					if (json == 0){// caso o retorno de montarGrade.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{
+							var objJson = JSON.parse(json); // transforma a string recebida em objeto
+							var listaItens; // cria uma lista de itens para inserir uma única vez
+							
+							$.each(objJson, function(index, value) { // para cada objeto da lista armazena na string
+								listaItens += '<option>' + value + '</option>';
+							});
+							
+							$('#disciplina').append(listaItens); // faz enxerta o conteudo da select disciplina
+					}
+				});
+			}
 		
 			// funcao que executa o post da id, da senha atual e da nova senha para modificar por jQuery
 			function atualizaSenha(senhaAtualP, senhaP){
@@ -226,16 +257,16 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 
         <div class="tab-content">
             <div class="tab-pane active" id="perfil">
-                <p class="TabContent">
-                    <form id="formMudaInfo" action="#" title="Modificar as informações pessoais" method='POST'> 
-
+                <p class="TabContent" >
+                    <form id="formMudaInfo" action="#" title="Modificar as informações pessoais" method='POST' > 
+					
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<h4>
 								MODIFICAR AS INFORMAÇÕES PESSOAIS 
 							</h4>
 						</div>
 
-						<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="col-xs-12 col-sm-12 col-md-12" >
 							<div class="form-group">
 								<input
 									type="text"
@@ -310,7 +341,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input type="button" value="Voltar" class="btn btn-danger btn-block btn-lg">
+								<input type="button" value="Sair" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-target="#configModal">
 							</div>
 						</div> 
 					
@@ -402,14 +433,20 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							</h4>
 						</div>
 						
+						<div id="minhaGrade">
+						<!-- AREA DE EXIBICAO DAS SALAS POR DIA DA SEMANA -->
+						</div>
+						
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="form-group">
 								<label for="curso">Nome do curso:</label>
-									<select class="form-control" id="curso" ><!-- onchange=AjaxFunction(); -->
+									<select class="form-control" id="curso" ><!-- onchange=atualizaDisciplina(); -->
 										<?php
 											$sql2="SELECT id, descricao FROM curso order by descricao";
 											
 											$result2 = mysql_query($sql2, $_SESSION['conexao']);
+											
+											echo "<option value=0></option>"; 
 											
 											while ($row = mysql_fetch_assoc($result2)) {
 												
@@ -424,24 +461,41 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="form-group">
 								<label for="disciplina">Disciplina:</label>
-									<select disabled class="form-control" id="disciplina">
+									<select class="form-control" id="disciplina"></select>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<label for="unidade">Unidade Senac:</label>
+									<select class="form-control" id="unidade">
 										<?php
-											$sql3="SELECT
-														nome
-													FROM
-														disciplina, disciplina_curso
-													WHERE
-														disciplina.id = disciplina_curso.fk_id_disciplina
-													AND
-														disciplina_curso.fk_id_curso = 
-													ORDER BY
-														descricao";
+											$sql3="SELECT id, nome, endereco FROM unidade order by nome";
 											
-											$result2 = mysql_query($sql2, $_SESSION['conexao']);
+											$result3 = mysql_query($sql3, $_SESSION['conexao']);
 											
-											while ($row = mysql_fetch_assoc($result2)) {
+											while ($row = mysql_fetch_assoc($result3)) {
 												
-												echo "<option value=$row[id]>$row[descricao]</option>"; 
+												echo "<option value=$row[id]>$row[nome] -  $row[endereco]</option>"; 
+											
+											}
+										?>
+									</select>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<label for="unidade">Sala:</label>
+									<select class="form-control" id="unidade">
+										<?php
+											$sql3="SELECT id, nome, endereco FROM unidade order by nome";
+											
+											$result3 = mysql_query($sql3, $_SESSION['conexao']);
+											
+											while ($row = mysql_fetch_assoc($result3)) {
+												
+												echo "<option value=$row[id]>$row[nome] -  $row[endereco]</option>"; 
 											
 											}
 										?>
@@ -452,10 +506,15 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 					</form>
 				
                 </p>
+				
             </div>
 
         </div>
 		
     </body>
+
+	<!-- NAO REMOVER, COLOCADO AQUI PARA CONSERTAR O DROPDOWN QUE PARAVA DE FUNCIONAR DEPOIS DE APRESENTAR O MODAL -->
+		<!-- Bootstrap Core JavaScript -->
+		<!-- <script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script> -->
 
 </html>

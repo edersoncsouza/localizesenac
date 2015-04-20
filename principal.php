@@ -65,10 +65,12 @@ PENDENCIAS LOCAIS:
 <script>
 $(document).ready(function() {
 
-$("#configModal").on("show.bs.modal", function(e) {
-    var link = $(e.relatedTarget);
-    $(this).find(".modal-body").load(link.attr("href"));
-});
+	$("#configModal").on("show.bs.modal", function(e) {
+		var link = $(e.relatedTarget);
+		$(this).find(".modal-body").load(link.attr("href"));
+	});
+
+
 
 });
 </script>
@@ -78,7 +80,7 @@ $("#configModal").on("show.bs.modal", function(e) {
 <body>
 
 <!-- MODAL DA AREA DE CONFIGURACAO DE ALUNO -->
-<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true" >
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<!--
