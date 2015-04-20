@@ -152,8 +152,9 @@ $(document).ready(function() {
         }
     });
 	
-	    $('#formMudaSenha').formValidation({
-        message: 'Este não é um valor válido',
+	    $('#formMudaSenha, #formMudaInfo').formValidation({
+        		excluded: [':disabled'],
+		message: 'Este não é um valor válido',
         icon: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',

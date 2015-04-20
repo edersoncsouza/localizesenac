@@ -1,6 +1,6 @@
 <?php
 
-include("configBanco.php"); // Inclui o arquivo com a configuração do banco
+//include("configBanco.php"); // Inclui o arquivo com a configuração do banco
 	
 function defineDiaSemana(){
 	
@@ -68,7 +68,7 @@ function defineAcordion(){
 				id, nome, parametro_imagem 
 			FROM 
 				categoria";
-
+				
 	$result = mysql_query($sql, $_SESSION['conexao']);
 
 	//$i = 1; // o valor dos collapses parte de 1 para nao sobrescrever a area de pesquisas que e collapse 0

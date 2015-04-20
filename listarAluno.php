@@ -100,7 +100,7 @@
 				}
 				else{
 					alert("result: " + result);
-					bootbox.alert('Falha ao inserir o aluno');
+					//bootbox.alert('Falha ao inserir o aluno');
 				}
 				
 				//location.reload();

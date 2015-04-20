@@ -10,13 +10,6 @@ PENDENCIAS LOCAIS:
 <!DOCTYPE html>
 <html lang="en">
 
-    <?php
-    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
-    include("dist/php/funcoes.php");
-    protegePagina(); // Chama a função que protege a página
-    mysql_set_charset('UTF8', $_SG['link']);
-    ?>
-
 <head>
 
     <meta charset="utf-8">
@@ -54,7 +47,6 @@ PENDENCIAS LOCAIS:
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 	
 	<!-- jQuery -->
     <script src="dist/components/jquery/dist/jquery.min.js"></script>
@@ -65,6 +57,13 @@ PENDENCIAS LOCAIS:
 	<!-- Typeahead -->
 	<script src="dist/components/typeahead/dist/js/typeahead.bundle.js"></script>
 
+<?php
+    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include("dist/php/funcoes.php");
+    protegePagina(); // Chama a função que protege a página
+    mysql_set_charset('UTF8', $_SG['link']);
+?>
+	
 </head>
 
 <body>
