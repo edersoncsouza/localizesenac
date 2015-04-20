@@ -3,8 +3,7 @@
 PENDENCIAS LOCAIS:
 
  - INSERIR UM SUBMENU DE CATEGORIAS(SALAS POR ANDAR POR EXEMPLO);
- - ALIMENTAR TYPEAHEAD COM AS TAGS DE SALAS DO BANCO DE DADOS;
-								
+ - ALIMENTAR TYPEAHEAD COM AS TAGS DE SALAS DO BANCO DE DADOS;							
 								 
 -->
 <!DOCTYPE html>
@@ -12,6 +11,12 @@ PENDENCIAS LOCAIS:
 
 <head>
 
+<?php
+    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+    include("dist/php/funcoes.php");
+    protegePagina(); // Chama a função que protege a página
+    mysql_set_charset('UTF8', $_SG['link']);
+?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,9 +36,6 @@ PENDENCIAS LOCAIS:
 
     <!-- Custom CSS -->
     <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-	
-	<!-- Morris Charts CSS -->
-    <!-- <link href="../bower_components/morrisjs/morris.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
     <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -50,6 +52,9 @@ PENDENCIAS LOCAIS:
 	
 	<!-- jQuery -->
     <script src="dist/components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 	
 	<!-- funcoes personalizadas -->
 	<script type="text/javascript" src="dist/js/funcoes.js"></script>
@@ -57,16 +62,43 @@ PENDENCIAS LOCAIS:
 	<!-- Typeahead -->
 	<script src="dist/components/typeahead/dist/js/typeahead.bundle.js"></script>
 
-<?php
-    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
-    include("dist/php/funcoes.php");
-    protegePagina(); // Chama a função que protege a página
-    mysql_set_charset('UTF8', $_SG['link']);
-?>
-	
+<script>
+$(document).ready(function() {
+
+$("#configModal").on("show.bs.modal", function(e) {
+    var link = $(e.relatedTarget);
+    $(this).find(".modal-body").load(link.attr("href"));
+});
+
+});
+</script>
+
 </head>
 
 <body>
+
+<!-- MODAL DA AREA DE CONFIGURACAO DE ALUNO -->
+<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!--
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+			</div>
+			
+			<div class="modal-body">
+				
+			</div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+			-->
+		</div>
+	</div>
+</div>
 
     <div id="wrapper">
 
@@ -91,9 +123,9 @@ PENDENCIAS LOCAIS:
                         Olá <?php echo $_SESSION['usuarioNome']; ?>! <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        <!-- <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
+                        </li> -->
+                        <li><a id="configuracoes" data-toggle="modal" data-target="#configModal" href="configAluno.php"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
                         <li class="divider"></li>
                         <!-- <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Sair</a> -->
@@ -372,10 +404,6 @@ PENDENCIAS LOCAIS:
 
 	
 	</div> <!-- /#page-wrapper -->
-	
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="dist/components/metisMenu/dist/metisMenu.min.js"></script> 

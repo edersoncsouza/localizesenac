@@ -133,7 +133,9 @@
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 ?>
-	
+
+
+
 </head>
 
 <body>

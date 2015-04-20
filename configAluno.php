@@ -1,3 +1,7 @@
+<!--
+PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-down.php
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -161,7 +165,6 @@
 				
 			}
         </script>
-		
     </head>
 
     <body>
@@ -452,7 +455,7 @@
             </div>
 
         </div>
-
+		
     </body>
 
 </html>
