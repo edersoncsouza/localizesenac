@@ -72,7 +72,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 
         <script>
 		$(document).ready(function(){
-			
+			// carrega a pagina com a lista dos dias da semana e disciplinas
 			$("#minhaGrade").load("calendarioSemana.php");
 			
 			// mascara para o celular
@@ -85,6 +85,28 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 			  
 			  montarGrade(cursoP); // chama a funcao para montar a grade
 			  
+			});
+		
+			// captura a alteracao no value do input de andar
+			//$('#andar').on('change', function() {
+			$("input[type='number']").bind("input", function() {
+			  
+			  $('#salas').empty(); // zera os itens previos do select sala
+			  var andarP = this.value; // armazena o id do curso
+			  var unidadeP = $("#unidade").val();
+
+			  montarAndar(andarP, unidadeP); // chama a funcao para montar a grade
+			  
+			});
+		
+			// captura o evento onChange do select box unidade
+			$('#unidade').on('change', function() {
+				
+				$('#salas').empty(); // zera os itens previos do select sala
+				$("input[type='number']").val(-1); // recebe o valor atual de andar
+				//alert("unidade foi mudada");
+				//$("input[type='number']").val(andar); // atualiza o mesmo para disparar a atualizacao de salas
+				
 			});
 		
             // captura o evento submit do formMudaSenha e chama a funcao atualizaSenha
@@ -131,6 +153,8 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 
 				var url = "dist/php/montarGrade.php";
 				
+				$('#disciplina').empty(); // zera os itens previos de select
+				
 				// executa o post enviando os parametros id, passwordAtual, password
 				$.post(url,{ curso: cursoP }, function(json) {
 					
@@ -146,6 +170,30 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							});
 							
 							$('#disciplina').append(listaItens); // faz enxerta o conteudo da select disciplina
+					}
+				});
+			}
+		
+			// funcao que executa o post do andar para montar o select de salas por jQuery
+			function montarAndar(andarP, unidadeP){
+
+				var url = "dist/php/montarAndar.php";
+				
+				// executa o post enviando os parametros id, passwordAtual, password
+				$.post(url,{ andar: andarP, unidade: unidadeP}, function(json) {
+					
+					if (json == 0){// caso o retorno de montarGrade.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{
+							var objJson = JSON.parse(json); // transforma a string recebida em objeto
+							var listaItens; // cria uma lista de itens para inserir uma única vez
+							
+							$.each(objJson, function(index, value) { // para cada objeto da lista armazena na string
+								listaItens += '<option>' + value + '</option>';
+							});
+							
+							$('#sala').append(listaItens); // faz enxerta o conteudo da select disciplina
 					}
 				});
 			}
@@ -484,22 +532,17 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							</div>
 						</div>
 						
-						<div class="col-xs-12 col-sm-12 col-md-12">
+						<div class="col-xs-6 col-sm-6 col-md-6">
 							<div class="form-group">
-								<label for="unidade">Sala:</label>
-									<select class="form-control" id="unidade">
-										<?php
-											$sql3="SELECT id, nome, endereco FROM unidade order by nome";
-											
-											$result3 = mysql_query($sql3, $_SESSION['conexao']);
-											
-											while ($row = mysql_fetch_assoc($result3)) {
-												
-												echo "<option value=$row[id]>$row[nome] -  $row[endereco]</option>"; 
-											
-											}
-										?>
-									</select>
+								<label for="andar">Andar:</label>
+								<input class="form-control" name="andar" type="number" min="0" max="10">
+							</div>
+						</div>
+						
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<label for="sala">Sala:</label>
+									<select class="form-control" id="sala"></select>
 							</div>
 						</div>
 						
