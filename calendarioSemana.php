@@ -61,23 +61,31 @@ $(document).ready(function() {
 					// se nao existirem disciplinas cadastradas no dia
 					if($(this).text().trim() == 'Não tem aulas no dia de hoje'){ // o trim remove os espaços extra que jquery traz
 						// adiciona um botao para incluir disciplinas no mesmo nivel do container de texto
-						$(this).parent().append('<p class="TabContent col-xs-12 col-sm-12 col-md-12">'+
+						$(this).parent().append('<p class="TabContent col-xs-6 col-sm-6 col-md-6">'+
 										'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg">Adicionar Disciplina</button>'+
 										//'<a data-toggle="modal" data-target="#modalDisciplinas" class="btn btn-success btn-block btn-lg"> Adicionar Disciplina </a>'+
-										'</p>');
+										'</p>'+
+										'<p class="TabContent col-xs-6 col-sm-6 col-md-6">'+
+										'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg">Sair</button>'+
+										'</p>'
+										);
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
 						// adiciona um botao para editar e um para excluir disciplinas no mesmo nivel do container de texto
-						$(this).parent().append('<p class="TabContent col-xs-12 col-sm-12 col-md-12">'+
+						$(this).parent().append('<p class="TabContent col-xs-4 col-sm-4 col-md-4">'+
 										'<button type="button" id="editaDisciplina" class="btn btn-warning btn-block btn-lg">Editar Disciplina</button>'+
 										'</p>'+
-										'<p class="TabContent col-xs-12 col-sm-12 col-md-12">'+
+										'<p class="TabContent col-xs-4 col-sm-4 col-md-4">'+
 										'<button type="button" id="excluiDisciplina" class="btn btn-danger btn-block btn-lg">Excluir Disciplina</button>'+
+										'</p>'+
+										'<p class="TabContent col-xs-4 col-sm-4 col-md-4">'+
+										'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg">Sair</button>'+
 										'</p>'
 										);
 					}
 			});
 });
+
 
 </script>
 
@@ -156,37 +164,72 @@ $(document).ready(function() {
 							<!-- recebe as disciplinas de funcoes.php (defineDisciplinas())-->
                                 <div class="tab-pane active" id="segunda">
                                     <p class="TabContent  col-xs-12 col-sm-12 col-md-12">
-                                        <?php echo $_SESSION['discSeg'];?> 
+                                        <?php 
+											foreach ($_SESSION['discSeg'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="terça">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discTer']; ?>
+                                        <?php 
+											foreach ($_SESSION['discTer'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="quarta">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discQua']; ?>
+                                        <?php 
+											foreach ($_SESSION['discQua'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="quinta">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discQui']; ?>
+                                        <?php 
+											foreach ($_SESSION['discQui'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="sexta">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discSex']; ?>
+                                        <?php 
+											foreach ($_SESSION['discSex'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?>
                                     </p>
                                 </div>
 								 <div class="tab-pane" id="sábado">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discSab']; ?>
+                                        <?php 
+											foreach ($_SESSION['discSab'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?>
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="domingo">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discDom']; ?>
+                                        <?php 
+											foreach ($_SESSION['discDom'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?>
                                     </p>
                                 </div>
 

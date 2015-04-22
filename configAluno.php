@@ -57,6 +57,11 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 		<!-- Custom Fonts -->
         <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		
+		
+		    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+		
+		
 	    <!-- jQuery -->
         <script src="dist/components/jquery/dist/jquery.min.js"></script>
 		
@@ -73,7 +78,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
         <script>
 		$(document).ready(function(){
 
-			$('#sairSenha, #sairInfo').click( function() {
+			$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
 				var url = "principal.php";
 				$("body").load(url);
 			} );
@@ -81,19 +86,45 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 			// carrega a pagina com a lista dos dias da semana e disciplinas
 			$("#minhaGrade").load("calendarioSemana.php",function(){
 				
+				// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
+				$('button#excluiDisciplina').click( function() {
+					
+					bootbox.confirm("Tem certeza que deseja excluir a disciplina deste dia?", function(result) {
+
+					if (result){
+						
+						var palavras = $(".modal-title").text().split(" "); // armazena as palavras do titulo do modal em um array
+						// pega a terceira palavra, apenas os tres primeiros caract e tira acentuacoes da letra A maiuscula e armazena
+						var diaP = palavras[2].substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
+
+						//var turnoP = ;
+						//excluirDisciplinaGrade(diaP, turnoP);
+						
+					}
+					else
+						bootbox.alert("Ufa...");
+					}); 
+				} );
+				
+				// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
+				$('button#sairDisciplina').click( function() {
+					var url = "principal.php";
+					$("body").load(url);
+				} );
+				
 				// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
-				    $("#incluiDisciplina, #editaDisciplina").click(function(){
+				$("#incluiDisciplina, #editaDisciplina").click(function(){
 						
-						// monta a variavel de titulo do modal
-						var tituloModalGrade = "DISCIPLINA DE " + $(this).parent().parent().attr("id").toUpperCase();
+					// monta a variavel de titulo do modal
+					var tituloModalGrade = "DISCIPLINA DE " + $(this).parent().parent().attr("id").toUpperCase();
 						
-						// define o titulo do modal
-						$(".modal-title").text(tituloModalGrade);
+					// define o titulo do modal
+					$(".modal-title").text(tituloModalGrade);
 						
-						// exibe o modal
-						$("#gradeModal").modal('show');
+					// exibe o modal
+					$("#gradeModal").modal('show');
 						
-					});
+				});
 				
 			});
 			
@@ -192,6 +223,22 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 
 		});
 
+			function excluirDisciplinaGrade(){
+					
+					bootbox.alert("Oh criatura desalmada!");
+					
+					/*
+					DELETE FROM
+						aluno_disciplina
+					WHERE
+						dia_semana = 
+					AND
+						turno = 
+					AND
+						fk_id_aluno = 
+					*/
+			}
+		
 			// funcao que executa o post do curso para montar o select de disciplinas por jQuery
 			function montarGrade(cursoP){
 
@@ -312,6 +359,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
                             <div>
                                 <h3> CONFIGURAÇÕES DO USUÁRIO </h3>
 								<br> <?php echo $nome; ?> <i class="fa fa-user fa-fw"></i>
+								
                             </div>
                         </div>
                     </div>
@@ -623,8 +671,6 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							</div> <!-- class="modal-dialog" -->
 
 						</div> <!-- <div class="modal fade"  -->
-						
-
 						
 					</form>
 				

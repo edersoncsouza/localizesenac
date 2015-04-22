@@ -15,7 +15,7 @@ function defineDiaSemana(){
 function defineDisciplinas(){
 
 	$sql3 = "SELECT
-				fk_sala_fk_id_unidade AS UNIDADE, aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
+				fk_sala_fk_id_unidade AS UNIDADE, turno AS TURNO, aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
 			FROM
 				aluno_disciplina, disciplina, aluno
 			WHERE
@@ -30,24 +30,77 @@ function defineDisciplinas(){
 	$contDiscp = mysql_num_rows($result3);
 	$_SESSION['contDiscp'] = $contDiscp; // passa a varivel para a sessão
 
-    $discSeg = "Não tem aulas no dia de hoje";
-    $discTer = "Não tem aulas no dia de hoje";
-    $discQua = "Não tem aulas no dia de hoje";
-    $discQui = "Não tem aulas no dia de hoje";
-    $discSex = "Não tem aulas no dia de hoje";
-	$discSab = "Não tem aulas no dia de hoje";
-	$discDom = "Não tem aulas no dia de hoje";
-
+	$semAulas = "Não tem aulas no dia de hoje"; // armazena o texto padrao para dias sem aula
+	
+	
+	
+	$discSeg = array();
+	$discTer = array();
+	$discQua = array();
+	$discQui = array();
+	$discSex = array();
+	$discSab = array();
+	$discDom = array();
+	
+	// inicializa as variaveis de aulas por semana
+    $discSeg[] = $semAulas;
+    $discTer[] = $semAulas;
+    $discQua[] = $semAulas;
+    $discQui[] = $semAulas;
+    $discSex[] = $semAulas;
+	$discSab[] = $semAulas;
+	$discDom[] = $semAulas;
+	
 /*  incio do while para preencher os conteudos das pills */
-  
 	while ($row = mysql_fetch_assoc($result3)) {
-        if ($row['DIA'] == "SEG") {$discSeg = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "TER") {$discTer = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "QUA") {$discQua = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "QUI") {$discQui = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "SEX") {$discSex = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
-		if ($row['DIA'] == "SAB") {$discSab = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
-		if ($row['DIA'] == "DOM") {$discDom = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+		
+		// monta a string com o local, turno, sala e disciplina do dia
+		$discDia = "Unidade " . $row['UNIDADE'] . " - " ."Turno " . $row['TURNO'] . " - " ."Sala: ".$row['SALA'] . " - " . $row['DISC'];
+		
+		// se houver aulas cadastradas para o dia
+        if ($row['DIA'] == "SEG") {		
+			// se houver o texto padrao de "sem aulas" dentro do array reinstancia para zerar
+			if (in_array($semAulas, $discSeg))
+				$discSeg = array();
+			// armazena a disciplina no array (necessario pois o aluno pode ter mais de uma disciplina no dia, em turnos diferentes)
+			$discSeg[] = $discDia;
+		}
+        if ($row['DIA'] == "TER") {
+			if (in_array($semAulas, $discTer))
+				$discTer = array();
+
+			$discTer[] = $discDia;
+		}
+        if ($row['DIA'] == "QUA") {
+			if (in_array($semAulas, $discQua))
+				$discQua = array();
+
+			$discQua[] = $discDia;
+		}
+        if ($row['DIA'] == "QUI") {
+			if (in_array($semAulas, $discQui))
+				$discQui = array();
+			
+			$discQui[] = $discDia;
+		}
+        if ($row['DIA'] == "SEX") {
+			if (in_array($semAulas, $discSex))
+				$discSex = array();
+			
+			$discSex[] = $discDia;
+		}
+		if ($row['DIA'] == "SAB") {
+			if (in_array($semAulas, $discSab))
+				$discSab = array();
+			
+			$discSab[] = $discDia;
+		}
+		if ($row['DIA'] == "DOM") {
+			if (in_array($semAulas, $discDom))
+				$discDom = array();
+			
+			$discDom[] = $discDia;
+		}
 	}
 
 	$_SESSION['discSeg'] = $discSeg;

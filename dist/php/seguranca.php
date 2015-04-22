@@ -83,20 +83,20 @@ return true;
 }
 
 /**
-* Função que protege uma página
+* Função que protege uma pagina
 */
 function protegePagina() {
 global $_SG;
 
 if (!isset($_SESSION['usuarioID']) OR !isset($_SESSION['usuarioNome'])) {
-// Não há usuário logado, manda pra página de login
+// Não ha usuario logado, manda para a pagina de login
 expulsaVisitante();
 } else if (!isset($_SESSION['usuarioID']) OR !isset($_SESSION['usuarioNome'])) {
 	// Há usuário logado, verifica se precisa validar o login novamente
 	if ($_SG['validaSempre'] == true) {
-		// Verifica se os dados salvos na sessão batem com os dados do banco de dados
+		// Verifica se os dados salvos na sessao batem com os dados do banco de dados
 		if (!validaUsuario($_SESSION['usuarioLogin'], $_SESSION['usuarioSenha'])) {
-		// Os dados não batem, manda pra tela de login
+		// Os dados nao batem, manda para a tela de login
 		expulsaVisitante();
 	}
 	}
@@ -111,6 +111,8 @@ global $_SG;
 
 // Remove as variáveis da sessão (caso elas existam)
 unset($_SESSION['usuarioID'], $_SESSION['usuarioNome'], $_SESSION['usuarioLogin'], $_SESSION['usuarioSenha']);
+
+session_destroy();
 
 // Manda pra tela de login
 header("Location: ".$_SG['paginaLogin']);

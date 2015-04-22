@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   `fk_andar_sala` tinyint(4) NOT NULL,
   `fk_numero_sala` int(11) NOT NULL,
   `fk_id_disciplina` int(11) NOT NULL,
+  PRIMARY KEY (`dia_semana`,`turno`,`fk_id_aluno`),
   KEY `id` (`id`),
   KEY `fk_aluno_disciplina_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_disciplina_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),

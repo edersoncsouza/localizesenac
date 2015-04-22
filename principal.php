@@ -77,8 +77,6 @@ $(document).ready(function() {
 		$("body").load(url);
 	} );
 	
-	
-	
 });
 </script>
 
@@ -345,37 +343,72 @@ $(document).ready(function() {
 							<!-- recebe as disciplinas de funcoes.php (defineDisciplinas())-->
                                 <div class="tab-pane active" id="seg">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discSeg']; ?> 
+                                        <?php 
+											foreach ($_SESSION['discSeg'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="ter">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discTer']; ?>
+                                        <?php 
+											foreach ($_SESSION['discTer'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="qua">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discQua']; ?>
+                                        <?php 
+											foreach ($_SESSION['discQua'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="qui">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discQui']; ?>
+                                        <?php 
+											foreach ($_SESSION['discQui'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="sex">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discSex']; ?>
+                                        <?php 
+											foreach ($_SESSION['discSex'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
 								 <div class="tab-pane" id="sab">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discSab']; ?>
+                                        <?php 
+											foreach ($_SESSION['discSab'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="dom">
                                     <p class="TabContent">
-                                        <?php echo $_SESSION['discDom']; ?>
+                                        <?php 
+											foreach ($_SESSION['discDom'] as $aula) {
+												echo $aula;
+												echo "<br>";
+											}
+										?> 
                                     </p>
                                 </div>
 
