@@ -86,17 +86,65 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 			// carrega a pagina com a lista dos dias da semana e disciplinas
 			$("#minhaGrade").load("calendarioSemana.php",function(){
 				
-				// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
+				// apos carregar insere a funcionalidade de voltar para a pagina principal ao botao sairDisciplina
 				$('button#excluiDisciplina').click( function() {
 					
-					bootbox.confirm("Tem certeza que deseja excluir a disciplina deste dia?", function(result) {
+					// armazena o dia da semana por extenso para as mensagens
+					var diaExtenso = $(this).parent().parent().attr("id").toUpperCase();
+					// armazena o dia da semana reduzido para usar como parametro
+					var diaP = diaExtenso.substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
+					
+					// armazena as disciplinas doo painel em uma string
+					var stringDisciplinas = $(this).parent().parent().text();
+					
+					var palavras = stringDisciplinas.split(";"); // armazena as palavras da string em um array
+					
+					// mensagem de confirmacao de exclusao
+					bootbox.confirm("Tem certeza que deseja excluir a disciplina de "+diaExtenso+" ?", function(result) {
 
-					if (result){
+					if (result){// se o usuario confirmou a exclusao
 						
-						var palavras = $(".modal-title").text().split(" "); // armazena as palavras do titulo do modal em um array
-						// pega a terceira palavra, apenas os tres primeiros caract e tira acentuacoes da letra A maiuscula e armazena
-						var diaP = palavras[2].substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
-
+						// formulario de exclusao em um modal bootbox
+						bootbox.dialog({
+								title: "Selecione a(s) disciplina(s) a excluir",
+								message: '<div class="row">  ' +
+									'<div class="col-md-12"> ' +
+									'<form class="form-horizontal"> ' +
+									'<div class="form-group"> ' +
+									'<div class="col-md-12"> <div class="checkbox"> <label for="disciplina1"> ' +
+									'<input type="checkbox" name="disciplina" id="disciplina1" value="disciplina1" checked="checked"> ' +
+									palavras[0]+'</label> ' +
+									'</div><div class="checkbox"> <label for="disciplina2"> ' +
+									'<input type="checkbox" name="disciplina" id="disciplina2" value="disciplina2">' + palavras[1]+'</label> ' +
+									'</div> ' +
+									'</div> </div>' +
+									'</form> </div>  </div>',
+								buttons: {
+									success: {
+										label: "Excluir",
+										className: "btn-danger",
+										callback: function () {
+											var name = $('#name').val();
+											var answer = $("input[name='awesomeness']:checked").val()
+											Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
+										}
+									},
+									main: {
+									  label: "Sair",
+									  className: "btn-primary",
+									  callback: function() {
+										Example.show("Primary button");
+									  }
+									}
+								}
+							}
+						);
+						
+						//bootbox.alert($(this).parent().text());
+						// buscar disciplinas do dia
+						// exibir no modal com checkbox
+						// criar loop para mais de uma exclusao na funcao excluirDisciplinaGrade
+						
 						//var turnoP = ;
 						//excluirDisciplinaGrade(diaP, turnoP);
 						

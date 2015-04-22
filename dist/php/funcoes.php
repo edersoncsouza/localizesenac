@@ -55,7 +55,7 @@ function defineDisciplinas(){
 	while ($row = mysql_fetch_assoc($result3)) {
 		
 		// monta a string com o local, turno, sala e disciplina do dia
-		$discDia = "Unidade " . $row['UNIDADE'] . " - " ."Turno " . $row['TURNO'] . " - " ."Sala: ".$row['SALA'] . " - " . $row['DISC'];
+		$discDia = "Unidade " . $row['UNIDADE'] . " - " ."Turno " . $row['TURNO'] . " - " ."Sala: ".$row['SALA'] . " - " . $row['DISC'] .";";
 		
 		// se houver aulas cadastradas para o dia
         if ($row['DIA'] == "SEG") {		
