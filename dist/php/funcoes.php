@@ -15,7 +15,7 @@ function defineDiaSemana(){
 function defineDisciplinas(){
 
 	$sql3 = "SELECT
-				aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
+				fk_sala_fk_id_unidade AS UNIDADE, aluno_disciplina.dia_semana AS DIA, aluno_disciplina.fk_numero_sala AS SALA, disciplina.nome AS DISC
 			FROM
 				aluno_disciplina, disciplina, aluno
 			WHERE
@@ -41,13 +41,13 @@ function defineDisciplinas(){
 /*  incio do while para preencher os conteudos das pills */
   
 	while ($row = mysql_fetch_assoc($result3)) {
-        if ($row['DIA'] == "SEG") {$discSeg = $row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "TER") {$discTer = $row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "QUA") {$discQua = $row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "QUI") {$discQui = $row['SALA'] . " - " . $row['DISC'];}
-        if ($row['DIA'] == "SEX") {$discSex = $row['SALA'] . " - " . $row['DISC'];}
-		if ($row['DIA'] == "SAB") {$discSab = $row['SALA'] . " - " . $row['DISC'];}
-		if ($row['DIA'] == "DOM") {$discDom = $row['SALA'] . " - " . $row['DISC'];}
+        if ($row['DIA'] == "SEG") {$discSeg = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+        if ($row['DIA'] == "TER") {$discTer = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+        if ($row['DIA'] == "QUA") {$discQua = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+        if ($row['DIA'] == "QUI") {$discQui = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+        if ($row['DIA'] == "SEX") {$discSex = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+		if ($row['DIA'] == "SAB") {$discSab = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
+		if ($row['DIA'] == "DOM") {$discDom = "Unidade " . $row['UNIDADE'] . " - " .$row['SALA'] . " - " . $row['DISC'];}
 	}
 
 	$_SESSION['discSeg'] = $discSeg;

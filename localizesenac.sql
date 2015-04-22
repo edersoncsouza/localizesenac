@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 15-Abr-2015 às 19:14
+-- Data de Criação: 21-Abr-2015 às 17:15
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -36,17 +36,18 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   `celular` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ativo` enum('N','S') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `NR_MATRICULA` (`matricula`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  PRIMARY KEY (`matricula`),
+  UNIQUE KEY `NOME_ALUNO` (`nome`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Extraindo dados da tabela `aluno`
 --
 
 INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `ativo`) VALUES
-(2, '630610028', 'qaz123', 'Ederson Souza', NULL, 'edersonadssenac@gmail.com', 'S'),
-(3, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'S');
+(1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersonadssenac@gmail.com', 'S'),
+(2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'S');
 
 -- --------------------------------------------------------
 
@@ -74,11 +75,11 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
 --
 
 INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
-(1, 'SEG', 'N', 2, 1, 3, 301, 32),
-(2, 'TER', 'N', 2, 1, 6, 603, 30),
-(3, 'QUA', 'N', 2, 1, 6, 603, 28),
-(4, 'QUI', 'N', 2, 1, 4, 409, 31),
-(5, 'SEX', 'N', 2, 1, 7, 704, 23);
+(1, 'SEG', 'N', 1, 1, 3, 301, 32),
+(2, 'TER', 'N', 1, 1, 6, 603, 30),
+(3, 'QUA', 'N', 1, 1, 6, 603, 28),
+(4, 'QUI', 'N', 1, 1, 4, 409, 31),
+(5, 'SEX', 'N', 1, 1, 7, 704, 23);
 
 -- --------------------------------------------------------
 
@@ -255,6 +256,42 @@ CREATE TABLE IF NOT EXISTS `disciplina_curso` (
   KEY `fk_disciplina_curso_curso1_idx` (`fk_id_curso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Extraindo dados da tabela `disciplina_curso`
+--
+
+INSERT INTO `disciplina_curso` (`fk_id_disciplina`, `fk_id_curso`) VALUES
+(1, 7),
+(2, 7),
+(3, 7),
+(4, 7),
+(5, 7),
+(6, 7),
+(7, 7),
+(8, 7),
+(9, 7),
+(10, 7),
+(11, 7),
+(12, 7),
+(13, 7),
+(14, 7),
+(15, 7),
+(16, 7),
+(17, 7),
+(18, 7),
+(19, 7),
+(20, 7),
+(21, 7),
+(22, 7),
+(23, 7),
+(24, 7),
+(25, 7),
+(26, 7),
+(27, 7),
+(28, 7),
+(29, 7),
+(30, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -397,11 +434,14 @@ CREATE TABLE IF NOT EXISTS `sala` (
   KEY `fk_sala_unidade1_idx` (`fk_id_unidade`),
   KEY `fk_sala_categoria1_idx` (`fk_id_categoria`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=46 ;
+
 --
 -- Extraindo dados da tabela `sala`
 --
 
 INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`) VALUES
+(19, 1, 0, 102, 2),
+(20, 1, 0, 103, 2),
 (1, 1, 0, 160, 6),
 (2, 1, 0, 161, 5),
 (3, 1, 0, 162, 5),
@@ -420,8 +460,6 @@ INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`)
 (16, 1, 0, 175, 4),
 (17, 1, 0, 176, 1),
 (18, 1, 0, 177, 6),
-(19, 1, 0, 102, 2),
-(20, 1, 0, 103, 2),
 (21, 1, 0, 178, 1),
 (22, 1, 0, 179, 1),
 (23, 1, 0, 180, 1),

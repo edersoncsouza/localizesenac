@@ -32,12 +32,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-	<!-- jQuery -->
-    <script src="dist/components/jquery/dist/jquery.min.js"></script>
+	<!-- jQuery	
+    <script src="dist/components/jquery/dist/jquery.min.js"></script> DESATIVADO POIS E CARREGADO NO DESTINO -->
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
-	
+    <!-- Bootstrap Core JavaScript	
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script> DESATIVADO POIS E CARREGADO NO DESTINO -->
+
 	<!-- funcoes personalizadas -->
 	<script type="text/javascript" src="dist/js/funcoes.js"></script>
 	
@@ -55,7 +55,7 @@ $(document).ready(function() {
 	$('div.tab-pane>p') // div classe tab-pane, conteudo p
 		.filter(function() {
 			var Id = $(this).parent().attr("id");   
-			return (Id == 'seg' || Id == 'ter'|| Id == 'qua'|| Id == 'qui'|| Id == 'sex'|| Id == 'sab'|| Id == 'dom');
+			return (Id == 'segunda' || Id == 'terça'|| Id == 'quarta'|| Id == 'quinta'|| Id == 'sexta'|| Id == 'sábado'|| Id == 'domingo');
 		}) // se o id for um dia da semana
 			.each(function(){ // com todos eles
 					// se nao existirem disciplinas cadastradas no dia
@@ -63,6 +63,7 @@ $(document).ready(function() {
 						// adiciona um botao para incluir disciplinas no mesmo nivel do container de texto
 						$(this).parent().append('<p class="TabContent col-xs-12 col-sm-12 col-md-12">'+
 										'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg">Adicionar Disciplina</button>'+
+										//'<a data-toggle="modal" data-target="#modalDisciplinas" class="btn btn-success btn-block btn-lg"> Adicionar Disciplina </a>'+
 										'</p>');
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
@@ -84,7 +85,8 @@ $(document).ready(function() {
 
 <body>
 
-	<div id="page-wrapper">
+	<!-- <div id="page-wrapper"> -->
+	
 				<div class="col-xs-12 col-sm-12 col-md-12" >
                     <div class="panel panel-primary"> <!-- Minhas Aulas -->
                         <div class="panel-footer">
@@ -111,37 +113,37 @@ $(document).ready(function() {
 						<div class="panel-footer" id="pills">
                             <ul class="nav nav-pills nav-justified">
                                 <li class="active">
-                                    <a href="#seg" data-toggle="pill">
+                                    <a href="#segunda" data-toggle="pill">
                                         SEG
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#ter" data-toggle="pill">
+                                    <a href="#terça" data-toggle="pill">
                                         TER
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#qua" data-toggle="pill">
+                                    <a href="#quarta" data-toggle="pill">
                                         QUA
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#qui" data-toggle="pill">
+                                    <a href="#quinta" data-toggle="pill">
                                         QUI
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#sex" data-toggle="pill">
+                                    <a href="#sexta" data-toggle="pill">
                                         SEX
                                     </a>
                                 </li>
 								<li>
-                                    <a href="#sab" data-toggle="pill">
+                                    <a href="#sábado" data-toggle="pill">
                                         SAB
                                     </a>
                                 </li>
 								<li>
-                                    <a href="#dom" data-toggle="pill">
+                                    <a href="#domingo" data-toggle="pill">
                                         DOM
                                     </a>
                                 </li>
@@ -152,37 +154,37 @@ $(document).ready(function() {
                             <div class="tab-content">
 
 							<!-- recebe as disciplinas de funcoes.php (defineDisciplinas())-->
-                                <div class="tab-pane active" id="seg">
+                                <div class="tab-pane active" id="segunda">
                                     <p class="TabContent  col-xs-12 col-sm-12 col-md-12">
-                                        <?php echo $_SESSION['discSeg']; ?> 
+                                        <?php echo $_SESSION['discSeg'];?> 
                                     </p>
                                 </div>
-                                <div class="tab-pane" id="ter">
+                                <div class="tab-pane" id="terça">
                                     <p class="TabContent">
                                         <?php echo $_SESSION['discTer']; ?>
                                     </p>
                                 </div>
-                                <div class="tab-pane" id="qua">
+                                <div class="tab-pane" id="quarta">
                                     <p class="TabContent">
                                         <?php echo $_SESSION['discQua']; ?>
                                     </p>
                                 </div>
-                                <div class="tab-pane" id="qui">
+                                <div class="tab-pane" id="quinta">
                                     <p class="TabContent">
                                         <?php echo $_SESSION['discQui']; ?>
                                     </p>
                                 </div>
-                                <div class="tab-pane" id="sex">
+                                <div class="tab-pane" id="sexta">
                                     <p class="TabContent">
                                         <?php echo $_SESSION['discSex']; ?>
                                     </p>
                                 </div>
-								 <div class="tab-pane" id="sab">
+								 <div class="tab-pane" id="sábado">
                                     <p class="TabContent">
                                         <?php echo $_SESSION['discSab']; ?>
                                     </p>
                                 </div>
-                                <div class="tab-pane" id="dom">
+                                <div class="tab-pane" id="domingo">
                                     <p class="TabContent">
                                         <?php echo $_SESSION['discDom']; ?>
                                     </p>
@@ -195,7 +197,7 @@ $(document).ready(function() {
 				</div> <!-- div class="col-lg-6 col-md-6"> -->
 				
 	
-	</div> <!-- /#page-wrapper -->
+	<!-- </div> /#page-wrapper -->
 
 
 	<script type="text/javascript">

@@ -72,13 +72,35 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 
         <script>
 		$(document).ready(function(){
+
+			$('#sairSenha, #sairInfo').click( function() {
+				var url = "principal.php";
+				$("body").load(url);
+			} );
+		
 			// carrega a pagina com a lista dos dias da semana e disciplinas
-			$("#minhaGrade").load("calendarioSemana.php");
+			$("#minhaGrade").load("calendarioSemana.php",function(){
+				
+				// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
+				    $("#incluiDisciplina, #editaDisciplina").click(function(){
+						
+						// monta a variavel de titulo do modal
+						var tituloModalGrade = "DISCIPLINA DE " + $(this).parent().parent().attr("id").toUpperCase();
+						
+						// define o titulo do modal
+						$(".modal-title").text(tituloModalGrade);
+						
+						// exibe o modal
+						$("#gradeModal").modal('show');
+						
+					});
+				
+			});
 			
 			// mascara para o celular
 			$('#celular').inputmask('(99) 9999-9999[9]');
 			
-			// captura o evento onChange do select box curso
+			// captura o evento onChange do select box CURSO
 			$('#curso').on('change', function() {
 			  
 			  var cursoP = this.value; // armazena o id do curso
@@ -87,25 +109,27 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 			  
 			});
 		
-			// captura a alteracao no value do input de andar
-			//$('#andar').on('change', function() {
+			// captura a alteracao no value do input de ANDAR
 			$("input[type='number']").bind("input", function() {
 			  
-			  $('#salas').empty(); // zera os itens previos do select sala
-			  var andarP = this.value; // armazena o id do curso
+			  $('#sala').empty(); // zera os itens previos do select sala
+			  
+			  var andarP = this.value; // armazena o andar
 			  var unidadeP = $("#unidade").val();
 
 			  montarAndar(andarP, unidadeP); // chama a funcao para montar a grade
 			  
 			});
 		
-			// captura o evento onChange do select box unidade
+			// captura o evento onChange do select box UNIDADE
 			$('#unidade').on('change', function() {
 				
-				$('#salas').empty(); // zera os itens previos do select sala
-				$("input[type='number']").val(-1); // recebe o valor atual de andar
-				//alert("unidade foi mudada");
-				//$("input[type='number']").val(andar); // atualiza o mesmo para disparar a atualizacao de salas
+				$('#sala').empty(); // zera os itens previos do select sala
+				
+				var andarP =  $("input[type='number']").val();
+				var unidadeP = this.value;
+				
+				montarAndar(andarP, unidadeP);				
 				
 			});
 		
@@ -144,6 +168,26 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 				}
 				else			
 					atualizaInfo(nomeP, emailP, celularP); // chama a funcao para atualizar as informacoes
+            });
+			
+			// captura o evento submit do formMudaDisciplina e chama a funcao atualizaDisciplina
+            $("#formMudaDisciplina").submit(function (event) {
+                
+				event.preventDefault(); // impede o submit
+
+				//var idP = <?php $_SESSION['usuarioID'];?>; // esta informação esta sendo trazida no start do PHP
+				var disciplinaP = $("#disciplina").val(); // recebe o valor do input de disciplina
+				var unidadeP = $("#unidade").val(); // recebe o valor de input de unidade
+				var turnoP = $("#turno").val(); //recebe o valor do select de turno
+				var andarP = $("#andar").val(); // recebe o valor de input de andar
+				var salaP = $("#sala").val(); // recebe o valor do select de sala
+				
+				var palavras = $(".modal-title").text().split(" "); // armazena as palavras do titulo do modal em um array
+				
+				// pega a terceira palavra, apenas os tres primeiros caract e tira acentuacoes da letra A maiuscula e armazena
+				var diaP = palavras[2].substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
+				
+				//atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP); // chama a funcao para atualizar a disciplina do dia
             });
 
 		});
@@ -244,11 +288,12 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 				
 			}
         </script>
+		
     </head>
 
     <body>
 
-        <div class="panel-group" >
+        <div class="panel-group">
 
             <div class="panel panel-primary" >
 
@@ -389,7 +434,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input type="button" value="Sair" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-target="#configModal">
+								<input id="sairInfo" type="button" value="Sair" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-target="#configModal">
 							</div>
 						</div> 
 					
@@ -462,7 +507,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input type="button" value="Voltar" class="btn btn-danger btn-block btn-lg">
+								<input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg">
 							</div>
 						</div> 
 					</form>
@@ -473,78 +518,113 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
             <div class="tab-pane" id="academico">
                 <p class="TabContent">
 				
-					<form role="form">
-					
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<h4>
 								MONTAR A GRADE DE AULAS DO SEMESTRE 
 							</h4>
 						</div>
+				
+					<form id="formMudaDisciplina" role="form">
 						
 						<div id="minhaGrade">
 						<!-- AREA DE EXIBICAO DAS SALAS POR DIA DA SEMANA -->
 						</div>
 						
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group">
-								<label for="curso">Nome do curso:</label>
-									<select class="form-control" id="curso" ><!-- onchange=atualizaDisciplina(); -->
-										<?php
-											$sql2="SELECT id, descricao FROM curso order by descricao";
-											
-											$result2 = mysql_query($sql2, $_SESSION['conexao']);
-											
-											echo "<option value=0></option>"; 
-											
-											while ($row = mysql_fetch_assoc($result2)) {
-												
-												echo "<option value=$row[id]>$row[descricao]</option>"; 
-											
-											}
-										?>
-									</select>
-							</div>
-						</div>
+						<!-- MODAL DA AREA DE MONTAGEM DE GRADE -->
+						<div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="gradeModalLabel" aria-hidden="true" >
+							<div class="modal-dialog">
+								<div class="modal-content">
+								
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">
+												DISCIPLINA DE 
+											</h4>
+									</div>
+								
+									<div class="col-xs-12 col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="curso">Nome do curso:</label>
+												<select class="form-control" id="curso" >
+													<?php
+														$sql2="SELECT id, descricao FROM curso order by descricao";
+														
+														$result2 = mysql_query($sql2, $_SESSION['conexao']);
+														
+														echo "<option value=0></option>"; 
+														
+														while ($row = mysql_fetch_assoc($result2)) {
+															
+															echo "<option value=$row[id]>$row[descricao]</option>"; 
+														
+														}
+													?>
+												</select>
+										</div>
+									</div>
 						
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group">
-								<label for="disciplina">Disciplina:</label>
-									<select class="form-control" id="disciplina"></select>
-							</div>
-						</div>
+									<div class="col-xs-12 col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="disciplina">Disciplina:</label>
+												<select class="form-control" id="disciplina" required></select>
+										</div>
+									</div>
 						
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group">
-								<label for="unidade">Unidade Senac:</label>
-									<select class="form-control" id="unidade">
-										<?php
-											$sql3="SELECT id, nome, endereco FROM unidade order by nome";
-											
-											$result3 = mysql_query($sql3, $_SESSION['conexao']);
-											
-											while ($row = mysql_fetch_assoc($result3)) {
-												
-												echo "<option value=$row[id]>$row[nome] -  $row[endereco]</option>"; 
-											
-											}
-										?>
-									</select>
-							</div>
-						</div>
+									<div class="col-xs-12 col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="unidade">Unidade Senac:</label>
+												<select class="form-control" id="unidade">
+													<?php
+														$sql3="SELECT id, nome, endereco FROM unidade order by nome";
+														
+														$result3 = mysql_query($sql3, $_SESSION['conexao']);
+														
+														while ($row = mysql_fetch_assoc($result3)) {
+															
+															echo "<option value=$row[id]>$row[nome] -  $row[endereco]</option>"; 
+														
+														}
+													?>
+												</select>
+										</div>
+									</div>
 						
-						<div class="col-xs-6 col-sm-6 col-md-6">
-							<div class="form-group">
-								<label for="andar">Andar:</label>
-								<input class="form-control" name="andar" type="number" min="0" max="10">
-							</div>
-						</div>
+									<div class="col-xs-4 col-sm-4 col-md-4">
+										<div class="form-group">
+											<label for="turno">Turno:</label>
+												<select class="form-control" id="turno" required>
+													<option value="M">Manhã</option>
+													<option value="N">Noite</option>
+												</select>
+										</div>
+									</div>
 						
-						<div class="col-xs-6 col-sm-6 col-md-6">
-							<div class="form-group">
-								<label for="sala">Sala:</label>
-									<select class="form-control" id="sala"></select>
-							</div>
-						</div>
+									<div class="col-xs-4 col-sm-4 col-md-4">
+										<div class="form-group">
+											<label for="andar">Andar:</label>
+											<input class="form-control" name="andar" value="-1" type="number" min="0" max="10">
+										</div>
+									</div>
+									
+									<div class="col-xs-4 col-sm-4 col-md-4">
+										<div class="form-group">
+											<label for="sala">Sala:</label>
+												<select class="form-control" id="sala" required></select>
+										</div>
+									</div>
+									
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" class="btn btn-primary">Salvar alterações</button>
+									</div>
+								
+								</div> <!-- class="modal-content" -->
+
+							</div> <!-- class="modal-dialog" -->
+
+						</div> <!-- <div class="modal fade"  -->
+						
+
 						
 					</form>
 				

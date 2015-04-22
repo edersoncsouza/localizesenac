@@ -64,14 +64,21 @@ PENDENCIAS LOCAIS:
 
 <script>
 $(document).ready(function() {
-
+	/*
 	$("#configModal").on("show.bs.modal", function(e) {
 		var link = $(e.relatedTarget);
 		$(this).find(".modal-body").load(link.attr("href"));
 	});
-
-
-
+	*/
+	
+	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
+	$('#configuracoes').click( function() {
+		var url = "configAluno.php";
+		$("body").load(url);
+	} );
+	
+	
+	
 });
 </script>
 
@@ -81,8 +88,9 @@ $(document).ready(function() {
 
 <!-- MODAL DA AREA DE CONFIGURACAO DE ALUNO -->
 <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true" >
-	<div class="modal-dialog">
-		<div class="modal-content">
+	<div class="modal-dialog modal-lg">
+	
+		<div id="modalConteudo" class="modal-content">
 		</div>
 	</div>
 </div>
@@ -112,7 +120,8 @@ $(document).ready(function() {
                     <ul class="dropdown-menu dropdown-user">
                         <!-- <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
                         </li> -->
-                        <li><a id="configuracoes" data-toggle="modal" data-target="#configModal" href="configAluno.php"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        <li><a id="configuracoes"  data-target="#configModal" href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+						<!-- data-target="#configModal" data-toggle="modal" href="configAluno.php"-->
                         </li>
                         <li class="divider"></li>
                         <!-- <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Sair</a> -->
