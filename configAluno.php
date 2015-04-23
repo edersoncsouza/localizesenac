@@ -94,11 +94,6 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 					// armazena o dia da semana reduzido para usar como parametro
 					var diaP = diaExtenso.substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
 					
-					// armazena as disciplinas doo painel em uma string
-					var stringDisciplinas = $(this).parent().parent().text();
-					
-					var palavras = stringDisciplinas.split(";"); // armazena as palavras da string em um array
-					
 					// mensagem de confirmacao de exclusao
 					bootbox.confirm("Tem certeza que deseja excluir a disciplina de "+diaExtenso+" ?", function(result) {
 
@@ -111,7 +106,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 									'<div class="col-md-12"> ' +
 									'<form class="form-horizontal"> ' +
 									'<div class="form-group"> ' +
-									'<div class="col-md-12"> <div class="checkbox"> <label for="disciplina1"> ' +
+									'<div id="bootboxDialogDisciplinas" class="col-md-12"> <div class="checkbox"> <label for="disciplina1"> ' +
 									'<input type="checkbox" name="disciplina" id="disciplina1" value="disciplina1" checked="checked"> ' +
 									palavras[0]+'</label> ' +
 									'</div><div class="checkbox"> <label for="disciplina2"> ' +
@@ -125,8 +120,9 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 										className: "btn-danger",
 										callback: function () {
 											var name = $('#name').val();
-											var answer = $("input[name='awesomeness']:checked").val()
+											var answer = $("input[name='disciplina1']:checked").val()
 											Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
+											// CHAMAR A FUNCAO PHP PARA EXCLUIR AS DISCIPLINAS SELECIONADAS (excluirDisciplinaGrade.php)
 										}
 									},
 									main: {
@@ -138,6 +134,11 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 									}
 								}
 							}
+							
+							// chama metodo que busca em um php as disciplinas do aluno naquele dia
+							// e enxerta no bootbox.dialog acima
+							buscarDisciplinasDia(diaP);
+							
 						);
 						
 						//bootbox.alert($(this).parent().text());
@@ -271,6 +272,38 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 
 		});
 
+			function buscarDisciplinasDia(diaP){
+				var url = "dist/php/buscarDisciplinasDia.php";
+				
+				// executa o post enviando o parametro dia
+				// recebe como retorno um json com as disciplinas (diaJson)
+				$.post(url,{ dia: diaP }, function(diaJson) {
+					
+					if (diaJson == 0){// caso o retorno de montarGrade.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{
+							var objJson = JSON.parse(json); // transforma a string recebida em objeto
+							var listaItens; // cria uma lista de itens para inserir uma única vez
+							
+							var i=1;
+							$.each(objJson, function(index, value) { // para cada objeto da lista armazena na string
+								
+								// monta a string com as checkbox para cada disciplina
+								listaItens +='<div class="checkbox"> <label for="disciplina1"> <input type="checkbox" name="disciplina" id="disciplina' + i + '" value="disciplina' + i + '"> ' +
+												value+
+												'</label> </div>';
+							});
+							
+							// enxerta o conteudo das checkboxs no modal de diálogo, na area de conteudo, dentro do corpo
+							//$('.modal-dialog>modal-content>modal-body').append(listaItens); 
+							// enxerta o conteudo das checkboxs na area bootboxDialogDisciplinas do modal de diálogo,
+							$('#bootboxDialogDisciplinas').append(listaItens); 
+					}
+					
+				}
+			}
+			
 			function excluirDisciplinaGrade(){
 					
 					bootbox.alert("Oh criatura desalmada!");
@@ -294,7 +327,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 				
 				$('#disciplina').empty(); // zera os itens previos de select
 				
-				// executa o post enviando os parametros id, passwordAtual, password
+				// executa o post enviando o parametro curso
 				$.post(url,{ curso: cursoP }, function(json) {
 					
 					if (json == 0){// caso o retorno de montarGrade.php seja = 0
