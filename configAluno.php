@@ -144,7 +144,7 @@ PENDENCIAS LOCAIS:
 											});
 											
 											// atualiza a grade de aulas
-											window.location.reload();
+											//window.location.reload();
 										}
 									},
 									main: {
@@ -278,6 +278,7 @@ PENDENCIAS LOCAIS:
 				
 				// chama a funcao para atualizar ou inserir a disciplina no dia
 				atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP); 
+				
             });
 
 		});
@@ -336,16 +337,6 @@ PENDENCIAS LOCAIS:
 					}
 				});
 
-					/*
-					DELETE FROM
-						aluno_disciplina
-					WHERE
-						dia_semana = $dia
-					AND
-						turno = $turno
-					AND
-						fk_id_aluno = $id
-					*/
 			}
 		
 			// funcao que executa o post do curso para montar o select de disciplinas por jQuery
@@ -464,19 +455,27 @@ PENDENCIAS LOCAIS:
 
 				var url = "dist/php/atualizaDisciplina.php";
 				
-				bootbox.alert("ja vou chamar o atualizaDisciplina.php com: " + idP + diaP+salaP+andarP+ turnoP+unidadeP+disciplinaP);
-				
 				// executa o post enviando os parametros id, dia, sala, andar, turno, unidade e disciplina
-				$.post(url,{ id: idP, dia: diaP, sala: salaP, andar: andarP, turno: turnoP, unidade: unidadeP, disciplina: disciplinaP }, function(json) {
+				$.post(url,{ id: idP, dia: diaP, sala: salaP, andar: andarP, turno: turnoP, unidade: unidadeP, disciplina: disciplinaP }, function(result) {
 					
-					if (json == 0){// caso o retorno de atualizaDisciplina.php seja = 0
-						bootbox.alert('Erro no envio de parâmetros!');
-					}
-					else{
-							bootbox.alert('Disciplina atualizada com sucesso!',
+					if (result == 1){// caso o retorno de atualizaDisciplina.php seja = 1
+						bootbox.alert('Disciplina atualizada com sucesso!',
 												function() {// apos OK executa a funcao
 														//location.reload();
+														$(".modal").modal("hide");
 												});
+					}
+					else{
+						// separar a mensagem de erro pelo caracter espaço em branco
+						erros = result.split(" "); // armazena as palavras em um array
+						
+						if(erros[5] == "'PRIMARY'") // compara a ultima palavra do array
+							bootbox.alert("Já existe disciplina neste turno!");
+						else
+							if(erros[5] == "'uq_aluno_disciplina'")
+								bootbox.alert("Esta disciplina já está cadastrada!");
+							else
+								bootbox.alert("Ocorreu um erro com sua requisição!");
 					}
 				});
 			}

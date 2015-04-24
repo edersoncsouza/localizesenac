@@ -26,7 +26,7 @@
 					(NULL, '".$dia."', '".$turno."', ".$id.", ".$unidade.", ".$andar.", ".$sala.", \"".$disciplina."\");
 		";
 		
-		echo "Query de inserção: ".$sql."<br>";
+		//echo "Query de inserção: ".$sql."<br>";
 		
 		// executa a query de insercao
 		mysql_query($sql) or die(mysql_error());

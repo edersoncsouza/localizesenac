@@ -25,7 +25,7 @@
 		echo "Query sql: ". $sql."<br>";
 		
 		// executa a query para exclusao da disciplina
-		$result = mysql_query($sql)or die(mysql_error());
+		mysql_query($sql) or die(mysql_error());
 			
 			// faz a verificação do resultado
 			//echo (mysql_affected_rows()) ? "Disciplina excluida com sucesso!" : "A disciplina não pode ser excluida!"; 
