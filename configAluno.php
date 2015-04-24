@@ -438,7 +438,8 @@ PENDENCIAS LOCAIS:
 					if (result == 1){// caso o retorno de mudarInfo.php seja = 1, o processo foi OK
 
 						bootbox.alert('Informações atualizadas com sucesso!', function() {// apos OK executa a funcao
-						  location.reload();
+						  //location.reload();
+						  $('#configuracoes').trigger( "click" );
 						});
 
 					}
@@ -463,6 +464,10 @@ PENDENCIAS LOCAIS:
 												function() {// apos OK executa a funcao
 														//location.reload();
 														$(".modal").modal("hide");
+														bootbox.alert("vou selecionar as configurações de novo!");
+														
+														$('body>#configuracoes').trigger( "click" );
+														
 												});
 					}
 					else{
