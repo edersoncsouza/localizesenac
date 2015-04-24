@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 24-Abr-2015 às 01:17
+-- Data de Criação: 24-Abr-2015 às 01:25
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   `fk_numero_sala` int(11) NOT NULL,
   `fk_id_disciplina` int(11) NOT NULL,
   PRIMARY KEY (`dia_semana`,`turno`,`fk_id_aluno`),
+  UNIQUE KEY `uq_aluno_disciplina` (`fk_id_aluno`,`fk_id_disciplina`),
   KEY `id` (`id`),
   KEY `fk_aluno_disciplina_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_disciplina_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
@@ -78,7 +79,6 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
 INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
 (3, 'QUA', 'N', 1, 1, 6, 603, 28),
 (4, 'QUI', 'N', 1, 1, 4, 409, 31),
-(8, 'SEG', 'M', 1, 1, 3, 301, 32),
 (1, 'SEG', 'N', 1, 1, 3, 301, 32),
 (5, 'SEX', 'N', 1, 1, 7, 704, 23),
 (2, 'TER', 'N', 1, 1, 6, 603, 30);

@@ -1,5 +1,9 @@
-<!--
-PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-down.php
+<!--								
+								
+PENDENCIAS LOCAIS:
+
+ - ATUALIZAR A GRADE DE AULAS APOS INCLUIR, EDITAR OU EXCLUIR DISCIPLINAS POIS ESTA RETORNANDO A PAGINA INICIAL
+								 
 -->
 
 <!DOCTYPE html>
@@ -74,15 +78,15 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 		<!-- Bootbox -->
 		<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
 		
-
         <script>
 		$(document).ready(function(){
-
+			
+			// ao clicar nos botoes de sair encaminha de volta ao principal.php
 			$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
 				var url = "principal.php";
 				$("body").load(url);
-			} );
-		
+			});
+				
 			// carrega a pagina com a lista dos dias da semana e disciplinas
 			$("#minhaGrade").load("calendarioSemana.php",function(){
 				
@@ -95,71 +99,76 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 					var diaP = diaExtenso.substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
 					
 					// mensagem de confirmacao de exclusao
-					bootbox.confirm("Tem certeza que deseja excluir a disciplina de "+diaExtenso+" ?", function(result) {
+					bootbox.confirm("Tem certeza que deseja excluir a(s) disciplina(s) de "+diaExtenso+" ?", function(result) {
 
 					if (result){// se o usuario confirmou a exclusao
 						
-						// formulario de exclusao em um modal bootbox
+						// chama metodo que busca em um php as disciplinas do aluno naquele dia
+						// e enxerta a string de disciplinas no bootbox.dialog
+						buscarDisciplinasDia(diaP);
+						
+						// exibe o formulario de exclusao em um modal bootbox
 						bootbox.dialog({
 								title: "Selecione a(s) disciplina(s) a excluir",
 								message: '<div class="row">  ' +
-									'<div class="col-md-12"> ' +
-									'<form class="form-horizontal"> ' +
-									'<div class="form-group"> ' +
-									'<div id="bootboxDialogDisciplinas" class="col-md-12"> <div class="checkbox"> <label for="disciplina1"> ' +
-									'<input type="checkbox" name="disciplina" id="disciplina1" value="disciplina1" checked="checked"> ' +
-									palavras[0]+'</label> ' +
-									'</div><div class="checkbox"> <label for="disciplina2"> ' +
-									'<input type="checkbox" name="disciplina" id="disciplina2" value="disciplina2">' + palavras[1]+'</label> ' +
-									'</div> ' +
-									'</div> </div>' +
-									'</form> </div>  </div>',
+											'<div class="col-md-12"> ' +
+												'<form class="form-horizontal"> ' +
+													'<div class="form-group"> ' +
+														'<div id="bootboxDialogDisciplinas" class="col-md-12">' +
+															// o conteudo das disciplinas vem aqui
+														'</div> ' +
+													'</div>'+
+												'</form>'+
+											'</div>'+
+										'</div>',
 								buttons: {
 									success: {
 										label: "Excluir",
 										className: "btn-danger",
-										callback: function () {
-											var name = $('#name').val();
-											var answer = $("input[name='disciplina1']:checked").val()
-											Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
-											// CHAMAR A FUNCAO PHP PARA EXCLUIR AS DISCIPLINAS SELECIONADAS (excluirDisciplinaGrade.php)
+										callback: function () { // caso clique no botao excluir executa a funcao
+											// pega os labels dos inputs marcados na div bootboxDialogDisciplinas e para cada...
+											$('#bootboxDialogDisciplinas input:checked').each(function() {
+
+												// armazena o texto do LABEL que contem Unidade, Turno, Sala e Disciplina
+												var unidadeTurnoSalaDisciplina = $("label[for='"+$(this).val()+"']").text(); 
+												
+												// separar Unidade, Turno, Sala e Disciplina pelo caracter "-"
+												var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
+				
+												// pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
+												var turnoP = palavras[1].charAt(palavras[1].length-2);
+												
+												// chama a funcao javascript que acionara a funcao php que excluira a disciplina
+												excluirDisciplinaGrade(diaP, turnoP);
+
+											});
+											
+											// atualiza a grade de aulas
+											window.location.reload();
 										}
 									},
 									main: {
 									  label: "Sair",
 									  className: "btn-primary",
-									  callback: function() {
-										Example.show("Primary button");
+									  callback: function() { // caso clique no botao sair executa a funcao
+										//var url = "principal.php";
+										//$("body").load(url);
 									  }
 									}
 								}
-							}
-							
-							// chama metodo que busca em um php as disciplinas do aluno naquele dia
-							// e enxerta no bootbox.dialog acima
-							buscarDisciplinasDia(diaP);
-							
-						);
-						
-						//bootbox.alert($(this).parent().text());
-						// buscar disciplinas do dia
-						// exibir no modal com checkbox
-						// criar loop para mais de uma exclusao na funcao excluirDisciplinaGrade
-						
-						//var turnoP = ;
-						//excluirDisciplinaGrade(diaP, turnoP);
-						
+								
+						});
 					}
 					else
 						bootbox.alert("Ufa...");
 					}); 
-				} );
+				});
 				
 				// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
 				$('button#sairDisciplina').click( function() {
 					var url = "principal.php";
 					$("body").load(url);
-				} );
+				});
 				
 				// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
 				$("#incluiDisciplina, #editaDisciplina").click(function(){
@@ -259,7 +268,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 				var disciplinaP = $("#disciplina").val(); // recebe o valor do input de disciplina
 				var unidadeP = $("#unidade").val(); // recebe o valor de input de unidade
 				var turnoP = $("#turno").val(); //recebe o valor do select de turno
-				var andarP = $("#andar").val(); // recebe o valor de input de andar
+				var andarP = $("input[type='number']").val();//$("#andar").val(); // recebe o valor de input de andar
 				var salaP = $("#sala").val(); // recebe o valor do select de sala
 				
 				var palavras = $(".modal-title").text().split(" "); // armazena as palavras do titulo do modal em um array
@@ -267,11 +276,13 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 				// pega a terceira palavra, apenas os tres primeiros caract e tira acentuacoes da letra A maiuscula e armazena
 				var diaP = palavras[2].substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
 				
-				//atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP); // chama a funcao para atualizar a disciplina do dia
+				// chama a funcao para atualizar ou inserir a disciplina no dia
+				atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP); 
             });
 
 		});
 
+			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP)
 			function buscarDisciplinasDia(diaP){
 				var url = "dist/php/buscarDisciplinasDia.php";
 				
@@ -283,40 +294,57 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 						bootbox.alert('Erro no envio de parâmetros!');
 					}
 					else{
-							var objJson = JSON.parse(json); // transforma a string recebida em objeto
-							var listaItens; // cria uma lista de itens para inserir uma única vez
+							var objJson = JSON.parse(diaJson); // transforma a string recebida em objeto
+							var listaItens=""; // cria uma lista de itens para inserir uma única vez
 							
 							var i=1;
 							$.each(objJson, function(index, value) { // para cada objeto da lista armazena na string
 								
 								// monta a string com as checkbox para cada disciplina
-								listaItens +='<div class="checkbox"> <label for="disciplina1"> <input type="checkbox" name="disciplina" id="disciplina' + i + '" value="disciplina' + i + '"> ' +
-												value+
-												'</label> </div>';
+								listaItens+='<div class="checkbox">'+
+												'<label for="disciplina' + i + '">'+
+													'<input type="checkbox" name="disciplina" id="disciplina' + i + '" value="disciplina' + i + '"> ' + value+
+												'</label>'+
+											'</div>';
+								i++;
 							});
 							
 							// enxerta o conteudo das checkboxs no modal de diálogo, na area de conteudo, dentro do corpo
 							//$('.modal-dialog>modal-content>modal-body').append(listaItens); 
 							// enxerta o conteudo das checkboxs na area bootboxDialogDisciplinas do modal de diálogo,
-							$('#bootboxDialogDisciplinas').append(listaItens); 
+							$('#bootboxDialogDisciplinas').append(listaItens);
+
+							return objJson; // retorna o json de objetos disciplina
 					}
 					
-				}
+				});
 			}
 			
-			function excluirDisciplinaGrade(){
+			// funcao que executa o post dia e do turno para excluir a disciplina da grade por jQuery
+			function excluirDisciplinaGrade(diaP, turnoP){
 					
-					bootbox.alert("Oh criatura desalmada!");
+				var url = "dist/php/excluirDisciplinaGrade.php";
 					
+				// executa o post enviando os parametros Id de usuario, dia da semana e turno da disciplina
+				$.post(url,{ id: idP, dia: diaP, turno: turnoP }, function(json) {
+					
+					if (json == 0){// caso o retorno de excluirDisciplinaGrade.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{
+							bootbox.alert("Disciplina removida da grade com sucesso!");
+					}
+				});
+
 					/*
 					DELETE FROM
 						aluno_disciplina
 					WHERE
-						dia_semana = 
+						dia_semana = $dia
 					AND
-						turno = 
+						turno = $turno
 					AND
-						fk_id_aluno = 
+						fk_id_aluno = $id
 					*/
 			}
 		
@@ -334,14 +362,29 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 						bootbox.alert('Erro no envio de parâmetros!');
 					}
 					else{
+							
 							var objJson = JSON.parse(json); // transforma a string recebida em objeto
-							var listaItens; // cria uma lista de itens para inserir uma única vez
 							
-							$.each(objJson, function(index, value) { // para cada objeto da lista armazena na string
-								listaItens += '<option>' + value + '</option>';
+							//alert(objJson[0].id);
+							//alert(objJson[0].nome);
+							
+							var listaItens; // cria uma lista de itens para inserir uma unica vez
+							var nomeDisciplina;
+							var idDisciplina;
+							
+							$.each(objJson, function() {// para cada registro no Json {objJson[0].id ou objJson[0].nome
+							  $.each(this, function(name, value) { // utiliza o nome da chave e o valor ex: [nome]: [algoritmos]
+								
+								if(name == 'nome') // caso seja a propriedade nome, armazena na variavel de nome
+									nomeDisciplina=value;
+								else // senao armazena na variavel de id
+									idDisciplina=value;
+							  });
+							  // monta o option de cada disciplina com os valores de nome e id
+							  listaItens += '<option value=\"'+idDisciplina+'\">' + nomeDisciplina + '</option>';	
 							});
-							
-							$('#disciplina').append(listaItens); // faz enxerta o conteudo da select disciplina
+
+							$('#disciplina').append(listaItens); // enxerta o conteudo da select disciplina
 					}
 				});
 			}
@@ -415,6 +458,29 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 				});
 				
 			}
+			
+			// funcao que executa o post dos parametros para inserir ou editar a disciplina por jQuery
+			function atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP){
+
+				var url = "dist/php/atualizaDisciplina.php";
+				
+				bootbox.alert("ja vou chamar o atualizaDisciplina.php com: " + idP + diaP+salaP+andarP+ turnoP+unidadeP+disciplinaP);
+				
+				// executa o post enviando os parametros id, dia, sala, andar, turno, unidade e disciplina
+				$.post(url,{ id: idP, dia: diaP, sala: salaP, andar: andarP, turno: turnoP, unidade: unidadeP, disciplina: disciplinaP }, function(json) {
+					
+					if (json == 0){// caso o retorno de atualizaDisciplina.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{
+							bootbox.alert('Disciplina atualizada com sucesso!',
+												function() {// apos OK executa a funcao
+														//location.reload();
+												});
+					}
+				});
+			}
+			
         </script>
 		
     </head>
@@ -744,7 +810,7 @@ PARA PREENCHER OS SELECTS: http://www.plus2net.com/php_tutorial/disable-drop-dow
 									
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-										<button type="submit" class="btn btn-primary">Salvar alterações</button>
+										<button type="submit" id="salvarDisciplina" class="btn btn-primary">Salvar alterações</button>
 									</div>
 								
 								</div> <!-- class="modal-content" -->

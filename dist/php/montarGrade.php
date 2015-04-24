@@ -14,7 +14,7 @@
 		
 		// busca as disciplinas do curso recebido
 		$result = mysql_query("	SELECT
-									nome
+									id, nome
 								FROM
 									disciplina, `disciplina_curso`
 								WHERE
@@ -27,7 +27,8 @@
 
 		// armazena no array os nomes das disciplinas para o select
 		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			 $data[] = $row['nome']; 
+			 //$data[] = $row['nome']; 
+			 $data[] = $row; 
 		}
 		
 		// codifica o array em formato Json e devolve como retorno

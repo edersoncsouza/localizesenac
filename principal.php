@@ -64,12 +64,6 @@ PENDENCIAS LOCAIS:
 
 <script>
 $(document).ready(function() {
-	/*
-	$("#configModal").on("show.bs.modal", function(e) {
-		var link = $(e.relatedTarget);
-		$(this).find(".modal-body").load(link.attr("href"));
-	});
-	*/
 	
 	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
 	$('#configuracoes').click( function() {
