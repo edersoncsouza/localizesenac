@@ -159,10 +159,14 @@ $(document).ready(function() {
 		var url = "consultarAluno.php";
 		
 		alert("entrei na funcao consultarAluno");
+		alert("A matricula é: "+matriculaP);
 		
 		// executa o post enviando o parametro matricula
 		// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
 		$.post(url,{ matricula: matriculaP }, function(alunoJson) {
+			
+			alert("aqui fez o post para consultarAluno.php e retornou alunoJson, mandando o json em copia para o console");
+			console.log(alunoJson);
 			
 			if (alunoJson == 0){// caso o retorno de consultarAluno.php seja = 0
 				// aluno nao existe no banco
@@ -178,16 +182,18 @@ $(document).ready(function() {
 									function(alunoInseridoJson) {
 									
 										alert("ja tentei inserir o aluno");
+										alert(alunoInseridoJson);
 										
-										if (alunoInseridoJson != 0){
+										if (alunoInseridoJson != 1){
 											alert("Erro ao inserir o aluno");
 										}
 									
 								});	
 			}
 			else{
-				alert("aqui ja recebeu o json da consulta de aluno");
-
+				alert("aqui ja entrou no else (aluno != 0), aluno EXISTE!, mandando o json em copia para o console");
+				console.log(alunoJson);
+				
 				var objJson = JSON.parse(alunoJson); // transforma a string recebida em objeto
 				
 							$.each(objJson, function() {// para cada registro no Json {objJson[0].id ou objJson[0].nome
@@ -195,10 +201,11 @@ $(document).ready(function() {
 								  
 								  alert("vai tentar montar nome e id");
 								  if(name == 'nome')
-									  $_SESSION['usuarioNome'] = value;
+									  alert("Nome do aluno: " + value);
 								  else
-									  $_SESSION['usuarioId'] = value;
+									  alert("Id do aluno: " + value);
 							   });
+							 
 							 });
 							
 							/*
@@ -215,8 +222,7 @@ $(document).ready(function() {
 				//$_SESSION['usuarioNome'] = $nomeGoogle; // para passar pelo valida
 				//$_SESSION['usuarioId'] = $nomeGoogle; // para passar pelo valida
 				
-				alert('O nome do usuario no banco e: ' + $_SESSION['usuarioNome']);
-				alert('O Id do usuario no banco e: ' + $_SESSION['usuarioId']);
+				
 			}
 		});
 		

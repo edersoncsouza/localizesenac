@@ -1,7 +1,7 @@
 <?php
     include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
     include("dist/php/funcoes.php");
-    protegePagina(); // Chama a função que protege a página
+    //protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	
 	// se recebeo os parametros por POST
@@ -10,20 +10,19 @@
 		// sanitiza as entradas
 		foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
 		
+		$matricula = $_POST['matricula'];
+		
 		// monta a query
-		$sql = "SELECT 
-					id, nome 
-				FROM 
-					`aluno` 
-				WHERE 
-					`matricula`= {$_POST['matricula']}";
+		$sql = "SELECT id, nome FROM aluno WHERE matricula = \"$matricula\"";
 		
 		// executa a query
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
-		if(mysql_affected_rows() == 0)
+		// se nao encontrou o aluno
+		if(mysql_num_rows($result) == 0)
 			echo 0;
 		else{
+			
 			//cria o array data
 			$data= []; 
 
