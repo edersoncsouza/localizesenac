@@ -475,7 +475,7 @@ PENDENCIAS LOCAIS:
 						erros = result.split(" "); // armazena as palavras em um array
 						
 						if(erros[5] == "'PRIMARY'") // compara a ultima palavra do array
-							bootbox.alert("Já existe disciplina neste turno!");
+							bootbox.alert("Disciplina de "+diaP+" - Já existe disciplina neste turno!");
 						else
 							if(erros[5] == "'uq_aluno_disciplina'")
 								bootbox.alert("Esta disciplina já está cadastrada!");
