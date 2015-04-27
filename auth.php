@@ -177,20 +177,31 @@ $(document).ready(function() {
 				
 				var url2 = 'inserirAluno.php';
 				
+				// executa o post para inserir o aluno no banco
 				$.post(url2,{ matricula: matriculaP, password: senhaP, nome: nomeP,
 								celular: celularP, email: matriculaP, ativo: ativoP}, 
 									function(alunoInseridoJson) {
 									
-										alert("ja tentei inserir o aluno");
-										alert(alunoInseridoJson);
+										var idNome;
+									
+										alert("Resposta da insercao de aluno: "+alunoInseridoJson);
 										
-										if (alunoInseridoJson != 1){
-											alert("Erro ao inserir o aluno");
+										// se deu retorno 0 (nao afetou linhas da tabela)
+										if (alunoInseridoJson == 0){
+											alert("Aluno não inserido!");
 										}
+										else
+											if (isNaN(alunoInseridoJson)) // se retornou um valor nao numerico (Erro do mysql)
+												alert("Erro do MySql: " + alunoInseridoJson);
+											else{
+												alert("Id do aluno: " + alunoInseridoJson);
+												alert("Nome do aluno: " + nomeP);
+												//return idNome = alunoInseridoJson+";"+nomeP; // retorno (alunoInseridoJson) sera o id do aluno inserido
+											}
 									
 								});	
 			}
-			else{
+			else{ // se o aluno existir
 				alert("aqui ja entrou no else (aluno != 0), aluno EXISTE!, mandando o json em copia para o console");
 				console.log(alunoJson);
 				
@@ -199,7 +210,6 @@ $(document).ready(function() {
 							$.each(objJson, function() {// para cada registro no Json {objJson[0].id ou objJson[0].nome
 							  $.each(this, function(name, value){
 								  
-								  alert("vai tentar montar nome e id");
 								  if(name == 'nome')
 									  alert("Nome do aluno: " + value);
 								  else
@@ -207,21 +217,6 @@ $(document).ready(function() {
 							   });
 							 
 							 });
-							
-							/*
-							$.each(objJson, function(index, value) { // para cada objeto da lista armazena na string
-								
-								if (index == 'nome')
-									$_SESSION['usuarioNome'] = value;
-								else
-									$_SESSION['usuarioId'] = value;
-								alert(value);
-							});
-							*/
-				
-				//$_SESSION['usuarioNome'] = $nomeGoogle; // para passar pelo valida
-				//$_SESSION['usuarioId'] = $nomeGoogle; // para passar pelo valida
-				
 				
 			}
 		});
@@ -244,10 +239,16 @@ if (isset($authUrl)) {
 		$_SESSION['senhaOauth2'] = $idGoogle; // sera a senha, ou seja o campo senha da tabela aluno
 		$_SESSION['nomeOauth2'] = $nomeGoogle; // sera o nome, ou seja o campo nome da tabela aluno
 		
-		
 		// chama o metodo para pesquisar se aluno ja existe no banco
 		// caso nao exista o aluno, insere no banco	
-		echo "<script>consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\");</script>";
+		echo "<script>consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\");</script>"; // tentativa de receber o retorno do script
+		
+		/*
+		if ($alunoInserido != '')
+			echo $alunoInserido;
+		else
+			echo "Não deu retorno";
+		*/
 		
 		// envia para a validacao
 		//$url = 'dist/php/valida.php';

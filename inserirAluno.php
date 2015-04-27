@@ -16,11 +16,17 @@
 				VALUES(  '{$_POST['matricula']}', '{$_POST['password']}', '{$_POST['nome']}', '{$_POST['celular']}', '{$_POST['email']}', '{$_POST['ativo']}' ) "; 
 		
 		// executa a query
-		mysql_query($sql) or die(mysql_error());
+		mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		
+		// se nao inseriu o aluno
+		if(mysql_affected_rows() == 0)
+			echo 0;
+		else
+			echo mysql_insert_id(); // retorna o id do aluno inserido
 		
 		// faz a verificação do resultado
 		//echo (mysql_affected_rows()) ? "Aluno inserido." : "Nada inserido."; 
-		echo (mysql_affected_rows()) ? 1 : 0; 
+		//echo (mysql_affected_rows()) ? 1 : 0; 
 	}
 	else
 		echo ("Não recebi os parametros de insercao");
