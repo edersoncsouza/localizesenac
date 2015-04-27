@@ -152,21 +152,22 @@ if ($client->getAccessToken()) {
 
 <script>
 
-$(document).ready(function() {
-});	
+	$(document).ready(function() {
+	});
+	
 	// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP)
 	function consultarAluno(matriculaP, senhaP, nomeP){
-		var url = "consultarAluno.php";
+		var url = "consultarAlunoOauth2.php";
 		
-		alert("entrei na funcao consultarAluno");
-		alert("A matricula é: "+matriculaP);
+		alert("Entrei na funcao consultarAluno");
+		alert("A matricula é: " + matriculaP);
 		
 		// executa o post enviando o parametro matricula
 		// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
 		$.post(url,{ matricula: matriculaP }, function(alunoJson) {
 			
-			alert("aqui fez o post para consultarAluno.php e retornou alunoJson, mandando o json em copia para o console");
-			console.log(alunoJson);
+			alert("Aqui já fez o post para consultarAluno.php e retornou alunoJson, mandando o json em copia para o console");
+			//console.log(alunoJson);
 			
 			if (alunoJson == 0){// caso o retorno de consultarAluno.php seja = 0
 				// aluno nao existe no banco
@@ -183,8 +184,6 @@ $(document).ready(function() {
 									function(alunoInseridoJson) {
 									
 										var idNome;
-									
-										alert("Resposta da insercao de aluno: "+alunoInseridoJson);
 										
 										// se deu retorno 0 (nao afetou linhas da tabela)
 										if (alunoInseridoJson == 0){
@@ -196,15 +195,14 @@ $(document).ready(function() {
 											else{
 												alert("Id do aluno: " + alunoInseridoJson);
 												alert("Nome do aluno: " + nomeP);
-												//return idNome = alunoInseridoJson+";"+nomeP; // retorno (alunoInseridoJson) sera o id do aluno inserido
 											}
 									
 								});	
 			}
 			else{ // se o aluno existir
-				alert("aqui ja entrou no else (aluno != 0), aluno EXISTE!, mandando o json em copia para o console");
-				console.log(alunoJson);
+				alert("aqui ja entrou no else (aluno != 0), aluno EXISTE! portanto nao faz nada, o consultarAlunoOauth2 fara");
 				
+				/*
 				var objJson = JSON.parse(alunoJson); // transforma a string recebida em objeto
 				
 							$.each(objJson, function() {// para cada registro no Json {objJson[0].id ou objJson[0].nome
@@ -217,7 +215,7 @@ $(document).ready(function() {
 							   });
 							 
 							 });
-				
+				*/
 			}
 		});
 		
@@ -244,10 +242,10 @@ if (isset($authUrl)) {
 		echo "<script>consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\");</script>"; // tentativa de receber o retorno do script
 		
 		/*
-		if ($alunoInserido != '')
-			echo $alunoInserido;
-		else
-			echo "Não deu retorno";
+		echo $_SESSION['usuarioID'];
+		echo $_SESSION['usuarioNome'];
+		echo $_SESSION['usuarioLogin'];
+		echo $_SESSION['usuarioSenha']; 
 		*/
 		
 		// envia para a validacao
@@ -255,27 +253,7 @@ if (isset($authUrl)) {
 		
 		//header( 'Location: '.$url);
 
-		/*
-			$url = "dist/php/valida.php";
-			$params = array(
-				"usuario" => $emailGoogle,
-				"senha" => $idGoogle,
-				"tipoUsuario" => "google"
-			);
-			
-			// build a new HTTP POST request
-			$request = new HttpPost($url);
-			$request->setPostData($params);
-			$request->send();
 
-			// decode the incoming string as JSON
-			$responseObj = json_decode($request->getHttpResponse());
-			
-			var_dump(json_decode($request->getHttpResponse())); // Dump da resposta
-
-			//echo "OAuth2 server provided access token: " . $responseObj->access_token;
-			
-		*/
 		
 /*
 echo "<h3>Resultados do Calendar:</h3>";

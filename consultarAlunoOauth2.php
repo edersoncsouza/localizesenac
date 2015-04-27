@@ -1,30 +1,58 @@
 <?php
     include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
     include("dist/php/funcoes.php");
-    protegePagina(); // Chama a função que protege a página
+    //protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	
 	// se recebeo os parametros por POST
-	if(isset($_SESSION['usuarioOauth2'])){ 
+	if(isset($_POST['matricula'])){ 
 		
 		// sanitiza as entradas
-		$matricula = mysql_real_escape_string($_SESSION['usuarioOauth2']);
+		foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
+		
+		$matricula = $_POST['matricula'];
 		
 		// monta a query
-		$sql = "SELECT 
-					matricula 
-				FROM 
-					`aluno` 
-				WHERE 
-					`matricula`= {$_POST['matricula']}";
+		$sql = "SELECT id, nome, matricula, senha FROM aluno WHERE matricula = \"$matricula\"";
 		
 		// executa a query
-		mysql_query($sql) or die(mysql_error());
+		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
-		// faz a verificação do resultado
-		//echo (mysql_affected_rows()) ? "Aluno inserido." : "Nada inserido."; 
-		echo (mysql_affected_rows()) ? 1 : 0; 
+		// se nao encontrou o aluno
+		if(mysql_num_rows($result) != 0){
+						
+			//cria o array data
+			$data= []; 
+
+			// armazena no array o nome e o id do aluno
+			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				 $data[] = $row;
+				 
+				 $id = $row['id'];
+				 $nome = $row['nome'];
+				 $matricula = $row['matricula'];
+				 $senha = $row['senha'];
+			}
+			
+			// registra as variaveis de sessao para equiparar aos usuarios logados localmente
+			// Definimos dois valores na sessão com os dados do usuário
+			$_SESSION['usuarioID'] = $id; // Pega o valor da coluna 'id do registro encontrado no MySQL
+			$_SESSION['usuarioNome'] = $nome; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
+			$_SESSION['usuarioLogin'] = $matricula;
+			$_SESSION['usuarioSenha'] = $senha;
+			
+			// envia para a validacao
+			$url = 'dist/php/valida.php';
+			header( 'Location: '.$url);
+			//exit;
+			
+			// codifica o array em formato Json e devolve como retorno
+			echo json_encode($data);
+		}
+		else{ // if(mysql_num_rows($result) == 0)
+			echo 0;
+		}
 	}
 	else
-		echo ("Não recebi os parametros de insercao");
+		echo ("Não recebi os parametros de consulta");
 ?> 
