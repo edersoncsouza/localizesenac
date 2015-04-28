@@ -67,8 +67,10 @@ $(document).ready(function() {
 	
 	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
 	$('#configuracoes').click( function() {
-		var url = "configAluno.php";
-		$("body").load(url);
+		var url = "configAluno.php"; // define a pagina de configuracao
+		$('div').hide(); // oculta todas as divs da pagina
+		$("#configAluno").load(url); // carrega o conteudo da pagina de configuracao na div configAluno
+		$("#configAluno").show(); // exibe a div configAluno
 	} );
 	
 });
@@ -78,6 +80,10 @@ $(document).ready(function() {
 
 <body>
 
+<div id="configAluno">
+		
+</div>
+		
 <!-- MODAL DA AREA DE CONFIGURACAO DE ALUNO -->
 <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true" >
 	<div class="modal-dialog modal-lg">
@@ -88,7 +94,7 @@ $(document).ready(function() {
 </div>
 
     <div id="wrapper">
-
+		
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
