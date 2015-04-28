@@ -334,6 +334,7 @@ PENDENCIAS LOCAIS:
 					}
 					else{
 							bootbox.alert("Disciplina removida da grade com sucesso!");
+							// $('#configAluno').load('configAluno.php');
 					}
 				});
 
@@ -455,6 +456,7 @@ PENDENCIAS LOCAIS:
 			function atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP){
 
 				var url = "dist/php/atualizaDisciplina.php";
+				var tabDiaSemana;
 				
 				// executa o post enviando os parametros id, dia, sala, andar, turno, unidade e disciplina
 				$.post(url,{ id: idP, dia: diaP, sala: salaP, andar: andarP, turno: turnoP, unidade: unidadeP, disciplina: disciplinaP }, function(result) {
@@ -463,10 +465,19 @@ PENDENCIAS LOCAIS:
 						bootbox.alert('Disciplina atualizada com sucesso!',
 												function() {// apos OK executa a funcao
 														//location.reload();
-														$(".modal").modal("hide");
-														bootbox.alert("vou selecionar as configurações de novo!");
+														//$(".modal").modal("hide");
+														//bootbox.alert("vou selecionar as configurações de novo!");
 														
-														$('body>#configuracoes').trigger( "click" );
+														//tabDiaSemana = $(this).tab().attr('id');
+														
+														//bootbox.alert("Nome da tab: " + tabDiaSemana);
+														
+														$('#configAluno').load( "configAluno.php" );
+														
+														bootbox.alert("Voltando pro academico");
+														//$('.nav-tabs li:eq(1) a').tab('show'); 
+														//$('.academico').click();
+														//$('#academico').tab('show');
 														
 												});
 					}
@@ -533,7 +544,7 @@ PENDENCIAS LOCAIS:
                             </a>
                         </li>
                         <li>
-                            <a href="#academico" data-toggle="pill">
+                            <a href="#academico" class="academico" data-toggle="pill">
                                 <i class="fa fa-calendar fa-2x">
                                 </i>
                                 ACADÊMICO
