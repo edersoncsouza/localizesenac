@@ -13,7 +13,7 @@
 		$matricula = $_POST['matricula'];
 		
 		// monta a query
-		$sql = "SELECT id, nome, matricula, senha FROM aluno WHERE matricula = \"$matricula\"";
+		$sql = "SELECT id, nome, matricula, senha FROM aluno WHERE matricula = '$matricula'";
 		
 		// executa a query
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
@@ -35,16 +35,10 @@
 			}
 			
 			// registra as variaveis de sessao para equiparar aos usuarios logados localmente
-			// Definimos dois valores na sessão com os dados do usuário
 			$_SESSION['usuarioID'] = $id; // Pega o valor da coluna 'id do registro encontrado no MySQL
 			$_SESSION['usuarioNome'] = $nome; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
 			$_SESSION['usuarioLogin'] = $matricula;
 			$_SESSION['usuarioSenha'] = $senha;
-			
-			// envia para a validacao
-			$url = 'dist/php/valida.php';
-			header( 'Location: '.$url);
-			//exit;
 			
 			// codifica o array em formato Json e devolve como retorno
 			echo json_encode($data);

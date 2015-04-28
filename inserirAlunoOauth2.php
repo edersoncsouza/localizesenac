@@ -21,9 +21,15 @@
 		// se nao inseriu o aluno
 		if(mysql_affected_rows() == 0)
 			echo 0;
-		else
+		else{
+			// registra as variaveis de sessao para equiparar aos usuarios logados localmente
+			$_SESSION['usuarioID'] = mysql_insert_id(); // Pega o valor de 'id' criado ao incluir o aluno no MySQL
+			$_SESSION['usuarioNome'] = $_POST['nome']; // Pega o valor de $_POST 'nome'
+			$_SESSION['usuarioLogin'] = $_POST['matricula']; // Pega o valor de $_POST 'matricula'
+			$_SESSION['usuarioSenha'] = $_POST['password']; // Pega o valor de $_POST 'password'
+
 			echo mysql_insert_id(); // retorna o id do aluno inserido
-		
+		}
 		// faz a verificação do resultado
 		//echo (mysql_affected_rows()) ? "Aluno inserido." : "Nada inserido."; 
 		//echo (mysql_affected_rows()) ? 1 : 0; 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 24-Abr-2015 às 01:17
+-- Data de Criação: 28-Abr-2015 às 03:05
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -30,7 +30,7 @@ USE `localizesenac`;
 
 CREATE TABLE IF NOT EXISTS `aluno` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `matricula` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `matricula` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `senha` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `nome` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `celular` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   PRIMARY KEY (`matricula`),
   UNIQUE KEY `NOME_ALUNO` (`nome`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
 
 --
 -- Extraindo dados da tabela `aluno`
@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS `aluno` (
 
 INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `ativo`) VALUES
 (1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersonadssenac@gmail.com', 'S'),
-(2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'S');
+(2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'S'),
+(20, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'S'),
+(19, 'edersoncsouza@gmail.com', '116884675910383407399', 'Ederson Souza', '', 'edersoncsouza@gmail.com', 'S');
 
 -- --------------------------------------------------------
 
@@ -65,11 +67,12 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   `fk_numero_sala` int(11) NOT NULL,
   `fk_id_disciplina` int(11) NOT NULL,
   PRIMARY KEY (`dia_semana`,`turno`,`fk_id_aluno`),
+  UNIQUE KEY `uq_aluno_disciplina` (`fk_id_aluno`,`fk_id_disciplina`),
   KEY `id` (`id`),
   KEY `fk_aluno_disciplina_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_disciplina_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
   KEY `fk_aluno_disciplina_disciplina1_idx` (`fk_id_disciplina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
 
 --
 -- Extraindo dados da tabela `aluno_disciplina`
@@ -77,11 +80,12 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
 
 INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
 (3, 'QUA', 'N', 1, 1, 6, 603, 28),
-(4, 'QUI', 'N', 1, 1, 4, 409, 31),
-(8, 'SEG', 'M', 1, 1, 3, 301, 32),
-(1, 'SEG', 'N', 1, 1, 3, 301, 32),
-(5, 'SEX', 'N', 1, 1, 7, 704, 23),
-(2, 'TER', 'N', 1, 1, 6, 603, 30);
+(16, 'QUI', 'N', 1, 1, 4, 409, 31),
+(12, 'SEG', 'N', 1, 1, 3, 301, 32),
+(18, 'SEG', 'N', 19, 1, 0, 102, 1),
+(17, 'SEX', 'N', 1, 1, 7, 704, 23),
+(14, 'TER', 'N', 1, 1, 6, 603, 30),
+(19, 'TER', 'N', 19, 1, 0, 103, 2);
 
 -- --------------------------------------------------------
 
