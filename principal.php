@@ -70,7 +70,9 @@ $(document).ready(function() {
 		var url = "configAluno.php"; // define a pagina de configuracao
 		$('div').hide(); // oculta todas as divs da pagina
 		$("#configAluno").load(url); // carrega o conteudo da pagina de configuracao na div configAluno
+
 		$("#configAluno").show(); // exibe a div configAluno
+
 	} );
 	
 });
@@ -245,7 +247,7 @@ $(document).ready(function() {
             <!-- /.row -->
 			
 			<div class="row"> <!-- Eventos Acadêmicos -->
-                <div class="col-lg-6 col-md-6">
+                <div class="hidden-xs col-lg-6 col-md-6">
                     <div class="panel panel-primary"> <!-- Agenda Acadêmica -->
                         <div class="panel-footer">
                             <span class="pull-left"><strong>Agenda Acadêmica</strong></span>

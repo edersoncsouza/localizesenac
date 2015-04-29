@@ -22,7 +22,7 @@
 		if(mysql_num_rows($result) != 0){
 						
 			//cria o array data
-			$data= []; 
+			$data;//= []; 
 
 			// armazena no array o nome e o id do aluno
 			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {

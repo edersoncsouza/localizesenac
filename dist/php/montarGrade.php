@@ -26,7 +26,7 @@
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
 		//cria o array data
-		$data= []; 
+		$data;//= []; 
 
 		// armazena no array os nomes das disciplinas para o select
 		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {

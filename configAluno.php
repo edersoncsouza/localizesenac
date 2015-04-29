@@ -2,7 +2,7 @@
 								
 PENDENCIAS LOCAIS:
 
- - ATUALIZAR A GRADE DE AULAS APOS INCLUIR, EDITAR OU EXCLUIR DISCIPLINAS POIS ESTA RETORNANDO A PAGINA INICIAL
+ 
 								 
 -->
 
@@ -62,8 +62,8 @@ PENDENCIAS LOCAIS:
         <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		
 		
-		    <!-- Custom CSS -->
-    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="dist/css/sb-admin-2.css" rel="stylesheet">
 		
 		
 	    <!-- jQuery -->
@@ -80,7 +80,10 @@ PENDENCIAS LOCAIS:
 		
         <script>
 		$(document).ready(function(){
-			
+	
+		// seleciona a guia academico
+		$('.academico').click();
+	
 			// ao clicar nos botoes de sair encaminha de volta ao principal.php
 			$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
 				var url = "principal.php";
@@ -279,6 +282,11 @@ PENDENCIAS LOCAIS:
 				// chama a funcao para atualizar ou inserir a disciplina no dia
 				atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP); 
 				
+				// ativa a guia academico
+				//bootbox.alert("Devo ter saido do modal e de volta a area de config. do aluno, id co componente: " + $(this).parent().attr("id"));
+				//$('#pills').tabs();
+				//$('#pills').tabs().find('a[href="#academico"]').trigger('click');
+
             });
 
 		});
@@ -291,7 +299,7 @@ PENDENCIAS LOCAIS:
 				// recebe como retorno um json com as disciplinas (diaJson)
 				$.post(url,{ dia: diaP }, function(diaJson) {
 					
-					if (diaJson == 0){// caso o retorno de montarGrade.php seja = 0
+					if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
 						bootbox.alert('Erro no envio de parâmetros!');
 					}
 					else{
@@ -333,8 +341,12 @@ PENDENCIAS LOCAIS:
 						bootbox.alert('Erro no envio de parâmetros!');
 					}
 					else{
-							bootbox.alert("Disciplina removida da grade com sucesso!");
-							// $('#configAluno').load('configAluno.php');
+							bootbox.alert('Disciplina removida da grade com sucesso!',
+												function() {// apos OK executa a funcao
+														
+														$('#configAluno').load( "configAluno.php" );
+														
+												});
 					}
 				});
 
@@ -350,33 +362,32 @@ PENDENCIAS LOCAIS:
 				// executa o post enviando o parametro curso
 				$.post(url,{ curso: cursoP }, function(json) {
 					
-					if (json == 0){// caso o retorno de montarGrade.php seja = 0
+					if (json == 0){ // caso o retorno de montarGrade.php seja = 0
 						bootbox.alert('Erro no envio de parâmetros!');
 					}
 					else{
-							
-							var objJson = JSON.parse(json); // transforma a string recebida em objeto
-							
-							//alert(objJson[0].id);
-							//alert(objJson[0].nome);
-							
-							var listaItens; // cria uma lista de itens para inserir uma unica vez
-							var nomeDisciplina;
-							var idDisciplina;
-							
-							$.each(objJson, function() {// para cada registro no Json {objJson[0].id ou objJson[0].nome
-							  $.each(this, function(name, value) { // utiliza o nome da chave e o valor ex: [nome]: [algoritmos]
-								
-								if(name == 'nome') // caso seja a propriedade nome, armazena na variavel de nome
-									nomeDisciplina=value;
-								else // senao armazena na variavel de id
-									idDisciplina=value;
-							  });
-							  // monta o option de cada disciplina com os valores de nome e id
-							  listaItens += '<option value=\"'+idDisciplina+'\">' + nomeDisciplina + '</option>';	
-							});
+						var objJson = JSON.parse(json); // transforma a string recebida em objeto
+	
+						//alert(objJson[0].id);
+						//alert(objJson[0].nome);
 
-							$('#disciplina').append(listaItens); // enxerta o conteudo da select disciplina
+						var listaItens; // cria uma lista de itens para inserir uma unica vez
+						var nomeDisciplina;
+						var idDisciplina;
+							
+						$.each(objJson, function() { // para cada registro no Json {objJson[0].id ou objJson[0].nome
+						  $.each(this, function(name, value) { // utiliza o nome da chave e o valor ex: [nome]: [algoritmos]
+							
+							if(name == 'nome') // caso seja a propriedade nome, armazena na variavel de nome
+								nomeDisciplina=value;
+							else // senao armazena na variavel de id
+								idDisciplina=value;
+						  });
+						  // monta o option de cada disciplina com os valores de nome e id
+						  listaItens += '<option value=\"'+idDisciplina+'\">' + nomeDisciplina + '</option>';
+						});
+
+						$('#disciplina').append(listaItens); // enxerta o conteudo da select disciplina
 					}
 				});
 			}
@@ -464,20 +475,8 @@ PENDENCIAS LOCAIS:
 					if (result == 1){// caso o retorno de atualizaDisciplina.php seja = 1
 						bootbox.alert('Disciplina atualizada com sucesso!',
 												function() {// apos OK executa a funcao
-														//location.reload();
-														//$(".modal").modal("hide");
-														//bootbox.alert("vou selecionar as configurações de novo!");
-														
-														//tabDiaSemana = $(this).tab().attr('id');
-														
-														//bootbox.alert("Nome da tab: " + tabDiaSemana);
 														
 														$('#configAluno').load( "configAluno.php" );
-														
-														bootbox.alert("Voltando pro academico");
-														//$('.nav-tabs li:eq(1) a').tab('show'); 
-														//$('.academico').click();
-														//$('#academico').tab('show');
 														
 												});
 					}
@@ -543,7 +542,7 @@ PENDENCIAS LOCAIS:
                                 SEGURANÇA
                             </a>
                         </li>
-                        <li>
+                        <li >
                             <a href="#academico" class="academico" data-toggle="pill">
                                 <i class="fa fa-calendar fa-2x">
                                 </i>

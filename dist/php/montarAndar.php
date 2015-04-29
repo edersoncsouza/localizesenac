@@ -26,7 +26,7 @@
 									numero");
 		
 		//cria o array data
-		$data= []; 
+		$data;//= []; 
 
 		// armazena no array os nomes das disciplinas para o select
 		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
