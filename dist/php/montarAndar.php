@@ -22,6 +22,8 @@
 									fk_id_unidade = {$unidade}
 								AND
 									andar = {$andar}
+								AND
+									fk_id_categoria = 2
 								ORDER BY
 									numero");
 		

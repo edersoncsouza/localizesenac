@@ -24,6 +24,9 @@
 	
 	<!-- Principal CSS -->
     <link href="dist/css/principal.css" rel="stylesheet" type="text/css">
+	
+	<!-- CSS para animacoes Ajax -->
+	<link href="dist/css/ajax.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,6 +47,14 @@
 <script>
 
 $(document).ready(function() {
+
+		// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
+		$body = $("body");
+
+		$(document).on({
+			ajaxStart: function() { $body.addClass("carregando");    },
+			 ajaxStop: function() { $body.removeClass("carregando"); }    
+		});
 
 	// div classe tab-pane, conteudo p. para cada um deles executa a funcao de alerta de seu conteudo
 	/* EXEMPLO

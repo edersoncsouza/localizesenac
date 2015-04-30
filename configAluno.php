@@ -25,18 +25,6 @@ PENDENCIAS LOCAIS:
 	protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	
-	/*
-	If (isSet($_SESSION)){
-		echo "sessão iniciada";
-
-		echo "<br>id de usuário: ".$_SESSION['usuarioID'];
-	}
-	else{
-		echo "sessão não iniciada";
-	}
-	*/
-	//echo $_SESSION['id'];
-	
 	echo "<script> var idP = {$_SESSION['usuarioID']}; </script>";
 	
 	$sql = "SELECT nome, email, celular FROM aluno WHERE id=".$_SESSION['usuarioID'];
@@ -65,6 +53,8 @@ PENDENCIAS LOCAIS:
 		<!-- Custom CSS -->
 		<link href="dist/css/sb-admin-2.css" rel="stylesheet">
 		
+		<!-- CSS para animacoes Ajax -->
+		<link href="dist/css/ajax.css" rel="stylesheet">
 		
 	    <!-- jQuery -->
         <script src="dist/components/jquery/dist/jquery.min.js"></script>
@@ -80,6 +70,15 @@ PENDENCIAS LOCAIS:
 		
         <script>
 		$(document).ready(function(){
+		
+		// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
+		$body = $("body");
+
+		$(document).on({
+			ajaxStart: function() { $body.addClass("carregando");    },
+			 ajaxStop: function() { $body.removeClass("carregando"); }    
+		});
+
 	
 		// seleciona a guia academico
 		$('.academico').click();
@@ -500,7 +499,9 @@ PENDENCIAS LOCAIS:
     </head>
 
     <body>
-
+	
+		<div class="modal"></div>
+		
         <div class="panel-group">
 
             <div class="panel panel-primary" >
