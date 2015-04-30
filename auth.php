@@ -2,42 +2,17 @@
 
 <head>
 <?php
-/*
- * Copyright 2011 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 session_start();
 
 //require('HttpPost.class.php');
 require_once realpath(dirname(__FILE__) . '/Google/autoload.php');
 
-/************************************************
-  ATTENTION: Fill in these values! Make sure
-  the redirect URI is to this page, e.g:
-  http://localhost:8080/user-example.php
- ************************************************/
  $client_id = '407647315469-0785ljr0q9ijh95dj7qetu0agaq97m5l.apps.googleusercontent.com';
  $client_secret = 'WrIiWLHNXYJBwCwc1tUrL85A';
  $redirect_uri = 'http://localhost:8080/projetos/localizesenac/auth.php';
-/************************************************
-  Make an API request on behalf of a user. In
-  this case we need to have a valid OAuth 2.0
-  token for the user, so we need to send them
-  through a login flow. To do this we need some
-  information from our API console project.
- ************************************************/
+
+/************************************************/
  
 $client = new Google_Client();
 $client->setClientId($client_id);
@@ -150,11 +125,14 @@ if ($client->getAccessToken()) {
 <!-- jQuery -->
 <script src="dist/components/jquery/dist/jquery.min.js"></script>
 
+<!-- Funcoes JS -->
+<script src="dist/js/funcoes.js"></script>
+
 <script>
 
 	$(document).ready(function() {
 	});
-	
+	/*
 	// funcao que busca o aluno no BD e se nao existir cria
 	function consultarAluno(matriculaP, senhaP, nomeP){
 		var url = "consultarAlunoOauth2.php";
@@ -201,7 +179,8 @@ if ($client->getAccessToken()) {
 		});
 		
 	}
-
+*/
+	
 </script>
 	
 </head>

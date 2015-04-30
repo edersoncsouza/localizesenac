@@ -4,7 +4,7 @@
     //protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	
-	// se recebeo os parametros por POST
+	// se recebeu os parametros por POST
 	if(isset($_POST['matricula'])){ 
 		
 		// sanitiza as entradas
