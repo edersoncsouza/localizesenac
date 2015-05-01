@@ -5,6 +5,7 @@
 
 session_start();
 
+
 //require('HttpPost.class.php');
 require_once realpath(dirname(__FILE__) . '/Google/autoload.php');
 
@@ -123,15 +124,12 @@ if ($client->getAccessToken()) {
 ?>
 
 <!-- jQuery -->
-<script src="dist/components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="dist/components/jquery/dist/jquery.min.js"></script>
 
 <!-- Funcoes JS -->
-<script src="dist/js/funcoes.js"></script>
+<script type="text/javascript" src="dist/js/funcoes.js"></script>
 
 <script>
-
-	$(document).ready(function() {
-	});
 	/*
 	// funcao que busca o aluno no BD e se nao existir cria
 	function consultarAluno(matriculaP, senhaP, nomeP){
@@ -199,7 +197,7 @@ else {
 		// chama a funcao JavaScript que executa os POSTS para os arquivos PHP de manipulacao de banco
 		// consultarAlunoOauth2 - Pesquisar se aluno ja existe no banco
 		// inserirAlunoOauth2 - Caso nao exista o aluno, insere no banco	
-		echo "<script>consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\");</script>"; // tentativa de receber o retorno do script
+		echo "<script type=\"text/javascript\">consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\");</script>"; // tentativa de receber o retorno do script
 		
 		/*
 			//echo "<h3>Resultados do Calendar:</h3>";

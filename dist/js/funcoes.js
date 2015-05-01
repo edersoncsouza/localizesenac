@@ -174,51 +174,51 @@ function onSelected($e, datum) {
 	getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
 }
 			
-	// funcao que busca o aluno no BD e se nao existir cria
-	function consultarAluno(matriculaP, senhaP, nomeP){
-		var url = "consultarAlunoOauth2.php";
+// funcao que busca o aluno no BD e se nao existir cria
+function consultarAluno(matriculaP, senhaP, nomeP){
+	var url = "consultarAlunoOauth2.php";
+	
+	// executa o post enviando o parametro matricula
+	// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
+	$.post(url,{ matricula: matriculaP }, function(alunoJson) {
 		
-		// executa o post enviando o parametro matricula
-		// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
-		$.post(url,{ matricula: matriculaP }, function(alunoJson) {
+		console.log(alunoJson); // envia para o console o Json do usuario
+		
+		if (alunoJson == 0){// caso o retorno de consultarAluno.php seja = 0
+			// aluno nao existe no banco
 			
-			console.log(alunoJson); // envia para o console o Json do usuario
+			var celularP = ""; // variavel para o celular, criada para possivelmente pedir ao usuario esta entrada
+			var ativoP = "S"; // variavel ativo recebe o valor padrao, sera utilizada pelo administrador para desativar usuarios
 			
-			if (alunoJson == 0){// caso o retorno de consultarAluno.php seja = 0
-				// aluno nao existe no banco
-				
-				var celularP = ""; // variavel para o celular, criada para possivelmente pedir ao usuario esta entrada
-				var ativoP = "S"; // variavel ativo recebe o valor padrao, sera utilizada pelo administrador para desativar usuarios
-				
-				var url2 = "inserirAlunoOauth2.php";
-				
-				// executa o post para inserir o aluno no banco
-				$.post(url2,{ matricula: matriculaP, password: senhaP, nome: nomeP,
-								celular: celularP, email: matriculaP, ativo: ativoP}, 
-									function(alunoInseridoJson) {
+			var url2 = "inserirAlunoOauth2.php";
+			
+			// executa o post para inserir o aluno no banco
+			$.post(url2,{ matricula: matriculaP, password: senhaP, nome: nomeP,
+							celular: celularP, email: matriculaP, ativo: ativoP}, 
+								function(alunoInseridoJson) {
+								
+									var idNome;
 									
-										var idNome;
-										
-										// se deu retorno 0 (nao afetou linhas da tabela)
-										if (alunoInseridoJson == 0){
-											alert("Aluno não inserido!");
+									// se deu retorno 0 (nao afetou linhas da tabela)
+									if (alunoInseridoJson == 0){
+										alert("Aluno não inserido!");
+									}
+									else{
+										if (isNaN(alunoInseridoJson)) // se retornou um valor nao numerico (Erro do mysql)
+											alert("Erro do MySql: " + alunoInseridoJson);
+										else{ // se retornou valor numerico != 0, este e o Id de insercao
+											window.location.replace("principal.php"); // caso o aluno tenha sido inserido redirecioina para a pagina principal
 										}
-										else{
-											if (isNaN(alunoInseridoJson)) // se retornou um valor nao numerico (Erro do mysql)
-												alert("Erro do MySql: " + alunoInseridoJson);
-											else{ // se retornou valor numerico != 0, este e o Id de insercao
-												window.location.replace("principal.php"); // caso o aluno tenha sido inserido redirecioina para a pagina principal
-											}
-										}
-								});
-				
-			}
-			else{ // se o aluno existir
-				window.location.replace("principal.php"); // caso o aluno exista redirecioina para a pagina principal
-			}
+									}
+							});
+			
+		}
+		else{ // se o aluno existir
+			window.location.replace("principal.php"); // caso o aluno exista redirecioina para a pagina principal
+		}
 
-		});
-		
-	}
+	});
+	
+}
 
 	

@@ -23,13 +23,13 @@
     <![endif]-->
 
 	<!-- jQuery -->
-    <script src="dist/components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="dist/components/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 	
 	<!-- Bootbox -->
-	<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>	
+	<script type="text/javascript" src="dist/components/bootbox/dist/js/bootbox.min.js"></script>	
 <?php
 session_start();
 session_destroy();
@@ -53,7 +53,8 @@ session_destroy();
 
 							<ul class="social-icons invert" style="margin-top:-15px; margin-bottom:-5px;">
 								<li>
-									<a href="https://www.facebook.com/dialog/oauth/?client_id=1622249498010646&redirect_uri=http%3A%2F%2Flocalizesenac.com/authFacebook.php%2Fpublic%2Foauth%2Fprovider%2Ffacebook%2Ftype%2Fregister&scope=email" class="facebook social_login">
+									<a href="https://www.facebook.com/dialog/oauth/?client_id=1622249498010646&redirect_uri=http%3A%2F%2Flocalizesenac.com/Facebook/fbconfig.php%2Fpublic%2Foauth%2Fprovider%2Ffacebook%2Ftype%2Fregister&scope=email" class="facebook social_login">
+									<!-- <a href="https://www.facebook.com/dialog/oauth/?client_id=1622249498010646&redirect_uri=http%3A%2F%2Flocalizesenac.com/authFacebook.php%2Fpublic%2Foauth%2Fprovider%2Ffacebook%2Ftype%2Fregister&scope=email" class="facebook social_login"> -->
 									</a>
 								</li>
 								<li>
