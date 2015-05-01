@@ -1,75 +1,16 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>LocalizeSenac - Mapa dos Ambientes</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.css" />
+<!DOCTYPE HTML>
+<html lang="pt-br">
 
-        <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->
+<head>
 
-        <style>
-            body {
-                padding: 0;
-                margin: 0;
-            }
-            html, body, #map {
-                height: 100%;
-                width: 100%;
-                <!--
-                width: 800px; height: 600px;
-                -->	
-            }
-            .info {
-                padding: 6px 8px;
-                font: 14px/16px Arial, Helvetica, sans-serif;
-                background: white;
-                background: rgba(255,255,255,0.8);
-                box-shadow: 0 0 15px rgba(0,0,0,0.2);
-                border-radius: 5px;
-            }
-            .info h4 {
-                margin: 0 0 5px;
-                color: #777;
-            }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
 
-            .legend {
-                text-align: left;
-                line-height: 18px;
-                color: #555;
-            }
-            .legend i {
-                width: 18px;
-                height: 18px;
-                float: left;
-                margin-right: 8px;
-                opacity: 0.7;
-            }
-
-        </style>
-	
-    </head>
-    <!-- <body onload="resetPanel();"> -->
-	<body>
-        <div id="map"> <!-- class="row" --> 
-
-            <div id="painel" class="leaflet-info-pane col-md-12" hidden>
-                <div id="infopane" class="content">	</div>
-            </div>
-
-        </div>
-
-    <script src="dist/components/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="dist/components/leaflet/dist/js/leaflet-src.js" type="text/javascript"></script>
-    <script src="dist/components/leaflet/dist/js/leaflet-indoor.js" type="text/javascript"></script>
-	<!-- <script src="../script/leaf/limitesUnidade1Senac.js" type="text/javascript"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
-	<script src="dist/components/leaflet.bouncemarker/bouncemarker.js"></script>
-	
-	<script>
-	$( document ).ready(function() {
-		resetPanel();
-	});
-	</script>
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 	
 	<?php
 		// Verifica se recebeu o parametro de sala
@@ -80,10 +21,68 @@
 			echo "<script> sala = {$sala};</script>";
 		}
 	?>
+	
+	<link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.css" />
+	<link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.infopane.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->	
 
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+			width: 100%;
+			<!--
+			width: 800px; height: 600px;
+			-->	
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+
+	</style>
+
+    <script src="dist/components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="dist/components/leaflet/dist/js/leaflet-src.js" type="text/javascript"></script>
+    <script src="dist/components/leaflet/dist/js/leaflet-indoor.js" type="text/javascript"></script>
+	<!-- <script src="../script/leaf/limitesUnidade1Senac.js" type="text/javascript"></script> <!-- arquivo com o GeoJson do limite da unidade 1 -->
+	<script src="dist/components/leaflet.bouncemarker/bouncemarker.js"></script>
+    <!-- Include Info pane -->
+    <script src="dist/components/leaflet/dist/js/leaflet.infopane.js"></script>
+	
 	<!-- Chama o arquivo JavaScript que carrega o mapa apos armazenar a variavel sala -->
 	<script src="dist/js/carregarMapas.js" type="text/javascript"></script>
-    
+	
+	<script>
+	$( document ).ready(function() {
+		resetPanel();
+	});
+	</script>
+	
 	<script type="text/javascript">
 		
 		// configuracao dos limites maximos de exibicao do mapa
@@ -323,10 +322,17 @@
 		
 	</script>
 		
-    <!-- Include Info pane -->
-    <script src="dist/components/leaflet/dist/js/leaflet.infopane.js"></script>
-	<link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.infopane.css" />
-		
+    </head>
+    <!-- <body onload="resetPanel();"> -->
+	<body>
+        <div id="map"> <!-- class="row" --> 
+
+            <div id="painel" class="leaflet-info-pane col-md-12" hidden>
+                <div id="infopane" class="content">	</div>
+            </div>
+
+        </div>
+
     </body>
 
 </html>

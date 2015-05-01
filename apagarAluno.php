@@ -7,8 +7,8 @@
 	if(isset($_POST['id'])){
 		
 		$id = (int) $_POST['id'];
-		
-		mysql_query("DELETE FROM `aluno` WHERE `id` = '$id' ") ; 
+		$sql = "DELETE FROM `aluno` WHERE `id` = '$id' ";
+		mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
 		//echo (mysql_affected_rows()) ? "Aluno apagado." : "Nada apagado."; 
 		echo (mysql_affected_rows()) ? 1 : 0; 

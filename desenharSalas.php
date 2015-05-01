@@ -1,8 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>LocalizeSenac - Mapa dos Ambientes</title>
-        <meta charset="utf-8" />
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
+	
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.css" />
 		<link rel="stylesheet" href="dist/components/leafletdraw/dist/css/leaflet.draw.css" />
@@ -184,9 +193,4 @@ var getShapes = function(drawnItems) {
 	*/
 	</script>
 </body>
-</html>
-
-
-</body>
-
 </html>

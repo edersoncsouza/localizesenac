@@ -1,13 +1,16 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="pt-br">
 
-    <head>
+<head>
 
-        <meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-        <title>LocalizeSenac</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
         
     <!-- Bootstrap Core CSS -->
     <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +57,6 @@ session_destroy();
 							<ul class="social-icons invert" style="margin-top:-15px; margin-bottom:-5px;">
 								<li>
 									<a href="https://www.facebook.com/dialog/oauth/?client_id=1622249498010646&redirect_uri=http%3A%2F%2Flocalizesenac.com/Facebook/fbconfig.php%2Fpublic%2Foauth%2Fprovider%2Ffacebook%2Ftype%2Fregister&scope=email" class="facebook social_login">
-									<!-- <a href="https://www.facebook.com/dialog/oauth/?client_id=1622249498010646&redirect_uri=http%3A%2F%2Flocalizesenac.com/authFacebook.php%2Fpublic%2Foauth%2Fprovider%2Ffacebook%2Ftype%2Fregister&scope=email" class="facebook social_login"> -->
 									</a>
 								</li>
 								<li>
@@ -73,16 +75,7 @@ session_destroy();
 							<br>
 
 							<button type="submit" name="submit" class="btn btn-info btn-block" >OK</button>
-
-							  <!-- Below we include the Login Button social plugin. This button uses
-							  the JavaScript SDK to present a graphical Login button that triggers
-							  the FB.login() function when clicked. -->
-
-
-							<br><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-							</fb:login-button>
-							
-							
+													
 						</form>
 					</div>
 					

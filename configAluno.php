@@ -6,10 +6,19 @@ PENDENCIAS LOCAIS:
 								 
 -->
 
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="pt-br">
 
 <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 <?php
 /*
 		<!-- formValidation -->
@@ -37,18 +46,12 @@ PENDENCIAS LOCAIS:
 		$celular = $row['celular'];
 	}
 ?>			
-		<meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
 
 		<!-- Bootstrap Core CSS -->
         <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 		
 		<!-- Custom Fonts -->
-        <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		
+        <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">	
 		
 		<!-- Custom CSS -->
 		<link href="dist/css/sb-admin-2.css" rel="stylesheet">

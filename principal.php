@@ -6,10 +6,19 @@ PENDENCIAS LOCAIS:
  - ALIMENTAR TYPEAHEAD COM AS TAGS DE SALAS DO BANCO DE DADOS;							
 								 
 -->
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="pt-br">
 
 <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 
 <?php
     include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
@@ -17,14 +26,7 @@ PENDENCIAS LOCAIS:
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 ?>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
-
+	
     <!-- Bootstrap Core CSS -->
     <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -118,13 +120,9 @@ $(document).ready(function() {
                         Olá <?php echo $_SESSION['usuarioNome']; ?>! <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <!-- <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
-                        </li> -->
                         <li><a id="configuracoes"  data-target="#configModal" href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
-						<!-- data-target="#configModal" data-toggle="modal" href="configAluno.php"-->
                         </li>
                         <li class="divider"></li>
-                        <!-- <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Sair</a> -->
 						<li><a href="index.php"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                         </li>
                     </ul>

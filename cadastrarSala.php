@@ -1,22 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="pt-br">
 
 <head>
-
-    <?php
-    include("calculaCentroPoligono.php"); // Inclui o arquivo com o sistema de segurança
-	?>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
+	
+    <?php
+    include("calculaCentroPoligono.php"); // Inclui o arquivo com o sistema de segurança
+	?>	
+	
 </head>
 
 <body>
-
-
 
 <div class="form-group">
 
