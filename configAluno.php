@@ -109,7 +109,7 @@ PENDENCIAS LOCAIS:
 						
 						// chama metodo que busca em um php as disciplinas do aluno naquele dia
 						// e enxerta a string de disciplinas no bootbox.dialog
-						buscarDisciplinasDia(diaP);
+						buscarDisciplinasDia(diaP, false); // o segundo parametro define se deseja retorno Object JSON 
 						
 						// exibe o formulario de exclusao em um modal bootbox
 						bootbox.dialog({
@@ -191,7 +191,44 @@ PENDENCIAS LOCAIS:
 									bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaSms + ": " + minutosAntecSms);
 							
 							// receber o conteudo das disciplinas para montar as notificacoes na agenda do usuario
-							//var objJson = buscarDisciplinasDia(diaP); // armazena as informacoes das disciplinas do dia
+							var diaP = diaDaSemanaSms.toUpperCase().substr(0,3); // constroe a string do dia da semana ex.: SEG
+							
+								var url = "dist/php/buscarDisciplinasDiaJson.php";
+								var objJson;
+								
+								// executa o post enviando o parametro dia
+								// recebe como retorno um json com as disciplinas (diaJson)
+								$.post(url,{ dia: diaP }, function(diaJson) {
+									
+									if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+										bootbox.alert('Erro no envio de parâmetros!');
+									}
+									else{
+										var objJson = JSON.parse(diaJson); // transforma a string JSON em Javascript Array
+										//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
+										//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
+										//bootbox.alert("A ultima posicao do array e: " + ultimaPosicao);
+										var unidadeP, turnoP, diaP, salaP, disciplinaP;
+										
+										for (i = 0; i < objJson.length; i++) { 
+											//text += cars[i] + "<br>";
+											unidadeP = objJson[i].UNIDADE;
+											turnoP = objJson[i].TURNO;
+											diaP = objJson[i].DIA;
+											salaP = objJson[i].SALA;
+											disciplinaP = objJson[i].DISC;
+											
+											/* FAZ O POST DOS CAMPOS PARA CADA EVENTO */
+											var url = "insertEvent.php";
+											$.post(url,{ unidade: unidadeP, turno: turnoP, dia: diaP, sala: salaP, disciplina: disciplinaP }, function(eventoJson) {
+												
+											});
+											
+										}
+										
+									}
+	
+								});
 						}
 						else{ // se for um checkbox de E-mail
 							
@@ -238,7 +275,7 @@ PENDENCIAS LOCAIS:
 				$('.minutosSms').hide();							
 				$('.minutosSms').val('');
 				
-				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete
+				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
 				$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status
 				
 					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
@@ -264,6 +301,7 @@ PENDENCIAS LOCAIS:
 					}
 				});
 				
+				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de E-mail 
 				$('.lembrarEmail').change(function () {
 					
 					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
@@ -390,8 +428,8 @@ PENDENCIAS LOCAIS:
 			
 	});
 
-			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP)
-			function buscarDisciplinasDia(diaP){
+			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP) e enxerta a string no modal de dialogo
+			function buscarDisciplinasDia(diaP, retornoP){
 				var url = "dist/php/buscarDisciplinasDia.php";
 				
 				// executa o post enviando o parametro dia
@@ -419,14 +457,39 @@ PENDENCIAS LOCAIS:
 							
 							// enxerta o conteudo das checkboxs no modal de dialogo, na area de conteudo, dentro do corpo
 							//$('.modal-dialog>modal-content>modal-body').append(listaItens); 
+							
 							// enxerta o conteudo das checkboxs na area bootboxDialogDisciplinas do modal de diálogo,
-							$('#bootboxDialogDisciplinas').append(listaItens);
-
-							return objJson; // retorna o json de objetos disciplina
+							if(!retornoP) // se nao pede retorno - apenas processo de excluir disciplina por enquanto
+								$('#bootboxDialogDisciplinas').append(listaItens);
+							else // se pedir retorno
+								return objJson; // retorna o json de objetos disciplina em uma unica string
 					}
 					
 				});
 			}
+
+			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP) e retorna em formato Json
+			function buscarDisciplinasDiaJson(diaP){
+				var url = "dist/php/buscarDisciplinasDiaJson.php";
+				var retorno;
+				
+				// executa o post enviando o parametro dia
+				// recebe como retorno um json com as disciplinas (diaJson)
+				$.post(url,{ dia: diaP }, function(diaJson) {
+					
+					if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{
+						console.log("Estou no buscarDisciplinasDiaJson, aqui diaJson e: "+diaJson);
+					}
+					
+					retorno = diaJson;
+					
+				});
+				return retorno; // retorna o json de objetos disciplina
+			}
+
 			
 			// funcao que executa o post dia e do turno para excluir a disciplina da grade por jQuery
 			function excluirDisciplinaGrade(diaP, turnoP){
@@ -566,7 +629,7 @@ PENDENCIAS LOCAIS:
 			function atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP){
 
 				var url = "dist/php/atualizaDisciplina.php";
-				var tabDiaSemana;
+				//var tabDiaSemana;
 				
 				// executa o post enviando os parametros id, dia, sala, andar, turno, unidade e disciplina
 				$.post(url,{ id: idP, dia: diaP, sala: salaP, andar: andarP, turno: turnoP, unidade: unidadeP, disciplina: disciplinaP }, function(result) {

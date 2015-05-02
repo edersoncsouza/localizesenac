@@ -32,14 +32,9 @@
 	//cria o array data
 		$data;//= []; 
 		
-	// armazena no array os nomes das disciplinas para o select
+	// armazena no array os nomes das disciplinas
 	while ($row = mysql_fetch_assoc($result)) {
-		
-		// monta a string com o local, turno, sala e disciplina do dia
-		$disciplina = "Unidade " . $row['UNIDADE'] . " - " ."Turno " . $row['TURNO'] . " - " ."Sala: ".$row['SALA'] . " - " . $row['DISC'] .";";
-		
-		// se houver aulas cadastradas para o dia
-        $data[] = $disciplina;
+        $data[] = $row;
 	}
 		// codifica o array em formato Json e devolve como retorno
 		echo json_encode($data);
