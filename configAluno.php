@@ -182,7 +182,16 @@ PENDENCIAS LOCAIS:
 							var inputSms = "input#minutosSms"+diaDaSemanaSms; // concatena a string para o input de SMS do dia da semana
 							var minutosAntecSms = $(inputSms).val();	// armazena a quantidade de minutos de antecedencia
 							
-							bootbox.alert("Minutos de antecedencia de SMS na " + diaDaSemanaSms + ": " + minutosAntecSms);
+							if(!minutosAntecSms.match(/^\d+$/))
+								bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemanaSms + " no lembrete de SMS!");
+							else
+								if (parseInt(minutosAntecSms, 10) > 60)
+									bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemanaSms + " no lembrete de SMS!");
+								else
+									bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaSms + ": " + minutosAntecSms);
+							
+							// receber o conteudo das disciplinas para montar as notificacoes na agenda do usuario
+							//var objJson = buscarDisciplinasDia(diaP); // armazena as informacoes das disciplinas do dia
 						}
 						else{ // se for um checkbox de E-mail
 							
@@ -190,7 +199,13 @@ PENDENCIAS LOCAIS:
 							var inputEmail = "input#minutosEmail"+diaDaSemanaEmail; // concatena a string para o input de Email do dia da semana
 							var minutosAntecEmail = $(inputEmail).val();	// armazena a quantidade de minutos de antecedencia
 							
-							bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaEmail + ": " + minutosAntecEmail);
+							if(!minutosAntecEmail.match(/^\d+$/))
+								bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemanaEmail + " no lembrete de E-mail!");
+							else
+								if (parseInt(minutosAntecEmail, 10) > 60)
+									bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemanaEmail + " no lembrete de E-mail!");
+								else
+									bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaEmail + ": " + minutosAntecEmail);
 						}
 						
 					});
@@ -402,7 +417,7 @@ PENDENCIAS LOCAIS:
 								i++;
 							});
 							
-							// enxerta o conteudo das checkboxs no modal de diálogo, na area de conteudo, dentro do corpo
+							// enxerta o conteudo das checkboxs no modal de dialogo, na area de conteudo, dentro do corpo
 							//$('.modal-dialog>modal-content>modal-body').append(listaItens); 
 							// enxerta o conteudo das checkboxs na area bootboxDialogDisciplinas do modal de diálogo,
 							$('#bootboxDialogDisciplinas').append(listaItens);
