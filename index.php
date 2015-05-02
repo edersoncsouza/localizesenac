@@ -11,19 +11,17 @@
     <meta name="author" content="Ederson Souza">
 
     <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
-        
+
+	<?php
+		session_start();
+		session_destroy();
+	?>
+	
     <!-- Bootstrap Core CSS -->
     <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="dist/components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
     
     <link href="dist/css/login.css" rel="stylesheet" type="text/css"/>
-		
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 	<!-- jQuery -->
     <script type="text/javascript" src="dist/components/jquery/dist/jquery.min.js"></script>
@@ -33,10 +31,13 @@
 	
 	<!-- Bootbox -->
 	<script type="text/javascript" src="dist/components/bootbox/dist/js/bootbox.min.js"></script>	
-<?php
-session_start();
-session_destroy();
-?>	
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 	
     </head>
 

@@ -1,9 +1,7 @@
 <!--								
-								
+
 PENDENCIAS LOCAIS:
 
- 
-								 
 -->
 
 <!DOCTYPE HTML>
@@ -71,17 +69,18 @@ PENDENCIAS LOCAIS:
 		<!-- Bootbox -->
 		<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
 		
-        <script>
-		$(document).ready(function(){
+		<!-- funcoes personalizadas -->
+		<script type="text/javascript" src="dist/js/funcoes.js"></script>
 		
+<script>
+	$(document).ready(function(){
+	
 		// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
 		$body = $("body");
-
 		$(document).on({
 			ajaxStart: function() { $body.addClass("carregando");    },
 			 ajaxStop: function() { $body.removeClass("carregando"); }    
 		});
-
 	
 		// seleciona a guia academico
 		$('.academico').click();
@@ -171,8 +170,34 @@ PENDENCIAS LOCAIS:
 				
 				// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
 				$('button#sairDisciplina').click( function() {
-					var url = "principal.php";
-					$("body").load(url);
+					
+					// Ao sair da area ACADEMICO lista e armazena todos os eventos de lembretes
+					$('input:checked').each(function() { // para cada checkbox marcado
+					
+						// separa o dia da semana para receber os valores de minutos das inputboxes
+						var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarSmsterça
+						
+						if(stringDiaSemana.substr(0, 10) == 'lembrarSms'){ // se for um checkbox de SMS
+							var diaDaSemanaSms = stringDiaSemana.substr(10); // Separa uma substring do id ex.: terça (substr pega da posicao ate o final da string)
+							var inputSms = "input#minutosSms"+diaDaSemanaSms; // concatena a string para o input de SMS do dia da semana
+							var minutosAntecSms = $(inputSms).val();	// armazena a quantidade de minutos de antecedencia
+							
+							bootbox.alert("Minutos de antecedencia de SMS na " + diaDaSemanaSms + ": " + minutosAntecSms);
+						}
+						else{ // se for um checkbox de E-mail
+							
+							var diaDaSemanaEmail = stringDiaSemana.substr(12); // a partir do caracter 12 pois o nome é mais longo ex.: lembrarEmailterça
+							var inputEmail = "input#minutosEmail"+diaDaSemanaEmail; // concatena a string para o input de Email do dia da semana
+							var minutosAntecEmail = $(inputEmail).val();	// armazena a quantidade de minutos de antecedencia
+							
+							bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaEmail + ": " + minutosAntecEmail);
+						}
+						
+					});
+					// grava todos os lembretes na agenda do usuario
+					
+					//var url = "principal.php";
+					//$("body").load(url);
 				});
 				
 				// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
@@ -189,7 +214,67 @@ PENDENCIAS LOCAIS:
 						
 				});
 				
-			});
+				// inicializa com os inputs e labels de lembretes ocultos
+				$('.labelEmail').hide();
+				$('.minutosEmail').hide();
+				$('.minutosEmail').val('');
+				
+				$('.labelSms').hide();
+				$('.minutosSms').hide();							
+				$('.minutosSms').val('');
+				
+				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete
+				$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status
+				
+					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+					var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarSmssegunda
+					var addTo = stringDiaSemana.substr(10); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+					var inputSms = "#minutosSms"+addTo; // concatena a string para o input do dia da semana
+					var labelSms = "#labelSms"+addTo; // concatena a string para o label do dia da semana
+				
+					if ($(this).is(":checked")) { // se ele estiver marcado
+						$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
+						$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+						//$('.minutosSms').show(); // exibe todos os inputs desta classe
+						//$('.labelSms').show(); // exibe todos os labels desta classe
+					}
+					else {// se o checkbox de lembrete nao estiver selecionado
+						$(inputSms).hide();
+						$(inputSms).val('');
+						$(labelSms).hide();
+						//$('.minutosSms').hide();	// oculta todos os inputs desta classe
+						//$('.minutosSms').val(''); // zera os valores de todos os inputs desta classe
+						//$('.labelSms').hide();	// oculta todos os labels desta classe
+
+					}
+				});
+				
+				$('.lembrarEmail').change(function () {
+					
+					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+					var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarEmailsegunda
+					var addTo = stringDiaSemana.substr(12); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+					var inputEmail = "#minutosEmail"+addTo; // concatena a string para o input do dia da semana
+					var labelEmail = "#labelEmail"+addTo; // concatena a string para o label do dia da semana
+					
+					if ($(this).is(":checked")) {
+						$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
+						$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
+						//$('.minutosEmail').show(); // exibe todos os inputs desta classe
+						//$('.labelEmail').show(); // exibe todos os labels desta classe
+
+					}
+					else {// se o checkbox de lembrete nao estiver selecionado
+						$(inputEmail).hide(); // exibe o input para os minutos de Email neste dia da semana
+						$(inputEmail).val('');
+						$(labelEmail).hide();	
+						//$('.minutosEmail').hide();	// oculta todos os inputs desta classe
+						//$('.minutosEmail').val('');	// zera os valores de todos os inputs desta classe
+						//$('.labelEmail').hide();		// oculta todos os labels desta classe
+					}
+				});	
+				
+			});// final do load calendarioSemana.php
 			
 			// mascara para o celular
 			$('#celular').inputmask('(99) 9999-9999[9]');
@@ -204,7 +289,8 @@ PENDENCIAS LOCAIS:
 			});
 		
 			// captura a alteracao no value do input de ANDAR
-			$("input[type='number']").bind("input", function() {
+			$("input#inputAndarDisciplina").bind("input", function() { // substituida a linha abaixo na madrugada
+			//$("input[type='number']").bind("input", function() {
 			  
 			  $('#sala').empty(); // zera os itens previos do select sala
 			  
@@ -220,7 +306,8 @@ PENDENCIAS LOCAIS:
 				
 				$('#sala').empty(); // zera os itens previos do select sala
 				
-				var andarP =  $("input[type='number']").val();
+				var andarP = $("input#inputAndarDisciplina").val() // substituida a linha abaixo na madrugada
+				//var andarP =  $("input[type='number']").val();
 				var unidadeP = this.value;
 				
 				montarAndar(andarP, unidadeP);				
@@ -273,7 +360,7 @@ PENDENCIAS LOCAIS:
 				var disciplinaP = $("#disciplina").val(); // recebe o valor do input de disciplina
 				var unidadeP = $("#unidade").val(); // recebe o valor de input de unidade
 				var turnoP = $("#turno").val(); //recebe o valor do select de turno
-				var andarP = $("input[type='number']").val();//$("#andar").val(); // recebe o valor de input de andar
+				var andarP = $("input#inputAndarDisciplina").val(); // recebe o valor de input de andar
 				var salaP = $("#sala").val(); // recebe o valor do select de sala
 				
 				var palavras = $(".modal-title").text().split(" "); // armazena as palavras do titulo do modal em um array
@@ -282,16 +369,11 @@ PENDENCIAS LOCAIS:
 				var diaP = palavras[2].substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
 				
 				// chama a funcao para atualizar ou inserir a disciplina no dia
-				atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP); 
-				
-				// ativa a guia academico
-				//bootbox.alert("Devo ter saido do modal e de volta a area de config. do aluno, id co componente: " + $(this).parent().attr("id"));
-				//$('#pills').tabs();
-				//$('#pills').tabs().find('a[href="#academico"]').trigger('click');
+				atualizaDisciplina(disciplinaP, unidadeP, turnoP, andarP, salaP, diaP);
 
             });
-
-		});
+			
+	});
 
 			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP)
 			function buscarDisciplinasDia(diaP){
@@ -496,8 +578,17 @@ PENDENCIAS LOCAIS:
 					}
 				});
 			}
-			
-        </script>
+		
+
+		
+</script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 		
     </head>
 
@@ -815,7 +906,7 @@ PENDENCIAS LOCAIS:
 									<div class="col-xs-4 col-sm-4 col-md-4">
 										<div class="form-group">
 											<label for="andar">Andar:</label>
-											<input class="form-control" name="andar" value="-1" type="number" min="0" max="10">
+											<input class="form-control" id="inputAndarDisciplina" name="andar" value="-1" type="number" min="0" max="10">
 										</div>
 									</div>
 									
@@ -851,4 +942,4 @@ PENDENCIAS LOCAIS:
 		<!-- Bootstrap Core JavaScript -->
 		<!-- <script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script> -->
 
-</html>
+</html>>

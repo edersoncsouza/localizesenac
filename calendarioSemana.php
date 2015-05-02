@@ -43,13 +43,12 @@
     <!-- Bootstrap Core JavaScript	
     <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script> DESATIVADO POIS E CARREGADO NO DESTINO -->
 
-	<!-- funcoes personalizadas -->
-	<script type="text/javascript" src="dist/js/funcoes.js"></script>
+	<!-- funcoes personalizadas 
+	<script type="text/javascript" src="dist/js/funcoes.js"></script> -->
 	
 <script>
 
 $(document).ready(function() {
-
 		// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
 		$body = $("body");
 
@@ -75,19 +74,34 @@ $(document).ready(function() {
 					if($(this).text().trim() == 'Não tem aulas no dia de hoje'){ // o trim remove os espaços extra que jquery traz
 						// adiciona um botao para incluir disciplinas no mesmo nivel do container de texto
 						$(this).parent().append('<p class="TabContent col-xs-6 col-sm-6 col-md-6" style="padding-right:4px;  padding-left:4px;" >'+
-										'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;">Adicionar Disciplina</button>'+
+										'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;"><i class="fa fa-plus-square-o"></i> Adicionar Disciplina</button>'+
 										//'<a data-toggle="modal" data-target="#modalDisciplinas" class="btn btn-success btn-block btn-lg"> Adicionar Disciplina </a>'+
 										'</p>'+
 										'<p class="TabContent col-xs-6 col-sm-6 col-md-6" style="padding-right:4px;  padding-left:4px;"  >'+
-										'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;" >Sair</button>'+
+										'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;" ><i class="fa fa-home"></i> Voltar</button>'+
 										'</p>'
 										);
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
 						// adiciona um botao para editar e um para excluir disciplinas no mesmo nivel do container de texto
 						$(this).parent().append(
+						
+							// adiciona o checkbox de lembrete
+							'<div class="row" style="text-align: center;">'+
+										
+										'<div class="row">'+
+											'<label><input class="lembrarSms" id="lembrarSms'+$(this).parent().attr("id")+'" name="lembrarSms" value="sms" type="checkbox" >Receber SMS</label>'+
+											'<label class="minutosSms" id="labelSms'+$(this).parent().attr("id")+'"><input class="minutosSms" id="minutosSms'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+										'</div>'+
+										'<div class="row">'+
+											'<label><input class="lembrarEmail" id="lembrarEmail'+$(this).parent().attr("id")+'" name="lembrarEmail" value="email" type="checkbox" >Receber E-mail</label>'+
+											'<label class="minutosEmail" id="labelEmail'+$(this).parent().attr("id")+'"><input class="minutosEmail" id="minutosEmail'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+										'</div>'+
+							'</div>'+
+						
+							// adiciona os botoes de insercao, exclusao e saida
 							'<p class="TabContent col-xs-4 col-sm-4 col-md-4" style="padding-right:3px;  padding-left:3px;" >'+
-							'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;">Adicionar Disciplina</button>'+
+							'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-plus-square-o"></i> Adicionar Disciplina</button>'+
 							//'<a data-toggle="modal" data-target="#modalDisciplinas" class="btn btn-success btn-block btn-lg"> Adicionar Disciplina </a>'+
 							'</p>'+
 							// A EDICAO SERA ESTUDADA
@@ -95,18 +109,27 @@ $(document).ready(function() {
 							//'<button type="button" id="editaDisciplina" class="btn btn-warning btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;">Editar Disciplina</button>'+
 							//'</p>'+
 							'<p class="TabContent col-xs-4 col-sm-4 col-md-4" style="padding-right:3px;  padding-left:3px;" >'+
-							'<button type="button" id="excluiDisciplina" class="btn btn-danger btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;">Excluir Disciplina</button>'+
+							'<button type="button" id="excluiDisciplina" class="btn btn-danger btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-minus-square-o"></i> Excluir Disciplina</button>'+
 							'</p>'+
 							'<p class="TabContent col-xs-4 col-sm-4 col-md-4" style="padding-right:3px;  padding-left:3px;" >'+
-							'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;">Sair</button>'+
+							'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>'+
 							'</p>'
 						);
+						
+
 					}
 			});
+
 });
 
-
 </script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
 </head>
 
