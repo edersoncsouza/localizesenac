@@ -12,6 +12,31 @@ function defineDiaSemana(){
     echo $diaDaSemana;
 }
 
+function getDiaSemana($data) {	
+    list($ano, $mes, $dia) = explode("-", $data);
+ 
+    $diasemana = date("w", mktime(0, 0, 0, $mes, $dia, $ano));
+ 
+    switch ($diasemana) {
+        case 0: $diasemana = "DOM";
+            break;
+        case 1: $diasemana = "SEG";
+            break;
+        case 2: $diasemana = "TER";
+            break;
+        case 3: $diasemana = "QUA";
+            break;
+        case 4: $diasemana = "QUI";
+            break;
+        case 5: $diasemana = "SEX";
+            break;
+        case 6: $diasemana = "SAB";
+            break;
+    }
+ 
+    return $diasemana;
+}
+
 function defineDisciplinas(){
 
 	$sql3 = "SELECT

@@ -655,10 +655,7 @@ PENDENCIAS LOCAIS:
 								bootbox.alert("Ocorreu um erro com sua requisição!");
 					}
 				});
-			}
-		
-
-		
+			}		
 </script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -1016,8 +1013,4 @@ PENDENCIAS LOCAIS:
 		
     </body>
 
-	<!-- NAO REMOVER, COLOCADO AQUI PARA CONSERTAR O DROPDOWN QUE PARAVA DE FUNCIONAR DEPOIS DE APRESENTAR O MODAL -->
-		<!-- Bootstrap Core JavaScript -->
-		<!-- <script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script> -->
-
-</html>>
+</html>
