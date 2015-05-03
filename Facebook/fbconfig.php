@@ -40,7 +40,7 @@ if ( isset( $session ) ) {
 	    $_SESSION['EMAIL'] =  $femail;
     /* ---- header location after session ----*/
   header("Location: index.php");
-} else {
+} else { // se nao estiver logado encaminha para a pagina de autenticacao do Facebook
   $loginUrl = $helper->getLoginUrl();
  header("Location: ".$loginUrl);
 }

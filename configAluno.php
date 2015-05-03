@@ -182,53 +182,61 @@ PENDENCIAS LOCAIS:
 							var inputSms = "input#minutosSms"+diaDaSemanaSms; // concatena a string para o input de SMS do dia da semana
 							var minutosAntecSms = $(inputSms).val();	// armazena a quantidade de minutos de antecedencia
 							
+							// faz a validacao dos valores do inputbox de minutos
 							if(!minutosAntecSms.match(/^\d+$/))
 								bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemanaSms + " no lembrete de SMS!");
 							else
 								if (parseInt(minutosAntecSms, 10) > 60)
 									bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemanaSms + " no lembrete de SMS!");
-								else
+								else{ // se a validacao de minutos esta OK
+									
+									// Avisa o tipo de alerta, o dia da semana e os minutos de antecedencia
 									bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaSms + ": " + minutosAntecSms);
 							
-							// receber o conteudo das disciplinas para montar as notificacoes na agenda do usuario
-							var diaP = diaDaSemanaSms.toUpperCase().substr(0,3); // constroe a string do dia da semana ex.: SEG
-							
-								var url = "dist/php/buscarDisciplinasDiaJson.php";
-								var objJson;
-								
-								// executa o post enviando o parametro dia
-								// recebe como retorno um json com as disciplinas (diaJson)
-								$.post(url,{ dia: diaP }, function(diaJson) {
+									// receber o conteudo das disciplinas para montar as notificacoes na agenda do usuario
+									var diaP = diaDaSemanaSms.toUpperCase().substr(0,3); // constroe a string do dia da semana ex.: SEG
 									
-									if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-										bootbox.alert('Erro no envio de parâmetros!');
-									}
-									else{
-										var objJson = JSON.parse(diaJson); // transforma a string JSON em Javascript Array
-										//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
-										//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
-										//bootbox.alert("A ultima posicao do array e: " + ultimaPosicao);
-										var unidadeP, turnoP, diaP, salaP, disciplinaP;
+									var url = "dist/php/buscarDisciplinasDiaJson.php";
+									var objJson;
+									
+									// executa o post enviando o parametro dia
+									// recebe como retorno um json com as disciplinas (diaJson)
+									$.post(url,{ dia: diaP }, function(diaJson) {
 										
-										for (i = 0; i < objJson.length; i++) { 
-											//text += cars[i] + "<br>";
-											unidadeP = objJson[i].UNIDADE;
-											turnoP = objJson[i].TURNO;
-											diaP = objJson[i].DIA;
-											salaP = objJson[i].SALA;
-											disciplinaP = objJson[i].DISC;
+										if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+											bootbox.alert('Erro no envio de parâmetros!');
+										}
+										else{
+											var objJson = JSON.parse(diaJson); // transforma a string JSON em Javascript Array
 											
-											/* FAZ O POST DOS CAMPOS PARA CADA EVENTO */
-											var url = "insertEvent.php";
-											$.post(url,{ unidade: unidadeP, turno: turnoP, dia: diaP, sala: salaP, disciplina: disciplinaP }, function(eventoJson) {
+											//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
+											//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
+											//bootbox.alert("A ultima posicao do array e: " + ultimaPosicao);
+											
+											var unidadeP, turnoP, diaP, salaP, disciplinaP, lembreteP, minutosP;
+											
+											for (i = 0; i < objJson.length; i++) { 
+												//text += cars[i] + "<br>";
+												unidadeP = objJson[i].UNIDADE;
+												turnoP = objJson[i].TURNO;
+												diaP = objJson[i].DIA;
+												salaP = objJson[i].SALA;
+												disciplinaP = objJson[i].DISC;
+												lembreteP = "SMS"; // informa ao inserirEvento que o lembrete e do tipo SMS
+												minutosP = minutosAntecSms; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
 												
-											});
+												/* FAZ O POST DOS CAMPOS PARA CADA EVENTO */
+												var url = "inserirEvento.php";
+												$.post(url,{ unidade: unidadeP, turno: turnoP, dia: diaP, sala: salaP, disciplina: disciplinaP, lembrete: lembreteP, minutos: minutosP }, function(eventoJson) {
+													
+												});
+												
+											}
 											
 										}
-										
-									}
-	
-								});
+		
+									});
+								}
 						}
 						else{ // se for um checkbox de E-mail
 							

@@ -1,9 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title></title>
-<meta charset="UTF-8">
+<!DOCTYPE HTML>
+<html lang="pt-br">
 
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
+
+<?php
+
+	session_start();
+
+?>
 
 <!-- jQuery -->
 <script type="text/javascript" src="dist/components/jquery/dist/jquery.min.js"></script>
@@ -12,9 +25,8 @@
 <script type="text/javascript" src="dist/js/funcoes.js"></script>
 
 </head>
+
 <body>
-
-
 
 <script>
 
@@ -99,41 +111,27 @@
     //console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
 
-		$emailFacebook = response.email;
-		$idFacebook = response.id;
-		$nomeFacebook = response.name;
-		
-		/*
-		$_SESSION['usuarioOauth2'] = $emailFacebook; // sera o usuario, ou seja o campo matricula da tabela aluno (PK)
-		$_SESSION['senhaOauth2'] = $idFacebook; // sera a senha, ou seja o campo senha da tabela aluno
-		$_SESSION['nomeOauth2'] = $nomeFacebook; // sera o nome, ou seja o campo nome da tabela aluno
-		*/
+		var emailFacebook = response.email;
+		var idFacebook = response.id;
+		var nomeFacebook = response.name;
       
 	  console.log('Successful login for: ' + response.name);	  
 	  console.log('Email do usuário logado: ' + response.email);
 	  console.log('Id do usuário logado: ' + response.id );
       //document.getElementById('status').innerHTML ='Thanks for logging in, ' + response.name + '!';
 	  
-consultarAluno($emailFacebook, $idFacebook, $nomeFacebook);
+	// armazena o tipo de usuario autenticado
+	$_SESSION['tipoUsuario'] = "facebook";
+	  
+	consultarAluno(emailFacebook, idFacebook, nomeFacebook);
 	  
     });
   }
+  
 </script>
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
-<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button> -->
-
-
-
 
 <div id="status">
 </div>
-
 
 </body>
 </html>

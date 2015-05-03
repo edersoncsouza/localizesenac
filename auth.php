@@ -203,6 +203,9 @@ else {
 		$_SESSION['senhaOauth2'] = $idGoogle; // sera a senha, ou seja o campo senha da tabela aluno
 		$_SESSION['nomeOauth2'] = $nomeGoogle; // sera o nome, ou seja o campo nome da tabela aluno
 		
+		// armazena o tipo de usuario autenticado
+		$_SESSION['tipoUsuario'] = "google";
+		
 		// chama a funcao JavaScript que executa os POSTS para os arquivos PHP de manipulacao de banco
 		// consultarAlunoOauth2 - Pesquisar se aluno ja existe no banco
 		// inserirAlunoOauth2 - Caso nao exista o aluno, insere no banco	

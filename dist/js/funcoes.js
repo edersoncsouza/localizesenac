@@ -1,9 +1,3 @@
-// variavel de vetor de nome andar e numero para uso do typeahead
-var JsonNomeAndarNumero;
-
-// variavel de vetor de saida para fonte para o typeahead
-var sourceArr = [];
-
 // variavel de vetor de objetos nome andar e numero para fazer correspondencia na insercao do marker
 var JsonNomeAndarNumeroObj;
 
@@ -80,32 +74,13 @@ function diaDaSemana() {
     return n; // retorna o dia da semana
 }
 
-// funcao para ocultar div de resultados de pesquisa na versao anterior do sistema
-function verificaInput() {
-    var busca = document.forms["searchForm"]["inputBusca"].value;
-    if (busca == "")
-        $("#conteudo_mostrar_pesquisas").hide();
-}
+/* FUNCOES PARA USO COM O TYPEAHEAD */
 
-// funcao para validacao de pesquisa, evitando chamar search.php sem parametros
-function validaBusca() {
-    $("#searchForm").submit(function (e) { // quando houver submissao do formulario
+// variavel de vetor de nome andar e numero para uso do typeahead
+var JsonNomeAndarNumero;
 
-        $("#conteudo_mostrar_pesquisas").hide(); // oculta area de resultado da pesquisa 
-        e.preventDefault(); // evita que o comportamento padrao ACTION
-        var busca = document.forms["searchForm"]["inputBusca"].value; // armazena o conteudo do inputBusca
-
-        if (busca != "") { // se o inputBusca nao estiver vazio
-            busca = "search.php/?inputBusca=" + busca; // concatena o input com o caminho da pagina de busca
-            $("#conteudo_mostrar_pesquisas").show(); // exibe a area de resultado da pesquisa 
-            atualizaPesquisas(busca); // chama o metodo atualizaPesquisas do instrucao.js
-        }
-        else { // se o inputBusca estiver vazio
-            $("#conteudo_mostrar_pesquisas").hide(); // oculta area de resultado da pesquisa
-        }
-
-    });
-}
+// variavel de vetor de saida para fonte para o typeahead
+var sourceArr = [];
 
 // funcao que cria o vetor de descricoes de sala para o typeahead e o vetor de objetos para correspondencia
 function criaVetorTypeahead(vetorPhpCodificado){
@@ -126,19 +101,6 @@ function criaVetorTypeahead(vetorPhpCodificado){
 	
 	// retorna o vetor com apenas os nomes das salas
 	return sourceArr;
-}
-
-// funcao que busca a correspondencia da descrição da sala com andar e numero da sala
-function getAndarSala(descricao){
-
-	for (var i = 0; i < JsonNomeAndarNumeroObj.length; i++) {
-
-		if(JsonNomeAndarNumeroObj[i].descricao == descricao){
-						
-			insereMarker(JsonNomeAndarNumeroObj[i].andar, JsonNomeAndarNumeroObj[i].numero);
-
-		}
-	}
 }
 
 // funcao utilizada para verificar se parte dos termos digitados constam na lista de locais fornecidos
@@ -173,7 +135,22 @@ function onSelected($e, datum) {
 	console.log(datum.value); // loga no console a propriedade valor do objeto de dados selecionado
 	getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
 }
-			
+
+// funcao que busca a correspondencia da descrição da sala com andar e numero da sala
+function getAndarSala(descricao){
+
+	for (var i = 0; i < JsonNomeAndarNumeroObj.length; i++) {
+
+		if(JsonNomeAndarNumeroObj[i].descricao == descricao){
+						
+			insereMarker(JsonNomeAndarNumeroObj[i].andar, JsonNomeAndarNumeroObj[i].numero);
+
+		}
+	}
+}
+
+/* FUNCOES PARA USO COM A AUTENTICACAO DO USUARIO */
+
 // funcao que busca o aluno no BD e se nao existir cria
 function consultarAluno(matriculaP, senhaP, nomeP){
 	var url = "consultarAlunoOauth2.php";
@@ -219,6 +196,35 @@ function consultarAluno(matriculaP, senhaP, nomeP){
 
 	});
 	
+}
+
+/* FUNCOES UTILIZADAS NA VERSAO ANTERIOR DO SISTEMA */
+
+// funcao para ocultar div de resultados de pesquisa na versao anterior do sistema
+function verificaInput() {
+    var busca = document.forms["searchForm"]["inputBusca"].value;
+    if (busca == "")
+        $("#conteudo_mostrar_pesquisas").hide();
+}
+
+// funcao para validacao de pesquisa, evitando chamar search.php sem parametros na versao anterior do sistema
+function validaBusca() {
+    $("#searchForm").submit(function (e) { // quando houver submissao do formulario
+
+        $("#conteudo_mostrar_pesquisas").hide(); // oculta area de resultado da pesquisa 
+        e.preventDefault(); // evita que o comportamento padrao ACTION
+        var busca = document.forms["searchForm"]["inputBusca"].value; // armazena o conteudo do inputBusca
+
+        if (busca != "") { // se o inputBusca nao estiver vazio
+            busca = "search.php/?inputBusca=" + busca; // concatena o input com o caminho da pagina de busca
+            $("#conteudo_mostrar_pesquisas").show(); // exibe a area de resultado da pesquisa 
+            atualizaPesquisas(busca); // chama o metodo atualizaPesquisas do instrucao.js
+        }
+        else { // se o inputBusca estiver vazio
+            $("#conteudo_mostrar_pesquisas").hide(); // oculta area de resultado da pesquisa
+        }
+
+    });
 }
 
 	
