@@ -158,12 +158,12 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 		
 		date_default_timezone_set('America/Sao_Paulo'); // define a TimeZone
 		
-		$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000Z'); // cria a string com o dia atual e primeiro horario letivo
-		//$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno
+		//$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000Z'); // cria a string com o dia atual e primeiro horario letivo
+		$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno
 		// exemplo de formato de data e hora aceitos: 2015-03-07T17:06:02.000Z
 		
-		$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000Z'); // cria a string com o dia atual e ultimo horario letivo
-		//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
+		//$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000Z'); // cria a string com o dia atual e ultimo horario letivo
+		$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
 		
 		echo "Data e hora para verificacao: " . $inicio . "<br>"; // testa a string de data e hora de inicio da pesquisa
 		
@@ -202,14 +202,21 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$idEventoExistente = $evento->getId();
 				$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
 				$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
+				
+				// tentando buscar reminders lembretes notificacoes existentes e montar com os novos ou dar append
+				//http://stackoverflow.com/questions/17546940/php-google-calendar-api-add-reminder-to-recurring-events
+				//$lembretesExistentes = evento->getDefaultReminders[];
+				
 				$existeEvento = TRUE;
 				
+				/*
 				// bacalhau pra apagar todos os eventos do dia
 				// ao inves de atualizar, pois o usuario pode ter
 				// excluido a disciplina e na atualizacao dos lembretes
 				// manteria os excluidos 
 				// basicamente: Aumentado o range de horario para o dia todo (lin 164 e 168) 
 				// e se existir deletar o evento com o if abaixo:
+				// PROBLEMA: deste jeito apenas aceita um evento por dia e com um tipo de lembrete
 				
 				if ($existeEvento == TRUE){
 					
@@ -219,7 +226,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 					// retorna o status pra false pra criar eventos novos
 					$existeEvento = FALSE;
 				}
-				
+				*/
 			}
 		}
 
@@ -238,7 +245,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 		// INICIO DO EVENTO
 		$start = new Google_Service_Calendar_EventDateTime(); // cria o servico do calendar para o inicio do evento
 		$start->setTimeZone('America/Sao_Paulo'); // define a TimeZone	
-		$start->setDateTime($dataDoEvento . 'T'. $horaInicioAula); // define a data e hora de inicio do evento
+		$start->setDateTime($dataDoEvento . 'T'. $horaInicioAula. '.000Z'); // define a data e hora de inicio do evento
 		//$start->setDateTime('2015-04-27T19:00:00'); // formato de hora de inicio
 
 		$event->setStart($start); // insere data e hora de inicio no objeto event
@@ -246,10 +253,13 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 		// FINAL DO EVENTO
 		$end = new Google_Service_Calendar_EventDateTime(); // cria o servico do calendar para o final do evento
 		$end->setTimeZone('America/Sao_Paulo'); // define a TimeZone
-		$end->setDateTime($dataDoEvento . 'T'. $horaFinalAula); // define a data e hora de final do evento
+		$end->setDateTime($dataDoEvento . 'T'. $horaFinalAula. '.000Z'); // define a data e hora de final do evento
 		//$end->setDateTime('2015-04-27T22:40:00'); // formato de hora de final
 
 		$event->setEnd($end); // insere data e hora de final no objeto event
+		
+		// https://developers.google.com/google-apps/calendar/recurringevents
+		//$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150515T170000Z')); // recorrencia do evento
 		
 		// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
 
@@ -269,8 +279,10 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 
 		$reminders = new Google_Service_Calendar_EventReminders(); // instancia o objeto de notificacoes do evento
 		$reminders->setUseDefault(false); // desativa as notificacoes de modo default (popup 30 minutos)
+		
 		$reminders->setOverrides($remindersArray); // armazena o array de notificacoes
-		 
+		
+		
 		$event->setReminders($reminders); // insere o array de notificacoes no evento
 			
 		if ($existeEvento == TRUE)	

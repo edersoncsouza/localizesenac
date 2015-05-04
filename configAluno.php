@@ -124,25 +124,34 @@ PENDENCIAS LOCAIS:
 					
 						// separa o dia da semana para receber os valores de minutos das inputboxes
 						var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarSmsterça
+						var lembreteP; // variavel do tipo de lembrete (SMS / email)
 						
 						if(stringDiaSemana.substr(0, 10) == 'lembrarSms'){ // se for um checkbox de SMS
-							var diaDaSemanaSms = stringDiaSemana.substr(10); // Separa uma substring do id ex.: terça (substr pega da posicao ate o final da string)
-							var inputSms = "input#minutosSms"+diaDaSemanaSms; // concatena a string para o input de SMS do dia da semana
-							var minutosAntecSms = $(inputSms).val();	// armazena a quantidade de minutos de antecedencia
+							var diaDaSemana = stringDiaSemana.substr(10); // Separa uma substring do id ex.: terça (substr pega da posicao ate o final da string)
+							var input = "input#minutosSms"+diaDaSemana; // concatena a string para o input de SMS do dia da semana
+							lembreteP = "SMS"; // informa ao inserirEvento que o lembrete e do tipo SMS
+						}
+						else{
+							var diaDaSemana = stringDiaSemana.substr(12); // a partir do caracter 12 pois o nome é mais longo ex.: lembrarEmailterça
+							var input = "input#minutosEmail"+diaDaSemana; // concatena a string para o input de Email do dia da semana
+							lembreteP = "email"; // informa ao inserirEvento que o lembrete e do tipo SMS
+						}
+						
+							var minutosAntec = $(input).val();	// armazena a quantidade de minutos de antecedencia
 							
 							// faz a validacao dos valores do inputbox de minutos
-							if(!minutosAntecSms.match(/^\d+$/))
-								bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemanaSms + " no lembrete de SMS!");
+							if(!minutosAntec.match(/^\d+$/))
+								bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemana + " no lembrete de " + lembreteP + "!");
 							else
-								if (parseInt(minutosAntecSms, 10) > 60)
-									bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemanaSms + " no lembrete de SMS!");
+								if (parseInt(minutosAntec, 10) > 60)
+									bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemana + " no lembrete de " + lembreteP + "!");
 								else{ // se a validacao de minutos esta OK
 									
 									// Avisa o tipo de alerta, o dia da semana e os minutos de antecedencia
-									bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaSms + ": " + minutosAntecSms);
+									bootbox.alert("Minutos de antecedencia de " + lembreteP + " na " + diaDaSemana + ": " + minutosAntec);
 							
 									// receber o conteudo das disciplinas para montar as notificacoes na agenda do usuario
-									var diaP = diaDaSemanaSms.toUpperCase().substr(0,3); // constroe a string do dia da semana ex.: SEG
+									var diaP = diaDaSemana.toUpperCase().substr(0,3); // constroe a string do dia da semana ex.: SEG
 									
 									var url = "dist/php/buscarDisciplinasDiaJson.php";
 									var objJson;
@@ -154,29 +163,28 @@ PENDENCIAS LOCAIS:
 										if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
 											bootbox.alert('Erro no envio de parâmetros!');
 										}
-										else{
+										else{ // se retornou com disciplinas
 											var objJson = JSON.parse(diaJson); // transforma a string JSON em Javascript Array
 											
 											//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
 											//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
 											//bootbox.alert("A ultima posicao do array e: " + ultimaPosicao);
 											
-											var unidadeP, turnoP, diaP, salaP, disciplinaP, lembreteP, minutosP;
+											var unidadeP, turnoP, diaP, salaP, disciplinaP, minutosP;
 											
-											for (i = 0; i < objJson.length; i++) { 
+											// laco que percorre todas as disciplinas do dia
+											for (i = 0; i < objJson.length; i++) {
 												//text += cars[i] + "<br>";
 												unidadeP = objJson[i].UNIDADE;
 												turnoP = objJson[i].TURNO;
 												diaP = objJson[i].DIA;
 												salaP = objJson[i].SALA;
 												disciplinaP = objJson[i].DISC;
-												lembreteP = "SMS"; // informa ao inserirEvento que o lembrete e do tipo SMS
-												minutosP = minutosAntecSms; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
+												minutosP = minutosAntec; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
 												
 												/* FAZ O POST DOS CAMPOS PARA CADA EVENTO */
 												var url = "inserirEvento.php";
 												$.post(url,{ unidade: unidadeP, turno: turnoP, dia: diaP, sala: salaP, disciplina: disciplinaP, lembrete: lembreteP, minutos: minutosP }, function(eventoJson) {
-													
 												});
 												
 											}
@@ -185,28 +193,15 @@ PENDENCIAS LOCAIS:
 		
 									});
 								}
-						}
-						else{ // se for um checkbox de E-mail
-							
-							var diaDaSemanaEmail = stringDiaSemana.substr(12); // a partir do caracter 12 pois o nome é mais longo ex.: lembrarEmailterça
-							var inputEmail = "input#minutosEmail"+diaDaSemanaEmail; // concatena a string para o input de Email do dia da semana
-							var minutosAntecEmail = $(inputEmail).val();	// armazena a quantidade de minutos de antecedencia
-							
-							if(!minutosAntecEmail.match(/^\d+$/))
-								bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemanaEmail + " no lembrete de E-mail!");
-							else
-								if (parseInt(minutosAntecEmail, 10) > 60)
-									bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemanaEmail + " no lembrete de E-mail!");
-								else
-									bootbox.alert("Minutos de antecedencia de Email na " + diaDaSemanaEmail + ": " + minutosAntecEmail);
-						}
+					}); // $('input:checked').each(function() 
 						
-					});
-					// grava todos os lembretes na agenda do usuario
+				//}); 
+				
+					// depois de gravar todos os lembretes na agenda do usuario
 					
-					//var url = "principal.php";
-					//$("body").load(url);
-				});
+					var url = "principal.php";
+					$("body").load(url);
+				}); // $('button#sairDisciplina').click( function()
 				
 				// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
 				$("#incluiDisciplina, #editaDisciplina").click(function(){
