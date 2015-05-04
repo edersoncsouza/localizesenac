@@ -111,7 +111,6 @@ PENDENCIAS LOCAIS:
 						// e enxerta a string de disciplinas em um bootbox.dialog
 						buscarDisciplinasDia(diaP); 
 						
-						
 					}
 					
 					}); 

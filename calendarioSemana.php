@@ -13,10 +13,15 @@
     <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 
 <?php
-    include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+
+	include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
     include("dist/php/funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
+
+	//imprimeSessao(); // imprime todas as variaveis de sessao
+	echo "<script> var tipoUsuario = \"{$_SESSION['tipoUsuario']}\";</script>"; // passa a variavel de tipo de autenticacao para o JavaScript
+	
 ?>
 
     <!-- Bootstrap Core CSS -->
@@ -49,6 +54,7 @@
 <script>
 
 $(document).ready(function() {
+	
 		// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
 		$body = $("body");
 
@@ -83,22 +89,26 @@ $(document).ready(function() {
 										);
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
+						
+						// se for ususario autenticado com conta Google
+						if( tipoUsuario == 'google')
+							$(this).parent().append(
+								// adiciona o checkbox de lembrete
+								'<div class="row" style="text-align: center;">'+
+											
+											'<div class="row">'+
+												'<label><input class="lembrarSms" id="lembrarSms'+$(this).parent().attr("id")+'" name="lembrarSms" value="sms" type="checkbox" >Receber SMS</label>'+
+												'<label class="minutosSms" id="labelSms'+$(this).parent().attr("id")+'"><input class="minutosSms" id="minutosSms'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+											'</div>'+
+											'<div class="row">'+
+												'<label><input class="lembrarEmail" id="lembrarEmail'+$(this).parent().attr("id")+'" name="lembrarEmail" value="email" type="checkbox" >Receber E-mail</label>'+
+												'<label class="minutosEmail" id="labelEmail'+$(this).parent().attr("id")+'"><input class="minutosEmail" id="minutosEmail'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+											'</div>'+
+								'</div>'
+							);
+
 						// adiciona um botao para editar e um para excluir disciplinas no mesmo nivel do container de texto
-						$(this).parent().append(
-						
-							// adiciona o checkbox de lembrete
-							'<div class="row" style="text-align: center;">'+
-										
-										'<div class="row">'+
-											'<label><input class="lembrarSms" id="lembrarSms'+$(this).parent().attr("id")+'" name="lembrarSms" value="sms" type="checkbox" >Receber SMS</label>'+
-											'<label class="minutosSms" id="labelSms'+$(this).parent().attr("id")+'"><input class="minutosSms" id="minutosSms'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
-										'</div>'+
-										'<div class="row">'+
-											'<label><input class="lembrarEmail" id="lembrarEmail'+$(this).parent().attr("id")+'" name="lembrarEmail" value="email" type="checkbox" >Receber E-mail</label>'+
-											'<label class="minutosEmail" id="labelEmail'+$(this).parent().attr("id")+'"><input class="minutosEmail" id="minutosEmail'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
-										'</div>'+
-							'</div>'+
-						
+						$(this).parent().append(					
 							// adiciona os botoes de insercao, exclusao e saida
 							'<p class="TabContent col-xs-4 col-sm-4 col-md-4" style="padding-right:3px;  padding-left:3px;" >'+
 							'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-plus-square-o"></i> Adicionar Disciplina</button>'+
@@ -115,8 +125,6 @@ $(document).ready(function() {
 							'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>'+
 							'</p>'
 						);
-						
-
 					}
 			});
 

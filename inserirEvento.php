@@ -147,16 +147,13 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			// teste de montagem dos campos do evento
 			//echo "/========================== APOS O FOR ==========================\\<BR>" ;
 			//echo "O evento sera incluido na proxima " . $dia . " dia " . $dataDoEvento . " as " . $horaInicioAula;
-			
-		//}
 		
 		// VERIFICA A EXISTENCIA DE EVENTOS PREVIOS NAS MESMAS DATAS E HORARIOS EM QUE O EVENTO ESTA SENDO INSERIDO
 
-		// ************* SERVICO JA FOI CRIADO NA LINHA 66 ***************
+		// ************************* SERVICO JA FOI CRIADO NA LINHA 66 ***************************
 		//$cl_service = new Google_Service_Calendar($client); // criado servico do Calendar e executada a query
 				
-		//$agendaAluno = new Google_Service_Calendar_Event($client); // instancia o servico para pesquisar a agenda
-		//$agendaAluno = new Google_Service_Calendar($client); // instancia o servico para pesquisar a agenda
+		//$agendaAluno = new Google_Service_Calendar($client); // se fosse instanciar um novo servico para pesquisar a agenda
 		
 		
 		date_default_timezone_set('America/Sao_Paulo'); // define a TimeZone
@@ -184,6 +181,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 		$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
 		
 		foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
+			// monta uma tabela com os eventos encontrados no dia
 			echo '<tr>';
 			echo '<td>'.$evento->getId().'</td>';
 			echo '<td>'.$evento->getSummary().'</td>';
