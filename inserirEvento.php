@@ -1,3 +1,14 @@
+<!--
+PENDENCIAS LOCAIS:
+
+CONSULTA:
+
+- Atalho para encaminhar à agenda com dados atraves de link
+/* http://stackoverflow.com/questions/10488831/link-to-add-to-google-calendar 
+http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20140611T174500Z&text=Real+Boy+Tech&details=Details%20go%20here
+*/
+-->
+
 <!DOCTYPE HTML>
 <html lang="pt-br">
 
@@ -99,11 +110,18 @@
 			$lembrete = $_POST['lembrete'];
 			$disciplina = $_POST['disciplina'];
 
+			// monta as strings para o evento
+			$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
+			$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade;
+			
+			$horaInicioDiaLetivo = '08:00:00';
+			$horaFinalDiaLetivo = '22:40:00';
+			
 			if ($turno == 'M'){ // se for o turno da manha
 				$horaInicioAula = '08:00:00';
 				$horaFinalAula = '11:40:00';
 			}
-			else{
+			if ($turno == 'N'){
 				$horaInicioAula = '19:00:00';
 				$horaFinalAula = '22:40:00';
 			}
@@ -130,17 +148,94 @@
 			//echo "/========================== APOS O FOR ==========================\\<BR>" ;
 			//echo "O evento sera incluido na proxima " . $dia . " dia " . $dataDoEvento . " as " . $horaInicioAula;
 			
-		}		
+		//}
 		
-		/* http://stackoverflow.com/questions/10488831/link-to-add-to-google-calendar
-		http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20140611T174500Z&text=Real+Boy+Tech&details=Details%20go%20here
-		*/
-		
-		// CRIA E CONFIGURA O EVENTO CALENDAR
-		$event = new Google_Service_Calendar_Event(); // cria o novo evento
+		// VERIFICA A EXISTENCIA DE EVENTOS PREVIOS NAS MESMAS DATAS E HORARIOS EM QUE O EVENTO ESTA SENDO INSERIDO
 
-		$event->setSummary('Aula - ' . $disciplina); // define o sumario do evento ex.: 'Aula - Tópicos Avançados em ADS'
-		$event->setLocation('Faculdade Senac Porto Alegre - Unidade ' .$unidade); // define o local do evento
+		// ************* SERVICO JA FOI CRIADO NA LINHA 66 ***************
+		//$cl_service = new Google_Service_Calendar($client); // criado servico do Calendar e executada a query
+				
+		//$agendaAluno = new Google_Service_Calendar_Event($client); // instancia o servico para pesquisar a agenda
+		//$agendaAluno = new Google_Service_Calendar($client); // instancia o servico para pesquisar a agenda
+		
+		
+		date_default_timezone_set('America/Sao_Paulo'); // define a TimeZone
+		
+		$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000Z'); // cria a string com o dia atual e primeiro horario letivo
+		//$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno
+		// exemplo de formato de data e hora aceitos: 2015-03-07T17:06:02.000Z
+		
+		$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000Z'); // cria a string com o dia atual e ultimo horario letivo
+		//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
+		
+		echo "Data e hora para verificacao: " . $inicio . "<br>"; // testa a string de data e hora de inicio da pesquisa
+		
+		//configura os parametros da pesquisa na agenda
+		$params = array(
+			'singleEvents' => 'true',
+			'timeMax' => $final,
+			'timeMin' => $inicio,
+			'orderBy' => 'startTime');
+	
+		$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
+		
+		$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
+		
+		$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
+		
+		foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
+			echo '<tr>';
+			echo '<td>'.$evento->getId().'</td>';
+			echo '<td>'.$evento->getSummary().'</td>';
+			echo '<td>'.$evento->getStart()->getDateTime().'</td>';
+			echo '<td>'.$evento->getEnd()->getDateTime().'</td>';
+			echo '</tr>';
+			
+			// armazena o sumario do evento existente
+			$sumarioEventoExistente = $evento->getSummary();
+			
+			$sumarioEventoExistente = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
+			
+			echo "<br> Sumario do evento existente: " . $sumarioEventoExistente . "<br>";
+
+			// verifica se o evento foi criado pelo sistema LocalizeSenac
+			if($sumarioEventoExistente == 'LocalizeSenac'){
+				// armazena informacoes do evento existente
+				$idEventoExistente = $evento->getId();
+				$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
+				$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
+				$existeEvento = TRUE;
+				
+				// bacalhau pra apagar todos os eventos do dia
+				// ao inves de atualizar, pois o usuario pode ter
+				// excluido a disciplina e na atualizacao dos lembretes
+				// manteria os excluidos 
+				// basicamente: Aumentado o range de horario para o dia todo (lin 164 e 168) 
+				// e se existir deletar o evento com o if abaixo:
+				
+				if ($existeEvento == TRUE){
+					
+					// deleta o evento encontrado
+					$cl_service->events->delete('primary', $idEventoExistente);
+					
+					// retorna o status pra false pra criar eventos novos
+					$existeEvento = FALSE;
+				}
+				
+			}
+		}
+
+		// se for um evento existente (mantido para quando o bacalhau for removido)
+		if ($existeEvento == TRUE)
+			// busca o evento do usuario atraves do id do evento
+			$event = $cl_service->events->get('primary', $idEventoExistente);
+		// se for um novo evento
+		else
+			// cria o evento calendar
+			$event = new Google_Service_Calendar_Event(); // cria o novo evento
+
+		$event->setSummary($sumarioEvento); // define o sumario do evento ex.: 'Aula - Tópicos Avançados em ADS'
+		$event->setLocation($unidadeEvento); // define o local do evento
 
 		// INICIO DO EVENTO
 		$start = new Google_Service_Calendar_EventDateTime(); // cria o servico do calendar para o inicio do evento
@@ -179,9 +274,15 @@
 		$reminders->setOverrides($remindersArray); // armazena o array de notificacoes
 		 
 		$event->setReminders($reminders); // insere o array de notificacoes no evento
-		
-		$createdEvent = $cl_service->events->insert('primary', $event); // insere o evento na agenda default ('primary') do usuario
-		
+			
+		if ($existeEvento == TRUE)	
+			// atualiza o evento na agenda
+			$eventoAtualizado = $cl_service->events->update('primary', $evento->getId(), $event);
+		else
+			// cria o evento na agenda
+			$createdEvent = $cl_service->events->insert('primary', $event); // insere o evento na agenda default ('primary') do usuario
+	
+	}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))	
 	} // if ($client->getAccessToken())
 ?>
 

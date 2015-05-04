@@ -108,63 +108,12 @@ PENDENCIAS LOCAIS:
 					if (result){// se o usuario confirmou a exclusao
 						
 						// chama metodo que busca em um php as disciplinas do aluno naquele dia
-						// e enxerta a string de disciplinas no bootbox.dialog
-						buscarDisciplinasDia(diaP, false); // o segundo parametro define se deseja retorno Object JSON 
+						// e enxerta a string de disciplinas em um bootbox.dialog
+						buscarDisciplinasDia(diaP); 
 						
-						// exibe o formulario de exclusao em um modal bootbox
-						bootbox.dialog({
-								title: "Selecione a(s) disciplina(s) a excluir",
-								message: '<div class="row">  ' +
-											'<div class="col-md-12"> ' +
-												'<form class="form-horizontal"> ' +
-													'<div class="form-group"> ' +
-														'<div id="bootboxDialogDisciplinas" class="col-md-12">' +
-															// o conteudo das disciplinas vem aqui
-														'</div> ' +
-													'</div>'+
-												'</form>'+
-											'</div>'+
-										'</div>',
-								buttons: {
-									success: {
-										label: "Excluir",
-										className: "btn-danger",
-										callback: function () { // caso clique no botao excluir executa a funcao
-											// pega os labels dos inputs marcados na div bootboxDialogDisciplinas e para cada...
-											$('#bootboxDialogDisciplinas input:checked').each(function() {
-
-												// armazena o texto do LABEL que contem Unidade, Turno, Sala e Disciplina
-												var unidadeTurnoSalaDisciplina = $("label[for='"+$(this).val()+"']").text(); 
-												
-												// separar Unidade, Turno, Sala e Disciplina pelo caracter "-"
-												var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
-				
-												// pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
-												var turnoP = palavras[1].charAt(palavras[1].length-2);
-												
-												// chama a funcao javascript que acionara a funcao php que excluira a disciplina
-												excluirDisciplinaGrade(diaP, turnoP);
-
-											});
-											
-											// atualiza a grade de aulas
-											//window.location.reload();
-										}
-									},
-									main: {
-									  label: "Sair",
-									  className: "btn-primary",
-									  callback: function() { // caso clique no botao sair executa a funcao
-										//var url = "principal.php";
-										//$("body").load(url);
-									  }
-									}
-								}
-								
-						});
+						
 					}
-					else
-						bootbox.alert("Ufa...");
+					
 					}); 
 				});
 				
@@ -437,7 +386,7 @@ PENDENCIAS LOCAIS:
 	});
 
 			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP) e enxerta a string no modal de dialogo
-			function buscarDisciplinasDia(diaP, retornoP){
+			function buscarDisciplinasDia(diaP){
 				var url = "dist/php/buscarDisciplinasDia.php";
 				
 				// executa o post enviando o parametro dia
@@ -462,15 +411,70 @@ PENDENCIAS LOCAIS:
 											'</div>';
 								i++;
 							});
-							
+						
+
+						// exibe o formulario de exclusao em um modal bootbox
+						bootbox.dialog({
+								title: "Selecione a(s) disciplina(s) a excluir",
+								message: '<div class="row">  ' +
+											'<div class="col-md-12"> ' +
+												'<form class="form-horizontal"> ' +
+													'<div class="form-group"> ' +
+														'<div id="bootboxDialogDisciplinas" class="col-md-12">' +
+															// o conteudo das disciplinas vem aqui
+														'</div> ' +
+													'</div>'+
+												'</form>'+
+											'</div>'+
+										'</div>',
+								buttons: {
+									success: {
+										label: "Excluir",
+										className: "btn-danger",
+										callback: function () { // caso clique no botao excluir executa a funcao
+											// pega os labels dos inputs marcados na div bootboxDialogDisciplinas e para cada...
+											$('#bootboxDialogDisciplinas input:checked').each(function() {
+
+												// armazena o texto do LABEL que contem Unidade, Turno, Sala e Disciplina
+												var unidadeTurnoSalaDisciplina = $("label[for='"+$(this).val()+"']").text(); 
+												
+												// separar Unidade, Turno, Sala e Disciplina pelo caracter "-"
+												var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
+				
+												// pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
+												var turnoP = palavras[1].charAt(palavras[1].length-2);
+												
+												// chama a funcao javascript que acionara a funcao php que excluira a disciplina
+												excluirDisciplinaGrade(diaP, turnoP);
+
+											});
+											
+											// atualiza a grade de aulas
+											//window.location.reload();
+										}
+									},
+									main: {
+									  label: "Sair",
+									  className: "btn-primary",
+									  callback: function() { // caso clique no botao sair executa a funcao
+										//var url = "principal.php";
+										//$("body").load(url);
+										bootbox.alert("Ufa...");
+									  }
+									}
+								}
+								
+						});
 							// enxerta o conteudo das checkboxs no modal de dialogo, na area de conteudo, dentro do corpo
 							//$('.modal-dialog>modal-content>modal-body').append(listaItens); 
 							
 							// enxerta o conteudo das checkboxs na area bootboxDialogDisciplinas do modal de diálogo,
-							if(!retornoP) // se nao pede retorno - apenas processo de excluir disciplina por enquanto
-								$('#bootboxDialogDisciplinas').append(listaItens);
-							else // se pedir retorno
-								return objJson; // retorna o json de objetos disciplina em uma unica string
+							//if(!retornoP) // se nao pede retorno - apenas processo de excluir disciplina por enquanto
+							
+							$('#bootboxDialogDisciplinas').append(listaItens);
+							
+							//else // se pedir retorno
+							return objJson; // retorna o json de objetos disciplina em uma unica string
 					}
 					
 				});
