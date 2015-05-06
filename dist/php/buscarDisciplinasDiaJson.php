@@ -30,7 +30,7 @@
 	$result = mysql_query($sql, $_SESSION['conexao']);
 
 	//cria o array data
-		$data;//= []; 
+		$data = []; 
 		
 	// armazena no array os nomes das disciplinas
 	while ($row = mysql_fetch_assoc($result)) {

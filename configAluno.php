@@ -126,13 +126,16 @@ PENDENCIAS LOCAIS:
 						//bootbox.alert(diaDaSemana); // exibe o dia da semana do tabContent
 						
 						var lembretesDiaDaSemana = []; // cria o array de lembretes do dia da semana
+						var disciplinasDiaDaSemana = []; // cria o array de disciplinas do dia da semana
+						var minutosAntec; // varivel que armazenara a quantidade de minutos de antecedencia
+						var lembreteP; // variavel do tipo de lembrete (SMS / email)
+						
 						
 						//$('input:checked').each(function() { // para cada checkbox marcado
 						$(this).children().find("input[type='checkbox']:checked").each(function() { // para cada checkbox marcado nos filhos do tab da semana
 						
 							var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarSmssegunda
-							var lembreteP; // variavel do tipo de lembrete (SMS / email)
-							
+
 							if(stringDiaSemana.substr(0, 10) == 'lembrarSms'){ // compara a substring da posicao 0 a posicao 10 se for um checkbox de SMS 
 								var input = "input#minutosSms"+stringDiaSemana.substr(10); // concatena a string para o input de SMS do dia da semana (substr pega da posicao ate o final da string) ex.: segunda
 								lembreteP = "SMS"; // informa ao inserirEvento que o lembrete e do tipo SMS
@@ -142,7 +145,7 @@ PENDENCIAS LOCAIS:
 								lembreteP = "email"; // informa ao inserirEvento que o lembrete e do tipo email
 							}
 						
-							var minutosAntec = $(input).val();	// armazena a quantidade de minutos de antecedencia
+							minutosAntec = $(input).val();	// armazena a quantidade de minutos de antecedencia
 							
 							// faz a validacao dos valores do inputbox de minutos
 							if (minutosAntec == '')
@@ -154,18 +157,66 @@ PENDENCIAS LOCAIS:
 									if (parseInt(minutosAntec, 10) > 60)
 										bootbox.alert("O valor excede 60 minutos, na(o) " + diaDaSemana + " no lembrete de " + lembreteP + "!");
 									else{ // se a validacao de minutos esta OK
-								
+										// armazena o lembrete no array
 										lembretesDiaDaSemana.push({ "tipoLembrete": lembreteP, "minutos": minutosAntec});
+										bootbox.alert("tipo: " + lembreteP + " minutos: " + minutosAntec);
 									}
-						});
+						}); // fim do loop por checkbox de lembrete
 						
-						if (lembretesDiaDaSemana.length > 0){ // caso o dia da semana tenha notificacoes
-							// FAZ O POST DOS CAMPOS PARA CADA EVENTO 
-							var url = "inserirEvento.php";
-							$.post(url,{array : lembretesDiaDaSemana});
-						}
 						
-					});
+						// processo para buscar as disciplinas
+						var url = "dist/php/buscarDisciplinasDiaJson.php";
+						var objJson;
+						var diaP = diaDaSemana;
+						// executa o post enviando o parametro dia
+						// recebe como retorno um json com as disciplinas (diaJson)
+						$.post(url,{ dia: diaP }, function(diaJson) {
+							
+							if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+								bootbox.alert('Erro no envio de parâmetros!');
+							}
+							else{ // se retornou com disciplinas
+								console.log(diaJson);
+								var objJson = JSON.parse(diaJson); // transforma a string JSON em Javascript Array
+							
+								//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
+								//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
+								
+								var unidadeP, turnoP, diaP, salaP, disciplinaP, minutosP; // variaveis para incluir no array de disciplinas
+								
+								// laco que percorre todas as disciplinas do dia
+								for (i = 0; i < objJson.length; i++) {
+									unidadeP = objJson[i].UNIDADE;
+									turnoP = objJson[i].TURNO;
+									diaP = objJson[i].DIA;
+									salaP = objJson[i].SALA;
+									disciplinaP = objJson[i].DISC;
+									minutosP = minutosAntec; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
+									
+									// armazena a disciplina no array
+									disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP, "lembrete": lembreteP, "minutos": minutosP });
+								}
+						
+							
+							} // se retornou com disciplinas
+							
+							
+								if (lembretesDiaDaSemana.length > 0){ // caso o dia da semana tenha notificacoes
+									// FAZ O POST DOS CAMPOS PARA CADA EVENTO 
+									var url = "inserirEvento.php";
+									$.post(url,{
+										'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
+										//array : arrayEvento
+										});
+								}
+							
+							
+						}); // post do buscarDisciplinasDiaJson.php
+						
+					
+					}); // $(this).parent().parent().parent().children().each(function - cada dia da semana
+					
+					
 					/*
 					// Ao sair da area ACADEMICO lista e armazena todos os eventos de lembretes
 					$('input:checked').each(function() { // para cada checkbox marcado
@@ -249,12 +300,12 @@ PENDENCIAS LOCAIS:
 					}); // $('input:checked').each(function() 
 						
 				//}); 
-				
+				*/
 					// depois de gravar todos os lembretes na agenda do usuario
 					
 					var url = "principal.php";
 					$("body").load(url);
-					*/
+					
 					
 				}); // $('button#sairDisciplina').click( function()
 				

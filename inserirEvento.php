@@ -293,11 +293,23 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			$createdEvent = $cl_service->events->insert('primary', $event); // insere o evento na agenda default ('primary') do usuario
 	
 	}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
+	
 	else{
-		if(isset($_POST['disciplinasDia']))
-			echo "<script>console.log({$_POST['disciplinasDia']});</script>";
+		if(isset($_POST['arrayDisciplinas']))
+			//echo "<script>console.log({$_POST['arrayDisciplinas']});</script>";
+			
+			foreach($_POST['arrayLembretes'] as $result) {
+				echo "Tipo de lembrete: " . $result['tipoLembrete'] . '<br>';
+				echo "Tempo de antecedencia: " . $result['minutos'] . '<br>';
+			}
+			
+			foreach($_POST['arrayDisciplinas'] as $result) {
+				echo "Disciplina: " . $result['disciplina'] . '<br>';
+			}
+			
 	}
-	} // if ($client->getAccessToken())
+	
+} // if ($client->getAccessToken())
 ?>
 
 </head>
