@@ -99,19 +99,10 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 		//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos'])){
 
 		if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
-			//echo "<script>console.log({$_POST['arrayDisciplinas']});</script>";
 			
 			// sanitiza as entradas
 			//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
 			$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-			
-			foreach($_POST['arrayLembretes'] as $campoLembrete) {
-				//lembretesDiaDaSemana.push({ "tipoLembrete": lembreteP, "minutos": minutosAntec});
-				//echo "Tipo de lembrete: " . $result['tipoLembrete'] . '<br>';
-				//echo "Tempo de antecedencia: " . $result['minutos'] . '<br>';
-				$minutos = $campoLembrete['minutos'];
-				$lembrete = $campoLembrete['tipoLembrete'];
-			}
 			
 			foreach($_POST['arrayDisciplinas'] as $campoDisciplina) {
 				//disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
@@ -121,26 +112,14 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$turno = $campoDisciplina['turno'];
 				$unidade = $campoDisciplina['unidade'];
 				$disciplina = $campoDisciplina['disciplina'];
-			}
-		
-			
-			/*
-			// armazena os parametros recebidos
-			$dia = $_POST['dia'];
-			$sala = $_POST['sala'];
-			$turno = $_POST['turno'];
-			$unidade = $_POST['unidade'];
-			$minutos = $_POST['minutos'];
-			$lembrete = $_POST['lembrete'];
-			$disciplina = $_POST['disciplina'];
-			*/
+			//} comentado para estender o for ate o final deste arquivo
 			
 			// monta as strings para o evento
 			$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
 			$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade. ' - Sala: ' . $sala;
 			
-			$horaInicioDiaLetivo = '08:00:00';
-			$horaFinalDiaLetivo = '22:40:00';
+			$horaInicioDiaLetivo = '07:00:00';
+			$horaFinalDiaLetivo = '23:40:00';
 			
 			if ($turno == 'M'){ // se for o turno da manha
 				$horaInicioAula = '08:00:00';
@@ -168,18 +147,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 					$i = 7; // forca a saida do FOR
 				}
 			}
-			
-			// teste de montagem dos campos do evento
-			//echo "/========================== APOS O FOR ==========================\\<BR>" ;
-			//echo "O evento sera incluido na proxima " . $dia . " dia " . $dataDoEvento . " as " . $horaInicioAula;
-		
-			// VERIFICA A EXISTENCIA DE EVENTOS PREVIOS NAS MESMAS DATAS E HORARIOS EM QUE O EVENTO ESTA SENDO INSERIDO
-
-			// ************************* SERVICO JA FOI CRIADO NA LINHA 66 ***************************
-			//$cl_service = new Google_Service_Calendar($client); // criado servico do Calendar e executada a query
-					
-			//$agendaAluno = new Google_Service_Calendar($client); // se fosse instanciar um novo servico para pesquisar a agenda
-			
 			
 			date_default_timezone_set('America/Sao_Paulo'); // define a TimeZone
 			
@@ -217,12 +184,17 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				// armazena o sumario do evento existente
 				$sumarioEventoExistente = $evento->getSummary();
 				
-				$sumarioEventoExistente = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
+				//$sumarioEventoExistente = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
+				
+				$introducaoCabecalho = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
 				
 				echo "<br> Sumario do evento existente: " . $sumarioEventoExistente . "<br>";
 
 				// verifica se o evento foi criado pelo sistema LocalizeSenac
-				if($sumarioEventoExistente == 'LocalizeSenac'){
+				//if($sumarioEventoExistente == 'LocalizeSenac'){
+				if($introducaoCabecalho  == 'LocalizeSenac'){
+					echo "<br> Entrei no if para tentar apagar evento " . $sumarioEventoExistente . "<br>";
+					
 					// armazena informacoes do evento existente
 					$idEventoExistente = $evento->getId();
 					$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
@@ -234,7 +206,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 					
 					$existeEvento = TRUE;
 					
-					/*
+					
 					// bacalhau pra apagar todos os eventos do dia
 					// ao inves de atualizar, pois o usuario pode ter
 					// excluido a disciplina e na atualizacao dos lembretes
@@ -244,25 +216,30 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 					// PROBLEMA: deste jeito apenas aceita um evento por dia e com um tipo de lembrete
 					
 					if ($existeEvento == TRUE){
+						echo "<br> Identifiquei que existe e vou apagar evento " . $idEventoExistente . "<br>";
 						
+						if($sumarioEventoExistente<>$sumarioEvento)
 						// deleta o evento encontrado
 						$cl_service->events->delete('primary', $idEventoExistente);
 						
 						// retorna o status pra false pra criar eventos novos
 						$existeEvento = FALSE;
 					}
-					*/
+					
 				}
 			}
 
+			/*
 			// se for um evento existente (mantido para quando o bacalhau for removido)
-			if ($existeEvento == TRUE)
+			if ($existeEvento == TRUE){
 				// busca o evento do usuario atraves do id do evento
 				$event = $cl_service->events->get('primary', $idEventoExistente);
 			// se for um novo evento
 			else
-				// cria o evento calendar
-				$event = new Google_Service_Calendar_Event(); // cria o novo evento
+				*/
+			
+			// cria o evento calendar
+			$event = new Google_Service_Calendar_Event(); // cria o novo evento
 
 			$event->setSummary($sumarioEvento); // define o sumario do evento ex.: 'Aula - Tópicos Avançados em ADS'
 			$event->setLocation($unidadeEvento); // define o local do evento
@@ -282,41 +259,52 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			//$end->setDateTime('2015-04-27T22:40:00'); // formato de hora de final
 
 			$event->setEnd($end); // insere data e hora de final no objeto event
-			
+					
 			// https://developers.google.com/google-apps/calendar/recurringevents
 			//$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150515T170000Z')); // recorrencia do evento
 			
 			// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
 
-			// cria o array para acumular as notificacoes
-			$remindersArray = array();
+			$remindersArray = array(); // cria o array para acumular as notificacoes
 			
-			$reminder = new Google_Service_Calendar_EventReminder(); // instancia a notificacao
-			
-			if($lembrete == "SMS")
-				$reminder->setMethod('sms'); // define o metodo como sms
-			if($lembrete == "email")
-				$reminder->setMethod('email'); // define o metodo como email
-
-			$reminder->setMinutes($minutos); // define quantos minutos antes do evento (recebido por parametro)
-			
-			$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes			
-
-			$reminders = new Google_Service_Calendar_EventReminders(); // instancia o objeto de notificacoes do evento
-			$reminders->setUseDefault(false); // desativa as notificacoes de modo default (popup 30 minutos)
-			
-			$reminders->setOverrides($remindersArray); // armazena o array de notificacoes
-			
-			
-			$event->setReminders($reminders); // insere o array de notificacoes no evento
+			foreach($_POST['arrayLembretes'] as $campoLembrete) {
 				
-			if ($existeEvento == TRUE)	
+				$reminder = new Google_Service_Calendar_EventReminder(); // instancia a notificacao
+				
+				$minutos = $campoLembrete['minutos']; // armazena os minutos de antecedencia
+				$lembrete = $campoLembrete['tipoLembrete']; // armazena o tipo de lembrete
+			
+				if($lembrete == "SMS")
+					$reminder->setMethod('sms'); // define o metodo como sms
+				if($lembrete == "email")
+					$reminder->setMethod('email'); // define o metodo como email
+
+				$reminder->setMinutes($minutos); // define quantos minutos antes do evento (recebido por parametro)
+				
+				$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes			
+			
+			} // FINAL DO FOR DE REMINDERS
+			
+				$reminders = new Google_Service_Calendar_EventReminders(); // instancia o objeto de notificacoes do evento
+				$reminders->setUseDefault(false); // desativa as notificacoes de modo default (popup 30 minutos)
+				$reminders->setOverrides($remindersArray); // armazena o array de notificacoes
+				
+				//$event->setReminders($reminders); // insere o array de notificacoes no evento			
+		
+			if ($existeEvento == TRUE){	
+				$event->setReminders($reminders); // insere o array de notificacoes no evento
 				// atualiza o evento na agenda
 				$eventoAtualizado = $cl_service->events->update('primary', $evento->getId(), $event);
-			else
+			}
+			else{
+				$event->setReminders($reminders); // insere o array de notificacoes no evento
 				// cria o evento na agenda
 				$createdEvent = $cl_service->events->insert('primary', $event); // insere o evento na agenda default ('primary') do usuario
-	
+			}
+		
+		}// ******************* FINAL DO FOR DE DISCIPLINAS ************************
+		
+		
 		}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
 	
 
