@@ -102,7 +102,8 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			//echo "<script>console.log({$_POST['arrayDisciplinas']});</script>";
 			
 			// sanitiza as entradas
-			foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
+			//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
+			$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 			
 			foreach($_POST['arrayLembretes'] as $campoLembrete) {
 				//lembretesDiaDaSemana.push({ "tipoLembrete": lembreteP, "minutos": minutosAntec});
@@ -123,7 +124,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			}
 		
 			
-			
+			/*
 			// armazena os parametros recebidos
 			$dia = $_POST['dia'];
 			$sala = $_POST['sala'];
@@ -132,10 +133,11 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			$minutos = $_POST['minutos'];
 			$lembrete = $_POST['lembrete'];
 			$disciplina = $_POST['disciplina'];
-
+			*/
+			
 			// monta as strings para o evento
 			$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
-			$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade;
+			$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade. ' - Sala: ' . $sala;
 			
 			$horaInicioDiaLetivo = '08:00:00';
 			$horaFinalDiaLetivo = '22:40:00';
