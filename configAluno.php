@@ -147,11 +147,6 @@ PENDENCIAS LOCAIS:
 							minutosAntec = $(input).val();	// armazena a quantidade de minutos de antecedencia
 							
 							// faz a validacao dos valores do inputbox de minutos
-							/*
-							if (minutosAntec == '')
-								bootbox.alert("Ignorando o lembrete com quantidade de minutos vazia na(o) " + diaDaSemana + "!");
-							else
-							*/
 								if(!minutosAntec.match(/^\d+$/))
 									bootbox.alert("valor não numérico no campo minutos, na(o) " + diaDaSemana + " no lembrete de " + lembreteP + "!");
 								else
@@ -160,11 +155,9 @@ PENDENCIAS LOCAIS:
 									else{ // se a validacao de minutos esta OK
 										// armazena o lembrete no array
 										lembretesDiaDaSemana.push({ "tipoLembrete": lembreteP, "minutos": minutosAntec});
-										bootbox.alert("tipo: " + lembreteP + " minutos: " + minutosAntec);
 									}
 
 						}); // fim do loop por checkbox de lembrete
-						
 						
 						// processo para buscar as disciplinas
 						var url = "dist/php/buscarDisciplinasDiaJson.php";
@@ -196,7 +189,6 @@ PENDENCIAS LOCAIS:
 									minutosP = minutosAntec; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
 									
 									// armazena a disciplina no array
-									//disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP, "lembrete": lembreteP, "minutos": minutosP });
 									disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
 								}
 							
@@ -205,7 +197,6 @@ PENDENCIAS LOCAIS:
 											var url = "inserirEvento.php";
 											$.post(url,{
 												'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
-												//array : arrayEvento
 												});
 										}			
 							} // se retornou com disciplinas

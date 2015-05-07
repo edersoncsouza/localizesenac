@@ -117,8 +117,22 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
 			$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade. ' - Sala: ' . $sala;
 			
-			$horaInicioDiaLetivo = '00:00:00';
-			$horaFinalDiaLetivo = '23:59:59';
+			date_default_timezone_set('America/Sao_Paulo'); // define o timezone
+
+			$horaInicioDiaLetivo = '07:00:00';
+			$horaFinalDiaLetivo = '23:00:00';
+			
+			// define as datas de inicio e final de semestre para recorrencia dos eventos
+			if(date('n') < 8){ // se o mes for ate julho
+				$dataInicioSemestre = '2015-02-23T07:00:00.000Z';
+				$dataFinalSemestre = '2015-07-10T23:00:00.000Z';
+				echo "Primeiro Semestre <BR>";
+			}
+			else{
+				$dataInicioSemestre = '2015-08-01T17:06:02.000Z';
+				$dataFinalSemestre = '2015-12-12T23:00:00.000Z';
+				echo "Segundo Semestre <BR>";
+			}
 			
 			if ($turno == 'M'){ // se for o turno da manha
 				$horaInicioAula = '08:00:00';
@@ -128,8 +142,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$horaInicioAula = '19:00:00';
 				$horaFinalAula = '22:40:00';
 			}
-			
-			date_default_timezone_set('America/Sao_Paulo'); // define o timezone
 			
 			$diaAtual = date('Y-m-d'); // instancia e define a mascara da data
 			//$diaAtual = date('Y-m-dTH:i:s'); // formato de data com hora
@@ -152,11 +164,11 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			
 			// DEFINE PERIODO PARA PESQUISA DE EVENTOS
 			
-			$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000'); // cria a string com o dia atual e primeiro horario letivo
+			$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000z'); // cria a string com o dia atual e primeiro horario letivo
 			//$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno com Z identifica GMT
 			// exemplo de formato de data e hora aceitos: 2015-03-07T17:06:02.000Z
 			
-			$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000'); // cria a string com o dia atual e ultimo horario letivo
+			$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000z'); // cria a string com o dia atual e ultimo horario letivo
 			//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
 			
 			//configura os parametros da pesquisa na agenda
@@ -165,7 +177,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				'timeMax' => $final,
 				'timeMin' => $inicio,
 				'orderBy' => 'startTime');
-		
+			
 			$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
 			
 			$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
@@ -174,6 +186,9 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			
 			// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
 			if ( $jaLimpei === FALSE){ 
+
+				$deleteParams = array('timeMin' => $inicio); // parametros para apagar os eventos recorrentes
+
 				foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
 
 					// armazena o sumario do evento existente
@@ -186,12 +201,23 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 						
 						// armazena informacoes do evento existente
 						$idEventoExistente = $evento->getId();
+						echo "Evento encontrado ID: " . $idEventoExistente . "<br>";
 						//$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
 						//$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
 
 						// deleta o evento encontrado
-						$cl_service->events->delete('primary', $idEventoExistente);
+						//$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
 						
+						/* TENTATIVA DE EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work */
+						$eventosRecorrentes = $cl_service->events->instances('primary', $idEventoExistente, $deleteParams); // armazena todas as instancias do evento recorrente
+						
+						if ($eventosRecorrentes && count($eventosRecorrentes->getItems())) { // se houverem eventosRecorrentes
+						  foreach ($eventosRecorrentes->getItems() as $instance) { // laco para percorrer todos os eventos recorrentes
+							  echo "Instancia do evento encontrada ID: " . $instance->getId() . "<br>";
+							$cl_service->events->delete('primary', $instance->getId()); // deleta cada instancia do evento
+						  }
+						}
+
 					}
 				} // foreach ($eventos as $evento) 
 			
@@ -225,6 +251,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 					
 			// https://developers.google.com/google-apps/calendar/recurringevents
 			//$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150515T170000Z')); // recorrencia do evento
+			$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150710T230000Z')); // recorrencia do evento
 			
 			// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
 
