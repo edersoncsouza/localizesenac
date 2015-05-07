@@ -225,14 +225,18 @@ PENDENCIAS LOCAIS:
 						
 				});
 				
-				// inicializa com os inputs e labels de lembretes ocultos
-				$('.labelEmail').hide();
-				$('.minutosEmail').hide();
-				$('.minutosEmail').val('');
 				
-				$('.labelSms').hide();
-				$('.minutosSms').hide();							
-				$('.minutosSms').val('');
+				
+				if(true){ // se não houverem lembretes neste dia da semana
+					// inicializa com os inputs e labels de lembretes ocultos
+					$('.labelEmail').hide();
+					$('.minutosEmail').hide();
+					$('.minutosEmail').val('');
+					
+					$('.labelSms').hide();
+					$('.minutosSms').hide();							
+					$('.minutosSms').val('');
+				}
 				
 				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
 				$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status
@@ -246,17 +250,11 @@ PENDENCIAS LOCAIS:
 					if ($(this).is(":checked")) { // se ele estiver marcado
 						$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
 						$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
-						//$('.minutosSms').show(); // exibe todos os inputs desta classe
-						//$('.labelSms').show(); // exibe todos os labels desta classe
 					}
 					else {// se o checkbox de lembrete nao estiver selecionado
-						$(inputSms).hide();
-						$(inputSms).val('');
-						$(labelSms).hide();
-						//$('.minutosSms').hide();	// oculta todos os inputs desta classe
-						//$('.minutosSms').val(''); // zera os valores de todos os inputs desta classe
-						//$('.labelSms').hide();	// oculta todos os labels desta classe
-
+						$(inputSms).hide(); // oculta todos os inputs desta classe
+						$(inputSms).val(''); // zera os valores de todos os inputs desta classe
+						$(labelSms).hide();	// oculta todos os labels desta classe
 					}
 				});
 				
@@ -272,17 +270,11 @@ PENDENCIAS LOCAIS:
 					if ($(this).is(":checked")) {
 						$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
 						$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
-						//$('.minutosEmail').show(); // exibe todos os inputs desta classe
-						//$('.labelEmail').show(); // exibe todos os labels desta classe
-
 					}
 					else {// se o checkbox de lembrete nao estiver selecionado
 						$(inputEmail).hide(); // exibe o input para os minutos de Email neste dia da semana
-						$(inputEmail).val('');
-						$(labelEmail).hide();	
-						//$('.minutosEmail').hide();	// oculta todos os inputs desta classe
-						//$('.minutosEmail').val('');	// zera os valores de todos os inputs desta classe
-						//$('.labelEmail').hide();		// oculta todos os labels desta classe
+						$(inputEmail).val(''); // zera os valores de todos os inputs desta classe
+						$(labelEmail).hide(); // oculta todos os labels desta classe
 					}
 				});	
 				

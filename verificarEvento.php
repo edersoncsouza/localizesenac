@@ -1,0 +1,198 @@
+<?php
+
+	session_start();
+
+	//require('HttpPost.class.php');
+	require_once realpath(dirname(__FILE__) . '/Google/autoload.php');
+	include('dist/php/funcoes.php');
+
+	 $client_id = '407647315469-0785ljr0q9ijh95dj7qetu0agaq97m5l.apps.googleusercontent.com';
+	 $client_secret = 'WrIiWLHNXYJBwCwc1tUrL85A';
+	 $redirect_uri = 'http://localhost:8080/projetos/localizesenac/auth.php';
+
+	/************************************************/
+	 
+	$client = new Google_Client();
+	$client->setClientId($client_id);
+	$client->setClientSecret($client_secret);
+	$client->setRedirectUri($redirect_uri);
+
+	$client->addScope("https://www.googleapis.com/auth/plus.me"); // adicionados escopos do Google Plus
+	$client->addScope("https://www.googleapis.com/auth/plus.login");
+	$client->addScope("https://www.googleapis.com/auth/calendar"); // adicionado escopo do Calendar (Agenda do Google)
+	$client->addScope("https://www.googleapis.com/auth/userinfo.profile"); // adicionados escopos de informacoes de perfil do usuario Google
+	$client->addScope("https://www.googleapis.com/auth/userinfo.email");
+
+	/************************************************
+
+	/* CRIA O SERVICO CALENDAR */
+	$cl_service = new Google_Service_Calendar($client); // criado servico do Calendar e executada a query
+
+	/************************************************
+	  Boilerplate auth management - see
+	  user-example.php for details.
+	 ************************************************/
+	if (isset($_REQUEST['logout'])) {
+	  unset($_SESSION['access_token']);
+	}
+	if (isset($_GET['code'])) {
+	  $client->authenticate($_GET['code']);
+	  $_SESSION['access_token'] = $client->getAccessToken();
+	  $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+	  header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+	}
+
+	if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+	  $client->setAccessToken($_SESSION['access_token']);
+	} else {
+	  $authUrl = $client->createAuthUrl();
+	}
+
+	/****************************************************
+	  se estiver logado fara os processos de recuperacao
+	  de informacoes dos serviços do Google
+	 ***************************************************/
+	if ($client->getAccessToken()) {
+	  $_SESSION['access_token'] = $client->getAccessToken();
+	  
+	/************************************************/
+
+	// verifica se recebeu os parametros por POST
+		if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
+			
+			// sanitiza as entradas
+			//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
+			$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+			
+			$jaLimpei = FALSE; // cria variavel booleana para efetuar limpeza dos eventos uma unica vez
+
+			date_default_timezone_set('America/Sao_Paulo'); // define o timezone
+
+			$horaInicioDiaLetivo = '07:00:00';
+			$horaFinalDiaLetivo = '23:00:00';
+			
+			// define as datas de inicio e final de semestre para recorrencia dos eventos
+			if(date('n') < 8){ // se o mes for ate julho
+				$dataInicioSemestre = '2015-02-23T07:00:00.000Z';
+				$dataFinalSemestre = '2015-07-10T23:00:00.000Z';
+				echo "Primeiro Semestre <BR>";
+			}
+			else{
+				$dataInicioSemestre = '2015-08-01T17:06:02.000Z';
+				$dataFinalSemestre = '2015-12-12T23:00:00.000Z';
+				echo "Segundo Semestre <BR>";
+			}
+			
+			if ($turno == 'M'){ // se for o turno da manha
+				$horaInicioAula = '08:00:00';
+				$horaFinalAula = '11:40:00';
+			}
+			if ($turno == 'N'){
+				$horaInicioAula = '19:00:00';
+				$horaFinalAula = '22:40:00';
+			}
+			
+			$diaAtual = date('Y-m-d'); // instancia e define a mascara da data
+			//$diaAtual = date('Y-m-dTH:i:s'); // formato de data com hora
+			$diaSemanaAtual = getDiaSemana($diaAtual); // busca e armazena o dia da semana atual
+			
+			// laco de 0 a 6 para percorrer todos os dias da semana e definir a data do evento
+			for ($i = 0; $i < 7; $i++) { 
+				
+				$diaAtual = date('Y-m-d', strtotime("+".$i." days")); // incrementa o dia atual com a variavel $i
+				$diaSemanaAtual = getDiaSemana($diaAtual); // atualizar a variavel diaSemanaAtual
+				
+				if($diaSemanaAtual == $dia){ // verifica se o dia da semana atual e igual ao dia recebido como parametro
+					$dataDoEvento = $diaAtual; // varivel de data do evento recebe a data do proximo dia da semana correspondente
+					$i = 7; // forca a saida do FOR
+				}
+			}
+			
+			date_default_timezone_set('America/Sao_Paulo'); // define a TimeZone
+			
+			// DEFINE PERIODO PARA PESQUISA DE EVENTOS
+			$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000z'); // cria a string com o dia atual e primeiro horario letivo
+			//$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno com Z identifica GMT
+			// exemplo de formato de data e hora aceitos: 2015-03-07T17:06:02.000Z
+			
+			$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000z'); // cria a string com o dia atual e ultimo horario letivo
+			//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
+			
+			//configura os parametros da pesquisa na agenda
+			$params = array(
+				'singleEvents' => 'true',
+				'timeMax' => $final,
+				'timeMin' => $inicio,
+				'orderBy' => 'startTime');
+			
+			$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
+			
+			$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
+			
+			$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
+			
+			// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
+			if ( $jaLimpei === FALSE){ 
+
+				$deleteParams = array('timeMin' => $inicio); // parametros para apagar os eventos recorrentes
+
+				foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
+
+					// armazena o sumario do evento existente
+					$sumarioEventoExistente = $evento->getSummary();
+					
+					$introducaoSumario = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
+
+					// verifica se o evento foi criado pelo sistema LocalizeSenac
+					if($introducaoSumario  == 'LocalizeSenac'){
+						
+						// armazena informacoes do evento existente
+						$idEventoExistente = $evento->getId();
+						echo "Evento encontrado ID: " . $idEventoExistente . "<br>";
+						//$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
+						//$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
+
+						// deleta o evento encontrado
+						//$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
+						
+						/* TENTATIVA DE EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work */
+						$eventosRecorrentes = $cl_service->events->instances('primary', $idEventoExistente, $deleteParams); // armazena todas as instancias do evento recorrente
+						
+						if ($eventosRecorrentes && count($eventosRecorrentes->getItems())) { // se houverem eventosRecorrentes
+						  foreach ($eventosRecorrentes->getItems() as $instance) { // laco para percorrer todos os eventos recorrentes
+							  echo "Instancia do evento encontrada ID: " . $instance->getId() . "<br>";
+							$cl_service->events->delete('primary', $instance->getId()); // deleta cada instancia do evento
+						  }
+						}
+
+					}
+				} // foreach ($eventos as $evento) 
+			
+				$jaLimpei = TRUE; // identifica que ja foram excluidos eventos do localizesenac antigos
+			
+			}
+			
+
+			
+			// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
+
+			$remindersArray = array(); // cria o array para acumular as notificacoes
+			
+			foreach($_POST['arrayLembretes'] as $campoLembrete) {
+				
+				$minutos = $campoLembrete['minutos']; // armazena os minutos de antecedencia
+				$lembrete = $campoLembrete['tipoLembrete']; // armazena o tipo de lembrete
+			
+				// fazer o push dos eventos pro array de retorno
+			} // FINAL DO FOR DE REMINDERS
+			
+
+
+		}// ******************* FINAL DO FOR DE DISCIPLINAS ************************
+			
+		}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
+	
+
+	
+} // if ($client->getAccessToken())
+?>
