@@ -3,8 +3,10 @@
 function imprimeSessao(){
     session_start();
     echo "<h3> PHP List All Session Variables</h3>";
-    foreach ($_SESSION as $key=>$val)
-    echo $key." ".$val."<br/>";
+	echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+	
 }
 
 //include("configBanco.php"); // Inclui o arquivo com a configuração do banco
@@ -83,6 +85,8 @@ function defineDisciplinas(){
 	$discSab[] = $semAulas;
 	$discDom[] = $semAulas;
 	
+	$arrayDiasComDisciplinas = [];
+	
 /*  incio do while para preencher os conteudos das pills */
 	while ($row = mysql_fetch_assoc($result3)) {
 		
@@ -96,42 +100,49 @@ function defineDisciplinas(){
 				$discSeg = array();
 			// armazena a disciplina no array (necessario pois o aluno pode ter mais de uma disciplina no dia, em turnos diferentes)
 			$discSeg[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
         if ($row['DIA'] == "TER") {
 			if (in_array($semAulas, $discTer))
 				$discTer = array();
 
 			$discTer[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
         if ($row['DIA'] == "QUA") {
 			if (in_array($semAulas, $discQua))
 				$discQua = array();
 
 			$discQua[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
         if ($row['DIA'] == "QUI") {
 			if (in_array($semAulas, $discQui))
 				$discQui = array();
 			
 			$discQui[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
         if ($row['DIA'] == "SEX") {
 			if (in_array($semAulas, $discSex))
 				$discSex = array();
 			
 			$discSex[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
 		if ($row['DIA'] == "SAB") {
 			if (in_array($semAulas, $discSab))
 				$discSab = array();
 			
 			$discSab[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
 		if ($row['DIA'] == "DOM") {
 			if (in_array($semAulas, $discDom))
 				$discDom = array();
 			
 			$discDom[] = $discDia;
+			$arrayDiasComDisciplinas[] = $row['DIA']; // se existe disciplina no dia, armazena no array
 		}
 	}
 
@@ -142,6 +153,8 @@ function defineDisciplinas(){
 	$_SESSION['discSex'] = $discSex;
 	$_SESSION['discSab'] = $discSab;
 	$_SESSION['discDom'] = $discDom;
+	
+	$_SESSION['arrayDiasComDisciplinas'] = $arrayDiasComDisciplinas;
 	
 }
 

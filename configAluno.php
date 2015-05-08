@@ -278,6 +278,39 @@ PENDENCIAS LOCAIS:
 					}
 				});	
 				
+				// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
+				var url = "verificarEvento.php";
+				var objJson;
+
+				// recebe como retorno um json com os lembretes (lembretesJson)
+				$.post(url, function(lembretesJson) {	
+					if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{ // se retornou com disciplinas
+						//console.log(lembretesJson);
+						var stringJson = JSON.stringify(lembretesJson); // transforma em string para consertar ma formacao
+						objJson = JSON.parse(stringJson); // transforma a string JSON em Javascript Array
+					
+					/*
+						//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
+						//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
+						
+						var unidadeP, turnoP, diaP, salaP, disciplinaP, minutosP; // variaveis para incluir no array de disciplinas
+						
+						// laco que percorre todas as disciplinas do dia
+						for (i = 0; i < objJson.length; i++) {
+							unidadeP = objJson[i].UNIDADE;
+							turnoP = objJson[i].TURNO;
+							diaP = objJson[i].DIA;
+							salaP = objJson[i].SALA;
+							disciplinaP = objJson[i].DISC;
+							minutosP = minutosAntec; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
+						}
+					*/
+					}
+				});
+				
 			});// final do load calendarioSemana.php
 			
 			// mascara para o celular

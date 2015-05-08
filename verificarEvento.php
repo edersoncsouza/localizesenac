@@ -57,142 +57,79 @@
 	  
 	/************************************************/
 
-	// verifica se recebeu os parametros por POST
-		if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
-			
-			// sanitiza as entradas
-			//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
-			$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-			
-			$jaLimpei = FALSE; // cria variavel booleana para efetuar limpeza dos eventos uma unica vez
-
 			date_default_timezone_set('America/Sao_Paulo'); // define o timezone
-
+			
+			// DEFINE OS HORARIOS POSSIVEIS DE INICIO E FINAL DE AULAS COM MARGEM
 			$horaInicioDiaLetivo = '07:00:00';
 			$horaFinalDiaLetivo = '23:00:00';
 			
-			// define as datas de inicio e final de semestre para recorrencia dos eventos
-			if(date('n') < 8){ // se o mes for ate julho
-				$dataInicioSemestre = '2015-02-23T07:00:00.000Z';
-				$dataFinalSemestre = '2015-07-10T23:00:00.000Z';
-				echo "Primeiro Semestre <BR>";
-			}
-			else{
-				$dataInicioSemestre = '2015-08-01T17:06:02.000Z';
-				$dataFinalSemestre = '2015-12-12T23:00:00.000Z';
-				echo "Segundo Semestre <BR>";
-			}
-			
-			if ($turno == 'M'){ // se for o turno da manha
-				$horaInicioAula = '08:00:00';
-				$horaFinalAula = '11:40:00';
-			}
-			if ($turno == 'N'){
-				$horaInicioAula = '19:00:00';
-				$horaFinalAula = '22:40:00';
-			}
-			
+			// DEFINE A DATA E O DIA DA SEMANA ATUAL
 			$diaAtual = date('Y-m-d'); // instancia e define a mascara da data
-			//$diaAtual = date('Y-m-dTH:i:s'); // formato de data com hora
 			$diaSemanaAtual = getDiaSemana($diaAtual); // busca e armazena o dia da semana atual
 			
-			// laco de 0 a 6 para percorrer todos os dias da semana e definir a data do evento
-			for ($i = 0; $i < 7; $i++) { 
+			// PERCORRE TODOS OS DIAS DA SEMANA DA VARIAVEL DE SESSAO DE DIAS COM DISCIPLINAS
+			foreach ($_SESSION['arrayDiasComDisciplinas'] as $dia){ // executa o laco a cada dia da semana em que existem disciplinas
 				
-				$diaAtual = date('Y-m-d', strtotime("+".$i." days")); // incrementa o dia atual com a variavel $i
-				$diaSemanaAtual = getDiaSemana($diaAtual); // atualizar a variavel diaSemanaAtual
-				
-				if($diaSemanaAtual == $dia){ // verifica se o dia da semana atual e igual ao dia recebido como parametro
-					$dataDoEvento = $diaAtual; // varivel de data do evento recebe a data do proximo dia da semana correspondente
-					$i = 7; // forca a saida do FOR
-				}
-			}
-			
-			date_default_timezone_set('America/Sao_Paulo'); // define a TimeZone
-			
-			// DEFINE PERIODO PARA PESQUISA DE EVENTOS
-			$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000z'); // cria a string com o dia atual e primeiro horario letivo
-			//$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno com Z identifica GMT
-			// exemplo de formato de data e hora aceitos: 2015-03-07T17:06:02.000Z
-			
-			$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000z'); // cria a string com o dia atual e ultimo horario letivo
-			//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
-			
-			//configura os parametros da pesquisa na agenda
-			$params = array(
-				'singleEvents' => 'true',
-				'timeMax' => $final,
-				'timeMin' => $inicio,
-				'orderBy' => 'startTime');
-			
-			$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
-			
-			$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
-			
-			$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
-			
-			// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
-			if ( $jaLimpei === FALSE){ 
-
-				$deleteParams = array('timeMin' => $inicio); // parametros para apagar os eventos recorrentes
-
-				foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
-
-					// armazena o sumario do evento existente
-					$sumarioEventoExistente = $evento->getSummary();
+				// DEFINE A DATA DO EVENTO COMPARANDO COM O DIA DA SEMANA E DATA CORRENTE
+				for ($i = 0; $i < 7; $i++) { // laco de 0 a 6 para percorrer todos os dias da semana e definir a data do evento
 					
-					$introducaoSumario = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
-
-					// verifica se o evento foi criado pelo sistema LocalizeSenac
-					if($introducaoSumario  == 'LocalizeSenac'){
-						
-						// armazena informacoes do evento existente
-						$idEventoExistente = $evento->getId();
-						echo "Evento encontrado ID: " . $idEventoExistente . "<br>";
-						//$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
-						//$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
-
-						// deleta o evento encontrado
-						//$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
-						
-						/* TENTATIVA DE EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work */
-						$eventosRecorrentes = $cl_service->events->instances('primary', $idEventoExistente, $deleteParams); // armazena todas as instancias do evento recorrente
-						
-						if ($eventosRecorrentes && count($eventosRecorrentes->getItems())) { // se houverem eventosRecorrentes
-						  foreach ($eventosRecorrentes->getItems() as $instance) { // laco para percorrer todos os eventos recorrentes
-							  echo "Instancia do evento encontrada ID: " . $instance->getId() . "<br>";
-							$cl_service->events->delete('primary', $instance->getId()); // deleta cada instancia do evento
-						  }
-						}
-
+					$diaAtual = date('Y-m-d', strtotime("+".$i." days")); // incrementa o dia atual com a variavel $i
+					$diaSemanaAtual = getDiaSemana($diaAtual); // atualizar a variavel diaSemanaAtual
+					
+					if($diaSemanaAtual == $dia){ // verifica se o dia da semana atual e igual ao dia recebido como parametro
+						$dataDoEvento = $diaAtual; // varivel de data do evento recebe a data do proximo dia da semana correspondente
+						$i = 7; // forca a saida do FOR
 					}
-				} // foreach ($eventos as $evento) 
-			
-				$jaLimpei = TRUE; // identifica que ja foram excluidos eventos do localizesenac antigos
-			
-			}
-			
-
-			
-			// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
-
-			$remindersArray = array(); // cria o array para acumular as notificacoes
-			
-			foreach($_POST['arrayLembretes'] as $campoLembrete) {
+				}
 				
-				$minutos = $campoLembrete['minutos']; // armazena os minutos de antecedencia
-				$lembrete = $campoLembrete['tipoLembrete']; // armazena o tipo de lembrete
-			
-				// fazer o push dos eventos pro array de retorno
-			} // FINAL DO FOR DE REMINDERS
-			
+				// DEFINE PERIODO PARA PESQUISA DE EVENTOS
+				$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000z'); // cria a string com o dia atual e primeiro horario letivo
+				$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000z'); // cria a string com o dia atual e ultimo horario letivo
+				
+				// CONFIGURA OS PARAMETROS DA PESQUISA NA AGENDA
+				$params = array(
+					'singleEvents' => 'true',
+					'timeMax' => $final,
+					'timeMin' => $inicio,
+					'orderBy' => 'startTime');
+				
+				// FILTRA OS LEMBRETES DE UM DOS EVENTOS DA LISTA DE EVENTOS EM TRES ETAPAS
+				$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
+				$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
+				$lembretes = $eventos[0]->getReminders()->getOverrides(); // armazena em um array os lembretes do primeiro evento
 
+				// EXECUTA O LACO PARA ARMAZENAR TODOS OS LEMBRETES E MINUTOS DE UM DOS EVENTOS DO DIA
+				foreach($lembretes as $lembrete){ // para cada lembrete
+					$metodos[] = $lembrete->getMethod(); // armazena em um array o metodo
+					$minutos[] = $lembrete->getMinutes(); // armazena em um array os minutos
+				}
 
-		}// ******************* FINAL DO FOR DE DISCIPLINAS ************************
-			
-		}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
-	
-
-	
+				// ARMAZENA OS DADOS DE DIA E LEMBRETES NO ARRAY DE RETORNO
+				$RetornolembretesDiaDaSemana['diaDaSemana'] = $dia; // armazena o dia da semana no array de retorno
+				$RetornolembretesDiaDaSemana['lembretes'] = $metodos; // armazena o array de metodos de lembretes no array de retorno
+				$RetornolembretesDiaDaSemana['minutos'] = $minutos; // armazena o array de minutos de lembretes no array de retorno
+				
+				
+				/*
+				// IMPRIME A DATA OS METODOS E MINUTOS DE ANTECEDENCIA DOS LEMBRETES
+				echo "<br>=========== Data e Lembretes ============<br>";
+				echo $dia . " - " . $dataDoEvento . "<br>"; // imprime a data do evento
+				for ($i = 0; $i <  count($metodos); $i++){ // executa o laco para percorrer os arrays de metodo e minutos
+					echo "<br> Metodo: " . $metodos[$i] . "<br>"; // imprime o metodo
+					echo "<br> Minutos: " . $minutos[$i] . "<br>"; // imprime os minutos
+				}
+				
+				echo '<pre>';
+					print_r($RetornolembretesDiaDaSemana);
+				echo '</pre>';
+				*/	
+				
+				// RESETA OS ARRAYS DE LEMBRETES PARA EVITAR INCREMENTO PARA OUTROS DIAS
+				$metodos = array(); // zera o array de metodos
+				$minutos = array(); // zera o array de minutos
+				
+				// CODIFICA O ARRAY EM FORMATO JSON E DEVOLVE COMO RETORNO
+				echo json_encode($RetornolembretesDiaDaSemana);
+			}
 } // if ($client->getAccessToken())
 ?>
