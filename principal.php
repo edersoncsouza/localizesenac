@@ -77,6 +77,20 @@ $(document).ready(function() {
 
 	} );
 	
+	// atualiza o link de mostrar sala a cada alteração de dia da semana no pills
+	$('.nav-pills > li > a').on("click",function(e){
+		e.preventDefault();
+		alert($(this).text()); // imprime o titulo da tab
+		
+		// tentando montar o seletor para buscar o andar e sala do dia
+		var selector = '#';
+		selector+= $(this).text().toLowerCase();
+		selector+='>p';
+		console.log(selector.trim());
+		alert($(seletor).text() );
+
+	});
+	
 });
 </script>
 
@@ -416,8 +430,11 @@ $(document).ready(function() {
 						
 						<!-- <a href="#mostrarSala"> -->
                             <div class="panel-footer">
-                                <span class="pull-left">Mostrar a Sala</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+							
+								<a href="#" onclick=" insereMarker($andarTab,$salaTab); ">
+									<span class="pull-left">Mostrar a Sala</span>
+									<span class="pull-right"><i id="iconeMostrarSala" class="fa fa-arrow-circle-down"></i></span>
+								</a>
                                 <div class="clearfix"></div>
                             </div>
                         <!-- </a> -->
