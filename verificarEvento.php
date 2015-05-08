@@ -93,43 +93,47 @@
 					'timeMin' => $inicio,
 					'orderBy' => 'startTime');
 				
-				// FILTRA OS LEMBRETES DE UM DOS EVENTOS DA LISTA DE EVENTOS EM TRES ETAPAS
+				// FILTRA OS LEMBRETES DE UM DOS EVENTOS DA LISTA DE EVENTOS EM DUAS ETAPAS
 				$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
 				$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
-				$lembretes = $eventos[0]->getReminders()->getOverrides(); // armazena em um array os lembretes do primeiro evento
+				
+				// CASO JA EXISTAM EVENTOS
+				if (count($eventos)){ // se ja existem eventos
+					
+					$lembretes = $eventos[0]->getReminders()->getOverrides(); // armazena em um array os lembretes do primeiro evento
 
-				// EXECUTA O LACO PARA ARMAZENAR TODOS OS LEMBRETES E MINUTOS DE UM DOS EVENTOS DO DIA
-				foreach($lembretes as $lembrete){ // para cada lembrete
-					$metodos[] = $lembrete->getMethod(); // armazena em um array o metodo
-					$minutos[] = $lembrete->getMinutes(); // armazena em um array os minutos
-				}
+					// EXECUTA O LACO PARA ARMAZENAR TODOS OS LEMBRETES E MINUTOS DE UM DOS EVENTOS DO DIA
+					foreach($lembretes as $lembrete){ // para cada lembrete
+						$metodos[] = $lembrete->getMethod(); // armazena em um array o metodo
+						$minutos[] = $lembrete->getMinutes(); // armazena em um array os minutos
+					}
 
-				// ARMAZENA OS DADOS DE DIA E LEMBRETES NO ARRAY DE RETORNO
-				$RetornolembretesDiaDaSemana['diaDaSemana'] = $dia; // armazena o dia da semana no array de retorno
-				$RetornolembretesDiaDaSemana['lembretes'] = $metodos; // armazena o array de metodos de lembretes no array de retorno
-				$RetornolembretesDiaDaSemana['minutos'] = $minutos; // armazena o array de minutos de lembretes no array de retorno
-				
-				
-				/*
-				// IMPRIME A DATA OS METODOS E MINUTOS DE ANTECEDENCIA DOS LEMBRETES
-				echo "<br>=========== Data e Lembretes ============<br>";
-				echo $dia . " - " . $dataDoEvento . "<br>"; // imprime a data do evento
-				for ($i = 0; $i <  count($metodos); $i++){ // executa o laco para percorrer os arrays de metodo e minutos
-					echo "<br> Metodo: " . $metodos[$i] . "<br>"; // imprime o metodo
-					echo "<br> Minutos: " . $minutos[$i] . "<br>"; // imprime os minutos
+					// ARMAZENA OS DADOS DE DIA E LEMBRETES NO ARRAY DE RETORNO
+					$retornoLembretesDiaDaSemana['diaDaSemana'] = $dia; // armazena o dia da semana no array de retorno
+					$retornoLembretesDiaDaSemana['lembretes'] = $metodos; // armazena o array de metodos de lembretes no array de retorno
+					$retornoLembretesDiaDaSemana['minutos'] = $minutos; // armazena o array de minutos de lembretes no array de retorno
+					
+					/*
+					// IMPRIME A DATA OS METODOS E MINUTOS DE ANTECEDENCIA DOS LEMBRETES
+					echo "<br>=========== Data e Lembretes ============<br>";
+					echo $dia . " - " . $dataDoEvento . "<br>"; // imprime a data do evento
+					for ($i = 0; $i <  count($metodos); $i++){ // executa o laco para percorrer os arrays de metodo e minutos
+						echo "<br> Metodo: " . $metodos[$i] . "<br>"; // imprime o metodo
+						echo "<br> Minutos: " . $minutos[$i] . "<br>"; // imprime os minutos
+					}
+					*/
+					
+					// RESETA OS ARRAYS DE LEMBRETES PARA EVITAR INCREMENTO PARA OUTROS DIAS
+					$metodos = array(); // zera o array de metodos
+					$minutos = array(); // zera o array de minutos
+					
+
+					$data[] = $retornoLembretesDiaDaSemana; // armazena o array do dia no array de retorno final
+					$retornoLembretesDiaDaSemana = array(); // sera o array do dia
 				}
-				
-				echo '<pre>';
-					print_r($RetornolembretesDiaDaSemana);
-				echo '</pre>';
-				*/	
-				
-				// RESETA OS ARRAYS DE LEMBRETES PARA EVITAR INCREMENTO PARA OUTROS DIAS
-				$metodos = array(); // zera o array de metodos
-				$minutos = array(); // zera o array de minutos
-				
-				// CODIFICA O ARRAY EM FORMATO JSON E DEVOLVE COMO RETORNO
-				echo json_encode($RetornolembretesDiaDaSemana);
 			}
+			// CODIFICA O ARRAY EM FORMATO JSON E DEVOLVE COMO RETORNO
+			echo json_encode($data);
+			
 } // if ($client->getAccessToken())
 ?>

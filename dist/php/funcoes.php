@@ -21,6 +21,17 @@ function defineDiaSemana(){
     echo $diaDaSemana;
 }
 
+function getNomeDiaSemana($data) {
+	$apelidoDiaSemana = ["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
+	$nomeDiaSemana = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+	
+	$indice = array_search($data, $apelidoDiaSemana);
+	$retornoNomeDiaSemana = $nomeDiaSemana[$indice];
+	
+	return $retornoNomeDiaSemana;
+	
+}
+
 function getDiaSemana($data) {	
     list($ano, $mes, $dia) = explode("-", $data);
  

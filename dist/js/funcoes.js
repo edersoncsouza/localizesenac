@@ -74,6 +74,17 @@ function diaDaSemana() {
     return n; // retorna o dia da semana
 }
 
+function getNomeDiaSemana(data) {
+	var apelidoDiaSemana = new Array("DOM","SEG","TER","QUA","QUI","SEX","SAB");
+	var nomeDiaSemana = new Array("domingo","segunda","terça","quarta","quinta","sexta","sábado");
+	
+	var indice = apelidoDiaSemana.indexOf(data);
+	var retornoNomeDiaSemana = nomeDiaSemana[indice];
+	
+	return retornoNomeDiaSemana;
+	
+}
+
 /* FUNCOES PARA USO COM O TYPEAHEAD */
 
 // variavel de vetor de nome andar e numero para uso do typeahead

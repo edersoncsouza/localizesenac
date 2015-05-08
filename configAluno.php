@@ -225,18 +225,84 @@ PENDENCIAS LOCAIS:
 						
 				});
 				
+				// inicializa com os inputs e labels de lembretes ocultos
+				$('.labelEmail').hide();
+				$('.minutosEmail').hide();
+				$('.minutosEmail').val('');
 				
-				
-				if(true){ // se não houverem lembretes neste dia da semana
-					// inicializa com os inputs e labels de lembretes ocultos
-					$('.labelEmail').hide();
-					$('.minutosEmail').hide();
-					$('.minutosEmail').val('');
+				$('.labelSms').hide();
+				$('.minutosSms').hide();							
+				$('.minutosSms').val('');
+			
+				// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
+				var url = "verificarEvento.php";
+				var objJson;
+
+				// recebe como retorno um json com os lembretes (lembretesJson)
+				$.post(url, function(lembretesJson) {
+					if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+						bootbox.alert('Erro no envio de parâmetros!');
+					}
+					else{ // se retornou com disciplinas
+						objLembretesJson = $.parseJSON(lembretesJson); // transforma a string JSON em Javascript Array
+
+						//[{"diaDaSemana":"TER","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUA","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUI","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"SEX","lembretes":["email","sms"],"minutos":[10,20]},{"diaDaSemana":"SEG","lembretes":["sms"],"minutos":[20]}] 
+						//console.log("Aqui o objLembretesJson e: "+objLembretesJson);
+						//console.log("Aqui o diaDaSemana e: "+objLembretesJson[0].diaDaSemana);
+												
+						// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
+						for (i = 0; i < objLembretesJson.length; i++) {
+							
+							diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJson[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
+							//alert(diaDaSemanaLembrete);
+							
+							var inputSms = "#minutosSms"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+							var labelSms = "#labelSms"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+							var inputEmail = "#minutosEmail"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+							var labelEmail = "#labelEmail"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+
+							var arrayLembretes = objLembretesJson[i].lembretes; // recebe os lembretes do dia
+							var arrayMinutos = objLembretesJson[i].minutos; // recebe os minutos do lembrete
+							
+							// IDENTIFICA O TIPO DE LEMBRETE E EXIBE OS LABELS E INPUTS DE ACORDO
+							if (arrayLembretes.length > 1){ // se possuir os dois tipos de lembrete (sms / email)
+								
+								$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
+								$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+								$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
+								$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
+								$(inputSms).val(arrayMinutos[1]); // recebe o valor de antecedencia do lembrete de sms
+								$(inputEmail).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete de email
+								
+								$('#lembrarEmail'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de email
+								$('#lembrarSms'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms
+								
+							}
+							else{ // se possuir apenas um tipo de lembrete
+								if (arrayLembretes[0] == "sms"){ // verifica se e do tipo sms
+									//alert ("Lembrete de SMS");
+									$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
+									$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+									$(inputSms).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete de sms
+									
+									$('#lembrarSms'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms
+								}
+								else{ // caso contrario e do tipo email
+									//alert("Lembrete de Email");
+									$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
+									$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
+									$(inputEmail).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete de email
+									
+									$('#lembrarEmail'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de email
+								}
+							}
+
+						} //for (i = 0; i < objLembretesJson.length; i++)
 					
-					$('.labelSms').hide();
-					$('.minutosSms').hide();							
-					$('.minutosSms').val('');
-				}
+					} // se identificou disciplinas com lembretes
+					
+				}); // $.post(url, function(lembretesJson) 
+				
 				
 				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
 				$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status
@@ -276,40 +342,8 @@ PENDENCIAS LOCAIS:
 						$(inputEmail).val(''); // zera os valores de todos os inputs desta classe
 						$(labelEmail).hide(); // oculta todos os labels desta classe
 					}
-				});	
-				
-				// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
-				var url = "verificarEvento.php";
-				var objJson;
-
-				// recebe como retorno um json com os lembretes (lembretesJson)
-				$.post(url, function(lembretesJson) {	
-					if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-						bootbox.alert('Erro no envio de parâmetros!');
-					}
-					else{ // se retornou com disciplinas
-						//console.log(lembretesJson);
-						var stringJson = JSON.stringify(lembretesJson); // transforma em string para consertar ma formacao
-						objJson = JSON.parse(stringJson); // transforma a string JSON em Javascript Array
-					
-					/*
-						//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
-						//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
-						
-						var unidadeP, turnoP, diaP, salaP, disciplinaP, minutosP; // variaveis para incluir no array de disciplinas
-						
-						// laco que percorre todas as disciplinas do dia
-						for (i = 0; i < objJson.length; i++) {
-							unidadeP = objJson[i].UNIDADE;
-							turnoP = objJson[i].TURNO;
-							diaP = objJson[i].DIA;
-							salaP = objJson[i].SALA;
-							disciplinaP = objJson[i].DISC;
-							minutosP = minutosAntec; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
-						}
-					*/
-					}
 				});
+				
 				
 			});// final do load calendarioSemana.php
 			
@@ -343,7 +377,7 @@ PENDENCIAS LOCAIS:
 				
 				$('#sala').empty(); // zera os itens previos do select sala
 				
-				var andarP = $("input#inputAndarDisciplina").val() // substituida a linha abaixo na madrugada
+				var andarP = $("input#inputAndarDisciplina").val(); // substituida a linha abaixo na madrugada
 				//var andarP =  $("input[type='number']").val();
 				var unidadeP = this.value;
 				
@@ -362,7 +396,7 @@ PENDENCIAS LOCAIS:
 				var senhaConfirmacao = $("#password2").val();
 				
 				// verifica se a confirmacao de senha esta OK
-				if(senhaP!=senhaConfirmacao){
+				if(senhaP!==senhaConfirmacao){
 					bootbox.alert('As novas senhas não conferem!');
 				}
 				else			
@@ -381,7 +415,7 @@ PENDENCIAS LOCAIS:
 				var emailConfirmacao = $("#confirmaEmail").val();
 				
 				// verifica se a confirmacao de email esta OK
-				if(emailP!=emailConfirmacao){
+				if(emailP!==emailConfirmacao){
 					bootbox.alert('Os emails não conferem!');
 				}
 				else			
@@ -410,7 +444,7 @@ PENDENCIAS LOCAIS:
 
             });
 			
-	});
+	}); //documentReady
 
 			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP) e enxerta a string no modal de dialogo
 			function buscarDisciplinasDia(diaP){
