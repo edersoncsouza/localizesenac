@@ -241,11 +241,13 @@ PENDENCIAS LOCAIS:
 				// recebe como retorno um json com os lembretes (lembretesJson)
 				$.post(url, function(lembretesJson) {
 					if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-						bootbox.alert('Erro no envio de parâmetros!');
+						//bootbox.alert('Erro no envio de parâmetros!');
+						console.log("O usuario logado não possui lembretes de disciplinas!");
 					}
 					else{ // se retornou com disciplinas
 						objLembretesJson = $.parseJSON(lembretesJson); // transforma a string JSON em Javascript Array
-
+						
+						console.log(objLembretesJson);
 						//[{"diaDaSemana":"TER","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUA","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUI","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"SEX","lembretes":["email","sms"],"minutos":[10,20]},{"diaDaSemana":"SEG","lembretes":["sms"],"minutos":[20]}] 
 						//console.log("Aqui o objLembretesJson e: "+objLembretesJson);
 						//console.log("Aqui o diaDaSemana e: "+objLembretesJson[0].diaDaSemana);
@@ -271,8 +273,11 @@ PENDENCIAS LOCAIS:
 								$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
 								$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
 								$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
-								$(inputSms).val(arrayMinutos[1]); // recebe o valor de antecedencia do lembrete de sms
-								$(inputEmail).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete de email
+								
+								$(inputSms).val(arrayMinutos[arrayLembretes.indexOf('sms')]); // recebe o valor de antecedencia do lembrete de sms
+								$(inputEmail).val(arrayMinutos[arrayLembretes.indexOf('email')]); // recebe o valor de antecedencia do lembrete de email
+								// OBS: como os nomes dos lembretes e valores em minutos são colocados juntos, foi usado
+								// o indice do nome para identificar a posicao dos minutos no outro array
 								
 								$('#lembrarEmail'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de email
 								$('#lembrarSms'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms

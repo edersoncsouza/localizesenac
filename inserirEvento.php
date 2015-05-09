@@ -282,6 +282,11 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$event->setReminders($reminders); // insere o array de notificacoes no evento
 				// cria o evento na agenda
 				$createdEvent = $cl_service->events->insert('primary', $event); // insere o evento na agenda default ('primary') do usuario
+				echo "<============ EVENTO CRIADO ===============><br>";
+				echo "Evento: " . $sumarioEvento . "<br>";
+				echo "Local: " . $unidadeEvento . "<br>";
+				echo "Evento criado em: " . ($dia . ": " . $dataDoEvento . 'T' . $horaInicioAula. '.000') . "<br>";
+				echo "<==========================================><br>";				
 				
 				// caso fosse atualizar o evento ao inves de criar:
 				//$createdEvent = $cl_service->events->update('primary', $evento->getId(), $event);

@@ -66,6 +66,7 @@
 			// DEFINE A DATA E O DIA DA SEMANA ATUAL
 			$diaAtual = date('Y-m-d'); // instancia e define a mascara da data
 			$diaSemanaAtual = getDiaSemana($diaAtual); // busca e armazena o dia da semana atual
+			$data = [];
 			
 			// PERCORRE TODOS OS DIAS DA SEMANA DA VARIAVEL DE SESSAO DE DIAS COM DISCIPLINAS
 			foreach ($_SESSION['arrayDiasComDisciplinas'] as $dia){ // executa o laco a cada dia da semana em que existem disciplinas
@@ -133,7 +134,10 @@
 				}
 			}
 			// CODIFICA O ARRAY EM FORMATO JSON E DEVOLVE COMO RETORNO
-			echo json_encode($data);
+			if(count($data)>0)
+				echo json_encode($data);
+			else
+				echo 0;
 			
 } // if ($client->getAccessToken())
 ?>
