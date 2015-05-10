@@ -7,8 +7,8 @@
             "properties": {
                 "tags": {
 					"unidade" : "1",
-	                "level": "1",
-					"room": "150",					
+	                "level": "3",
+					"room": "301",					
 					"category": "Apoio",
                     "name": "Portaria",
 					"image": "portaria",
@@ -20,7 +20,7 @@
                     {
                         "reltags": {
 						    "buildingpart": "room",
-                            "level": "1",
+                            "level": "3",
 							"room": ""
                         }
                     }
@@ -42,7 +42,7 @@
                 "tags": {
 					"unidade" : "1",
 	                "level": "1",
-					"room": "151",
+					"room": "201",
 					"category": "Acessos",
 					"name": "Elevador 1",
 					"image": "",
@@ -54,7 +54,7 @@
                     {
                         "reltags": {
 						    "buildingpart": "room",
-                            "level": "1",
+                            "level": "2",
 							"room": ""
                         }
                     }
@@ -75,8 +75,8 @@
             "properties": {
                 "tags": {
 					"unidade" : "1",
-	                "level": "1",
-					"room": "152",
+	                "level": "4",
+					"room": "401",
 					"category": "Acessos",
                     "name": "Elevador 2",
 					"image": "",
@@ -88,7 +88,7 @@
                     {
                         "reltags": {
 						    "buildingpart": "room",
-                            "level": "1",
+                            "level": "4",
 							"room": ""
                         }
                     }

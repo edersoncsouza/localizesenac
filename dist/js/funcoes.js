@@ -1,6 +1,14 @@
 // variavel de vetor de objetos nome andar e numero para fazer correspondencia na insercao do marker
 var JsonNomeAndarNumeroObj;
 
+// funcao que muda o andar do mapa
+function mudaAndarMapa(andarTab){
+
+	if(indoorLayer.getLevel() != andarTab ){ // se o andar atual do mapa for diferente do andar da sala do marcador
+		indoorLayer.setLevel(andarTab); // muda o andar do mapa para o andar da sala
+	}
+}
+
 
 // funcao que insere o marker no mapa
 function insereMarker(andarP, salaP){

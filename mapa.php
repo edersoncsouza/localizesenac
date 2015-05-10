@@ -89,8 +89,16 @@
         var sudOeste = L.latLng(-30.035996, -51.227157);
         var nordEste = L.latLng(-30.035025, -51.224985);
 
+		        var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+            osm = new L.TileLayer(osmUrl, {
+                maxZoom: 22,
+                attribution: "Map data &copy; OpenStreetMap contributors"
+            });
+
+			
+		
         // cria a variavel mapa, define o centro de visão e o nivel do zoom
-        var map = L.map('map').setView([-30.035476, -51.22593], 19.5);
+        var map = L.map('map', {layers: [osm]}).setView([-30.035476, -51.22593], 19);
         map.setMaxBounds(new L.LatLngBounds(sudOeste, nordEste));
 		
 		// cria o layer de markers

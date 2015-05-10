@@ -25,6 +25,7 @@ PENDENCIAS LOCAIS:
     include("dist/php/funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
+	//imprimeSessao();
 ?>
 	
     <!-- Bootstrap Core CSS -->
@@ -77,18 +78,36 @@ $(document).ready(function() {
 
 	} );
 	
+	// INICIALIZA AS VARIAVEIS salaTab e andarTab
+	var seletor = ('#'+diaDaSemana()+ '> p:nth-child(1)').replace(/\s+/g, ''); // concatena e elimina caracteres
+	var arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
+	var salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
+	var andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
+	
+	// AO CLICAR SOBRE O ICONE DE MOSTRAR SALA ABAIXO DAS DISCIPLINAS POR DIA
+	$('#iconeMostrarSala').on("click",function(e){
+		
+		if (andarTab == 1) // se as salas forem 102, 102, 160 a 198, salas do andar terreo
+			andarTab = 0; // muda o valor para 0 evitando a troca de andar no mapa
+		
+		mudaAndarMapa(andarTab); // modifica o mapa para o andar da sala
+			
+		insereMarker(parseInt(andarTab), parseInt(salaTab)); // insere o marcador na localizacao da sala
+	});
+	
 	// atualiza o link de mostrar sala a cada alteração de dia da semana no pills
 	$('.nav-pills > li > a').on("click",function(e){
 		e.preventDefault();
-		alert($(this).text()); // imprime o titulo da tab
+		//alert($(this).text()); // imprime o titulo da tab
 		
-		// tentando montar o seletor para buscar o andar e sala do dia
-		var selector = '#';
-		selector+= $(this).text().toLowerCase();
-		selector+='>p';
-		console.log(selector.trim());
-		alert($(seletor).text() );
-
+		// MONTA O SELETOR PARA BUSCAR O ANDAR E SALA DO DIA
+		// exemplo do seletor da unidade, turno. sala, disciplina: '#seg > p:nth-child(1)'
+		var seletor = ('#'+$(this).text().toLowerCase()+' > p:nth-child(1)').replace(/\s+/g, ''); // concatena e elimina caracteres 
+		var arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
+		// exemplo de conteudo de painel: 'Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS'
+		salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
+		andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
+		
 	});
 	
 });
@@ -430,11 +449,11 @@ $(document).ready(function() {
 						
 						<!-- <a href="#mostrarSala"> -->
                             <div class="panel-footer">
-							
-								<a href="#" onclick=" insereMarker($andarTab,$salaTab); ">
+								
+								<!-- <a href="#" onclick="insereMarker(0,'{salaTab}');"> -->
 									<span class="pull-left">Mostrar a Sala</span>
 									<span class="pull-right"><i id="iconeMostrarSala" class="fa fa-arrow-circle-down"></i></span>
-								</a>
+								<!-- </a> -->
                                 <div class="clearfix"></div>
                             </div>
                         <!-- </a> -->

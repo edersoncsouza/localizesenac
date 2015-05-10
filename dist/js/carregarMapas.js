@@ -129,9 +129,11 @@
 			// connect the level control to the indoor layer
             levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
 			
-			// inserido novo event listener para que ao mudar de andar remova o marker existente
+			// INSERIDO NOVO EVENT LISTENER PARA QUE AO MUDAR DE ANDAR REMOVA O MARKER EXISTENTE
 			levelControl.addEventListener("levelchange", function() {
-					map.removeLayer(marker);
+				if (map.hasLayer(marker)) // se houver layer de marcadores
+					map.removeLayer(marker); // remove o layer de marcadores
+					
 			});
 			
             levelControl.addTo(map);
