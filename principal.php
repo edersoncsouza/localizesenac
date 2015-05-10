@@ -64,6 +64,9 @@ PENDENCIAS LOCAIS:
 	
 	<!-- Typeahead -->
 	<script src="dist/components/typeahead/dist/js/typeahead.bundle.js"></script>
+	
+			<!-- Bootbox -->
+		<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
 
 <script>
 $(document).ready(function() {
@@ -79,20 +82,34 @@ $(document).ready(function() {
 	} );
 	
 	// INICIALIZA AS VARIAVEIS salaTab e andarTab
+	var salaTab;
+	var andarTab;
+	var arrayConteudoPainelDisciplina;
 	var seletor = ('#'+diaDaSemana()+ '> p:nth-child(1)').replace(/\s+/g, ''); // concatena e elimina caracteres
-	var arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
-	var salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
-	var andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
+	
+	if($(seletor).text().replace(/\s+/g, '') == ("Não tem aulas no dia de hoje").replace(/\s+/g, '')){ // se não houverem disciplinas no dia
+		salaTab = -1;
+		andarTab = -1;
+	}
+	else{
+		arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
+		salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
+		andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
+	}
 	
 	// AO CLICAR SOBRE O ICONE DE MOSTRAR SALA ABAIXO DAS DISCIPLINAS POR DIA
 	$('#iconeMostrarSala').on("click",function(e){
 		
-		if (andarTab == 1) // se as salas forem 102, 102, 160 a 198, salas do andar terreo
-			andarTab = 0; // muda o valor para 0 evitando a troca de andar no mapa
-		
-		mudaAndarMapa(andarTab); // modifica o mapa para o andar da sala
+		if(andarTab == -1)
+			bootbox.alert("Não há sala definida neste dia!");
+		else{
 			
-		insereMarker(parseInt(andarTab), parseInt(salaTab)); // insere o marcador na localizacao da sala
+			if (andarTab == 1) // se as salas forem 102, 102, 160 a 198, salas do andar terreo
+			andarTab = 0; // muda o valor para 0 evitando a troca de andar no mapa
+			
+			mudaAndarMapa(andarTab); // modifica o mapa para o andar da sala	
+			insereMarker(parseInt(andarTab), parseInt(salaTab)); // insere o marcador na localizacao da sala
+		}
 	});
 	
 	// atualiza o link de mostrar sala a cada alteração de dia da semana no pills
@@ -103,7 +120,7 @@ $(document).ready(function() {
 		// MONTA O SELETOR PARA BUSCAR O ANDAR E SALA DO DIA
 		// exemplo do seletor da unidade, turno. sala, disciplina: '#seg > p:nth-child(1)'
 		var seletor = ('#'+$(this).text().toLowerCase()+' > p:nth-child(1)').replace(/\s+/g, ''); // concatena e elimina caracteres 
-		var arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
+		arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
 		// exemplo de conteudo de painel: 'Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS'
 		salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
 		andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
