@@ -276,7 +276,7 @@ PENDENCIAS LOCAIS:
 								
 								$(inputSms).val(arrayMinutos[arrayLembretes.indexOf('sms')]); // recebe o valor de antecedencia do lembrete de sms
 								$(inputEmail).val(arrayMinutos[arrayLembretes.indexOf('email')]); // recebe o valor de antecedencia do lembrete de email
-								// OBS: como os nomes dos lembretes e valores em minutos são colocados juntos, foi usado
+								// OBS: como os nomes dos lembretes e valores em minutos sao colocados juntos, foi usado
 								// o indice do nome para identificar a posicao dos minutos no outro array
 								
 								$('#lembrarEmail'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de email
