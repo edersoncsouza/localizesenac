@@ -11,10 +11,7 @@
     <meta name="author" content="Ederson Souza">
 
     <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
-	
-    <?php
-    include("calculaCentroPoligono.php"); // Inclui o arquivo com o sistema de segurança
-	?>	
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
