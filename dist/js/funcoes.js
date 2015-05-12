@@ -9,6 +9,15 @@ function mudaAndarMapa(andarTab){
 	}
 }
 
+function existeDisciplina(conteudoPainel){
+	existe = true;
+	
+	if(conteudoPainel.replace(/\s+/g, '') == ("Não tem aulas no dia de hoje").replace(/\s+/g, ''))
+			existe = false;
+	
+	return existe;
+	
+}
 
 // funcao que insere o marker no mapa
 function insereMarker(andarP, salaP){
@@ -19,16 +28,23 @@ function insereMarker(andarP, salaP){
 	// apaga o marcador do FeatureGroup markers
 	markers.removeLayer(marker);
 
-	// cria o marcador do ponto selecionado, do tipo Bouncem 
-	marker = new L.marker(Vmarkers[salaP], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1500, height: 100, loop: true}})
-				.bindPopup("Sala: " + salaP +"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\" target=\"_blank\">Senac RS</a><br>")
-				.openPopup();
+	try {
+		// cria o marcador do ponto selecionado, do tipo Bounce 
+		marker = new L.marker(Vmarkers[salaP], {bounceOnAdd: true,bounceOnAddOptions: {duration: 1500, height: 100, loop: true}})
+					.bindPopup("Sala: " + salaP +"<br><a href=\"http://www.senacrs.com.br/faculdades.asp?Unidade=63\" target=\"_blank\">Senac RS</a><br>")
+					.openPopup();
 
-	// adiciona o marcador no FeatureGroup markers
-	markers.addLayer(marker);
-				
-	// adiciona o layer de marcadores ao mapa
-	map.addLayer(markers);
+		// adiciona o marcador no FeatureGroup markers
+		markers.addLayer(marker);
+					
+		// adiciona o layer de marcadores ao mapa
+		map.addLayer(markers);
+	}
+	catch(e) {
+		console.log(e.name + ' - ' + e.message);
+	}
+	
+	
 
 }
 

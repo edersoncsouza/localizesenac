@@ -275,7 +275,6 @@
         function fechaPainel() {
             // remove a classe visible para ocultar o painel lateral
             $('.leaflet-info-pane').removeClass('visible');
-
             // chama a funcao resetPanel com um intervalo para evitar
             // que apareca a atualizacao do painel durante a animacao
             window.setTimeout(function () {

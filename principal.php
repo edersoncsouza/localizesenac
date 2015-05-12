@@ -130,13 +130,15 @@ $(document).ready(function() {
 	var andarTab;
 	var arrayConteudoPainelDisciplina;
 	var seletor = ('#'+diaDaSemana()+ '> p:nth-child(1)').replace(/\s+/g, ''); // concatena e elimina caracteres
-	
-	if($(seletor).text().replace(/\s+/g, '') == ("Não tem aulas no dia de hoje").replace(/\s+/g, '')){ // se não houverem disciplinas no dia
+	var conteudoPainel = $(seletor).text();
+
+	//if($(seletor).text().replace(/\s+/g, '') == ("Não tem aulas no dia de hoje").replace(/\s+/g, '')){ 
+	if (existeDisciplina(conteudoPainel) == false){ // se não houverem disciplinas no dia
 		salaTab = -1;
 		andarTab = -1;
 	}
 	else{
-		arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
+		arrayConteudoPainelDisciplina = conteudoPainel.split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
 		salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
 		andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
 	}
@@ -145,10 +147,9 @@ $(document).ready(function() {
 	//$('#iconeMostrarSala').on("click",function(e){
 	$('#linkMostrarSala').on("click",function(e){
 		
-		if(andarTab == -1)
+		if(andarTab == -1) // se nao ha disciplina no dia
 			bootbox.alert("Não há sala definida neste dia!");
 		else{
-			
 			if (andarTab == 1) // se as salas forem 102, 102, 160 a 198, salas do andar terreo
 			andarTab = 0; // muda o valor para 0 evitando a troca de andar no mapa
 			
@@ -165,13 +166,23 @@ $(document).ready(function() {
 		// MONTA O SELETOR PARA BUSCAR O ANDAR E SALA DO DIA
 		// exemplo do seletor da unidade, turno. sala, disciplina: '#seg > p:nth-child(1)'
 		var seletor = ('#'+$(this).text().toLowerCase()+' > p:nth-child(1)').replace(/\s+/g, ''); // concatena e elimina caracteres 
-		arrayConteudoPainelDisciplina = $(seletor).text().split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
-		// exemplo de conteudo de painel: 'Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS'
-		salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
-		andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
+		var conteudoPainel = $(seletor).text();
+		
+		if (existeDisciplina(conteudoPainel) == true){ // se houver disciplina no dia
+			arrayConteudoPainelDisciplina = conteudoPainel.split(" - "); // recebe o conteudo do painel e armazena em vetor separando pelo caracter '-'
+			// exemplo de conteudo de painel: 'Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS'
+			salaTab = arrayConteudoPainelDisciplina[2].trim().slice(-4); // sala recebe o terceiro elemento do array, tirando espacos e trazendo os 4 ultimos caracteres
+			andarTab = salaTab.charAt(1); // recebe o primeiro caracter da sala como andar
+		}
+		else{ // se nao houver disciplina muda as variaveis para o valor -1
+			salaTab = -1;
+			andarTab = -1;
+		}
 		
 	});
 	
+	$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
+	selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 });
 </script>
 
@@ -559,9 +570,8 @@ $(document).ready(function() {
     <script src="dist/js/sb-admin-2.js"></script>
 
 	<script type="text/javascript">
-		selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
-		$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
-		//$("#agendaAcademica").load("agendaMes.php");	 // carrega a pagina da agenda academina na div agendaAcademica
+
+
 	</script>
 
 

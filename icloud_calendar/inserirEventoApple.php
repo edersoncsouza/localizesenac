@@ -26,8 +26,8 @@ $my_icloud_server = 'p02';
 $my_user_id = '1759380956';
 //$my_calendar_id= 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX';
 $my_calendar_id= 'home';
-$my_icloud_username = 'edersoncsouza@icloud.com';
-$my_icloud_password = '@8R@ncadeneve6';
+$my_icloud_username = 'xxx@icloud.com';
+$my_icloud_password = 'xxx';
 
 
 // iCloud calendar object
