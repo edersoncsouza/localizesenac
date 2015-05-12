@@ -153,8 +153,13 @@ $(document).ready(function() {
 			if (andarTab == 1) // se as salas forem 102, 102, 160 a 198, salas do andar terreo
 			andarTab = 0; // muda o valor para 0 evitando a troca de andar no mapa
 			
-			mudaAndarMapa(andarTab); // modifica o mapa para o andar da sala	
-			insereMarker(parseInt(andarTab), parseInt(salaTab)); // insere o marcador na localizacao da sala
+			mudaAndarMapa(andarTab); // modifica o mapa para o andar da sala
+			try{
+				insereMarker(parseInt(andarTab), parseInt(salaTab)); // insere o marcador na localizacao da sala
+			}
+			catch(e){
+						console.log(e.name + ' - ' + e.message);
+			}
 		}
 	});
 	

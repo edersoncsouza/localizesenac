@@ -132,8 +132,12 @@
 			// INSERIDO NOVO EVENT LISTENER PARA QUE AO MUDAR DE ANDAR REMOVA O MARKER EXISTENTE
 			levelControl.addEventListener("levelchange", function() {
 				if (map.hasLayer(marker)) // se houver layer de marcadores
-					map.removeLayer(marker); // remove o layer de marcadores
-					
+					try{
+						map.removeLayer(marker); // remove o layer de marcadores
+					}
+					catch(e) {
+						console.log(e.name + ' - ' + e.message);
+					}
 			});
 			
             levelControl.addTo(map);

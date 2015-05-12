@@ -75,6 +75,8 @@ PENDENCIAS LOCAIS:
 <script>
 	$(document).ready(function(){
 	
+	//$("#testeIcloud").load("icloud_calendar/addons/icloud-master/PHP/testeIcloud.php");
+	
 		// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
 		$body = $("body");
 		$(document).on({
@@ -449,6 +451,27 @@ PENDENCIAS LOCAIS:
 
             });
 			
+			// envia os campos para testar a conexao com o iCloud
+			$("#botaoTestarIcloud").click(function () {
+				//bootbox.alert("Vou testar o icloud!");
+				
+				var url = 'icloud_calendar/addons/icloud-master/PHP/testeIcloud.php';
+				
+				var usuarioIcloudP = $('#usuarioIcloud').val();
+				var senhaIcloudP = $('#senhaIcloud').val();
+				
+				// executa o post dos campos em testeIcloud recebe como retorno ...
+				$.post(url,{ appleID: usuarioIcloudP, pw: senhaIcloudP }, function(retorno) {
+					if (retorno == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+						//bootbox.alert('Erro no envio de parâmetros!');
+						console.log("Erro na verificação das informações!\n"+retorno);
+					}
+					else{
+						console.log("Informações OK!\n"+retorno);
+					}
+				});
+			});
+			
 	}); //documentReady
 
 			// funcao que busca as disciplinas do aluno no dia da semana fornecido (diaP) e enxerta a string no modal de dialogo
@@ -733,7 +756,9 @@ PENDENCIAS LOCAIS:
 								bootbox.alert("Ocorreu um erro com sua requisição!");
 					}
 				});
-			}		
+			}
+
+			
 </script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -797,7 +822,13 @@ PENDENCIAS LOCAIS:
                                 ACADÊMICO
                             </a>
                         </li>
-
+						<li >
+                            <a href="#icloud" class="icloud" data-toggle="pill">
+                                <i class="fa fa-mobile fa-2x">
+                                </i>
+                                ICLOUD
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div> 
@@ -1086,6 +1117,33 @@ PENDENCIAS LOCAIS:
                 </p>
 				
             </div>
+			
+			<div class="tab-pane" id="icloud">
+                <p class="TabContent">
+
+					<form id="formConfiguraIcloud" action="#" title="Configurar o iCloud" method='POST'> 
+						
+						
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<h4> INTEGRAÇÃO COM ICLOUD </h4>
+							<input type="checkbox" name="integrarIcloud" value="integrarIcloud" />Configurar integração com iCloud <br /> 
+							
+							<input type="text" name="usuarioIcloud" id="usuarioIcloud" title="Usuário iCloud" placeholder="Usuário iCloud" class="form-control input-lg" tabindex="1" value="" required="">
+							<input type="password" name="senhaIcloud" id="senhaIcloud" title="Senha iCloud" placeholder="Senha iCloud" class="form-control input-lg" tabindex="2" value="" required="">
+							
+							<button id="botaoTestarIcloud" type="button" class="btn btn-success">Testar</button>
+							
+						</div>
+						
+						
+						<div id="testeIcloud">
+							
+						</div>
+						
+					</form>
+				</p>
+			</div>
+			
 
         </div>
 		
