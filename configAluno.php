@@ -137,15 +137,22 @@ PENDENCIAS LOCAIS:
 						
 							var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarSmssegunda
 
+							// VERIFICA SE O CHECKBOX E DO SMS
 							if(stringDiaSemana.substr(0, 10) == 'lembrarSms'){ // compara a substring da posicao 0 a posicao 10 se for um checkbox de SMS 
 								var input = "input#minutosSms"+stringDiaSemana.substr(10); // concatena a string para o input de SMS do dia da semana (substr pega da posicao ate o final da string) ex.: segunda
 								lembreteP = "SMS"; // informa ao inserirEvento que o lembrete e do tipo SMS
 							}
-							else{
+							// VERIFICA SE O CHECKBOX E DO EMAIL
+							if(stringDiaSemana.substr(0, 12) == 'lembrarEmail'){
 								var input = "input#minutosEmail"+stringDiaSemana.substr(12); // a partir do caracter 12 pois o nome é mais longo ex.: lembrarEmailsegunda
 								lembreteP = "email"; // informa ao inserirEvento que o lembrete e do tipo email
 							}
-						
+							// VERIFICA SE O CHECKBOX E DO ICLOUD
+							if(stringDiaSemana.substr(0, 13) == 'lembrarIcloud'){
+								var input = "input#minutosIcloud"+stringDiaSemana.substr(13); // a partir do caracter 12 pois o nome é mais longo ex.: lembrarEmailsegunda
+								lembreteP = "icloud"; // informa ao inserirEvento que o lembrete e do tipo email
+							}
+							
 							minutosAntec = $(input).val();	// armazena a quantidade de minutos de antecedencia
 							
 							// faz a validacao dos valores do inputbox de minutos
@@ -195,12 +202,28 @@ PENDENCIAS LOCAIS:
 								}
 							
 								if (lembretesDiaDaSemana.length > 0){ // caso o dia da semana tenha notificacoes
-											// FAZ O POST DOS CAMPOS PARA CADA EVENTO 
+									
+									for( j = 0; j < lembretesDiaDaSemana.length; j++) { // laco para percorrer todos os lembretes
+										
+										if (lembretesDiaDaSemana[j].tipoLembrete == "icloud"){
+											bootbox.alert("O tipo de lembrete e: " + lembretesDiaDaSemana[j].tipoLembrete + " para " + lembretesDiaDaSemana[j].minutos + " minutos de antecedencia.");
+											// FAZ O POST DOS CAMPOS PARA CADA EVENTO PARA APPLE
+											var url = "inserirEventoApple.php";
+											$.post(url,{
+												'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
+												});
+										}
+										else{ // se for do tipo sms ou email
+											// FAZ O POST DOS CAMPOS PARA CADA EVENTO PARA GOOGLE
 											var url = "inserirEvento.php";
 											$.post(url,{
 												'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
 												});
-										}			
+											
+										}
+									}		
+								}
+								
 							} // se retornou com disciplinas
 
 						}); // post do buscarDisciplinasDiaJson.php
@@ -209,7 +232,7 @@ PENDENCIAS LOCAIS:
 					
 					// depois de gravar todos os lembretes na agenda do usuario
 					var url = "principal.php";
-					$("body").load(url);
+					//$("body").load(url);
 						
 				}); // $('button#sairDisciplina').click( function()
 				
@@ -457,17 +480,25 @@ PENDENCIAS LOCAIS:
 				
 				var url = 'icloud_calendar/addons/icloud-master/PHP/testeIcloud.php';
 				
-				var usuarioIcloudP = $('#usuarioIcloud').val();
-				var senhaIcloudP = $('#senhaIcloud').val();
+				var usuarioIcloudP = $('#usuarioIcloud').val(); // recebe o usuario do inputbox
+				var senhaIcloudP = $('#senhaIcloud').val(); // recebe a senha do inputbox
 				
 				// executa o post dos campos em testeIcloud recebe como retorno ...
 				$.post(url,{ appleID: usuarioIcloudP, pw: senhaIcloudP }, function(retorno) {
-					if (retorno == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+					if (retorno == 0){// caso o retorno de testeIcloud.php seja = 0
 						//bootbox.alert('Erro no envio de parâmetros!');
-						console.log("Erro na verificação das informações!\n"+retorno);
+						console.log("Erro na verificação das informações no iCloud!\n"+retorno); // envia para o console o aviso de problemas
+						bootbox.alert("Problemas na autenticação, revise o usuário e senha!"); // avisa o usuario de que ocorreu um problema
 					}
 					else{
-						console.log("Informações OK!\n"+retorno);
+						//console.log("Informações OK!\n"+retorno); // envia para o console o aviso de OK
+						bootbox.alert("Autenticado no iCloud com sucesso!"); // avisa o usuario que a autenticacao foi confirmada
+						$('#usuarioIcloud').prop('disabled', true); // desabilita a inputbox de usuario
+						$('#senhaIcloud').prop('disabled', true); // desabilita a inputbox de senha
+						var objJsonIcloud = JSON.parse(retorno); // transforma a string recebida em objeto
+						//bootbox.alert(objJsonIcloud.usuario); 
+						//bootbox.alert(objJsonIcloud.senha); 
+						var idIcloudP = objJsonIcloud.id; 
 					}
 				});
 			});

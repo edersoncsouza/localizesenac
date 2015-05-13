@@ -90,11 +90,21 @@ $(document).ready(function() {
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
 						
+						// insere o checkbox, label e inputbox para integracao com iCloud
+						$(this).parent().append(
+							'<div id="divCheckboxesApple" class="row" style="text-align: center;">'+
+								'<div class="row">'+
+									'<label><input class="lembrarIcloud" id="lembrarIcloud'+$(this).parent().attr("id")+'" name="lembrarIcloud" value="icloud" type="checkbox" >Receber aviso do iCalendar</label>'+
+									'<label class="minutosIcloud" id="labelIcloud'+$(this).parent().attr("id")+'"><input class="minutosIcloud" id="minutosIcloud'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+								'</div>'+
+							'</div>'
+						);
+						
 						// se for ususario autenticado com conta Google
 						if( tipoUsuario == 'google')
 							$(this).parent().append(
 								// adiciona o checkbox de lembrete
-								'<div class="row" style="text-align: center;">'+
+								'<div id="divCheckboxesGoogle" class="row" style="text-align: center;">'+
 											
 											'<div class="row">'+
 												'<label><input class="lembrarSms" id="lembrarSms'+$(this).parent().attr("id")+'" name="lembrarSms" value="sms" type="checkbox" >Receber SMS</label>'+

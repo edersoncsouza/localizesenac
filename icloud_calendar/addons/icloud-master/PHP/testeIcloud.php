@@ -41,7 +41,8 @@
 									<A:current-user-principal/>
 								</A:prop>
 							</A:propfind>";
-		$response=simplexml_load_string(doRequest($user, $pw, $_POST['server'], $principal_request));
+		//$response=simplexml_load_string(doRequest($user, $pw, $_POST['server'], $principal_request));
+		$response=simplexml_load_string(doRequest($user, $pw, $icloudUrls[rand(0,23)], $principal_request));
 		//Principal URL
 		$principal_url=$response->response[0]->propstat[0]->prop[0]->{'current-user-principal'}->href;
 		$userID=explode("/", $principal_url);
@@ -53,7 +54,7 @@
 									<A:displayname/>
 								</A:prop>
 							</A:propfind>";
-		$url=$_POST['server']."/".$userID."/calendars/";
+		$url=$icloudUrls[rand(0,23)]."/".$userID."/calendars/";
 		$response=simplexml_load_string(doRequest($user, $pw, $url, $calendars_request));
 		//To array
 		$calendars=array();
@@ -69,7 +70,7 @@
 		}
 
 		//CardDAV URL
-		$cardserver = str_replace('caldav', 'contacts', $_POST['server']);
+		$cardserver = str_replace('caldav', 'contacts', $icloudUrls[rand(0,23)]);
 		$card_request="<A:propfind xmlns:A='DAV:'>
 							<A:prop>
 								<A:addressbook-home-set xmlns:A='urn:ietf:params:xml:ns:carddav'/>
