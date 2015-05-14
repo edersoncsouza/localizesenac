@@ -204,15 +204,95 @@ PENDENCIAS LOCAIS:
 								if (lembretesDiaDaSemana.length > 0){ // caso o dia da semana tenha notificacoes
 									
 									for( j = 0; j < lembretesDiaDaSemana.length; j++) { // laco para percorrer todos os lembretes
-										
+										var tenhoIdIcloud = false; // 
 										if (lembretesDiaDaSemana[j].tipoLembrete == "icloud"){
-											bootbox.alert("O tipo de lembrete e: " + lembretesDiaDaSemana[j].tipoLembrete + " para " + lembretesDiaDaSemana[j].minutos + " minutos de antecedencia.");
-											// FAZ O POST DOS CAMPOS PARA CADA EVENTO PARA APPLE
-											var url = "inserirEventoApple.php";
-											$.post(url,{
-												'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
-												});
-										}
+											// testa pra ver se ja recebeu o id do usuario icloud
+											// se ja tem id, ja tem senha entao envia direto pro inserirEventoApple.php
+											// se não, mostra o bootboxDialog que testa a autenticacao
+												//retorna usuario, senha e id
+												// seta tenhoIdIcloud = true(seta primeiro pois o post pode demorar)
+												// envia para o inserirEventoApple
+											if(tenhoIdIcloud == false){ // testa pra ver se ja recebeu o id do usuario icloud
+												bootbox.dialog({
+													title: "Autenticação no iCloud:",
+													message: '<div class="row">  ' +
+																'<div class="col-md-12"> ' +
+																	'<form id="formConfiguraIcloud" class="form-horizontal" title="Configurar o iCloud">'+
+																		'<div class="col-xs-12 col-sm-12 col-md-12">'+
+																			'<h4> Entre com suas credenciais Apple</h4>'+
+																			'<input type="text" name="usuarioIcloud" id="usuarioIcloud" title="Usuário iCloud" placeholder="Usuário iCloud" class="form-control input-lg" tabindex="1" value="" required="">'+
+																			'<input type="password" name="senhaIcloud" id="senhaIcloud" title="Senha iCloud" placeholder="Senha iCloud" class="form-control input-lg" tabindex="2" value="" required="">'+
+																			//'<button id="botaoTestarIcloud" type="button" class="btn btn-success">Testar</button>'+
+																		'</div>'+
+																		'<div id="testeIcloud">'+
+																		'</div>'+
+																	'</form>'+
+																'</div>'+
+															'</div>',
+													buttons: {
+														sair: {
+															label: "Sair",
+															className: "sairIcloud btn-danger",
+															callback: function () { // caso clique no botao excluir executa a funcao	
+																bootbox.alert("Suas notificações não serão gravadas na agenda iCalendar");
+															}
+														},
+														continuar: {
+														  label: "Continuar",
+														  className: "btn-success",
+														  callback: function() { // caso clique no botao sair executa a funcao
+															//var url = "principal.php";
+															//$("body").load(url);
+															bootbox.alert("Estou testando a conexão... (Só que não...)");
+															//$("#botaoTestarIcloud").click();
+															var url = 'icloud_calendar/addons/icloud-master/PHP/testeIcloud.php';
+				
+															var usuarioIcloudP = $('#usuarioIcloud').val(); // recebe o usuario do inputbox
+															var senhaIcloudP = $('#senhaIcloud').val(); // recebe a senha do inputbox
+															
+															bootbox.alert("usuario do icloud: " + usuarioIcloudP);
+															
+															// executa o post dos campos em testeIcloud recebe como retorno ...
+															$.post(url,{ appleID: usuarioIcloudP, pw: senhaIcloudP }, function(retorno) {
+																
+																console.log(retorno);
+																
+																if (retorno == 0){// caso o retorno de testeIcloud.php seja = 0
+																	//bootbox.alert('Erro no envio de parâmetros!');
+																	console.log("Erro na verificação das informações no iCloud!\n"+retorno); // envia para o console o aviso de problemas
+																	bootbox.alert("Problemas na autenticação, revise o usuário e senha!"); // avisa o usuario de que ocorreu um problema
+																}
+																else{
+																	console.log("Informações OK!\n"+retorno); // envia para o console o aviso de OK
+																	bootbox.alert("Autenticado no iCloud com sucesso!"); // avisa o usuario que a autenticacao foi confirmada
+																	$('#usuarioIcloud').prop('disabled', true); // desabilita a inputbox de usuario
+																	$('#senhaIcloud').prop('disabled', true); // desabilita a inputbox de senha
+																	var objJsonIcloud = JSON.parse(retorno); // transforma a string recebida em objeto
+																	//bootbox.alert(objJsonIcloud.usuario); 
+																	//bootbox.alert(objJsonIcloud.senha); 
+																	var idIcloudP = objJsonIcloud.id; // armazena o id do usuario iCloud
+																	
+																	/*
+																	// FAZ O POST DOS CAMPOS PARA CADA EVENTO PARA APPLE
+																	var url = "icloud_calendar/inserirEventoApple.php";
+																	$.post(url,{
+																		'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
+																		});
+																	*/
+																	
+																}
+															}); // post $.post( testarIcloud.php
+														  } // callback do continuar
+														} // botao continuar
+													} // buttons
+												}); // bootboxDialog
+											} //if(tenhoIdIcloud == false)	
+												
+											// bootbox.alert("O tipo de lembrete e: " + lembretesDiaDaSemana[j].tipoLembrete + " para " + lembretesDiaDaSemana[j].minutos + " minutos de antecedencia.");
+											
+
+												
+										} // if (lembretesDiaDaSemana[j].tipoLembrete == "icloud")
 										else{ // se for do tipo sms ou email
 											// FAZ O POST DOS CAMPOS PARA CADA EVENTO PARA GOOGLE
 											var url = "inserirEvento.php";
@@ -220,9 +300,12 @@ PENDENCIAS LOCAIS:
 												'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana
 												});
 											
-										}
-									}		
-								}
+										}	
+									} // laco para percorrer todos os lembretes
+									
+										
+								} // if (lembretesDiaDaSemana.length > 0)		
+								
 								
 							} // se retornou com disciplinas
 
@@ -251,6 +334,10 @@ PENDENCIAS LOCAIS:
 				});
 				
 				// inicializa com os inputs e labels de lembretes ocultos
+				$('.labelIcloud').hide();
+				$('.minutosIcloud').hide();
+				$('.minutosIcloud').val('');
+				
 				$('.labelEmail').hide();
 				$('.minutosEmail').hide();
 				$('.minutosEmail').val('');
@@ -374,6 +461,26 @@ PENDENCIAS LOCAIS:
 					}
 				});
 				
+				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de iCloud 
+				$('.lembrarIcloud').change(function () {
+					
+					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+					var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarIcloudsegunda
+					var addTo = stringDiaSemana.substr(13); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+					var inputIcloud = "#minutosIcloud"+addTo; // concatena a string para o input do dia da semana
+					var labelIcloud = "#labelIcloud"+addTo; // concatena a string para o label do dia da semana
+					
+					if ($(this).is(":checked")) {
+						$(inputIcloud).show(); // exibe o input para os minutos de iCloud neste dia da semana
+						$(labelIcloud).show(); // exibe o label do input para os minutos de Email neste dia da semana
+					}
+					else {// se o checkbox de lembrete nao estiver selecionado
+						$(inputIcloud).hide(); // exibe o input para os minutos de iCloud neste dia da semana
+						$(inputIcloud).val(''); // zera os valores de todos os inputs desta classe
+						$(labelIcloud).hide(); // oculta todos os labels desta classe
+					}
+				});
+				
 				
 			});// final do load calendarioSemana.php
 			
@@ -408,7 +515,6 @@ PENDENCIAS LOCAIS:
 				$('#sala').empty(); // zera os itens previos do select sala
 				
 				var andarP = $("input#inputAndarDisciplina").val(); // substituida a linha abaixo na madrugada
-				//var andarP =  $("input[type='number']").val();
 				var unidadeP = this.value;
 				
 				montarAndar(andarP, unidadeP);				
@@ -476,12 +582,13 @@ PENDENCIAS LOCAIS:
 			
 			// envia os campos para testar a conexao com o iCloud
 			$("#botaoTestarIcloud").click(function () {
-				//bootbox.alert("Vou testar o icloud!");
 				
 				var url = 'icloud_calendar/addons/icloud-master/PHP/testeIcloud.php';
 				
 				var usuarioIcloudP = $('#usuarioIcloud').val(); // recebe o usuario do inputbox
 				var senhaIcloudP = $('#senhaIcloud').val(); // recebe a senha do inputbox
+				
+				bootbox.alert("usuario do icloud: " + usuarioIcloudP);
 				
 				// executa o post dos campos em testeIcloud recebe como retorno ...
 				$.post(url,{ appleID: usuarioIcloudP, pw: senhaIcloudP }, function(retorno) {
@@ -498,7 +605,7 @@ PENDENCIAS LOCAIS:
 						var objJsonIcloud = JSON.parse(retorno); // transforma a string recebida em objeto
 						//bootbox.alert(objJsonIcloud.usuario); 
 						//bootbox.alert(objJsonIcloud.senha); 
-						var idIcloudP = objJsonIcloud.id; 
+						var idIcloudP = objJsonIcloud.id; // armazena o id do usuario iCloud
 					}
 				});
 			});
@@ -1157,13 +1264,15 @@ PENDENCIAS LOCAIS:
 						
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<h4> INTEGRAÇÃO COM ICLOUD </h4>
+							
+							<!--
 							<input type="checkbox" name="integrarIcloud" value="integrarIcloud" />Configurar integração com iCloud <br /> 
 							
 							<input type="text" name="usuarioIcloud" id="usuarioIcloud" title="Usuário iCloud" placeholder="Usuário iCloud" class="form-control input-lg" tabindex="1" value="" required="">
 							<input type="password" name="senhaIcloud" id="senhaIcloud" title="Senha iCloud" placeholder="Senha iCloud" class="form-control input-lg" tabindex="2" value="" required="">
 							
 							<button id="botaoTestarIcloud" type="button" class="btn btn-success">Testar</button>
-							
+							-->
 						</div>
 						
 						

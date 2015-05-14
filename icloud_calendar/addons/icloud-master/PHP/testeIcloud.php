@@ -30,8 +30,8 @@
 		return $data;
 	}
 
-	if(isset($_POST['appleID']))
-	{
+	if(isset($_POST['appleID'])){
+		
 		$user=$_POST['appleID'];
 		$pw=$_POST['pw'];
 		
@@ -43,6 +43,11 @@
 							</A:propfind>";
 		//$response=simplexml_load_string(doRequest($user, $pw, $_POST['server'], $principal_request));
 		$response=simplexml_load_string(doRequest($user, $pw, $icloudUrls[rand(0,23)], $principal_request));
+		
+		if($response[0]->head->title == "Unauthorized")
+			echo 0;
+		else{
+		
 		//Principal URL
 		$principal_url=$response->response[0]->propstat[0]->prop[0]->{'current-user-principal'}->href;
 		$userID=explode("/", $principal_url);
@@ -84,9 +89,10 @@
 		$retornoIcloud['senha'] = $pw;
 		$retornoIcloud['id'] = $userID;
 		
-		// codifica o array em formato Json e devolve como retorno
-		echo json_encode($retornoIcloud);
-		
+		if($userID <> null)
+			// codifica o array em formato Json e devolve como retorno
+			echo json_encode($retornoIcloud);
+		else
+			echo 0;
 		}
-		else // caso não tenha recebido os parametros
-			echo 0;//("Não recebi os parametros para mudança de senha");
+	}

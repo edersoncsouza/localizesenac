@@ -95,7 +95,7 @@ $(document).ready(function() {
 							'<div id="divCheckboxesApple" class="row" style="text-align: center;">'+
 								'<div class="row">'+
 									'<label><input class="lembrarIcloud" id="lembrarIcloud'+$(this).parent().attr("id")+'" name="lembrarIcloud" value="icloud" type="checkbox" >Receber aviso do iCalendar</label>'+
-									'<label class="minutosIcloud" id="labelIcloud'+$(this).parent().attr("id")+'"><input class="minutosIcloud" id="minutosIcloud'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+									'<label class="labelIcloud" id="labelIcloud'+$(this).parent().attr("id")+'"><input class="minutosIcloud" id="minutosIcloud'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
 								'</div>'+
 							'</div>'
 						);
