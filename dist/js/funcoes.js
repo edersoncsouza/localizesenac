@@ -98,6 +98,23 @@ function diaDaSemana() {
     return n; // retorna o dia da semana
 }
 
+// funcao auxiliar para transformar dias numericos em dias string
+function diaDaSemanaIntermediario() {
+
+    var d = new Date(); // instancia a data atual
+    var weekday = new Array(7); // cria o array para os nomes
+    weekday[0] = "domingo";
+    weekday[1] = "segunda";
+    weekday[2] = "terça";
+    weekday[3] = "quarta";
+    weekday[4] = "quinta";
+    weekday[5] = "sexta";
+    weekday[6] = "sábado";
+
+    var n = weekday[d.getDay()]; // armazena o dia da semana pelo numero do dia
+    return n; // retorna o dia da semana
+}
+
 function getNomeDiaSemana(data) {
 	var apelidoDiaSemana = new Array("DOM","SEG","TER","QUA","QUI","SEX","SAB");
 	var nomeDiaSemana = new Array("domingo","segunda","terça","quarta","quinta","sexta","sábado");
