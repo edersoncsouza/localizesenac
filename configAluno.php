@@ -122,9 +122,44 @@ PENDENCIAS LOCAIS:
 				$('button#sairDisciplina').click( function() {
 					
 					var diaDaSemana = $(this).attr('id').toUpperCase().substr(0,3); // constroe e armazena a string do dia da semana ex.: SEG
+					var arrayLembretes = armazenaLembretes();
+					var arrayDisciplinas = armazenaDisciplinas();
+					var arrayLembretesGoogle = [];
+					var arrayLembretesApple = [];
+					var teste;
 					
-					// chama function armazenaLembretes() - 
-					// chama function armazenaDisciplinas() - 
+					console.log(arrayLembretes);
+					
+					// SEPARA OS LEMBRETES POR TIPO (Google ou Apple)
+					for (i = 0; i < arrayLembretes.length; i++){
+						if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){
+							arrayLembretesGoogle.push(arrayLembretes[i]);
+						}
+						if (arrayLembretes[i].tipoLembrete == "icloud"){
+							arrayLembretesApple.push(arrayLembretes[i]);
+						}
+					}
+					
+					// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
+					if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
+						var url = "inserirEvento.php";
+							$.post(
+									url,
+									{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinas}
+							);
+					}
+					
+					if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple não estiver vazio
+						var url = "inserirEventoApple.php";
+							$.post(
+									url,
+									{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinas}
+							);
+					}
+					
+					
+					// chama function armazenaLembretes() - armazenar os lembretes da semana
+					// chama function armazenaDisciplinas() - armazenar as disciplinas da semana
 					// verifica o tipo de lembrete
 						// para cada lembrete sms ou email envia post para Google
 							//var url = "inserirEvento.php";
@@ -138,134 +173,7 @@ PENDENCIAS LOCAIS:
 									//var url = "icloud_calendar/inserirEventoApple.php";
 									//$.post(url,{'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana});
 						
-						// function armazenaLembretes() -  
-					// verifica quais checkboxes de lembretes estao marcados em cada dia da semana
-					// armazena os tipos e minutos de antecedencia de lembretes
-					// devolve um array [ [diaDaSemana: SEG, Lembretes[ [tipo: sms, minutos: 10], [tipo:icloud, minutos: 30] ] ], [diaDaSemana: TER...
-						
-					// onde verifica as informacoes
-					// #divCheckboxesApple => div das checkboxes icloud
-					// #divCheckboxesGoogle => div das checkboxes de sms e email
-					
-					function armazenaLembretes(){
-						//var diaDaSemana = new Array("DOM","SEG","TER","QUA","QUI","SEX","SAB");
-						var disciplinasDiaDaSemana = []; // cria o array de disciplinas do dia da semana
-						var lembretesDiaDaSemana = []; // cria o array de lembretes do dia da semana
-						var minutosAntec; // varivel que armazenara a quantidade de minutos de antecedencia
-						var lembreteP; // variavel do tipo de lembrete (SMS / email)
-						var seletorCheckboxIcloud, seletorCheckboxSms, seletorCheckboxEmail;
-						var seletorInputIcloud, seletorInputSms, seletorInputEmail;
-						var diaDaSemana;
-						
-						for(i = 0; i < 7; i++){
-							diaDaSemana = diaDaSemanaIntermediario(i); // constroe e armazena a string do dia da semana ex.: segunda
-						
-							// DEFINE OS SELETORES DA CHECKBOXES
-							seletorCheckboxIcloud = "#lembrarIcloud" + diaDaSemana;
-							seletorCheckboxSms = "#lembrarSms" + diaDaSemana;
-							seletorCheckboxEmail = "#lembrarEmail" + diaDaSemana;
-							
-							// DEFINE OS SELETORES DAS INPUTBOXES
-							seletorInputIcloud = "input#minutosIcloud" + diaDaSemana;
-							seletorInputSms = "input#minutosSms" + diaDaSemana;
-							seletorInputEmail = "input#minutosEmail" + diaDaSemana;
-							
-							// TESTA AS CHECKBOXES DE CADA TIPO E ARMAZENA SE ESTIVEREM MARCADAS
-							if($(seletorCheckboxIcloud).prop('checked')){
-								lembreteP = "icloud";
-								minutosAntec = $(seletorInputIcloud).val();	// armazena a quantidade de minutos de antecedencia
-								
-								if(validaInputBox(minutosAntec) == true)
-									lembretesDiaDaSemana.push({ "tipoLembrete": lembreteP, "minutos": minutosAntec});
-								else
-									bootbox.alert(validaInputBox(minutosAntec));
-							}
-							
-							if($(seletorCheckboxSms).prop('checked')){
-								lembreteP = "sms";
-								minutosAntec = $(seletorInputSms).val();	// armazena a quantidade de minutos de antecedencia
-								
-								if(validaInputBox(minutosAntec) == true)
-									lembretesDiaDaSemana.push({ "tipoLembrete": lembreteP, "minutos": minutosAntec});
-								else
-									bootbox.alert(validaInputBox(minutosAntec));
-							}
-							
-							if($(seletorCheckboxEmail).prop('checked')){
-								lembreteP = "email";
-								minutosAntec = $(seletorInputEmail).val();	// armazena a quantidade de minutos de antecedencia
-								
-								if(validaInputBox(minutosAntec) == true)
-									lembretesDiaDaSemana.push({ "dia": diaDaSemana, "tipoLembrete": lembreteP, "minutos": minutosAntec});
-								else
-									bootbox.alert(validaInputBox(minutosAntec));
-							}
-						} // for dos dias da semana
-						return 
-					} // function armazenaLembretes()
-					
-					// funcao de validacao de valores de inputbox
-					// recebe o valor do inputbox
-					// retorna true para valores validos e mensagem de erro para invalidos
-					function validaInputBox(valorMinutos){
-						var retorno;
-						
-						if(!valorMinutos.match(/^\d+$/))
-							retorno = "Valor não numérico no campo minutos!";
-						else
-							if (parseInt(valorMinutos, 10) > 60)
-								retorno = "O valor excede 60 minutos!";
-							else
-								retorno = true;
-							
-						return retorno;
-					}
-						
-						// function armazenaDisciplinas() -  
-						// verifica quais as disciplinas do dia em cada dia da semana
-						// armazena unidade, turno, dia, sala e disciplina
-						// devolve um array "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP
-						
-						// onde verifica as informacoes
-						// #segunda > p:nth-child(1) => texto da disciplina
-						// se possuir duas disciplinas o ponto e virgula servira para separar
-						function armazenaDisciplinas(){
-							var unidadeTurnoSalaDisciplina;
-							var seletorTabContent;
-							var diaDaSemana;
-							var disciplinasDoDia;
-							var diaP = diaDaSemana;
-							
-							for(i = 0; i < 7; i++){
-								diaDaSemana = diaDaSemanaIntermediario(i); // constroe e armazena a string do dia da semana ex.: segunda
-								seletorTabContent = ('#' + diaDaSemana + '> p:nth-child(1)').replace(/\s+/g, ''); // constroe o seletor e remove espaços e quebras
-								disciplinasDoDia = seletorTabContent.text();
-								
-								var disciplinas = disciplinasDoDia.split(";");
-								
-								for(j=0; J<disciplinas.length; j++){
-									if(disciplinas[j] <> ''){ // pois a ultima disciplina tambem tera ;
-										
-										unidadeTurnoSalaDisciplina = disciplinas[j];
-										
-										// desmembrar string da disciplina
-										// separar Unidade, Turno, Sala e Disciplina pelo caracter "-"
-										var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
-										//ex.: Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS ;
-										
-										var unidadeP = palavras[0].charAt(palavras[0].length-2);
-										var turnoP = palavras[1].charAt(palavras[1].length-2); // pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
-										var salaP = palavras[2].substring(7).replace(/\s+/g, ''); // pega apenas o numero da sala removendo espacos em branco
-										var disciplinaP = palavras[3].trim; //pega a ultima palavra removendo espaços no inicio e final
-										
-										disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
-										
-									}// se a disciplina nao esta em branco
-								} // for das disciplinas do dia
-								
-							} // for dos dias da semana
-						} // function armazenaDisciplinas()
-						
+						/*
 						// processo para buscar as disciplinas
 						var url = "dist/php/buscarDisciplinasDiaJson.php";
 						var objJson;
@@ -300,7 +208,8 @@ PENDENCIAS LOCAIS:
 								}
 							} // se retornou com disciplinas
 						}); // post do buscarDisciplinasDiaJson.php	
-								
+						
+						
 						if (lembretesDiaDaSemana.length > 0){ // caso o dia da semana tenha notificacoes
 							
 							for( j = 0; j < lembretesDiaDaSemana.length; j++) { // laco para percorrer todos os lembretes
@@ -409,7 +318,7 @@ PENDENCIAS LOCAIS:
 					// depois de gravar todos os lembretes na agenda do usuario
 					var url = "principal.php";
 					//$("body").load(url);
-						
+						*/
 				}); // $('button#sairDisciplina').click( function()
 				
 				// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
