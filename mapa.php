@@ -34,10 +34,11 @@
 		html, body, #map {
 			height: 100%;
 			width: 100%;
-			<!--
+		<!--		
 			width: 800px; height: 600px;
 			-->	
 		}
+
 		.info {
 			padding: 6px 8px;
 			font: 14px/16px Arial, Helvetica, sans-serif;
@@ -80,6 +81,7 @@
 	<script>
 	$( document ).ready(function() {
 		resetPanel();
+		setTimeout(map.invalidateSize.bind(map),200);
 	});
 	</script>
 	

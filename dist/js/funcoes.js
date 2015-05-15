@@ -126,13 +126,13 @@ function getNomeDiaSemana(data) {
 }
 
 // function armazenaLembretes() -  
-					// verifica quais checkboxes de lembretes estao marcados em cada dia da semana
-					// armazena os tipos e minutos de antecedencia de lembretes
-					// devolve um array [ [diaDaSemana: SEG, Lembretes[ [tipo: sms, minutos: 10], [tipo:icloud, minutos: 30] ] ], [diaDaSemana: TER...
-						
-					// onde verifica as informacoes
-					// #divCheckboxesApple => div das checkboxes icloud
-					// #divCheckboxesGoogle => div das checkboxes de sms e email
+// verifica quais checkboxes de lembretes estao marcados em cada dia da semana
+// armazena os tipos e minutos de antecedencia de lembretes
+// devolve um array [ [diaDaSemana: SEG, Lembretes[ [tipo: sms, minutos: 10], [tipo:icloud, minutos: 30] ] ], [diaDaSemana: TER...
+	
+// onde verifica as informacoes
+// #divCheckboxesApple => div das checkboxes icloud
+// #divCheckboxesGoogle => div das checkboxes de sms e email
 					
 	function armazenaLembretes() {
         //var diaDaSemana = new Array("DOM","SEG","TER","QUA","QUI","SEX","SAB");
@@ -145,7 +145,7 @@ function getNomeDiaSemana(data) {
         var diaDaSemana;
 
         for (i = 0; i < 7; i++) {
-            diaDaSemana = diaDaSemanaIntermediario(i); // constroe e armazena a string do dia da semana ex.: segunda
+            diaDaSemana = diaDaSemanaIntermediario(i); // constroi e armazena a string do dia da semana ex.: segunda
 
             // DEFINE OS SELETORES DA CHECKBOXES
             seletorCheckboxIcloud = "#lembrarIcloud" + diaDaSemana;
@@ -164,6 +164,7 @@ function getNomeDiaSemana(data) {
 
                 if (validaInputBox(minutosAntec) == true)
                     lembretesDiaDaSemana.push({
+						"dia": diaDaSemana,
                         "tipoLembrete": lembreteP,
                         "minutos": minutosAntec
                     });
@@ -177,6 +178,7 @@ function getNomeDiaSemana(data) {
 
                 if (validaInputBox(minutosAntec) == true)
                     lembretesDiaDaSemana.push({
+						"dia": diaDaSemana,
                         "tipoLembrete": lembreteP,
                         "minutos": minutosAntec
                     });
@@ -198,7 +200,7 @@ function getNomeDiaSemana(data) {
                     bootbox.alert(validaInputBox(minutosAntec));
             }
         } // for dos dias da semana
-        return lembretesDiaDaSemana;
+        return lembretesDiaDaSemana; // retorna o array com os lembretes de todos os dias da semana
     } // function armazenaLembretes()
 					
 					
@@ -237,15 +239,15 @@ function armazenaDisciplinas() {
 
         for (i = 0; i < 7; i++) { // laco para percorrer os dias da semana
             diaDaSemana = diaDaSemanaIntermediario(i); // constroe e armazena a string do dia da semana ex.: segunda
-            seletorTabContent = ('#' + diaDaSemana + '> p:nth-child(1)').replace(/\s+/g, ''); // constroe o seletor e remove espaços e quebras
+            seletorTabContent = ('#' + diaDaSemana + '> p:nth-child(1)').replace(/\s+/g, ''); // constroi o seletor e remove espaços e quebras
             disciplinasDoDia = $(seletorTabContent).text(); // armazena as disciplinas do dia em uma string
 
-                var disciplinas = disciplinasDoDia.split(";"); // desmebra a string pelo caracter ;
-
-				bootbox.alert("Dia: " + diaDaSemana + " - " + disciplinasDoDia);
+			if(existeDisciplina(disciplinasDoDia)){ // se existe disciplina no dia
+			
+                var disciplinas = disciplinasDoDia.split(";"); // desmembra a string pelo caracter ;
 				
                 for (j = 0; j < disciplinas.length; j++) { // laco para percorrer as disciplinas
-                    if (disciplinas[j] != '') { // pois a ultima disciplina tambem tera ;
+                    if (disciplinas[j]){// != "") { // pois a ultima disciplina tambem tera ;
 
                         diaP = diaDaSemana; // armazena o dia da semana
                         unidadeTurnoSalaDisciplina = disciplinas[j]; // recebe cada disciplina
@@ -255,8 +257,13 @@ function armazenaDisciplinas() {
                         var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
                         //ex.: Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS ;
 						
-						if (palavras[1] != null){
+						console.log("Palavra 3:\n" + palavras[3]);
 						
+						//if (palavras[1] != null){
+						//if (palavras.length > 3){ // armazena os itens desmembrados em variaveis
+						//if (palavras){ // apenas assim ele testa se existe http://stackoverflow.com/questions/5515310/is-there-a-standard-function-to-check-for-null-undefined-or-blank-variables-in
+						if (palavras[0] === undefined || palavras[0] === null){
+						}else{
 							var unidadeP = palavras[0].charAt(palavras[0].length - 2); // recebe a unidade - pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
 							var turnoP = palavras[1].charAt(palavras[1].length - 2); // recebe o turno - pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
 							var salaP = palavras[2].substring(7).replace(/\s+/g, ''); // recebe a sala - pega apenas o numero da sala removendo espacos em branco
@@ -267,13 +274,14 @@ function armazenaDisciplinas() {
 								"turno": turnoP,
 								"dia": diaP,
 								"sala": salaP,
-								"disciplina": disciplinaP
+								//"disciplina": disciplinaP
 							}); // armazena as informacoes no array
 						}
                     } // se a disciplina nao esta em branco
                 } // for das disciplinas do dia
-
+			} // if existeDisciplina
         } // for dos dias da semana
+		return disciplinasDiaDaSemana; // retorna o array com as disciplinas de todos os dias da semana
     } // function armazenaDisciplinas()
 
 /* FUNCOES PARA USO COM O TYPEAHEAD */

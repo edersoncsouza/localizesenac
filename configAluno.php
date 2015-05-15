@@ -129,6 +129,7 @@ PENDENCIAS LOCAIS:
 					var teste;
 					
 					console.log(arrayLembretes);
+					console.log(arrayDisciplinas);
 					
 					// SEPARA OS LEMBRETES POR TIPO (Google ou Apple)
 					for (i = 0; i < arrayLembretes.length; i++){
@@ -150,7 +151,7 @@ PENDENCIAS LOCAIS:
 					}
 					
 					if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple não estiver vazio
-						var url = "inserirEventoApple.php";
+						var url = "icloud_calendar/inserirEventoApple.php";
 							$.post(
 									url,
 									{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinas}
