@@ -246,38 +246,31 @@ function armazenaDisciplinas() {
 			
                 var disciplinas = disciplinasDoDia.split(";"); // desmembra a string pelo caracter ;
 				
-                for (j = 0; j < disciplinas.length; j++) { // laco para percorrer as disciplinas
-                    if (disciplinas[j]){// != "") { // pois a ultima disciplina tambem tera ;
+                for (j = 0; j < disciplinas.length-1; j++) { // laco para percorrer as disciplinas (o -1 e para ignorar o que houver apos a ultima disciplina que tb possui ;)
 
-                        diaP = diaDaSemana; // armazena o dia da semana
-                        unidadeTurnoSalaDisciplina = disciplinas[j]; // recebe cada disciplina
+					diaP = diaDaSemana; // armazena o dia da semana
+					unidadeTurnoSalaDisciplina = disciplinas[j]; // recebe cada disciplina
 
-                        // desmembrar string da disciplina
-                        // separar Unidade, Turno, Sala e Disciplina pelo caracter "-"
-                        var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
-                        //ex.: Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS ;
-						
-						console.log("Palavra 3:\n" + palavras[3]);
-						
-						//if (palavras[1] != null){
-						//if (palavras.length > 3){ // armazena os itens desmembrados em variaveis
-						//if (palavras){ // apenas assim ele testa se existe http://stackoverflow.com/questions/5515310/is-there-a-standard-function-to-check-for-null-undefined-or-blank-variables-in
-						if (palavras[0] === undefined || palavras[0] === null){
-						}else{
-							var unidadeP = palavras[0].charAt(palavras[0].length - 2); // recebe a unidade - pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
-							var turnoP = palavras[1].charAt(palavras[1].length - 2); // recebe o turno - pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
-							var salaP = palavras[2].substring(7).replace(/\s+/g, ''); // recebe a sala - pega apenas o numero da sala removendo espacos em branco
-							var disciplinaP = palavras[3].trim; // recebe a disciplina - pega a ultima palavra removendo espaços no inicio e final
+					// desmembrar string da disciplina
+					// separar Unidade, Turno, Sala e Disciplina pelo caracter "-"
+					var palavras = unidadeTurnoSalaDisciplina.split("-"); // armazena as palavras em um array
+					//ex.: Unidade 1 - Turno N - Sala: 301 - Tópicos Avançados em ADS ;
 
-							disciplinasDiaDaSemana.push({
-								"unidade": unidadeP,
-								"turno": turnoP,
-								"dia": diaP,
-								"sala": salaP,
-								//"disciplina": disciplinaP
-							}); // armazena as informacoes no array
-						}
-                    } // se a disciplina nao esta em branco
+					if (!(palavras[0] === undefined || palavras[0] === null)){ // se existirem, armazena os itens desmembrados em variaveis
+					
+						var unidadeP = palavras[0].charAt(palavras[0].length - 2); // recebe a unidade - pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
+						var turnoP = palavras[1].charAt(palavras[1].length - 2); // recebe o turno - pega a segunda palavra, apenas o caract a duas posicoes do fim, pois o fim é um espaço branco
+						var salaP = palavras[2].substring(7).replace(/\s+/g, ''); // recebe a sala - pega apenas o numero da sala removendo espacos em branco
+						var disciplinaP = palavras[3];//.trim; // recebe a disciplina - pega a ultima palavra removendo espaços no inicio e final
+
+						disciplinasDiaDaSemana.push({
+							"unidade": unidadeP,
+							"turno": turnoP,
+							"dia": diaP,
+							"sala": salaP,
+							"disciplina": disciplinaP
+						}); // armazena as informacoes no array
+					}
                 } // for das disciplinas do dia
 			} // if existeDisciplina
         } // for dos dias da semana

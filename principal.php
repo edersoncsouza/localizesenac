@@ -73,12 +73,12 @@ PENDENCIAS LOCAIS:
 
 	<!-- Bootbox -->
 	<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
+
+	<!-- Moment -->
+	<script src="dist/components/moment/js/moment.js" type="text/javascript"></script>
 	
 	<!-- eventCalendar -->
 	<script src="dist/components/eventCalendar/js/jquery.eventCalendar.min.js" type="text/javascript"></script>	
-	
-	<!-- Moment -->
-	<script src="dist/components/moment/js/moment.js" type="text/javascript"></script>
 	
 <script>
 $(document).ready(function() {

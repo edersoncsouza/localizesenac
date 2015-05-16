@@ -121,32 +121,52 @@ PENDENCIAS LOCAIS:
 				// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
 				$('button#sairDisciplina').click( function() {
 					
-					var diaDaSemana = $(this).attr('id').toUpperCase().substr(0,3); // constroe e armazena a string do dia da semana ex.: SEG
+					//var diaDaSemana = $(this).attr('id').toUpperCase().substr(0,3); // constroe e armazena a string do dia da semana ex.: SEG
 					var arrayLembretes = armazenaLembretes();
 					var arrayDisciplinas = armazenaDisciplinas();
 					var arrayLembretesGoogle = [];
 					var arrayLembretesApple = [];
-					var teste;
+					arrayDisciplinasGoogle = [];
+					arrayDisciplinasApple = [];
 					
-					console.log(arrayLembretes);
-					console.log(arrayDisciplinas);
+					console.log("=== CONFIG ALUNO === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
+					console.log("Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
 					
-					// SEPARA OS LEMBRETES POR TIPO (Google ou Apple)
+					// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE(sms, email, ou icloud)
 					for (i = 0; i < arrayLembretes.length; i++){
-						if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){
-							arrayLembretesGoogle.push(arrayLembretes[i]);
+						if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){							
+							arrayLembretesGoogle.push(arrayLembretes[i]); // adiciona o lembrete do dia da semana ao array
+							diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
+							
+							// SEPARA AS DISCIPLINAS DO DIA DO LEMBRETE INCLUIDO
+							for (j = 0; j < arrayDisciplinas.length; j++){ // laco percorre todas as disciplinas do array
+								
+								if (arrayDisciplinas[j].dia == diaDaSemana){ // se o dia da disciplina for igual ao dia do lembrete
+								arrayDisciplinasGoogle.push(arrayDisciplinas[j]); // armazena a disciplina no array de disciplinas
+								}
+							}
 						}
-						if (arrayLembretes[i].tipoLembrete == "icloud"){
-							arrayLembretesApple.push(arrayLembretes[i]);
+						
+						if (arrayLembretes[i].tipoLembrete == "icloud"){ // se o lembrete for do tipo icloud
+							arrayLembretesApple.push(arrayLembretes[i]); // adiciona o lembrete no array da Apple
+							diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
+							
+							// SEPARA AS DISCIPLINAS DO DIA DO LEMBRETE INCLUIDO
+							for (j = 0; j < arrayDisciplinas.length; j++){ // laco percorre todas as disciplinas do array
+								
+								if (arrayDisciplinas[j].dia == diaDaSemana){ // se o dia da disciplina for igual ao dia do lembrete
+								arrayDisciplinasApple.push(arrayDisciplinas[j]); // armazena a disciplina no array de disciplinas
+								}
+							}
 						}
-					}
+					} // laco do array de lembretes
 					
 					// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
 					if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
 						var url = "inserirEvento.php";
 							$.post(
 									url,
-									{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinas}
+									{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle}
 							);
 					}
 					
@@ -154,7 +174,7 @@ PENDENCIAS LOCAIS:
 						var url = "icloud_calendar/inserirEventoApple.php";
 							$.post(
 									url,
-									{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinas}
+									{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple}
 							);
 					}
 					
