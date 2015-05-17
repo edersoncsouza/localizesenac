@@ -1,0 +1,174 @@
+@import "http://fonts.googleapis.com/css?family=Raleway";
+
+/**
+ * reset css
+ */
+html, body,
+ul, li,
+h1, h2, h3, h4, h5, h6,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+html, body{ 
+    background: url(../../dist/images/bluredConfigAluno.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+}
+/*
+#formulario {     
+    background: #fff;
+    border-radius: 5px 5px 5px 5px; 
+    width: 400px;   
+    margin: auto; 
+    padding: 20px; 
+    -moz-box-shadow: 0 0 20px black; 
+    -webkit-box-shadow: 0 0 20px black; 
+    box-shadow: 0 0 20px black; 
+}
+*/
+#formulario {
+	/*background: #fff;
+	border-radius: 5px 5px 5px 5px; 
+  
+	padding: 20px; 
+	-moz-box-shadow: 0 0 20px black; 
+    -webkit-box-shadow: 0 0 20px black; 
+    box-shadow: 0 0 20px black; 
+	
+  margin: auto;  
+  position: absolute;
+  left:0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+*/
+	background: #fff;
+	border:1px solid #CCCCCC ;
+	padding:10px 30px 10px 30px;
+	border-radius:10px;
+	box-shadow:2px 2px 2px 0px #CCCCCC;
+
+	margin: auto;
+	left:0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#login {
+  position: relative;
+}
+
+input#appleID{
+	padding-left: 35px;
+	-webkit-box-shadow:  0 0 10px;	/* for I.E */
+	-moz-box-shadow: 0 0 10px;	/* for Mozilla web browser*/
+    border-radius: 5px;
+	-webkit-border-radius: 5px;	/* for I.E */
+	-moz-border-radius: 5px; 	/* for Mozilla web browser*/
+}
+
+input#pw{
+	padding-left: 35px;
+	-webkit-box-shadow:  0 0 10px;	/* for I.E */
+	-moz-box-shadow: 0 0 10px;	/* for Mozilla web browser*/
+    border-radius: 5px;
+	-webkit-border-radius: 5px;	/* for I.E */
+	-moz-border-radius: 5px; 	/* for Mozilla web browser*/
+}
+
+.clr:after {
+    content:" ";
+    display:block;
+    height:0;
+    clear:both;
+    visibility: hidden;
+}
+
+/**
+ * global style
+ */
+#container {
+    width: 600px;
+    padding: 30px 0 0 30px;
+    margin: 5px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+}
+
+#canvas {
+    border-radius: 20px;
+    width: 74px;
+    height: 74px;
+}
+
+.app-btn {
+    outline: none;
+    width: 74px;
+    display: block;
+    float: left;
+    margin-right: 24px;
+}
+
+.app-btn:hover .btn-text {
+    color: #1573fb;
+}
+
+.app-btn:hover .btn-text-container {
+    border: 1px solid #b6d9ff;
+    background: #ecf7ff;
+}
+
+.app-btn:active .btn-border {
+    background: rgba(0,0,0,0.4);
+}
+
+.app-btn img {
+    height: 74px;
+    width: 74px;
+}
+
+.btn-icon-container {
+    display: inline-block;
+    height:74px;
+    width: 74px;
+    position: relative;
+}
+
+.btn-border {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 10;
+    border-radius: 23%;
+    border: 1px solid rgba(0, 0, 0, 0.11);
+}
+
+.btn-text-container {
+    text-align: center;
+    margin: 6px 0 20px;
+    height: 28px;
+    position: relative;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0);
+    -webkit-transition: border .1s ease, background-color .1s ease;
+    transition: border .1s ease, background-color .1s ease;
+}
+
+.btn-text {
+    color: rgb(51, 51, 51);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Helvetica Neue",sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+}
+

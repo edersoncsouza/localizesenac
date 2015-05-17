@@ -11,7 +11,10 @@ require_once('addons/ics-parser/class.iCalReader.php');
 // Load iCloud Calendar class
 require_once('class.iCloudCalendar.class.php');
 include('../dist/php/funcoes.php');
-	
+
+session_start();
+
+
 // iCloud CalDAV URL looks like:
 // https://p02-caldav.icloud.com/12345678/calendars/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/
 // https://<SERVER>-caldav.icloud.com/<USER_ID>/calendars/<CALENDAR_ID>/
@@ -21,9 +24,22 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 	
 	// sanitiza as entradas
 	//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
-	$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+	//$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-	foreach($_POST['arrayDisciplinas'] as $campoDisciplina) {
+	$arrayDisciplinas = json_decode($_POST['arrayDisciplinas'], true);
+	
+	echo "<pre>";
+	echo "Post do arrayDisciplinas:";
+	print_r($_POST['arrayDisciplinas']);
+	echo "<pre>";
+	
+	echo "<pre>";
+	echo "Array Disciplinas Decodificado:";
+	print_r($arrayDisciplinas);
+	echo "<pre>";
+	
+	//foreach($_POST['arrayDisciplinas'] as $campoDisciplina) {
+	foreach($arrayDisciplinas as $campoDisciplina) {
 		//disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
 		//echo "Disciplina: " . $result['disciplina'] . '<br>';
 		$dia = $campoDisciplina['dia'];
@@ -31,7 +47,6 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		$turno = $campoDisciplina['turno'];
 		$unidade = $campoDisciplina['unidade'];
 		$disciplina = $campoDisciplina['disciplina'];
-		//} comentado para estender o for ate o final deste arquivo
 		
 		// monta as strings para o evento
 		$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
@@ -39,16 +54,17 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		
 		date_default_timezone_set('America/Sao_Paulo'); // define o timezone
 
+		// DEFINE OS PERIODOS MAXIMOS DIARIOS DOS LEMBRETES
 		$horaInicioDiaLetivo = '07:00:00';
 		$horaFinalDiaLetivo = '23:00:00';
 		
-		// define as datas de inicio e final de semestre para recorrencia dos eventos
+		// DEFINE AS DATAS DE INICIO E FINAL DE SEMESTRE PARA RECORRENCIA DOS EVENTOS
 		if(date('n') < 8){ // se o mes for ate julho
 			$dataInicioSemestre = '2015-02-23T07:00:00.000Z';
 			$dataFinalSemestre = '2015-07-10T23:00:00.000Z';
 			echo "Primeiro Semestre <BR>";
 		}
-		else{
+		else{ // se for de julho a dezembro
 			$dataInicioSemestre = '2015-08-01T17:06:02.000Z';
 			$dataFinalSemestre = '2015-12-12T23:00:00.000Z';
 			echo "Segundo Semestre <BR>";
@@ -58,7 +74,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 			$horaInicioAula = '08:00:00';
 			$horaFinalAula = '11:40:00';
 		}
-		if ($turno == 'N'){
+		if ($turno == 'N'){ // se for o turno da noite
 			$horaInicioAula = '19:00:00';
 			$horaFinalAula = '22:40:00';
 		}
@@ -68,6 +84,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		$diaSemanaAtual = getDiaSemana($diaAtual); // busca e armazena o dia da semana atual
 		
 		// laco de 0 a 6 para percorrer todos os dias da semana e definir a data do evento
+		// inclui os lembretes a partir do dia atual, nunca para dias anteriores
 		for ($i = 0; $i < 7; $i++) { 
 			
 			$diaAtual = date('Y-m-d', strtotime("+".$i." days")); // incrementa o dia atual com a variavel $i
@@ -88,6 +105,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		
 		$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000z'); // cria a string com o dia atual e ultimo horario letivo
 		//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
+	
 	
 		// Connection settings
 		$my_icloud_server = 'p02';
@@ -113,7 +131,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 									"Descrição do evento", 
 									"Minha cidade",
 									"60");
-			}	
-	}
+	}	
+}//if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes']))
 else
 	echo 0;

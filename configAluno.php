@@ -134,6 +134,7 @@ PENDENCIAS LOCAIS:
 					
 					// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE(sms, email, ou icloud)
 					for (i = 0; i < arrayLembretes.length; i++){
+						
 						if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){							
 							arrayLembretesGoogle.push(arrayLembretes[i]); // adiciona o lembrete do dia da semana ao array
 							diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
@@ -171,11 +172,15 @@ PENDENCIAS LOCAIS:
 					}
 					
 					if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple não estiver vazio
-						var url = "icloud_calendar/inserirEventoApple.php";
-							$.post(
-									url,
-									{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple}
-							);
+						
+						// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+						localStorage.clear();
+						localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+						localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+						
+						// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+						window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+						
 					}
 					
 					
@@ -195,42 +200,7 @@ PENDENCIAS LOCAIS:
 									//$.post(url,{'arrayLembretes' : lembretesDiaDaSemana, 'arrayDisciplinas' : disciplinasDiaDaSemana});
 						
 						/*
-						// processo para buscar as disciplinas
-						var url = "dist/php/buscarDisciplinasDiaJson.php";
-						var objJson;
-						var diaP = diaDaSemana;
-						// executa o post enviando o parametro dia
-						// recebe como retorno um json com as disciplinas (diaJson)
-						$.post(url,{ dia: diaP }, function(diaJson) {
-							
-							if (diaJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-								bootbox.alert('Erro no envio de parâmetros!');
-							}
-							else{ // se retornou com disciplinas
-								console.log(diaJson);
-								var objJson = JSON.parse(diaJson); // transforma a string JSON em Javascript Array
-							
-								//[{"UNIDADE":"1","TURNO":"N","DIA":"SEG","SALA":"301","DISC":"Topicos Avançados em ADS "}]
-								//console.log("Aqui a Disciplina e: "+objJson[0].DISC);
-								
-								var unidadeP, turnoP, diaP, salaP, disciplinaP, minutosP; // variaveis para incluir no array de disciplinas
-								
-								// laco que percorre todas as disciplinas do dia
-								for (i = 0; i < objJson.length; i++) {
-									unidadeP = objJson[i].UNIDADE;
-									turnoP = objJson[i].TURNO;
-									diaP = objJson[i].DIA;
-									salaP = objJson[i].SALA;
-									disciplinaP = objJson[i].DISC;
-									minutosP = minutosAntec; // informa ao inserirEvento quantos minutos de antecedencia do lembrete
-									
-									// armazena a disciplina no array
-									disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
-								}
-							} // se retornou com disciplinas
-						}); // post do buscarDisciplinasDiaJson.php	
-						
-						
+
 						if (lembretesDiaDaSemana.length > 0){ // caso o dia da semana tenha notificacoes
 							
 							for( j = 0; j < lembretesDiaDaSemana.length; j++) { // laco para percorrer todos os lembretes
@@ -983,6 +953,7 @@ PENDENCIAS LOCAIS:
                                 ACADÊMICO
                             </a>
                         </li>
+						<!--
 						<li >
                             <a href="#icloud" class="icloud" data-toggle="pill">
                                 <i class="fa fa-mobile fa-2x">
@@ -990,6 +961,7 @@ PENDENCIAS LOCAIS:
                                 ICLOUD
                             </a>
                         </li>
+						-->
                     </ul>
                 </div>
             </div> 
@@ -1278,7 +1250,7 @@ PENDENCIAS LOCAIS:
                 </p>
 				
             </div>
-			
+			<!--
 			<div class="tab-pane" id="icloud">
                 <p class="TabContent">
 
@@ -1288,14 +1260,14 @@ PENDENCIAS LOCAIS:
 						<div class="col-xs-12 col-sm-12 col-md-12">
 							<h4> INTEGRAÇÃO COM ICLOUD </h4>
 							
-							<!--
+							
 							<input type="checkbox" name="integrarIcloud" value="integrarIcloud" />Configurar integração com iCloud <br /> 
 							
 							<input type="text" name="usuarioIcloud" id="usuarioIcloud" title="Usuário iCloud" placeholder="Usuário iCloud" class="form-control input-lg" tabindex="1" value="" required="">
 							<input type="password" name="senhaIcloud" id="senhaIcloud" title="Senha iCloud" placeholder="Senha iCloud" class="form-control input-lg" tabindex="2" value="" required="">
 							
 							<button id="botaoTestarIcloud" type="button" class="btn btn-success">Testar</button>
-							-->
+						
 						</div>
 						
 						
@@ -1306,7 +1278,7 @@ PENDENCIAS LOCAIS:
 					</form>
 				</p>
 			</div>
-			
+				-->
 
         </div>
 		

@@ -1,60 +1,63 @@
-<html>
-	<head>
-    	<title>iCloud principal and calendar settings</title>
-        <style type="text/css">
-			table {
-				border-collapse:collapse;
-				border:1px solid;
-				border-color:#999;
-			}
-			table td {
-				padding:10px 20px;
-			}
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LocalizeSenac - Sistema de Indoor Mapping para a Faculdade Senac Porto Alegre">
+	<meta name="keywords" content="Indoor Mapping,mapeamento interno,Faculdade Senac Porto Alegre">
+    <meta name="author" content="Ederson Souza">
+
+    <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
+
+	<!-- Bootstrap Core CSS -->
+    <link href="../../../../dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../dist/components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+	
+	<!-- CSS deste arquivo -->
+	<link href="../../../../dist/css/calendar.css" rel="stylesheet">
+	<!-- <link href="dist/css/calendar.css" rel="stylesheet"> -->
+	
+	<!-- jQuery -->
+    <script type="text/javascript" src="../../../../dist/components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="../../../../dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
+	
+	<!-- Bootbox -->
+	<script type="text/javascript" src="../../../../dist/components/bootbox/dist/js/bootbox.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			if(($('#appleID').val() == ""))
+			  bootbox.alert("Você selecionou a opção de receber aviso do iCalendar! Entre com suas credenciais");
+		  
+			$('#cancelaIcloud').click( function() {
+					var url = "../../../../principal.php";
+					window.location.href = url;
+			});
+		/*
+			var arrayLembretesApple = localStorage.getItem('arrayLembretesApple');
+			var arrayDisciplinasApple = localStorage.getItem('arrayDisciplinasApple');
 			
-			#top_bar {
-				overflow:hidden;
-				width:100%;
-				height:270px;
-			}
+			console.log("Array Lembretes recuperado do localstorage:\n" + arrayLembretesApple);
+			console.log("Array Disciplinas recuperado do localstorage:\n" + arrayDisciplinasApple);
+		*/	
 			
-			#result {
-				border:1px solid #CCC;
-				overflow:auto;
-				width:99%;
-				top:270px;
-				bottom:26px;
-				position:absolute;
-			}
-			
-			#copy {
-				overflow:hidden;
-				width:99%;
-				bottom:0px;
-				position:absolute;
-				height:25px;
-				margin-left:5px;
-			}
-			#copy * {
-				font-size:12px;
-				color:#333;
-			}
-			#copy div {
-				padding-top:3px;
-			}
-			
-			a, #copy a {
-				color:#960;
-				text-decoration:none;
-			}
-			
-			a:hover, a:focus, #copy a:hover, #copy a:focus {
-				text-decoration:underline;
-				color:#300;
-			}
-		</style>
+		});
+	</script>
+	
     </head>
-    <body onLoad="document.getElementById('appleID').focus();">
+    <!-- <body onLoad="document.getElementById('appleID').focus();" > -->
+	<body>
 <?php
+	
+	session_start();
+    include("../../../../dist/php/funcoes.php");
+	//imprimeSessao();
+	
 	//Define iCloud URLs
 	$icloudUrls = array();
 	for($i = 1; $i < 25; $i++)
@@ -86,56 +89,68 @@
 		return $data;
 	}
 ?>
-		<div id="top_bar">
-            <h1 style='color:darkred;'>Provide your iCloud login settings:</h1>
-            <form action="" method="post">
-                <table border='0'>
-                    <tr>
-                        <td><b style='color:blue;'>Apple ID: </b></td>
-                        <?php
-                        	echo "<td><input type='text' name='appleID' id='appleID' size='50' value='";
-                        	if(isset($_POST['appleID'])) {
-                        		echo $_POST['appleID'];
-                        	}
-                        	echo "'></td>";
+		<div class="container">
+		
+			<div class="row">
+			  <div class="col-md-4">
+
+				<div id="formulario">
+				
+					<!-- ICONE DO CALENDAR -->
+					<div class="btn-icon-container" >
+						<div class="btn-border"></div>
+						<canvas id="canvas"></canvas>
+					</div>
+					<div class="btn-text-container" style="width:80px;left:-3px;">
+						<span class="btn-text">Calendar</span>
+					</div>
+					<!-- ICONE DO CALENDAR -->
+					
+				  <h3>Entre com suas credenciais Apple:</h3>
+				  <br>
+				  
+				  <form role="form" action="" method="post">
+					<div class="form-group">
+					 
+						<?php
+							//echo "<td><input type='text' name='appleID' id='appleID' size='50' value='";
+							echo "<input type='text' name='appleID' id='appleID' class='form-control' placeholder='ID Apple' required value='";
+							
+							if(isset($_POST['appleID'])) {
+								echo $_POST['appleID'];
+							}
+							echo "'>";
 						?>
-                    </tr>
-                    <tr>
-                        <td><b style='color:blue;'>Password: </b></td>
-                        <?php
-                        	echo "<td><input type='password' name='pw' id='pw' size='50' value='";
-                        	if(isset($_POST['pw'])) {
-                        		echo $_POST['pw'];
-                        	}
-                        	echo "'></td>";
+					 
+					</div>
+					<div class="form-group">
+
+						<?php
+							//echo "<td><input type='password' name='pw' id='pw' size='50' value='";
+							echo "<input type='password' name='pw' id='pw' class='form-control' placeholder='Senha' required value='";
+
+							if(isset($_POST['pw'])) {
+								echo $_POST['pw'];
+							}
+							echo "'>";
 						?>
-                    </tr>
-                    <tr>
-                    	<td><b style='color:blue;'>iCloud server: </b></td>
-                        <td><select name='server' id='server'>
-<?php
-	$set = false;
-	foreach($icloudUrls as $server) {
-		echo "<option value='".$server."'";
-		if(isset($_POST['server']) AND $_POST['server'] == $server)
-			echo " selcted";
-		else if(!isset($_POST['server']) AND !$set) {
-			echo " selected";
-			$set = true;
-		}
-		echo ">".$server."</option>";
-	}
-?>
-							</select>
-						</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center"><input type='submit' value='Evaluate'></td>
-                    </tr>
-                </table>
-            </form><br>
-        </div>
-        <div id="result">
+					  
+					</div>
+
+					<input type="submit"  name="submit" class="btn btn-primary" name="Login"/>
+					<button type="button" id="cancelaIcloud" name="cancelaIcloud" class="btn btn-danger" >Cancelar</button>
+					
+				  </form>
+				  <h4 style="color:rgba(153,0,0,1);" align="center">
+				  </h4>
+				</div>
+				
+			  </div>
+			  
+			</div>
+			
+		</div>
+		
 <?php
 	if(isset($_POST['appleID']))
 	{
@@ -148,7 +163,15 @@
 									<A:current-user-principal/>
 								</A:prop>
 							</A:propfind>";
-		$response=simplexml_load_string(doRequest($user, $pw, $_POST['server'], $principal_request));
+		//$response=simplexml_load_string(doRequest($user, $pw, $_POST['server'], $principal_request));
+		$response=simplexml_load_string(doRequest($user, $pw, $icloudUrls[rand(0,23)], $principal_request));
+		
+		if($response[0]->head->title == "Unauthorized"){
+			//echo "<h1 >Erro na autenticação, tente novamente ou clique no botão Cancelar </h1>";
+			echo "<script>bootbox.alert(\"Erro na autenticação, tente novamente ou clique no botão Cancelar para desistir\"); </script>";
+		}
+		else{
+		
 		//Principal URL
 		$principal_url=$response->response[0]->propstat[0]->prop[0]->{'current-user-principal'}->href;
 		$userID=explode("/", $principal_url);
@@ -160,7 +183,8 @@
 									<A:displayname/>
 								</A:prop>
 							</A:propfind>";
-		$url=$_POST['server']."/".$userID."/calendars/";
+		//$url=$_POST['server']."/".$userID."/calendars/";
+		$url=$icloudUrls[rand(0,23)]."/".$userID."/calendars/";
 		$response=simplexml_load_string(doRequest($user, $pw, $url, $calendars_request));
 		//To array
 		$calendars=array();
@@ -176,7 +200,8 @@
 		}
 
 		//CardDAV URL
-		$cardserver = str_replace('caldav', 'contacts', $_POST['server']);
+		//$cardserver = str_replace('caldav', 'contacts', $_POST['server']);
+		$cardserver = str_replace('caldav', 'contacts', $icloudUrls[rand(0,23)]);
 		$card_request="<A:propfind xmlns:A='DAV:'>
 							<A:prop>
 								<A:addressbook-home-set xmlns:A='urn:ietf:params:xml:ns:carddav'/>
@@ -185,59 +210,56 @@
 		$response=simplexml_load_string(doRequest($user, $pw, $cardserver . $principal_url, $card_request));
 		$cardurl=$response->response[0]->propstat[0]->prop[0]->{'addressbook-home-set'}->href;
 		
-		//Output
-		echo "<h1 style='color:darkred;'>Your principal settings</h1>";
-		echo "<table border='1' style='border-collapse:collapse;'>
-				<tr>
-					<td><b style='color:blue;'>iCloud CalDAV server:</b></td>
-					<td style='color:darkgreen;'>".$_POST['server']."</td>
-				</tr>
-				<tr>
-					<td><b style='color:blue;'>User-ID: </b></td>
-					<td style='color:darkgreen;'>".$userID."</td>
-				</tr>
-				<tr>
-					<td><b style='color:blue;'>Principal-URL: </b></td>
-					<td style='color:darkgreen;'>".$principal_url."</td>
-				</tr>
-				<tr>
-					<td><b style='color:blue;'>Contacts-URL: </b></td>
-					<td style='color:darkgreen;'>".$cardurl."</td>
-				</tr>
-			</table><br>";
-		echo "<h1 style='color:darkred;'>Your calendars</h1>";
-		echo "<table border='1' style='border-collapse:collapse;'>
-				<tr>
-					<td align='center'><b style='color:blue;'>Calendar</td>
-					<td align='center'><b style='color:blue;'>Calendar href</td>
-					<td align='center'><b style='color:blue;'>URL</td>
-				</tr>";
-		foreach($calendars as $calendar)
-			echo "<tr>
-					<td style='color:darkgreen;'>".$calendar["name"]."</td>
-					<td>".$calendar["href"]."</td>
-					<td>".$_POST['server'].$calendar["href"]."</td>
-				</tr>";
-		echo "</table><br>";
-	}
-	else
-	{
-?>
-		<br>
-        &nbsp;&nbsp;&nbsp;<i>Please provide your login credentials first.</i><br><br>
-        &nbsp;&nbsp;&nbsp;<b><u>Note:</u></b> if you are reaching this site publicly and are not the publisher, please send the corresponding URL to <a href="http://www.niftyside.com/cms/contact/" target="_blank">NiftySide</a>! <i>Thank you!</i>
-<?php
-	}
-?>
-		</div>
-		<div id="copy">
-        	<div>Version v1.4 ; Script copyright &copy; 2011-2015 by <a href='http://www.niftyside.com' target="_blank">NiftySide - Daniel M&uuml;hlbachler</a>
-            &nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;
-            <a href="http://www.icloud.com" target="_blank">iCloud</a> is a service provided by <a href="http://www.apple.com" target="_blank">Apple Inc.</a></div>
-        </div>
-	</body>
-</html>
+		// armazena as informacoes da conta iCloud
+		$retornoIcloud['usuario'] = $user;
+		$retornoIcloud['senha'] = $pw;
+		$retornoIcloud['id'] = $userID;
+		
+		$arrayRetornoJson = json_encode($retornoIcloud);
 
-<!-- Copyright (C) 2011-2015 by NiftySide - Daniel Muehlbachler (http://www.niftyside.com) -->
-<!-- You are not allowed to remove the copyright notices anywhere in this document! -->
-<!-- Please read the dedicated README file for further information on the usage and copyright! -->
+		if($retornoIcloud['id']){ // se possuir o id do usuario
+		
+		// ARMAZENA O ARRAY DE AUTENTICACAO EM UM ARRAY JAVASCRIPT
+		echo "<script type=\"text/javascript\">
+				var arrayAutenticacaoApple =" . $arrayRetornoJson . ";
+				console.log(arrayAutenticacaoApple);
+				
+			</script>";
+		
+		// ENVIA POR POST OS ARRAYS PARA A INCLUSAO DOS EVENTOS
+		echo "<script type=\"text/javascript\">
+			var arrayLembretesApple = localStorage.getItem('arrayLembretesApple');
+			var arrayDisciplinasApple = localStorage.getItem('arrayDisciplinasApple');
+			
+			var url = \"../../../inserirEventoApple.php\";
+					$.post(
+							url,
+							{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
+					);
+			</script>";
+			
+			//echo "<script> bootbox.alert(\"ID Apple do usuario: \" + {$retornoIcloud['id']}); </script>";
+			/*
+			echo "<script> var arrayAutenticacaoApple = JSON.parse([" . $arrayRetornoJson . "]); </script>";
+			echo "<script> bootbox.alert(JSON.parse([" . $arrayRetornoJson . "])); </script>";
+			echo "<script> bootbox.alert(arrayAutenticacaoApple); </script>";
+			*/
+			// ENVIA POR POST OS ARRAYS PARA A INCLUSAO DOS EVENTOS
+			/*
+			var url = "icloud_calendar/inserirEventoApple.php";
+				$.post(
+						url,
+						{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
+				);
+			*/
+			
+		}
+		
+		}
+	}
+?>
+
+	</body>
+	<script type="text/javascript" src="../../../../dist/js/calendar.js"></script> 
+	<!-- <script type="text/javascript" src="dist/js/calendar.js"></script>-->
+</html>
