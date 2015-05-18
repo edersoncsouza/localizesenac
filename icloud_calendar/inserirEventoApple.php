@@ -147,10 +147,24 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		//$my_range_date_time_to = date("Y-m-d H:i:s", strtotime("+1 week"));
 
 		//$my_events = $icloud_calendar->get_events($my_range_date_time_from, $my_range_date_time_to);
+		
+		// ARMAZENA OS EVENTOS DENTRO DO PERIODO DO EVENTO QUE ESTA SENDO INCLUIDO
 		$my_events = $icloud_calendar->get_events($dataHoraInicioEvento, $dataHoraFinalEvento);
 		
 		echo "Eventos no dia" . $dataDoEvento . "\n";
-		var_dump($my_events);
+		//var_dump($my_events);
+		
+		// LISTA E ARMAZENA OS IDs DOS EVENTOS
+		foreach($my_events as $event){
+			echo "ID do evento: " . $event['UID'] . "\n";
+			$UID_evento = $event['UID'];
+			
+			// SE O EVENTO FOR DO TIPO LOCALIZESENAC APAGA O MESMO
+			if (substr($event['SUMMARY'], 0, 13) == "LocalizeSenac")
+				//echo "SUMARIO do evento: " . $event['SUMMARY'] . "\n";
+				// deletar o evento a partir do UID // http://www.simplemachines.org/community/index.php?topic=520893.0
+				//$UID_evento
+		}
 		
 		/*
 		array(100) {
@@ -176,9 +190,6 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 									$dataFinalSemestre
 									);
 		
-		//$retornoEvento = (string)$icloud_calendar;
-		
-		//$_SESSION['retornoEvento'] = "Evento iCalendar " . $sumarioEvento . " de " . $dia . " criado sob o ID: " . $retornoEvento . "\n";
 	}	
 }//if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes']))
 else
