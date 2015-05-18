@@ -107,9 +107,22 @@ class php_icloud_calendar {
 		$caldav_answer_object = simplexml_load_string($caldav_answer, 'SimpleXMLElement', LIBXML_NOCDATA);
 		$caldav_answer_array = $this->_object2array($caldav_answer_object);
 		
+		echo "<pre>";
+		echo "Resposta CALDAV Objeto:\n";
+		print_r($caldav_answer_object);
+		echo "Resposta CALDAV Array:\n";
+		print_r($caldav_answer_array);
+		
+		echo "CALDAV Array e array?: " . is_array($caldav_answer_array) . "\n";
+		echo "Count do CALDAV Array: " . count($caldav_answer_array) . "\n";
 		
 		// Iter events
 		if (is_array($caldav_answer_array) && count($caldav_answer_array) > 0) {
+			
+			echo "E array e o array e maior que zero!". "\n";
+			echo " caldav_answer_array e array e o count e : " . count($caldav_answer_array). "\n";
+			echo "caldav_answer_array[response] e array?: " . is_array($caldav_answer_array) . " e o count de caldav_answer_array[response] e : " . count($caldav_answer_array['response']). "\n";
+			
 			if (is_array($caldav_answer_array['response']) && count($caldav_answer_array['response']) > 0) {
 				
 				// Get ICS content
@@ -119,6 +132,9 @@ class php_icloud_calendar {
 						$ics_content .= $event['propstat']['prop']['calendar-data'];
 					}
 				}
+				
+				echo "Eventos do caldav_answer_array[response][propstat][prop][calendar-data] \n";
+				echo $ics_content . "\n";
 				
 				// 
 				if (!empty($ics_content)) {
