@@ -54,8 +54,10 @@
 	<body>
 <?php
 	
-	session_start();
-    include("../../../../dist/php/funcoes.php");
+    include("../../../../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+	include("../../../../dist/php/funcoes.php");
+    protegePagina(); // Chama a função que protege a página
+    mysql_set_charset('UTF8', $_SG['link']);
 	//imprimeSessao();
 	
 	//Define iCloud URLs
@@ -137,7 +139,7 @@
 					  
 					</div>
 
-					<input type="submit"  name="submit" class="btn btn-primary" name="Login"/>
+					<input type="submit"  name="submit" class="btn btn-primary " name="Login"/>
 					<button type="button" id="cancelaIcloud" name="cancelaIcloud" class="btn btn-danger" >Cancelar</button>
 					
 				  </form>
@@ -237,21 +239,6 @@
 							{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
 					);
 			</script>";
-			
-			//echo "<script> bootbox.alert(\"ID Apple do usuario: \" + {$retornoIcloud['id']}); </script>";
-			/*
-			echo "<script> var arrayAutenticacaoApple = JSON.parse([" . $arrayRetornoJson . "]); </script>";
-			echo "<script> bootbox.alert(JSON.parse([" . $arrayRetornoJson . "])); </script>";
-			echo "<script> bootbox.alert(arrayAutenticacaoApple); </script>";
-			*/
-			// ENVIA POR POST OS ARRAYS PARA A INCLUSAO DOS EVENTOS
-			/*
-			var url = "icloud_calendar/inserirEventoApple.php";
-				$.post(
-						url,
-						{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
-				);
-			*/
 			
 		}
 		

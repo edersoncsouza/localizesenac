@@ -146,11 +146,13 @@ class php_icloud_calendar {
 	 * @param string $date_time_to Format: yyyy-mm-dd HH:ii:ss
 	 * @param string $title
 	 * @param string $description (Optional)
-	 * @param string $location (Optional)
-	 * @param string $minAntec (Optional)
+	 * @param string $location (Optional) // adicionado por Ederson
+	 * @param string $minAntec (Optional) // adicionado por Ederson
+	 * @param string $recurrency (Optional) // adicionado por Ederson
+	 * @param string $limitRecurrency (Optional) // adicionado por Ederson
 	 * @return string
 	 */
-	public function add_event($date_time_from, $date_time_to, $title, $description = null, $location = null, $minAntec) {
+	public function add_event($date_time_from, $date_time_to, $title, $description = null, $location = null, $minAntec, $recurrency, $limitRecurrency) {
 		
 		// Set random event_id
 		$event_id = md5('event-'.rand(1000000, 9999999).time());
@@ -182,25 +184,18 @@ class php_icloud_calendar {
 		if (!empty($title)) {
 			$body .= "SUMMARY:".$title."\n";
 		}
+		if ((!empty($recurrency)) && (!empty($limitRecurrency))) {
+				$body .= "RRULE:FREQ=" . $recurrency . ";INTERVAL=1;UNTIL=" . $limitRecurrency . "\n";
+		}
 		// adicionada opcao de incluir um alarme
 		if (!empty($minAntec)) {
 			$body .= "BEGIN:VALARM\n";
 			$body .= "ACTION:DISPLAY\n";
 			$body .= "DESCRIPTION:Reminder\n";
 			$body .= "TRIGGER:-PT". (int) $minAntec ."M\n";
-			/*$body .= "REPEAT:2\n";
-			$body .= "DURATION:PT15M\n";*/
-			/*'RRULE:FREQ=WEEKLY;UNTIL=20150710T230000Z'*/
+			$body .= "X-WR-ALARMUID:" . $event_id . "\n";
 			$body .= "END:VALARM\n";
 		}
-		
-		/*
-		BEGIN:VALARM
-		TRIGGER:-PT60M
-		ACTION:DISPLAY
-		DESCRIPTION:Reminder
-		END:VALARM
-		*/
 		
 		$body .= "END:VEVENT\n";
 		$body .= "END:VCALENDAR\n";
@@ -285,6 +280,47 @@ class php_icloud_calendar {
 		return $data;
 	}
 	
+
+	/**
+	 * funcao criada por Ederson
+	 * Do a CalDAV DELETE request to remove an iCloud event.
+	 * 
+	 * @access private
+	 * @param string $url
+	 * @param string $data
+	 * @return string
+	 */
+	private function _do_delete_request($url, $data) {
+		
+		// Initialize cURL
+		$c = curl_init($url);
+		
+		// Set headers
+		curl_setopt($c, CURLOPT_HTTPHEADER, array(	"Depth: 1", 
+													"Content-Type: text/calendar; charset='UTF-8'", 
+													//"If-None-Match: *",  // removido para permitir update / delete
+													"User-Agent: DAVKit/4.0.1 (730); CalendarStore/4.0.1 (973); iCal/4.0.1 (1374); Mac OS X/10.6.2 (10C540)"
+													));
+		curl_setopt($c, CURLOPT_HEADER, 0);
+		
+		// Set SSL options
+		curl_setopt($c, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 0);
+		
+		// Set HTTP authentication
+		curl_setopt($c, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($c, CURLOPT_USERPWD, $this->username.":".$this->password);
+		
+		// Set DELETE request
+		curl_setopt($c, CURLOPT_CUSTOMREQUEST, "DELETE");
+		curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+		
+		// Execute and return value
+		$data = curl_exec($c);
+		curl_close($c);
+		return $data;
+	}
 	
 	
 	/**

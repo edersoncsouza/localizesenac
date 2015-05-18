@@ -21,6 +21,8 @@ function defineDiaSemana(){
     echo $diaDaSemana;
 }
 
+// retorna o dia da semana semi-estendido a partir do nome abreviado
+// ex.: retorna domingo para DOM
 function getNomeDiaSemana($data) {
 	$apelidoDiaSemana = ["DOM","SEG","TER","QUA","QUI","SEX","SAB"];
 	$nomeDiaSemana = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
@@ -32,8 +34,9 @@ function getNomeDiaSemana($data) {
 	
 }
 
-function getDiaSemana($data) {	
-    list($ano, $mes, $dia) = explode("-", $data);
+// fornece o dia da semana abreviado a partir de uma data no formato AAAA-MM-DD
+function getDiaSemana($data) {
+    list($ano, $mes, $dia) = explode('-', $data);
  
     $diasemana = date("w", mktime(0, 0, 0, $mes, $dia, $ano));
  
