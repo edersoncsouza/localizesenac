@@ -107,30 +107,31 @@ class php_icloud_calendar {
 		$caldav_answer_object = simplexml_load_string($caldav_answer, 'SimpleXMLElement', LIBXML_NOCDATA);
 		$caldav_answer_array = $this->_object2array($caldav_answer_object);
 		
-		echo "<pre>";
-		echo "Resposta CALDAV Objeto:\n";
-		print_r($caldav_answer_object);
-		echo "Resposta CALDAV Array:\n";
-		print_r($caldav_answer_array);
-		
-		echo "CALDAV Array e array?: " . is_array($caldav_answer_array) . "\n";
-		echo "Count do CALDAV Array: " . count($caldav_answer_array) . "\n";
 		
 		// Iter events
-		if (is_array($caldav_answer_array) && count($caldav_answer_array) > 0) {
-			
-			echo "E array e o array e maior que zero!". "\n";
-			echo " caldav_answer_array e array e o count e : " . count($caldav_answer_array). "\n";
-			echo "caldav_answer_array[response] e array?: " . is_array($caldav_answer_array) . " e o count de caldav_answer_array[response] e : " . count($caldav_answer_array['response']). "\n";
-			
+		if (is_array($caldav_answer_array) && count($caldav_answer_array) > 0) {			
 			if (is_array($caldav_answer_array['response']) && count($caldav_answer_array['response']) > 0) {
 				
-				// Get ICS content
-				$ics_content = '';
-				foreach($caldav_answer_array['response'] as $event) {
-					if (isset($event['propstat']['prop']['calendar-data'])) {
-						$ics_content .= $event['propstat']['prop']['calendar-data'];
+				$ics_content = ''; // inicializa a varivel de conteudo dos eventos
+				
+				// se response possuir a propriedade href (significa que possui apenas um evento) 
+				if (isset($caldav_answer_array['response']['href'])){
+					
+					if (isset($caldav_answer_array['response']['propstat']['prop']['calendar-data'])) // verifica se existem as propriedades no array
+						$ics_content .= $caldav_answer_array['response']['propstat']['prop']['calendar-data']; // armazena o conteudo do evento
+						
+				}
+				else{ // se houverem mais de um evento
+					
+					// Get ICS content
+					foreach($caldav_answer_array['response'] as $event) {
+						
+						if (isset($event['propstat']['prop']['calendar-data'])) {
+							$ics_content .= $event['propstat']['prop']['calendar-data'];
+						}
+						
 					}
+					
 				}
 				
 				echo "Eventos do caldav_answer_array[response][propstat][prop][calendar-data] \n";
@@ -218,12 +219,7 @@ class php_icloud_calendar {
 		
 		// Do request
 		$this->_do_put_request($event_url, $body);
-		
-		// incluido para verificar se a montagem esta ok
-		echo '<pre>';
-		echo $body;
-		echo '</pre>';
-		
+
 		return $event_id;
 	}
 	
