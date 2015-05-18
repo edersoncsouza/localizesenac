@@ -169,7 +169,6 @@
 		$response=simplexml_load_string(doRequest($user, $pw, $icloudUrls[rand(0,23)], $principal_request));
 		
 		if($response[0]->head->title == "Unauthorized"){
-			//echo "<h1 >Erro na autenticação, tente novamente ou clique no botão Cancelar </h1>";
 			echo "<script>bootbox.alert(\"Erro na autenticação, tente novamente ou clique no botão Cancelar para desistir\"); </script>";
 		}
 		else{
@@ -239,6 +238,7 @@
 							{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
 					);
 			</script>";
+			
 			
 		}
 		

@@ -221,8 +221,19 @@ class php_icloud_calendar {
 	
 	
 	// TODO
-	public function remove_event() {
-		// ...
+		 /* funcao criada por Ederson
+		 */
+	public function remove_event($event_id) {
+//
+$body = <<<__EOD
+UID:{$event_id }
+__EOD;
+		
+		// Get unique event url
+		$event_url = $this->_get_add_event_url($event_id);
+		// Do request
+		$this->_do_delete_request($event_url, $body);
+		
 	}
 	
 	

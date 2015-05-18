@@ -152,32 +152,33 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		$my_events = $icloud_calendar->get_events($dataHoraInicioEvento, $dataHoraFinalEvento);
 		
 		echo "Eventos no dia" . $dataDoEvento . "\n";
-		//var_dump($my_events);
+		var_dump($my_events);
 		
-		// LISTA E ARMAZENA OS IDs DOS EVENTOS
-		foreach($my_events as $event){
-			echo "ID do evento: " . $event['UID'] . "\n";
-			$UID_evento = $event['UID'];
+		// SE RETORNOU EVENTOS NO MESMO PERIODO
+		if($my_events){
+			$eventosExcluir = []; //cria um array com eventos a excluir para evitar excluir eventos um por um
 			
-			// SE O EVENTO FOR DO TIPO LOCALIZESENAC APAGA O MESMO
-			if (substr($event['SUMMARY'], 0, 13) == "LocalizeSenac")
-				//echo "SUMARIO do evento: " . $event['SUMMARY'] . "\n";
-				// deletar o evento a partir do UID // http://www.simplemachines.org/community/index.php?topic=520893.0
-				//$UID_evento
+			// LISTA E ARMAZENA OS IDs DOS EVENTOS
+			foreach($my_events as $event){ // laco que percorre cada um dos eventos encontrados
+				
+				echo "ID do evento: " . $event['UID'] . "\n";
+				$UID_evento = $event['UID']; // armazena o ID do evento
+				
+				if(!in_array($UID_evento, $eventosExcluir)){ // se o id ja nao estiver no array
+					array_push($eventosExcluir,$UID_evento); // envia o elemento pro array
+				
+					// SE O EVENTO FOR DO TIPO LOCALIZESENAC APAGA O MESMO
+					if (substr($event['SUMMARY'], 0, 13) == "LocalizeSenac"){
+						//echo "SUMARIO do evento: " . $event['SUMMARY'] . "\n";
+							// deletar o evento a partir do UID // http://www.simplemachines.org/community/index.php?topic=520893.0
+						//$UID_evento
+							 $icloud_calendar->remove_event($UID_evento);
+							 echo "UID do evento removido: " . $UID_evento . "\n";
+					}
+				}
+				
+			}
 		}
-		
-		/*
-		array(100) {
-				[0]=>
-					array(13) {
-							["DTSTAMP"]=>
-							string(16) "20150518T021433Z"
-							["DTSTART"]=>
-							string(16) "20150522T220000Z"
-							["DTEND"]=>
-							string(16) "20150523T014000Z"
-							["UID"]=>
-		*/
 		
 		// Add iCloud event
 		$icloud_calendar->add_event($dataHoraInicioEvento, 
