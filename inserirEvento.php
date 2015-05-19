@@ -151,7 +151,8 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			for ($i = 0; $i < 7; $i++) { 
 				
 				$diaAtual = date('Y-m-d', strtotime("+".$i." days")); // incrementa o dia atual com a variavel $i
-				$diaSemanaAtual = getDiaSemana($diaAtual); // atualizar a variavel diaSemanaAtual
+				//$diaSemanaAtual = getDiaSemana($diaAtual); // atualizar a variavel diaSemanaAtual
+				$diaSemanaAtual = getNomeDiaSemana(getDiaSemana($diaAtual)); // atualizar a variavel diaSemanaAtual (pega o dia abrevidado pela data, pega o dia estendido pelo dia abreviado)
 				
 				if($diaSemanaAtual == $dia){ // verifica se o dia da semana atual e igual ao dia recebido como parametro
 					$dataDoEvento = $diaAtual; // varivel de data do evento recebe a data do proximo dia da semana correspondente
@@ -163,7 +164,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			
 			
 			// DEFINE PERIODO PARA PESQUISA DE EVENTOS
-			
 			$inicio = ($dataDoEvento. 'T' . $horaInicioDiaLetivo . '.000z'); // cria a string com o dia atual e primeiro horario letivo
 			//$inicio = ($dataDoEvento. 'T' . $horaInicioAula . '.000Z'); // cria a string com o dia atual e primeiro horario do turno com Z identifica GMT
 			// exemplo de formato de data e hora aceitos: 2015-03-07T17:06:02.000Z
@@ -181,8 +181,12 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			$listaEventos = $cl_service->events->listEvents('primary', $params); // armazena a lista de eventos
 			
 			$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
+
+			//$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
 			
-			$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
+			if(count($eventos)>0){
+			
+			echo "Entrei para apagar eventos \n";
 			
 			// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
 			if ( $jaLimpei === FALSE){ 
@@ -225,6 +229,8 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			
 			}
 			
+			} // se existem eventos
+			
 			// cria o evento calendar
 			$event = new Google_Service_Calendar_Event(); // cria o novo evento
 
@@ -264,12 +270,16 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$minutos = $campoLembrete['minutos']; // armazena os minutos de antecedencia
 				$lembrete = $campoLembrete['tipoLembrete']; // armazena o tipo de lembrete
 			
+				/* FALTA ADAPTAR ESTE FOREACH PARA COLOCAR OS LEMBRETES POR DIA DA SEMANA, POIS ESTA CONCATENANDO TUDO
 				if($lembrete == "SMS")
 					$reminder->setMethod('sms'); // define o metodo como sms
 				if($lembrete == "email")
 					$reminder->setMethod('email'); // define o metodo como email
-
-				$reminder->setMinutes($minutos); // define quantos minutos antes do evento (recebido por parametro)
+				*/
+				
+				$reminder->setMethod($campoLembrete['tipoLembrete']); // define o metodo como sms
+				
+				$reminder->setMinutes($campoLembrete['minutos']); // define quantos minutos antes do evento (recebido por parametro)
 				
 				$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes			
 			

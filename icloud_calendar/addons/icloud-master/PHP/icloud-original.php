@@ -20,6 +20,9 @@
 	<link href="../../../../dist/css/calendar.css" rel="stylesheet">
 	<!-- <link href="dist/css/calendar.css" rel="stylesheet"> -->
 	
+	<!-- Custom Fonts -->
+	<link href="../../../../dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">	
+	
 	<!-- jQuery -->
     <script type="text/javascript" src="../../../../dist/components/jquery/dist/jquery.min.js"></script>
 
@@ -38,13 +41,13 @@
 					var url = "../../../../principal.php";
 					window.location.href = url;
 			});
-		/*
-			var arrayLembretesApple = localStorage.getItem('arrayLembretesApple');
-			var arrayDisciplinasApple = localStorage.getItem('arrayDisciplinasApple');
-			
-			console.log("Array Lembretes recuperado do localstorage:\n" + arrayLembretesApple);
-			console.log("Array Disciplinas recuperado do localstorage:\n" + arrayDisciplinasApple);
-		*/	
+
+			// exibe a animacao de carregando cada vez que uma requisicao Ajax ocorrer
+			$body = $("body");
+			$(document).on({
+				ajaxStart: function() { $body.addClass("carregando");    },
+				 ajaxStop: function() { $body.removeClass("carregando"); }    
+			});
 			
 		});
 	</script>
@@ -94,7 +97,7 @@
 		<div class="container">
 		
 			<div class="row">
-			  <div class="col-md-4">
+			  <div class="col-centered col-md-4">
 
 				<div id="formulario">
 				
@@ -103,10 +106,15 @@
 						<div class="btn-border"></div>
 						<canvas id="canvas"></canvas>
 					</div>
+					
 					<div class="btn-text-container" style="width:80px;left:-3px;">
 						<span class="btn-text">Calendar</span>
+						
+						
 					</div>
 					<!-- ICONE DO CALENDAR -->
+					
+					
 					
 				  <h3>Entre com suas credenciais Apple:</h3>
 				  <br>
@@ -184,6 +192,7 @@
 									<A:displayname/>
 								</A:prop>
 							</A:propfind>";
+							
 		//$url=$_POST['server']."/".$userID."/calendars/";
 		$url=$icloudUrls[rand(0,23)]."/".$userID."/calendars/";
 		$response=simplexml_load_string(doRequest($user, $pw, $url, $calendars_request));
@@ -216,30 +225,32 @@
 		$retornoIcloud['senha'] = $pw;
 		$retornoIcloud['id'] = $userID;
 		
-		$arrayRetornoJson = json_encode($retornoIcloud);
+		$arrayRetornoJson = json_encode($retornoIcloud); // codifica o array em formato JSON e armazena
 
 		if($retornoIcloud['id']){ // se possuir o id do usuario
 		
-		// ARMAZENA O ARRAY DE AUTENTICACAO EM UM ARRAY JAVASCRIPT
-		echo "<script type=\"text/javascript\">
-				var arrayAutenticacaoApple =" . $arrayRetornoJson . ";
-				console.log(arrayAutenticacaoApple);
+			// ARMAZENA O ARRAY DE AUTENTICACAO EM UM ARRAY JAVASCRIPT
+			echo "<script type=\"text/javascript\">
+					var arrayAutenticacaoApple =" . $arrayRetornoJson . ";
+					console.log(arrayAutenticacaoApple);
+					
+				</script>";
+			
+			// ENVIA POR POST OS ARRAYS PARA A INCLUSAO DOS EVENTOS
+			echo "<script type=\"text/javascript\">
+				var arrayLembretesApple = localStorage.getItem('arrayLembretesApple');
+				var arrayDisciplinasApple = localStorage.getItem('arrayDisciplinasApple');
 				
-			</script>";
-		
-		// ENVIA POR POST OS ARRAYS PARA A INCLUSAO DOS EVENTOS
-		echo "<script type=\"text/javascript\">
-			var arrayLembretesApple = localStorage.getItem('arrayLembretesApple');
-			var arrayDisciplinasApple = localStorage.getItem('arrayDisciplinasApple');
-			
-			var url = \"../../../inserirEventoApple.php\";
-					$.post(
-							url,
-							{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
-					);
-			</script>";
-			
-			
+				var url = \"../../../inserirEventoApple.php\";
+						$.post(
+								url,
+								{'arrayLembretes' : arrayLembretesApple, 'arrayDisciplinas' : arrayDisciplinasApple, 'arrayAutenticacao' : arrayAutenticacaoApple }
+						);
+				</script>";
+				
+			// RETORNA A PAGINA PRINCIPAL
+			echo "<script>location.href='../../../../principal.php';</script>";
+					
 		}
 		
 		}
@@ -248,5 +259,5 @@
 
 	</body>
 	<script type="text/javascript" src="../../../../dist/js/calendar.js"></script> 
-	<!-- <script type="text/javascript" src="dist/js/calendar.js"></script>-->
+
 </html>
