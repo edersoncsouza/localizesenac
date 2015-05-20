@@ -95,15 +95,16 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 	/************************************************/
 
 	// verifica se recebeu os parametros por POST
-		if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
+	if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 			
 			// sanitiza as entradas
 			//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
 			$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 			
 			$jaLimpei = FALSE; // cria variavel booleana para efetuar limpeza dos eventos uma unica vez
+			$eventosExcluidosDia = []; //cria um array com eventos a excluir
 			
-			foreach($_POST['arrayDisciplinas'] as $campoDisciplina) {
+		foreach($_POST['arrayDisciplinas'] as $campoDisciplina) {
 				//disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
 				//echo "Disciplina: " . $result['disciplina'] . '<br>';
 				$dia = $campoDisciplina['dia'];
@@ -111,7 +112,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$turno = $campoDisciplina['turno'];
 				$unidade = $campoDisciplina['unidade'];
 				$disciplina = $campoDisciplina['disciplina'];
-			//} comentado para estender o for ate o final deste arquivo
 			
 			// monta as strings para o evento
 			$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
@@ -184,51 +184,61 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 
 			//$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
 			
-			if(count($eventos)>0){
+			if(count($eventos)>0){ // se existem eventos no dia da disciplina
 			
-			echo "Entrei para apagar eventos \n";
-			
-			// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
-			if ( $jaLimpei === FALSE){ 
-
-				$deleteParams = array('timeMin' => $inicio); // parametros para apagar os eventos recorrentes
-
-				foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
-
-					// armazena o sumario do evento existente
-					$sumarioEventoExistente = $evento->getSummary();
+				echo "Entrei para apagar eventos \n";
+				
+				if(!in_array($dia, $eventosExcluidosDia)){ // se o dia ainda nao estiver no array
 					
-					$introducaoSumario = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
+					array_push($eventosExcluidosDia,$dia); // envia o dia pro array
+					$deleteParams = array('timeMin' => $inicio); // parametros para apagar os eventos recorrentes
 
-					// verifica se o evento foi criado pelo sistema LocalizeSenac
-					if($introducaoSumario  == 'LocalizeSenac'){
-						
-						// armazena informacoes do evento existente
-						$idEventoExistente = $evento->getId();
-						echo "Evento encontrado ID: " . $idEventoExistente . "<br>";
-						//$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
-						//$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
+						foreach ($eventos as $evento) { // para cada item de eventos como evento (dentro do periodo de tempo do dia)
 
-						// deleta o evento encontrado
-						//$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
-						
-						/* TENTATIVA DE EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work */
-						$eventosRecorrentes = $cl_service->events->instances('primary', $idEventoExistente, $deleteParams); // armazena todas as instancias do evento recorrente
-						
-						if ($eventosRecorrentes && count($eventosRecorrentes->getItems())) { // se houverem eventosRecorrentes
-						  foreach ($eventosRecorrentes->getItems() as $instance) { // laco para percorrer todos os eventos recorrentes
-							  echo "Instancia do evento encontrada ID: " . $instance->getId() . "<br>";
-							$cl_service->events->delete('primary', $instance->getId()); // deleta cada instancia do evento
-						  }
-						}
+							// armazena o sumario do evento existente
+							$sumarioEventoExistente = $evento->getSummary();
+							
+							$introducaoSumario = substr($sumarioEventoExistente, 0, 13); // filtra os primeiros 13 caracteres do inicio do sumario
 
-					}
-				} // foreach ($eventos as $evento) 
-			
-				$jaLimpei = TRUE; // identifica que ja foram excluidos eventos do localizesenac antigos
-			
-			}
-			
+							// verifica se o evento foi criado pelo sistema LocalizeSenac
+							if($introducaoSumario  == 'LocalizeSenac'){
+								
+								// armazena informacoes do evento existente
+								$idEventoExistente = $evento->getId();
+								echo "Evento encontrado ID: " . $idEventoExistente . "<br>";
+								//$dataHoraInicioEventoExistente = $evento->getStart()->getDateTime();
+								//$dataHoraFinalEventoExistente = $evento->getEnd()->getDateTime();
+
+								// deleta o evento encontrado
+								//$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
+								
+								/* TENTATIVA DE EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work */
+								$eventosRecorrentes = $cl_service->events->instances('primary', $idEventoExistente, $deleteParams); // armazena todas as instancias do evento recorrente
+								
+								if ($eventosRecorrentes && count($eventosRecorrentes->getItems())) { // se houverem eventosRecorrentes
+								  foreach ($eventosRecorrentes->getItems() as $instance) { // laco para percorrer todos os eventos recorrentes
+									  echo "Instancia do evento encontrada ID: " . $instance->getId() . "<br>";
+									$cl_service->events->delete('primary', $instance->getId()); // deleta cada instancia do evento
+								  }
+								}
+
+							}
+						} // foreach ($eventos as $evento) 
+				/*
+				 * REFATORAR TODO O PROCESSO DE EXCLUIR EVENTOS POIS ESTA ADAPTADO PARA RECEBER APENAS UM DIA POR SEMANA
+				 * AGORA DEVE VERIFICAR SE O EVENTO ENCONTRADO NAO FOR IGUAL AO EVENTO RECEBIDO NO ARRAY
+				 
+				
+				// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
+				if ( $jaLimpei === FALSE){ 
+
+					$jaLimpei = TRUE; // identifica que ja foram excluidos eventos do localizesenac antigos
+				
+				}
+				*/
+				
+				} //if(!in_array(dia, eventosExcluidosDia))
+				
 			} // se existem eventos
 			
 			// cria o evento calendar
@@ -276,12 +286,13 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				if($lembrete == "email")
 					$reminder->setMethod('email'); // define o metodo como email
 				*/
-				
-				$reminder->setMethod($campoLembrete['tipoLembrete']); // define o metodo como sms
-				
-				$reminder->setMinutes($campoLembrete['minutos']); // define quantos minutos antes do evento (recebido por parametro)
-				
-				$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes			
+				if ($campoLembrete['dia'] == $dia){
+					$reminder->setMethod($campoLembrete['tipoLembrete']); // define o metodo como sms
+					
+					$reminder->setMinutes($campoLembrete['minutos']); // define quantos minutos antes do evento (recebido por parametro)
+					
+					$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes		
+				}				
 			
 			} // FINAL DO FOR DE REMINDERS
 			
@@ -303,7 +314,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 
 		}// ******************* FINAL DO FOR DE DISCIPLINAS ************************
 			
-		}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
+	}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
 	
 
 	
