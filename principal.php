@@ -74,14 +74,22 @@ PENDENCIAS LOCAIS:
 	<!-- Bootbox -->
 	<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
 
+	<!-- Underscore -->
+	<script src="dist/components/underscore/js/underscore-min.js" type="text/javascript"></script>	
+	
 	<!-- Moment -->
 	<script src="dist/components/moment/js/moment.js" type="text/javascript"></script>
+
+	<!-- CLNDR -->
+	<script src="dist/components/CLNDR/js/clndr.min.js" type="text/javascript"></script>
 	
 	<!-- eventCalendar -->
 	<script src="dist/components/eventCalendar/js/jquery.eventCalendar.min.js" type="text/javascript"></script>	
 	
 <script>
 $(document).ready(function() {
+	
+	$('#clndr-grid').clndr();
 	
 	$('#collapseOne').collapse("hide"); // tentar iniciar com os menus fechados
 	
@@ -113,7 +121,9 @@ $(document).ready(function() {
 		txt_prev: "anterior",
 		txt_NextEvents: "Próximos eventos:",
 		txt_GoToEventUrl: "Ir ao evento"
-	}); 
+	});
+	
+	setCalendarWidth();
 	
 	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
 	$('#configuracoes').click( function() {
@@ -394,6 +404,31 @@ $(document).ready(function() {
 							  
 								<div id="inlineEventcalendar">
 									<!-- AREA QUE RECEBE O calendarEvent-->
+									
+									<div id="clndr-grid" class="clndr-grid">
+									  <div class="days-of-the-week clearfix">
+										<% _.each(daysOfTheWeek, function(day) { %>
+										  <div class="header-day"><%= day %></div>
+										<% }); %>
+									  </div>
+									  <div class="days clearfix">
+										<% _.each(days, function(day) { %>
+										  <div class="<%= day.classes %>" id="<%= day.id %>">
+											<span class="day-number"><%= day.day %></span>
+										  </div>
+										<% }); %>
+									  </div>
+									</div>
+									<div class="event-listing">
+									  <div class="event-listing-title">EVENTS THIS MONTH</div>
+									  <% _.each(eventsThisMonth, function(event) { %>
+										  <div class="event-item">
+											<div class="event-item-name"><%= event.name %></div>
+											<div class="event-item-location"><%= event.location %></div>
+										  </div>
+										<% }); %>
+									</div>
+									
 								</div>
 								
 							  </div>
@@ -564,8 +599,6 @@ $(document).ready(function() {
 				
 			</div> <!-- Eventos Acadêmicos - agenda academica e minhas aulas -->	<!-- /.row -->
 	
-
-	
 	</div> <!-- /#page-wrapper -->
 
     <!-- Metis Menu Plugin JavaScript -->
@@ -574,13 +607,6 @@ $(document).ready(function() {
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
 
-	<script type="text/javascript">
-
-
-	</script>
-
-
-	
 </body>
 
 </html>
