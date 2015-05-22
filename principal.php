@@ -51,6 +51,9 @@ PENDENCIAS LOCAIS:
 
 	<!-- Theme CSS file: it makes eventCalendar nicer -->
 	<link rel="stylesheet" href="dist/components/eventCalendar/css/eventCalendar_theme_responsive.css">
+	
+	<!-- Theme CSS file: it makes eventCalendar nicer 
+	<link rel="stylesheet" href="dist/css/clndr2.css">-->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -89,7 +92,7 @@ PENDENCIAS LOCAIS:
 <script>
 $(document).ready(function() {
 	
-	$('#clndr-grid').clndr();
+	$('#clndr-grid').clndr(); // carregando o CLNDR.js
 	
 	$('#collapseOne').collapse("hide"); // tentar iniciar com os menus fechados
 	

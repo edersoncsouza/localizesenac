@@ -6,6 +6,8 @@ function mudaAndarMapa(andarTab){
 
 	if(indoorLayer.getLevel() != andarTab ){ // se o andar atual do mapa for diferente do andar da sala do marcador
 		indoorLayer.setLevel(andarTab); // muda o andar do mapa para o andar da sala
+		//levelControl.setLevel(andarTab); // muda o andar do mapa para o andar da sala
+		//alert("dei o set level no levelControl");
 	}
 }
 
@@ -394,7 +396,7 @@ function consultarAluno(matriculaP, senhaP, nomeP){
 			
 		}
 		else{ // se o aluno existir
-			window.location.replace("principal.php"); // caso o aluno exista redirecioina para a pagina principal
+			window.location.replace("principal.php"); // caso o aluno exista redireciona para a pagina principal
 		}
 
 	});

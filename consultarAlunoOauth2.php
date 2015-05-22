@@ -18,7 +18,7 @@
 		// executa a query
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
-		// se nao encontrou o aluno
+		// se encontrou o aluno
 		if(mysql_num_rows($result) != 0){
 						
 			//cria o array data
