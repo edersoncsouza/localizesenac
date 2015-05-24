@@ -204,12 +204,13 @@ else {
 		$_SESSION['nomeOauth2'] = $nomeGoogle; // sera o nome, ou seja o campo nome da tabela aluno
 		
 		// armazena o tipo de usuario autenticado
-		$_SESSION['tipoUsuario'] = "google";
+		//$_SESSION['tipoUsuario'] = "google";
+		$tipoUsuario = "google";
 		
 		// chama a funcao JavaScript que executa os POSTS para os arquivos PHP de manipulacao de banco
 		// consultarAlunoOauth2 - Pesquisar se aluno ja existe no banco
 		// inserirAlunoOauth2 - Caso nao exista o aluno, insere no banco	
-		echo "<script type=\"text/javascript\">consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\");</script>"; // tentativa de receber o retorno do script
+		echo "<script type=\"text/javascript\">var tipoUsuario = \"google\"; consultarAluno(\"$emailGoogle\", \"$idGoogle\", \"$nomeGoogle\",\"$tipoUsuario\");</script>"; // tentativa de receber o retorno do script
 		
 		/*
 			//echo "<h3>Resultados do Calendar:</h3>";

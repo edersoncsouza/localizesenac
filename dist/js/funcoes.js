@@ -357,12 +357,14 @@ function getAndarSala(descricao){
 /* FUNCOES PARA USO COM A AUTENTICACAO DO USUARIO */
 
 // funcao que busca o aluno no BD e se nao existir cria
-function consultarAluno(matriculaP, senhaP, nomeP){
+function consultarAluno(matriculaP, senhaP, nomeP, tipoUsuarioP){
 	var url = "consultarAlunoOauth2.php";
+	
+	console.log("Sou o funcoes.js rodando a funcao consultarAluno, aqui tipoUsuario recebeu: " + tipoUsuarioP);
 	
 	// executa o post enviando o parametro matricula
 	// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
-	$.post(url,{ matricula: matriculaP }, function(alunoJson) {
+	$.post(url,{ matricula: matriculaP, autenticacao: tipoUsuarioP }, function(alunoJson) {
 		
 		console.log(alunoJson); // envia para o console o Json do usuario
 		
@@ -376,7 +378,7 @@ function consultarAluno(matriculaP, senhaP, nomeP){
 			
 			// executa o post para inserir o aluno no banco
 			$.post(url2,{ matricula: matriculaP, password: senhaP, nome: nomeP,
-							celular: celularP, email: matriculaP, ativo: ativoP}, 
+							celular: celularP, email: matriculaP, autenticacao: tipoUsuarioP, ativo: ativoP}, 
 								function(alunoInseridoJson) {
 								
 									var idNome;

@@ -5,22 +5,26 @@
     mysql_set_charset('UTF8', $_SG['link']);
 	
 	// se recebeu os parametros por POST
-	if(isset($_POST['matricula'])){ 
+	if(isset($_POST['matricula']) && isset($_POST['autenticacao'])){ 
 		
 		// sanitiza as entradas
 		foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
 		
 		$matricula = $_POST['matricula'];
+		$autenticacao = $_POST['autenticacao'];
 		
+		// matricula no caso de usuarios oauth2 refere-se ao email
 		// monta a query
-		$sql = "SELECT id, nome, matricula, senha FROM aluno WHERE matricula = '$matricula'";
+		$sql = "SELECT id, nome, matricula, senha, autenticacao FROM aluno WHERE matricula = '$matricula' AND autenticacao = '$autenticacao'";
 		
 		// executa a query
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
 		// se encontrou o aluno
 		if(mysql_num_rows($result) != 0){
-						
+			
+			$_SESSION['tipoUsuario'] = $autenticacao;
+			
 			//cria o array data
 			$data;//= []; 
 

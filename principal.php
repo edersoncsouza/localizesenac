@@ -34,9 +34,6 @@ PENDENCIAS LOCAIS:
     <!-- MetisMenu CSS 
     <link href="dist/components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">-->
 
-    <!-- Timeline CSS 
-    <link href="dist/css/timeline.css" rel="stylesheet">-->
-
     <!-- Custom CSS -->
     <link href="dist/css/sb-admin-2.css" rel="stylesheet">
 
@@ -51,9 +48,6 @@ PENDENCIAS LOCAIS:
 
 	<!-- Theme CSS file: it makes eventCalendar nicer -->
 	<link rel="stylesheet" href="dist/components/eventCalendar/css/eventCalendar_theme_responsive.css">
-	
-	<!-- Theme CSS file: it makes eventCalendar nicer 
-	<link rel="stylesheet" href="dist/css/clndr2.css">-->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -92,7 +86,7 @@ PENDENCIAS LOCAIS:
 <script>
 $(document).ready(function() {
 	
-	$('#clndr-grid').clndr(); // carregando o CLNDR.js
+	//$('#clndr-grid').clndr(); // carregando o CLNDR.js
 	
 	$('#collapseOne').collapse("hide"); // tentar iniciar com os menus fechados
 	
@@ -109,6 +103,7 @@ $(document).ready(function() {
 						];
 	
 	// parametros de configuracao do eventCalendar
+	
 	$("#inlineEventcalendar").eventCalendar({
 		//jsonData: eventsInline,
 		eventsjson: 'event.humanDate.json.php',
@@ -126,7 +121,6 @@ $(document).ready(function() {
 		txt_GoToEventUrl: "Ir ao evento"
 	});
 	
-	setCalendarWidth();
 	
 	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
 	$('#configuracoes').click( function() {
@@ -157,7 +151,6 @@ $(document).ready(function() {
 	}
 	
 	// AO CLICAR SOBRE O ICONE DE MOSTRAR SALA ABAIXO DAS DISCIPLINAS POR DIA
-	//$('#iconeMostrarSala').on("click",function(e){
 	$('#linkMostrarSala').on("click",function(e){
 		
 		if(andarTab == -1) // se nao ha disciplina no dia
@@ -201,6 +194,8 @@ $(document).ready(function() {
 	
 	$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
 	selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
+	
+	//$("#inlineEventcalendar").load('testeClndr/calendario.php'); // carrega o conteudo da pagina de agenda de eventos na div inlineEventcalendar
 });
 </script>
 
@@ -407,31 +402,6 @@ $(document).ready(function() {
 							  
 								<div id="inlineEventcalendar">
 									<!-- AREA QUE RECEBE O calendarEvent-->
-									
-									<div id="clndr-grid" class="clndr-grid">
-									  <div class="days-of-the-week clearfix">
-										<% _.each(daysOfTheWeek, function(day) { %>
-										  <div class="header-day"><%= day %></div>
-										<% }); %>
-									  </div>
-									  <div class="days clearfix">
-										<% _.each(days, function(day) { %>
-										  <div class="<%= day.classes %>" id="<%= day.id %>">
-											<span class="day-number"><%= day.day %></span>
-										  </div>
-										<% }); %>
-									  </div>
-									</div>
-									<div class="event-listing">
-									  <div class="event-listing-title">EVENTS THIS MONTH</div>
-									  <% _.each(eventsThisMonth, function(event) { %>
-										  <div class="event-item">
-											<div class="event-item-name"><%= event.name %></div>
-											<div class="event-item-location"><%= event.location %></div>
-										  </div>
-										<% }); %>
-									</div>
-									
 								</div>
 								
 							  </div>

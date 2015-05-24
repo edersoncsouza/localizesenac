@@ -5,15 +5,15 @@
     mysql_set_charset('UTF8', $_SG['link']);
 	
 	// se recebeo os parametros por POST
-	if(isset($_POST['matricula'], $_POST['password'], $_POST['nome'], $_POST['celular'], $_POST['email'], $_POST['ativo'])){ 
+	if(isset($_POST['matricula'], $_POST['password'], $_POST['nome'], $_POST['celular'], $_POST['email'], $_POST['autenticacao'], $_POST['ativo'])){ 
 		
 		// sanitiza as entradas
 		foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
 		
 		// monta a query
 		$sql = "INSERT INTO
-					`aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` ,  `ativo`  )
-				VALUES(  '{$_POST['matricula']}', '{$_POST['password']}', '{$_POST['nome']}', '{$_POST['celular']}', '{$_POST['email']}', '{$_POST['ativo']}' ) "; 
+					`aluno` ( `matricula` ,  `senha` ,  `nome` ,  `celular` ,  `email` , `autenticacao`, `ativo`  )
+				VALUES(  '{$_POST['matricula']}', '{$_POST['password']}', '{$_POST['nome']}', '{$_POST['celular']}', '{$_POST['email']}', '{$_POST['autenticacao']}', '{$_POST['ativo']}' ) "; 
 		
 		// executa a query
 		mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());

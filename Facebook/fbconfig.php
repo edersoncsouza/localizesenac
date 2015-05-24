@@ -16,7 +16,8 @@ use Facebook\HttpClients\FacebookHttpable;
 // init app with app id and secret
 FacebookSession::setDefaultApplication( '1622249498010646','ff8ad7bd7cd2b50d99eddc9429ca941a' );
 // login helper with redirect_uri
-    $helper = new FacebookRedirectLoginHelper('http://localizesenac.com/authFacebook.php' );
+    //$helper = new FacebookRedirectLoginHelper('http://localizesenac.com/authFacebook.php' ); // online
+	$helper = new FacebookRedirectLoginHelper('http://localhost:8080/projetos/localizesenac/authFacebook.php' ); // online
 try {
   $session = $helper->getSessionFromRedirect();
 } catch( FacebookRequestException $ex ) {

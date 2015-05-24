@@ -63,6 +63,7 @@
 			float: left;
 			margin-right: 8px;
 			opacity: 0.7;
+			clear: both;
 		}
 
 	</style>

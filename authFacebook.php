@@ -121,9 +121,9 @@
       //document.getElementById('status').innerHTML ='Thanks for logging in, ' + response.name + '!';
 	  
 	// armazena o tipo de usuario autenticado
-	$_SESSION['tipoUsuario'] = "facebook";
+	var tipoUsuario = "facebook";
 	  
-	consultarAluno(emailFacebook, idFacebook, nomeFacebook);
+	consultarAluno(emailFacebook, idFacebook, nomeFacebook, tipoUsuario);
 	  
     });
   }
