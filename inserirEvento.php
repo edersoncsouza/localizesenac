@@ -259,6 +259,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
 
 			$remindersArray = array(); // cria o array para acumular as notificacoes
+			$arrayLembretesTipo = array(); // criado para armazenar os lembretes para a tabela aluno_lembrete
 			
 			foreach($_POST['arrayLembretes'] as $campoLembrete) {
 				
@@ -272,7 +273,12 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 					
 					$reminder->setMinutes($campoLembrete['minutos']); // define quantos minutos antes do evento (recebido por parametro)
 					
-					$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes		
+					$remindersArray[] = $reminder; // insere a notificacao ao array de notificacoes
+					
+					// ADICIONADO PARA UTILIZAR NA GRAVACAO NA TABELA ALUNO_LEMBRETE
+					$lembreteTipo['tipo'] = $campoLembrete['tipoLembrete'];
+					$lembreteTipo['minutos'] = $campoLembrete['minutos'];
+					array_push($arrayLembretesTipo, $lembreteTipo);
 				}				
 			
 			} // FINAL DO FOR DE REMINDERS
@@ -294,28 +300,65 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				// conectar no banco
 				mysql_set_charset('UTF8', $_SG['link']);
 				
-				// monta a query de pesquisa
-				$sql = "SELECT fk_id_aluno, dia_semana, turno, tipo FROM aluno_lembrete, aluno WHERE matricula = $_SESSION['usuarioLogin']";
+				$dia = substr($dia, 0, 3);
 				
-				// executa a query
+				// monta a query de pesquisa de lembretes do google (sms ou email)
+				$sql = "SELECT
+							aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+						FROM
+							aluno_lembrete, aluno
+						WHERE
+							matricula = \"{$_SESSION['usuarioLogin']}\"
+						AND 
+							dia_semana = \"{$dia}\"
+						AND
+							turno = \"{$turno}\"
+						AND
+							(tipo = 'sms' OR tipo = 'email')";
+							
+				// executa a query para verificar se o aluno ja possui lembretes
 				$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
-		
-				// se nao encontrou o aluno
-				if(mysql_num_rows($result) == 0){
+
+				echo "SQL: " . $sql . "\n";
+				echo "numero de linhas de sql: " . mysql_num_rows($result) . "\n";
 				
-				
-				
-				
-				$disciplina = $campoDisciplina['disciplina'];
-					
-					$idAluno = $_SESSION['usuarioLogin'];
-					$idDisciplina = ;
-					
-					// monta a query de insercao
-					$sql2 = "INSERT INTO
-						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`,`dt_inicio`,`dt_fim`)
-					VALUES(  '{}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$_POST['ativo']}' ) "; 
+				$disciplina = trim($disciplina);
+				// monta a query de pesquisa de id de disciplina
+				$sql2 = "SELECT id FROM disciplina WHERE nome = \"$disciplina\"";
+				// executa a query para armazenar o id da disciplina
+				$result2 = mysql_query($sql2) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 			
+				$idDisciplina =  mysql_result($result2,0); // recebe o id da disciplina
+				
+				$andarSala = substr($sala, 0, 1); // recebe o primeiro caractere do numero da sala como andar
+
+				// monta a query de pesquisa de id de usuario
+				$sql3 = "SELECT id FROM aluno WHERE matricula = \"{$_SESSION['usuarioLogin']}\"";
+				// executa a query para armazenar o id do aluno
+				$result3 = mysql_query($sql3) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+				
+				$idAluno = mysql_result($result3,0);
+				
+				// EXCLUI OS LEMBRETES DO GOOGLE DA TABELA aluno_lembrete
+				if(mysql_num_rows($result) != 0){ // se encontrou lembretes do google para o aluno
+					while($row = mysql_fetch_array($result)) { // para cada linha do resultset
+							$sql4 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
+							echo "SQL4: " . $sql4 . "\n";
+							$result4 = mysql_query($sql4) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+					}
+				}
+				
+				// INSERE OS LEMBRETES NA TABELA aluno_lembrete
+				foreach($arrayLembretesTipo as $lembreteGoogle){ // ESTAMOS DENTRO DE UM FOR POR DISCIPLINA/TURNO E EM CADA ITERACAO PODE TER MAIS DE UM TIPO DE LEMBRETE
+					$tipoLembrete = $lembreteGoogle['tipo'];
+					
+					// monta a query de insercao de lembrete
+					$sql5 = "INSERT INTO
+						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`,`dt_inicio`,`dt_final`)
+					VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$dataDoEvento}', '{$dataFinalSemestre}'  ) "; 						
+					// executa a query para armazenar o lembrete em banco na tabela aluno_lembrete
+					$result5 = mysql_query($sql5) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+					
 				}
 				
 				
