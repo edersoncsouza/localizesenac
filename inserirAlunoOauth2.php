@@ -27,7 +27,8 @@
 			$_SESSION['usuarioNome'] = $_POST['nome']; // Pega o valor de $_POST 'nome'
 			$_SESSION['usuarioLogin'] = $_POST['matricula']; // Pega o valor de $_POST 'matricula'
 			$_SESSION['usuarioSenha'] = $_POST['password']; // Pega o valor de $_POST 'password'
-
+			$_SESSION['tipoUsuario'] = $_POST['autenticacao']; // Pega o valor de $_POST 'autenticacao'
+			
 			echo mysql_insert_id(); // retorna o id do aluno inserido
 		}
 		// faz a verificação do resultado

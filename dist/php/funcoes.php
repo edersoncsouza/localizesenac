@@ -1,7 +1,7 @@
 <?php
 
 function imprimeSessao(){
-    session_start();
+    //session_start();
     echo "<h3> PHP List All Session Variables</h3>";
 	echo '<pre>';
     print_r($_SESSION);
@@ -59,6 +59,7 @@ function getDiaSemana($data) {
  
     return $diasemana;
 }
+
 
 function defineDisciplinas(){
 
@@ -212,7 +213,7 @@ function defineAcordion(){
 					echo "<li>"; // cria o item de categoria
 						//echo "<a href=\"#\" onclick=\"location.href='mapa.php?sala=$consulta2[numero]&andar=$consulta2[andar]'; \"> $consulta2[descricao]</a>\n";
 						//echo "<a href=\"#\" onclick=\"atualizaMapa($consulta2[andar],$consulta2[numero])\"> $consulta2[descricao]</a>\n";
-						echo "<a href=\"#\" onclick=\" insereMarker($consulta2[andar],$consulta2[numero]); \"> $consulta2[descricao]	</a>\n";
+						echo "<a href=\"#\" onclick=\" mudaAndarMapa($consulta2[andar]); insereMarker($consulta2[andar],$consulta2[numero]); \"> $consulta2[descricao]	</a>\n";
 					echo "</li>";
 
 					// acrescenta cada descricao, andar e sala ao vetor associativo $nomeAndarNumero para uso do typeahead

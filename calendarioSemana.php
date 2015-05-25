@@ -81,7 +81,6 @@ $(document).ready(function() {
 						// adiciona um botao para incluir disciplinas no mesmo nivel do container de texto
 						$(this).parent().append('<p class="TabContent col-xs-6 col-sm-6 col-md-6" style="padding-right:4px;  padding-left:4px;" >'+
 										'<button type="button" id="incluiDisciplina" class="btn btn-success btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;"><i class="fa fa-plus-square-o"></i> Adicionar Disciplina</button>'+
-										//'<a data-toggle="modal" data-target="#modalDisciplinas" class="btn btn-success btn-block btn-lg"> Adicionar Disciplina </a>'+
 										'</p>'+
 										'<p class="TabContent col-xs-6 col-sm-6 col-md-6" style="padding-right:4px;  padding-left:4px;"  >'+
 										'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;" ><i class="fa fa-home"></i> Voltar</button>'+
@@ -90,12 +89,24 @@ $(document).ready(function() {
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
 						
-						// insere o checkbox, label e inputbox para integracao com iCloud
+						// insere o checkbox, label e inputbox para integracao com iCloud, Zenvia e Phpmailer
 						$(this).parent().append(
 							'<div id="divCheckboxesApple" class="row" style="text-align: center;">'+
 								'<div class="row">'+
-									'<label><input class="lembrarIcloud" id="lembrarIcloud'+$(this).parent().attr("id")+'" name="lembrarIcloud" value="icloud" type="checkbox" >Receber aviso do iCalendar</label>'+
+									'<label><input class="lembrarIcloud" id="lembrarIcloud'+$(this).parent().attr("id")+'" name="lembrarIcloud" value="icloud" type="checkbox" >Receber aviso PUSH do iCalendar</label>'+
 									'<label class="labelIcloud" id="labelIcloud'+$(this).parent().attr("id")+'"><input class="minutosIcloud" id="minutosIcloud'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+								'</div>'+
+							'</div>'+
+							'<div id="divCheckboxesZenvia" class="row" style="text-align: center;">'+
+								'<div class="row">'+
+									'<label><input class="lembrarZenvia" id="lembrarZenvia'+$(this).parent().attr("id")+'" name="lembrarZenvia" value="zenvia" type="checkbox" >Receber SMS</label>'+
+									'<label class="labelZenvia" id="labelZenvia'+$(this).parent().attr("id")+'"><input class="minutosZenvia" id="minutosZenvia'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
+								'</div>'+
+							'</div>'+
+							'<div id="divCheckboxesPhpmailer" class="row" style="text-align: center;">'+
+								'<div class="row">'+
+									'<label><input class="lembrarPhpmailer" id="lembrarPhpmailer'+$(this).parent().attr("id")+'" name="lembrarPhpmailer" value="phpmailer" type="checkbox" >Receber E-mail</label>'+
+									'<label class="labelPhpmailer" id="labelPhpmailer'+$(this).parent().attr("id")+'"><input class="minutosPhpmailer" id="minutosPhpmailer'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
 								'</div>'+
 							'</div>'
 						);
@@ -104,14 +115,13 @@ $(document).ready(function() {
 						if( tipoUsuario == 'google')
 							$(this).parent().append(
 								// adiciona o checkbox de lembrete
-								'<div id="divCheckboxesGoogle" class="row" style="text-align: center;">'+
-											
+								'<div id="divCheckboxesGoogle" class="row" style="text-align: center;">'+		
 											'<div class="row">'+
-												'<label><input class="lembrarSms" id="lembrarSms'+$(this).parent().attr("id")+'" name="lembrarSms" value="sms" type="checkbox" >Receber SMS</label>'+
+												'<label><input class="lembrarSms" id="lembrarSms'+$(this).parent().attr("id")+'" name="lembrarSms" value="sms" type="checkbox" >Receber SMS do Google </label>'+
 												'<label class="minutosSms" id="labelSms'+$(this).parent().attr("id")+'"><input class="minutosSms" id="minutosSms'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
 											'</div>'+
 											'<div class="row">'+
-												'<label><input class="lembrarEmail" id="lembrarEmail'+$(this).parent().attr("id")+'" name="lembrarEmail" value="email" type="checkbox" >Receber E-mail</label>'+
+												'<label><input class="lembrarEmail" id="lembrarEmail'+$(this).parent().attr("id")+'" name="lembrarEmail" value="email" type="checkbox" >Receber E-mail do Google </label>'+
 												'<label class="minutosEmail" id="labelEmail'+$(this).parent().attr("id")+'"><input class="minutosEmail" id="minutosEmail'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
 											'</div>'+
 								'</div>'

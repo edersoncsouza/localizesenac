@@ -5,9 +5,7 @@ var JsonNomeAndarNumeroObj;
 function mudaAndarMapa(andarTab){
 
 	if(indoorLayer.getLevel() != andarTab ){ // se o andar atual do mapa for diferente do andar da sala do marcador
-		indoorLayer.setLevel(andarTab); // muda o andar do mapa para o andar da sala
-		//levelControl.setLevel(andarTab); // muda o andar do mapa para o andar da sala
-		//alert("dei o set level no levelControl");
+		levelControl.setLevel(andarTab); // muda o andar do mapa para o andar da sala
 	}
 }
 
@@ -164,14 +162,14 @@ function getNomeDiaSemana(data) {
                 lembreteP = "icloud";
                 minutosAntec = $(seletorInputIcloud).val(); // armazena a quantidade de minutos de antecedencia
 
-                if (validaInputBox(minutosAntec) == true)
+                if (validaInputBox(minutosAntec) == true) // se o retorno da funcao de validacao for true (valor valido)
                     lembretesDiaDaSemana.push({
 						"dia": diaDaSemana,
                         "tipoLembrete": lembreteP,
                         "minutos": minutosAntec
                     });
                 else
-                    bootbox.alert(validaInputBox(minutosAntec));
+                    bootbox.alert(validaInputBox(minutosAntec)); // se o retorno nao for true sera a propria mensagem de erro
             }
 
             if ($(seletorCheckboxSms).prop('checked')) {
@@ -201,6 +199,9 @@ function getNomeDiaSemana(data) {
                 else
                     bootbox.alert(validaInputBox(minutosAntec));
             }
+			
+			
+			
         } // for dos dias da semana
         return lembretesDiaDaSemana; // retorna o array com os lembretes de todos os dias da semana
     } // function armazenaLembretes()
@@ -279,6 +280,85 @@ function armazenaDisciplinas() {
 		return disciplinasDiaDaSemana; // retorna o array com as disciplinas de todos os dias da semana
     } // function armazenaDisciplinas()
 
+
+function verificaEventoGoogle(){
+
+	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
+	var url = "verificarEvento.php";
+	var objJson;
+
+	// recebe como retorno um json com os lembretes (lembretesJson)
+	$.post(url, function(lembretesJson) {
+		if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+			//bootbox.alert('Erro no envio de parâmetros!');
+			console.log("O usuario logado não possui lembretes de disciplinas!");
+		}
+		else{ // se retornou com disciplinas
+			objLembretesJson = $.parseJSON(lembretesJson); // transforma a string JSON em Javascript Array
+			
+			console.log(objLembretesJson);
+			//[{"diaDaSemana":"TER","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUA","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUI","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"SEX","lembretes":["email","sms"],"minutos":[10,20]},{"diaDaSemana":"SEG","lembretes":["sms"],"minutos":[20]}] 
+			//console.log("Aqui o objLembretesJson e: "+objLembretesJson);
+			//console.log("Aqui o diaDaSemana e: "+objLembretesJson[0].diaDaSemana);
+									
+			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
+			for (i = 0; i < objLembretesJson.length; i++) {
+				
+				diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJson[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
+				//alert(diaDaSemanaLembrete);
+				
+				var inputSms = "#minutosSms"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+				var labelSms = "#labelSms"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+				var inputEmail = "#minutosEmail"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+				var labelEmail = "#labelEmail"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+
+				var arrayLembretes = objLembretesJson[i].lembretes; // recebe os lembretes do dia
+				var arrayMinutos = objLembretesJson[i].minutos; // recebe os minutos do lembrete
+				
+				// IDENTIFICA O TIPO DE LEMBRETE E EXIBE OS LABELS E INPUTS DE ACORDO
+				if (arrayLembretes.length > 1){ // se possuir os dois tipos de lembrete (sms / email)
+					
+					$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
+					$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+					$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
+					$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
+					
+					$(inputSms).val(arrayMinutos[arrayLembretes.indexOf('sms')]); // recebe o valor de antecedencia do lembrete de sms
+					$(inputEmail).val(arrayMinutos[arrayLembretes.indexOf('email')]); // recebe o valor de antecedencia do lembrete de email
+					// OBS: como os nomes dos lembretes e valores em minutos sao colocados juntos, foi usado
+					// o indice do nome para identificar a posicao dos minutos no outro array
+					
+					$('#lembrarEmail'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de email
+					$('#lembrarSms'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms
+					
+				}
+				else{ // se possuir apenas um tipo de lembrete
+					if (arrayLembretes[0] == "sms"){ // verifica se e do tipo sms
+						//alert ("Lembrete de SMS");
+						$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
+						$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+						$(inputSms).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete de sms
+						
+						$('#lembrarSms'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms
+					}
+					else{ // caso contrario e do tipo email
+						//alert("Lembrete de Email");
+						$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
+						$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
+						$(inputEmail).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete de email
+						
+						$('#lembrarEmail'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de email
+					}
+				}
+
+			} //for (i = 0; i < objLembretesJson.length; i++)
+		
+		} // se identificou disciplinas com lembretes
+		
+	}); // $.post(url, function(lembretesJson) 
+	
+}
+	
 /* FUNCOES PARA USO COM O TYPEAHEAD */
 
 // variavel de vetor de nome andar e numero para uso do typeahead

@@ -209,6 +209,14 @@ PENDENCIAS LOCAIS:
 				$('.minutosIcloud').hide();
 				$('.minutosIcloud').val('');
 				
+				$('.labelZenvia').hide();
+				$('.minutosZenvia').hide();
+				$('.minutosZenvia').val('');
+				
+				$('.labelPhpmailer').hide();
+				$('.minutosPhpmailer').hide();
+				$('.minutosPhpmailer').val('');
+				
 				$('.labelEmail').hide();
 				$('.minutosEmail').hide();
 				$('.minutosEmail').val('');
@@ -216,7 +224,12 @@ PENDENCIAS LOCAIS:
 				$('.labelSms').hide();
 				$('.minutosSms').hide();							
 				$('.minutosSms').val('');
-			
+
+
+				// funcao que verifica se existem eventos gravados na ageda
+				verificaEventoGoogle();
+				
+/*				
 				// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
 				var url = "verificarEvento.php";
 				var objJson;
@@ -290,7 +303,7 @@ PENDENCIAS LOCAIS:
 					} // se identificou disciplinas com lembretes
 					
 				}); // $.post(url, function(lembretesJson) 
-				
+*/				
 				
 				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
 				$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status
@@ -352,6 +365,45 @@ PENDENCIAS LOCAIS:
 					}
 				});
 				
+				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete do Zenvia 
+				$('.lembrarZenvia').change(function () {
+					
+					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+					var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarIcloudsegunda
+					var addTo = stringDiaSemana.substr(13); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+					var inputZenvia = "#minutosZenvia"+addTo; // concatena a string para o input do dia da semana
+					var labelZenvia = "#labelZenvia"+addTo; // concatena a string para o label do dia da semana
+					
+					if ($(this).is(":checked")) {
+						$(inputZenvia).show(); // exibe o input para os minutos de iCloud neste dia da semana
+						$(labelZenvia).show(); // exibe o label do input para os minutos de Email neste dia da semana
+					}
+					else {// se o checkbox de lembrete nao estiver selecionado
+						$(inputZenvia).hide(); // exibe o input para os minutos de iCloud neste dia da semana
+						$(inputZenvia).val(''); // zera os valores de todos os inputs desta classe
+						$(labelZenvia).hide(); // oculta todos os labels desta classe
+					}
+				});
+				
+				// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete do Phpmailer 
+				$('.lembrarPhpmailer').change(function () {
+					
+					// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+					var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarIcloudsegunda
+					var addTo = stringDiaSemana.substr(16); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+					var inputPhpmailer = "#minutosPhpmailer"+addTo; // concatena a string para o input do dia da semana
+					var labelPhpmailer = "#labelPhpmailer"+addTo; // concatena a string para o label do dia da semana
+					
+					if ($(this).is(":checked")) {
+						$(inputPhpmailer).show(); // exibe o input para os minutos de iCloud neste dia da semana
+						$(labelPhpmailer).show(); // exibe o label do input para os minutos de Email neste dia da semana
+					}
+					else {// se o checkbox de lembrete nao estiver selecionado
+						$(inputPhpmailer).hide(); // exibe o input para os minutos de iCloud neste dia da semana
+						$(inputPhpmailer).val(''); // zera os valores de todos os inputs desta classe
+						$(labelPhpmailer).hide(); // oculta todos os labels desta classe
+					}
+				});
 				
 			});// final do load calendarioSemana.php
 			

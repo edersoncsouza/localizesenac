@@ -87,7 +87,7 @@
 	</script>
 	
 	<script type="text/javascript">
-		
+	/*	
 		// configuracao dos limites maximos de exibicao do mapa
         var sudOeste = L.latLng(-30.035996, -51.227157);
         var nordEste = L.latLng(-30.035025, -51.224985);
@@ -117,17 +117,6 @@
                 "<a><strong>Horários de funcionamento:</strong></a> 8h30 às 22h40 </br>" +
                 "<a><strong>Email:</strong></a>  atendimentofatecpoa@senacrs.com.br / </br> faculdadesenacpoa@senacrs.com.br</br>" +
                 "<a><strong>Telefone:</strong></a>  (51) 30221044</h4>";
-
-        /*
-         // configura a camada quadriculada (tileLayer) que fica de fundo para o mapa vetorial
-         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-         maxZoom: 24,
-         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-         id: 'examples.map-20v6611k'
-         }).addTo(map);
-         */
 
         // metodo para criacao da legenda do mapa (adaptar para buscar do banco)
         var legend = L.control({position: 'bottomleft'});
@@ -222,9 +211,9 @@
             info.update();
         }
 
-        /* funcao de zoom nos poligonos selecionados com evento click
-         * caso o conteudo ja esteja ampliado retorna a visualizacao inicial 
-         */
+        // funcao de zoom nos poligonos selecionados com evento click
+        // caso o conteudo ja esteja ampliado retorna a visualizacao inicial 
+         
         // booleano para controlar se o zoom foi aplicado
         var zoomed = false;
         function zoomToFeature(e) {
@@ -329,11 +318,11 @@
 							}
 						};
 		L.geoJson(limites).addTo(map);
-		
+	*/	
 	</script>
 		
     </head>
-    <!-- <body onload="resetPanel();"> -->
+
 	<body>
         <div id="map"> <!-- class="row" --> 
 

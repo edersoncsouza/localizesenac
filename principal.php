@@ -86,9 +86,10 @@ PENDENCIAS LOCAIS:
 <script>
 $(document).ready(function() {
 	
-	//$('#clndr-grid').clndr(); // carregando o CLNDR.js
 	
 	$('#collapseOne').collapse("hide"); // tentar iniciar com os menus fechados
+	//$('ul.child').hide();
+	
 	
 	// eventos "inline" para a agenda
 	var eventsInline = [
@@ -196,6 +197,7 @@ $(document).ready(function() {
 	selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 	
 	//$("#inlineEventcalendar").load('testeClndr/calendario.php'); // carrega o conteudo da pagina de agenda de eventos na div inlineEventcalendar
+			
 });
 </script>
 
@@ -295,7 +297,6 @@ $(document).ready(function() {
 						
 						
 						<script type="text/javascript">
-
 							// recebe o vetor PHP codificado a partir do BD durante a criacao do menu lateral
 							var vetorNomeAndarNumero = <?php echo json_encode($_SESSION['JsonNomeAndarNumero']); ?>;
 								

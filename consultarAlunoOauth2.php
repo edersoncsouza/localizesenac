@@ -22,9 +22,7 @@
 		
 		// se encontrou o aluno
 		if(mysql_num_rows($result) != 0){
-			
-			$_SESSION['tipoUsuario'] = $autenticacao;
-			
+						
 			//cria o array data
 			$data;//= []; 
 
@@ -43,6 +41,7 @@
 			$_SESSION['usuarioNome'] = $nome; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
 			$_SESSION['usuarioLogin'] = $matricula;
 			$_SESSION['usuarioSenha'] = $senha;
+			$_SESSION['tipoUsuario'] = $autenticacao;
 			
 			// codifica o array em formato Json e devolve como retorno
 			echo json_encode($data);
