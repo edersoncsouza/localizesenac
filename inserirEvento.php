@@ -42,7 +42,8 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 	//require('HttpPost.class.php');
 	require_once realpath(dirname(__FILE__) . '/Google/autoload.php');
 	include('dist/php/funcoes.php');
-
+	include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
+	
 	 $client_id = '407647315469-0785ljr0q9ijh95dj7qetu0agaq97m5l.apps.googleusercontent.com';
 	 $client_secret = 'WrIiWLHNXYJBwCwc1tUrL85A';
 	 $redirect_uri = 'http://localhost:8080/projetos/localizesenac/auth.php';
@@ -224,18 +225,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 
 							}
 						} // foreach ($eventos as $evento) 
-				/*
-				 * REFATORAR TODO O PROCESSO DE EXCLUIR EVENTOS POIS ESTA ADAPTADO PARA RECEBER APENAS UM DIA POR SEMANA
-				 * AGORA DEVE VERIFICAR SE O EVENTO ENCONTRADO NAO FOR IGUAL AO EVENTO RECEBIDO NO ARRAY
-				 
-				
-				// verifica se ja foi executada limpeza de eventos, para evitar excluir a primeira disciplina incluida
-				if ( $jaLimpei === FALSE){ 
-
-					$jaLimpei = TRUE; // identifica que ja foram excluidos eventos do localizesenac antigos
-				
-				}
-				*/
 				
 				} //if(!in_array(dia, eventosExcluidosDia))
 				
@@ -265,9 +254,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 
 			$event->setEnd($end); // insere data e hora de final no objeto event
 					
-			// https://developers.google.com/google-apps/calendar/recurringevents
-			//$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150515T170000Z')); // recorrencia do evento
-			$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150710T230000Z')); // recorrencia do evento
+			$event->setRecurrence(array('RRULE:FREQ=WEEKLY;UNTIL=20150710T230000Z')); // define a recorrencia do evento semanal ate o final do semestre
 			
 			// OURO DO BESOURO - NOTIFICACOES (SMS, EMAIL, POPUP) //
 
@@ -280,12 +267,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$minutos = $campoLembrete['minutos']; // armazena os minutos de antecedencia
 				$lembrete = $campoLembrete['tipoLembrete']; // armazena o tipo de lembrete
 			
-				/* FALTA ADAPTAR ESTE FOREACH PARA COLOCAR OS LEMBRETES POR DIA DA SEMANA, POIS ESTA CONCATENANDO TUDO
-				if($lembrete == "SMS")
-					$reminder->setMethod('sms'); // define o metodo como sms
-				if($lembrete == "email")
-					$reminder->setMethod('email'); // define o metodo como email
-				*/
 				if ($campoLembrete['dia'] == $dia){
 					$reminder->setMethod($campoLembrete['tipoLembrete']); // define o metodo como sms
 					
@@ -308,6 +289,40 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				echo "Local: " . $unidadeEvento . "<br>";
 				echo "Evento criado em: " . ($dia . ": " . $dataDoEvento . 'T' . $horaInicioAula. '.000') . "<br>";
 				echo "<==========================================><br>";				
+				
+				// PROCEDIMENTO DE INCLUIR OS LEMBRETES NO BANCO DE DADOS
+				// conectar no banco
+				mysql_set_charset('UTF8', $_SG['link']);
+				
+				// monta a query de pesquisa
+				$sql = "SELECT fk_id_aluno, dia_semana, turno, tipo FROM aluno_lembrete, aluno WHERE matricula = $_SESSION['usuarioLogin']";
+				
+				// executa a query
+				$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		
+				// se nao encontrou o aluno
+				if(mysql_num_rows($result) == 0){
+				
+				
+				
+				
+				$disciplina = $campoDisciplina['disciplina'];
+					
+					$idAluno = $_SESSION['usuarioLogin'];
+					$idDisciplina = ;
+					
+					// monta a query de insercao
+					$sql2 = "INSERT INTO
+						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`,`dt_inicio`,`dt_fim`)
+					VALUES(  '{}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$_POST['ativo']}' ) "; 
+			
+				}
+				
+				
+				// listar registros que possuam mesmo usuario, dia da semana, turno e tipo de lembrete
+				// se existirem, update 
+				// excluir registros que possuam mesmo usuario, dia da semana, turno e tipo de lembrete
+				// inserir registro novo (fk_id_aluno, dia_semana, turno, fk_sala_id_unidade, fk_andar_sala, fk_numero_sala, fk_id_disciplina, tipo, dt_inicio, dt_fim)
 				
 				// caso fosse atualizar o evento ao inves de criar:
 				//$createdEvent = $cl_service->events->update('primary', $evento->getId(), $event);

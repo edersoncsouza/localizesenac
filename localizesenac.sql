@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 28-Abr-2015 às 03:05
+-- Data de Criação: 25-Maio-2015 às 19:04
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -35,21 +35,21 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   `nome` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `celular` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `autenticacao` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `ativo` enum('N','S') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
-  PRIMARY KEY (`matricula`),
-  UNIQUE KEY `NOME_ALUNO` (`nome`),
+  PRIMARY KEY (`matricula`,`autenticacao`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
 
 --
 -- Extraindo dados da tabela `aluno`
 --
 
-INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `ativo`) VALUES
-(1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersonadssenac@gmail.com', 'S'),
-(2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'S'),
-(20, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'S'),
-(19, 'edersoncsouza@gmail.com', '116884675910383407399', 'Ederson Souza', '', 'edersoncsouza@gmail.com', 'S');
+INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `autenticacao`, `ativo`) VALUES
+(1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersonadssenac@gmail.com', 'local', 'S'),
+(2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'local', 'S'),
+(26, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'google', 'S'),
+(27, 'edersoncsouza@hotmail.com', '1615212108690478', 'Ederson Souza', '', 'edersoncsouza@hotmail.com', 'facebook', 'S');
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   KEY `fk_aluno_disciplina_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_disciplina_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
   KEY `fk_aluno_disciplina_disciplina1_idx` (`fk_id_disciplina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=43 ;
 
 --
 -- Extraindo dados da tabela `aluno_disciplina`
@@ -80,12 +80,48 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
 
 INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
 (3, 'QUA', 'N', 1, 1, 6, 603, 28),
+(40, 'QUA', 'N', 26, 1, 6, 603, 28),
 (16, 'QUI', 'N', 1, 1, 4, 409, 31),
-(12, 'SEG', 'N', 1, 1, 3, 301, 32),
-(18, 'SEG', 'N', 19, 1, 0, 102, 1),
+(41, 'QUI', 'N', 26, 1, 4, 409, 31),
+(27, 'SEG', 'N', 1, 1, 3, 301, 32),
+(38, 'SEG', 'N', 26, 1, 3, 301, 32),
+(35, 'SEX', 'M', 1, 1, 0, 102, 1),
 (17, 'SEX', 'N', 1, 1, 7, 704, 23),
+(42, 'SEX', 'N', 26, 1, 7, 704, 23),
 (14, 'TER', 'N', 1, 1, 6, 603, 30),
-(19, 'TER', 'N', 19, 1, 0, 103, 2);
+(39, 'TER', 'N', 26, 1, 6, 603, 30);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `aluno_lembrete`
+--
+
+CREATE TABLE IF NOT EXISTS `aluno_lembrete` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id do lembrete',
+  `fk_id_aluno` int(11) NOT NULL COMMENT 'FK id do aluno',
+  `dia_semana` char(3) COLLATE utf8_unicode_ci NOT NULL COMMENT 'dia da semana',
+  `turno` char(1) COLLATE utf8_unicode_ci NOT NULL COMMENT 'turno da disciplina',
+  `fk_sala_fk_id_unidade` int(11) NOT NULL COMMENT 'FK da unidade da sala',
+  `fk_andar_sala` tinyint(4) NOT NULL,
+  `fk_numero_sala` int(11) NOT NULL COMMENT 'FK da sala',
+  `fk_id_disciplina` int(11) NOT NULL COMMENT 'FK da disciplina',
+  `tipo` char(6) COLLATE utf8_unicode_ci NOT NULL COMMENT 'tipo de lembrete',
+  `dt_inicio` date NOT NULL,
+  `dt_final` date NOT NULL,
+  PRIMARY KEY (`fk_id_aluno`,`dia_semana`,`turno`,`tipo`),
+  KEY `id` (`id`),
+  KEY `fk_aluno_lembrete_aluno1_idx` (`fk_id_aluno`),
+  KEY `fk_aluno_lembrete_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
+  KEY `fk_aluno_lembrete_disciplina1_idx` (`fk_id_disciplina`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='tabela de lembretes' AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `aluno_lembrete`
+--
+
+INSERT INTO `aluno_lembrete` (`id`, `fk_id_aluno`, `dia_semana`, `turno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `dt_inicio`, `dt_final`) VALUES
+(1, 26, 'SEG', 'N', 1, 3, 301, 32, 'sms', '2015-05-25', '2015-07-10');
 
 -- --------------------------------------------------------
 

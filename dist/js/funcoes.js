@@ -148,17 +148,21 @@ function getNomeDiaSemana(data) {
             diaDaSemana = diaDaSemanaIntermediario(i); // constroi e armazena a string do dia da semana ex.: segunda
 
             // DEFINE OS SELETORES DA CHECKBOXES
-            seletorCheckboxIcloud = "#lembrarIcloud" + diaDaSemana;
-            seletorCheckboxSms = "#lembrarSms" + diaDaSemana;
-            seletorCheckboxEmail = "#lembrarEmail" + diaDaSemana;
-
+            seletorCheckboxIcloud = "#lembrarIcloud" + diaDaSemana; // icloud
+            seletorCheckboxSms = "#lembrarSms" + diaDaSemana; // sms Google
+            seletorCheckboxEmail = "#lembrarEmail" + diaDaSemana; // email Google
+			seletorCheckboxZenvia = "#lembrarZenvia" + diaDaSemana; // sms Zenvia
+			seletorCheckboxPhpmailer = "#lembrarPhpmailer" + diaDaSemana; // email Phpmailer
+			
             // DEFINE OS SELETORES DAS INPUTBOXES
             seletorInputIcloud = "input#minutosIcloud" + diaDaSemana;
             seletorInputSms = "input#minutosSms" + diaDaSemana;
             seletorInputEmail = "input#minutosEmail" + diaDaSemana;
+			seletorInputZenvia = "input#minutosZenvia" + diaDaSemana;
+			seletorInputPhpmailer = "input#minutosPhpmailer" + diaDaSemana;
 
             // TESTA AS CHECKBOXES DE CADA TIPO E ARMAZENA SE ESTIVEREM MARCADAS
-            if ($(seletorCheckboxIcloud).prop('checked')) {
+            if ($(seletorCheckboxIcloud).prop('checked')) { // icloud
                 lembreteP = "icloud";
                 minutosAntec = $(seletorInputIcloud).val(); // armazena a quantidade de minutos de antecedencia
 
@@ -172,7 +176,35 @@ function getNomeDiaSemana(data) {
                     bootbox.alert(validaInputBox(minutosAntec)); // se o retorno nao for true sera a propria mensagem de erro
             }
 
-            if ($(seletorCheckboxSms).prop('checked')) {
+            if ($(seletorCheckboxZenvia).prop('checked')) { // zenvia
+                lembreteP = "zsms";
+                minutosAntec = $(seletorInputZenvia).val(); // armazena a quantidade de minutos de antecedencia
+
+                if (validaInputBox(minutosAntec) == true) // se o retorno da funcao de validacao for true (valor valido)
+                    lembretesDiaDaSemana.push({
+						"dia": diaDaSemana,
+                        "tipoLembrete": lembreteP,
+                        "minutos": minutosAntec
+                    });
+                else
+                    bootbox.alert(validaInputBox(minutosAntec)); // se o retorno nao for true sera a propria mensagem de erro
+            }
+			
+			if ($(seletorCheckboxPhpmailer).prop('checked')) { // phpmailer
+                lembreteP = "pemail";
+                minutosAntec = $(seletorInputPhpmailer).val(); // armazena a quantidade de minutos de antecedencia
+
+                if (validaInputBox(minutosAntec) == true) // se o retorno da funcao de validacao for true (valor valido)
+                    lembretesDiaDaSemana.push({
+						"dia": diaDaSemana,
+                        "tipoLembrete": lembreteP,
+                        "minutos": minutosAntec
+                    });
+                else
+                    bootbox.alert(validaInputBox(minutosAntec)); // se o retorno nao for true sera a propria mensagem de erro
+            }
+			
+            if ($(seletorCheckboxSms).prop('checked')) { // sms google
                 lembreteP = "sms";
                 minutosAntec = $(seletorInputSms).val(); // armazena a quantidade de minutos de antecedencia
 
@@ -186,7 +218,7 @@ function getNomeDiaSemana(data) {
                     bootbox.alert(validaInputBox(minutosAntec));
             }
 
-            if ($(seletorCheckboxEmail).prop('checked')) {
+            if ($(seletorCheckboxEmail).prop('checked')) { // email google
                 lembreteP = "email";
                 minutosAntec = $(seletorInputEmail).val(); // armazena a quantidade de minutos de antecedencia
 
@@ -199,8 +231,6 @@ function getNomeDiaSemana(data) {
                 else
                     bootbox.alert(validaInputBox(minutosAntec));
             }
-			
-			
 			
         } // for dos dias da semana
         return lembretesDiaDaSemana; // retorna o array com os lembretes de todos os dias da semana
@@ -357,6 +387,293 @@ function verificaEventoGoogle(){
 		
 	}); // $.post(url, function(lembretesJson) 
 	
+}
+
+function carregaCalendarioSemana(){
+	// carrega a pagina com a lista dos dias da semana e disciplinas
+	$("#minhaGrade").load("calendarioSemana.php",function(){
+		
+		// apos carregar insere a funcionalidade de voltar para a pagina principal ao botao sairDisciplina
+		$('button#excluiDisciplina').click( function() {
+			
+			// armazena o dia da semana por extenso para as mensagens
+			var diaExtenso = $(this).parent().parent().attr("id").toUpperCase();
+			// armazena o dia da semana reduzido para usar como parametro
+			var diaP = diaExtenso.substring(0, 3).replace(/[ÀÁÂÃÄÅ]/g,"A");
+			
+			// mensagem de confirmacao de exclusao
+			bootbox.confirm("Tem certeza que deseja excluir a(s) disciplina(s) de "+diaExtenso+" ?", function(result) {
+
+			if (result){// se o usuario confirmou a exclusao
+				
+				// chama metodo que busca em um php as disciplinas do aluno naquele dia
+				// e enxerta a string de disciplinas em um bootbox.dialog
+				buscarDisciplinasDia(diaP); 
+				
+			}
+			
+			}); 
+		});
+		
+		// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
+		$('button#sairDisciplina').click( function() {
+			
+			//var diaDaSemana = $(this).attr('id').toUpperCase().substr(0,3); // constroe e armazena a string do dia da semana ex.: SEG
+			var arrayLembretes = armazenaLembretes();
+			var arrayDisciplinas = armazenaDisciplinas();
+			var arrayLembretesPhpmailer = [];
+			var arrayLembretesZenvia = [];
+			var arrayLembretesGoogle = [];
+			var arrayLembretesApple = [];
+			arrayDisciplinasPhpmailer = [];
+			arrayDisciplinasZenvia = [];
+			arrayDisciplinasGoogle = [];
+			arrayDisciplinasApple = [];
+			
+			console.log("=== CONFIG ALUNO === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
+			console.log("Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
+			
+			// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE(sms, email, ou icloud)
+			for (i = 0; i < arrayLembretes.length; i++){
+				
+				if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){							
+					arrayLembretesGoogle.push(arrayLembretes[i]); // adiciona o lembrete do dia da semana ao array
+					diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
+					
+					// SEPARA AS DISCIPLINAS DO DIA DO LEMBRETE INCLUIDO
+					for (j = 0; j < arrayDisciplinas.length; j++){ // laco percorre todas as disciplinas do array
+						
+						if (arrayDisciplinas[j].dia == diaDaSemana){ // se o dia da disciplina for igual ao dia do lembrete
+						arrayDisciplinasGoogle.push(arrayDisciplinas[j]); // armazena a disciplina no array de disciplinas
+						}
+					}
+				}
+				
+				if (arrayLembretes[i].tipoLembrete == "icloud"){ // se o lembrete for do tipo icloud
+					arrayLembretesApple.push(arrayLembretes[i]); // adiciona o lembrete no array da Apple
+					diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
+					
+					// SEPARA AS DISCIPLINAS DO DIA DO LEMBRETE INCLUIDO
+					for (j = 0; j < arrayDisciplinas.length; j++){ // laco percorre todas as disciplinas do array
+						
+						if (arrayDisciplinas[j].dia == diaDaSemana){ // se o dia da disciplina for igual ao dia do lembrete
+						arrayDisciplinasApple.push(arrayDisciplinas[j]); // armazena a disciplina no array de disciplinas
+						}
+					}
+				}
+				
+				if (arrayLembretes[i].tipoLembrete == "zsms"){ // se o lembrete for do tipo zsms
+					arrayLembretesZenvia.push(arrayLembretes[i]); // adiciona o lembrete no array da Zenvia
+					diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
+					
+					// SEPARA AS DISCIPLINAS DO DIA DO LEMBRETE INCLUIDO
+					for (j = 0; j < arrayDisciplinas.length; j++){ // laco percorre todas as disciplinas do array
+						
+						if (arrayDisciplinas[j].dia == diaDaSemana){ // se o dia da disciplina for igual ao dia do lembrete
+						arrayDisciplinasZenvia.push(arrayDisciplinas[j]); // armazena a disciplina no array de disciplinas
+						}
+					}
+				}
+				
+				if (arrayLembretes[i].tipoLembrete == "pemail"){ // se o lembrete for do tipo pemail
+					arrayLembretesPhpmailer.push(arrayLembretes[i]); // adiciona o lembrete no array da Phpmailer
+					diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
+					
+					// SEPARA AS DISCIPLINAS DO DIA DO LEMBRETE INCLUIDO
+					for (j = 0; j < arrayDisciplinas.length; j++){ // laco percorre todas as disciplinas do array
+						
+						if (arrayDisciplinas[j].dia == diaDaSemana){ // se o dia da disciplina for igual ao dia do lembrete
+						arrayDisciplinasPhpmailer.push(arrayDisciplinas[j]); // armazena a disciplina no array de disciplinas
+						}
+					}
+				}
+				
+			} // laco do array de lembretes
+			
+			// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
+			if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
+				var url = "inserirEvento.php";
+					$.post(
+							url,
+							{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle}
+					);
+			}
+			
+			if(arrayLembretesZenvia[0] != null){ // se o array de lembretes Zenvia não estiver vazio
+				var url = "inserirEventoZenvia.php";
+					$.post(
+							url,
+							{'arrayLembretes' : arrayLembretesZenvia, 'arrayDisciplinas' : arrayDisciplinasZenvia}
+					);
+			}
+			
+			if(arrayLembretesPhpmailer[0] != null){ // se o array de lembretes Phpmailer não estiver vazio
+				var url = "inserirEventoPhpmailer.php";
+					$.post(
+							url,
+							{'arrayLembretes' : arrayLembretesPhpmailer, 'arrayDisciplinas' : arrayDisciplinasPhpmailer}
+					);
+			}
+			
+			if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple não estiver vazio
+				
+				// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+				localStorage.clear();
+				localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+				localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+				
+				// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+				window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+				
+			}
+			else{
+				// DEPOIS DE GRAVAR TODOS OS LEMBRETES NA AGENDA DO USUARIO VOLTA A PAGINA PRINCIPAL
+				var url = "principal.php";
+				$("body").load(url);	
+			}
+
+		}); // $('button#sairDisciplina').click( function()
+		
+		// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
+		$("#incluiDisciplina, #editaDisciplina").click(function(){
+				
+			// monta a variavel de titulo do modal
+			var tituloModalGrade = "DISCIPLINA DE " + $(this).parent().parent().attr("id").toUpperCase();
+				
+			// define o titulo do modal
+			$(".modal-title").text(tituloModalGrade);
+				
+			// exibe o modal
+			$("#gradeModal").modal('show');
+				
+		});
+		
+		// inicializa com os inputs e labels de lembretes ocultos
+		$('.labelIcloud').hide();
+		$('.minutosIcloud').hide();
+		$('.minutosIcloud').val('');
+		
+		$('.labelZenvia').hide();
+		$('.minutosZenvia').hide();
+		$('.minutosZenvia').val('');
+		
+		$('.labelPhpmailer').hide();
+		$('.minutosPhpmailer').hide();
+		$('.minutosPhpmailer').val('');
+		
+		$('.labelEmail').hide();
+		$('.minutosEmail').hide();
+		$('.minutosEmail').val('');
+		
+		$('.labelSms').hide();
+		$('.minutosSms').hide();							
+		$('.minutosSms').val('');
+
+
+		// funcao que verifica se existem eventos gravados na ageda
+		verificaEventoGoogle();			
+		
+		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
+		$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status
+		
+			// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+			var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarSmssegunda
+			var addTo = stringDiaSemana.substr(10); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+			var inputSms = "#minutosSms"+addTo; // concatena a string para o input do dia da semana
+			var labelSms = "#labelSms"+addTo; // concatena a string para o label do dia da semana
+		
+			if ($(this).is(":checked")) { // se ele estiver marcado
+				$(inputSms).show(); // exibe o input para os minutos de SMS neste dia da semana
+				$(labelSms).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+			}
+			else {// se o checkbox de lembrete nao estiver selecionado
+				$(inputSms).hide(); // oculta todos os inputs desta classe
+				$(inputSms).val(''); // zera os valores de todos os inputs desta classe
+				$(labelSms).hide();	// oculta todos os labels desta classe
+			}
+		});
+		
+		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de E-mail 
+		$('.lembrarEmail').change(function () {
+			
+			// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+			var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarEmailsegunda
+			var addTo = stringDiaSemana.substr(12); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+			var inputEmail = "#minutosEmail"+addTo; // concatena a string para o input do dia da semana
+			var labelEmail = "#labelEmail"+addTo; // concatena a string para o label do dia da semana
+			
+			if ($(this).is(":checked")) {
+				$(inputEmail).show(); // exibe o input para os minutos de Email neste dia da semana
+				$(labelEmail).show(); // exibe o label do input para os minutos de Email neste dia da semana
+			}
+			else {// se o checkbox de lembrete nao estiver selecionado
+				$(inputEmail).hide(); // exibe o input para os minutos de Email neste dia da semana
+				$(inputEmail).val(''); // zera os valores de todos os inputs desta classe
+				$(labelEmail).hide(); // oculta todos os labels desta classe
+			}
+		});
+		
+		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de iCloud 
+		$('.lembrarIcloud').change(function () {
+			
+			// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+			var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarIcloudsegunda
+			var addTo = stringDiaSemana.substr(13); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+			var inputIcloud = "#minutosIcloud"+addTo; // concatena a string para o input do dia da semana
+			var labelIcloud = "#labelIcloud"+addTo; // concatena a string para o label do dia da semana
+			
+			if ($(this).is(":checked")) {
+				$(inputIcloud).show(); // exibe o input para os minutos de iCloud neste dia da semana
+				$(labelIcloud).show(); // exibe o label do input para os minutos de Email neste dia da semana
+			}
+			else {// se o checkbox de lembrete nao estiver selecionado
+				$(inputIcloud).hide(); // exibe o input para os minutos de iCloud neste dia da semana
+				$(inputIcloud).val(''); // zera os valores de todos os inputs desta classe
+				$(labelIcloud).hide(); // oculta todos os labels desta classe
+			}
+		});
+		
+		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete do Zenvia 
+		$('.lembrarZenvia').change(function () {
+			
+			// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+			var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarIcloudsegunda
+			var addTo = stringDiaSemana.substr(13); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+			var inputZenvia = "#minutosZenvia"+addTo; // concatena a string para o input do dia da semana
+			var labelZenvia = "#labelZenvia"+addTo; // concatena a string para o label do dia da semana
+			
+			if ($(this).is(":checked")) {
+				$(inputZenvia).show(); // exibe o input para os minutos de iCloud neste dia da semana
+				$(labelZenvia).show(); // exibe o label do input para os minutos de Email neste dia da semana
+			}
+			else {// se o checkbox de lembrete nao estiver selecionado
+				$(inputZenvia).hide(); // exibe o input para os minutos de iCloud neste dia da semana
+				$(inputZenvia).val(''); // zera os valores de todos os inputs desta classe
+				$(labelZenvia).hide(); // oculta todos os labels desta classe
+			}
+		});
+		
+		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete do Phpmailer 
+		$('.lembrarPhpmailer').change(function () {
+			
+			// separa o dia da semana para identificar labels e inputs a ocultar e exibir
+			var stringDiaSemana = $(this).attr('id'); // Recebe o id do checkbox ex.: lembrarIcloudsegunda
+			var addTo = stringDiaSemana.substr(16); // Separa uma substring do id ex.: segunda (substr pega da posicao ate o final da string)
+			var inputPhpmailer = "#minutosPhpmailer"+addTo; // concatena a string para o input do dia da semana
+			var labelPhpmailer = "#labelPhpmailer"+addTo; // concatena a string para o label do dia da semana
+			
+			if ($(this).is(":checked")) {
+				$(inputPhpmailer).show(); // exibe o input para os minutos de iCloud neste dia da semana
+				$(labelPhpmailer).show(); // exibe o label do input para os minutos de Email neste dia da semana
+			}
+			else {// se o checkbox de lembrete nao estiver selecionado
+				$(inputPhpmailer).hide(); // exibe o input para os minutos de iCloud neste dia da semana
+				$(inputPhpmailer).val(''); // zera os valores de todos os inputs desta classe
+				$(labelPhpmailer).hide(); // oculta todos os labels desta classe
+			}
+		});
+		
+	});// final do load calendarioSemana.php	
 }
 	
 /* FUNCOES PARA USO COM O TYPEAHEAD */
