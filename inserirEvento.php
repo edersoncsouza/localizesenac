@@ -351,11 +351,12 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				// INSERE OS LEMBRETES NA TABELA aluno_lembrete
 				foreach($arrayLembretesTipo as $lembreteGoogle){ // ESTAMOS DENTRO DE UM FOR POR DISCIPLINA/TURNO E EM CADA ITERACAO PODE TER MAIS DE UM TIPO DE LEMBRETE
 					$tipoLembrete = $lembreteGoogle['tipo'];
+					$minutosLembrete = $lembreteGoogle['minutos'];
 					
 					// monta a query de insercao de lembrete
 					$sql5 = "INSERT INTO
-						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`,`dt_inicio`,`dt_final`)
-					VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$dataDoEvento}', '{$dataFinalSemestre}'  ) "; 						
+						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
+					VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$minutosLembrete}', '{$dataDoEvento}', '{$dataFinalSemestre}'  ) "; 						
 					// executa a query para armazenar o lembrete em banco na tabela aluno_lembrete
 					$result5 = mysql_query($sql5) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 					
