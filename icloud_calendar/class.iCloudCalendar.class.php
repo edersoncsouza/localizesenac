@@ -134,8 +134,8 @@ class php_icloud_calendar {
 					
 				}
 				
-				echo "Eventos do caldav_answer_array[response][propstat][prop][calendar-data] \n";
-				echo $ics_content . "\n";
+				//echo "Eventos do caldav_answer_array[response][propstat][prop][calendar-data] \n";
+				//echo $ics_content . "\n";
 				
 				// 
 				if (!empty($ics_content)) {

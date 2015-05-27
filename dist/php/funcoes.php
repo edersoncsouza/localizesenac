@@ -60,6 +60,26 @@ function getDiaSemana($data) {
     return $diasemana;
 }
 
+function getDataDiaDaSemana($diaDaSemana){
+	
+	$diaAtual = date('Y-m-d'); // instancia e define a mascara da data do dia atual
+	
+	$diaSemanaAtual = getDiaSemana($diaAtual); // busca e armazena o dia da semana atual
+	
+	// laco de 0 a 6 para percorrer todos os dias da semana e definir a data do atual ou proximo dia da semana
+	for ($i = 0; $i < 7; $i++) { 
+		
+		$diaAtual = date('Y-m-d', strtotime("+".$i." days")); // incrementa o dia atual com a variavel $i
+		$diaSemanaAtual = getNomeDiaSemana(getDiaSemana($diaAtual)); // atualizar a variavel diaSemanaAtual (pega o dia abrevidado pela data, pega o dia estendido pelo dia abreviado)
+		
+		if($diaSemanaAtual == $diaDaSemana){ // verifica se o dia da semana atual e igual ao dia recebido como parametro
+			$dataDoEvento = $diaAtual; // varivel de data do evento recebe a data do proximo dia da semana correspondente
+			$i = 7; // forca a saida do FOR
+		}
+	}
+	
+	return $dataDoEvento;
+}
 
 function defineDisciplinas(){
 

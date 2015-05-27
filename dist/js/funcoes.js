@@ -309,7 +309,9 @@ function armazenaDisciplinas() {
         } // for dos dias da semana
 		return disciplinasDiaDaSemana; // retorna o array com as disciplinas de todos os dias da semana
     } // function armazenaDisciplinas()
-
+/*
+ * FUNCAO QUE TRATA O RETORNO DA VERIFICACAO DOS EVENTOS ICLOUD NA TABELA aluno_lembrete
+ */
 function verificaEventoApple(){
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
 	var url = "verificarEventoApple.php";
@@ -321,10 +323,10 @@ function verificaEventoApple(){
 			console.log("O usuario logado não possui lembretes de disciplinas!");
 		}
 		else{ // se retornou com disciplinas
-			console.log("Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
+			//console.log("Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
 			
 			objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
-			console.log(objLembretesJson);	
+			//console.log("Array de objetos de lembretes: " + objLembretesJson);	
 			
 			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
 			for (i = 0; i < objLembretesJson.length; i++) {
@@ -339,8 +341,9 @@ function verificaEventoApple(){
 				
 				$(inputIcloud).show(); // exibe o input para os minutos de Email neste dia da semana
 				$(labelIcloud).show(); // exibe o label do input para os minutos de Email neste dia da semana
-				$(inputIcloud).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete
-						
+				$(inputIcloud).val(arrayMinutos); // recebe o valor de antecedencia do lembrete
+				
+				
 				$('#lembrarIcloud'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox
 			} //for (i = 0; i < objLembretesJson.length; i++)
 			
@@ -473,8 +476,8 @@ function carregaCalendarioSemana(){
 			console.log("=== CONFIG ALUNO === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
 			console.log("Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
 			
-			// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE(sms, email, ou icloud)
-			for (i = 0; i < arrayLembretes.length; i++){
+			// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE
+			for (i = 0; i < arrayLembretes.length; i++){ // laço que percorre todos os lembretes e desmembra por tipo
 				
 				if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){							
 					arrayLembretesGoogle.push(arrayLembretes[i]); // adiciona o lembrete do dia da semana ao array

@@ -12,7 +12,6 @@ require_once('addons/ics-parser/class.iCalReader.php');
 require_once('class.iCloudCalendar.class.php');
 include('../dist/php/funcoes.php');
 include('../dist/php/seguranca.php'); // Inclui o arquivo com o sistema de segurança
-session_start();
 
 // iCloud CalDAV URL looks like:
 // https://p02-caldav.icloud.com/12345678/calendars/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/
@@ -28,6 +27,38 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 	$idIcloud = $arrayAutenticacao['id'];
 	$userIcloud = $arrayAutenticacao['usuario'];
 	$pwIcloud = $arrayAutenticacao['senha'];
+
+	// INICIO DO PROCESSO DE AUTENTICACAO NO ICLOUD
+	// cria um array com os valores dos servidores iCloud
+	$icloudServers = array();
+	for($i = 1; $i < 25; $i++)
+		$icloudServers[] = "p" . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+	// Connection settings
+	//$my_icloud_server = 'p02';
+	$my_icloud_server = $icloudServers[rand(0,23)]; // seleciona um dos servidores aleatoriamente
+	
+	//echo "Servidor iCloud selecionado: " . $my_icloud_server . "\n";
+	
+	//$my_user_id = '1759380956';
+	$my_user_id = $idIcloud; // armazena o id do usuario vindo do POST
+	$my_calendar_id= 'home'; // define o calendario pessoal como o calendario de destino do evento
+	//$my_icloud_username = 'xxx@icloud.com';
+	$my_icloud_username = $userIcloud; // define o usuario para cadastrar o evento
+	//$my_icloud_password = 'xxx';
+	$my_icloud_password = $pwIcloud; // define a senha para cadastrar o evento
+
+	// iCloud calendar object
+	$icloud_calendar = new php_icloud_calendar($my_icloud_server, $my_user_id, $my_calendar_id, $my_icloud_username, $my_icloud_password);
+
+	// Get iCloud events
+	//$my_range_date_time_from = date("Y-m-d H:i:s", strtotime("-1 week"));
+	//$my_range_date_time_to = date("Y-m-d H:i:s", strtotime("+1 week"));
+	//$my_events = $icloud_calendar->get_events($my_range_date_time_from, $my_range_date_time_to);	
+	//foreach($my_events as $event) echo $event->SUMMARY;
+		
+	// FINAL DO PROCESSO DE AUTENTICACAO NO ICLOUD
+
 	
 	// ARMAZENA E DECODIFICA O ARRAY DE LEMBRETES
 	$arrayLembretes = json_decode($_POST['arrayLembretes'], true);
@@ -35,6 +66,110 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 	// ARMAZENA E DECODIFICA O ARRAY DE DISCIPLINAS
 	$arrayDisciplinas = json_decode($_POST['arrayDisciplinas'], true);
 	
+	date_default_timezone_set('America/Sao_Paulo'); // define o timezone	
+	
+	// METODO 1 - INICIO DO PROCESSO DE EXCLUSAO DE TODOS OS EVENTOS DA SEMANA QUE FOREM DO TIPO ICLOUD
+	// DESSA FORMA SE GARANTE A EXCLUSAO DOS LEMBRETES QUE TIVERAM O CHECKBOX DESMARCADO
+	
+	// DEFINE O PERIODO DE REMOCAO (SEMANA TODA)
+	$diaAtualRemocao = (date('Y-m-d'). 'T00:00:00.000z'); // define o inicio do dia atual
+	$diaFinalRemocao = (date('Y-m-d', strtotime("+7 days")).'T23:59:59.000z'); // define o final do ultimo dia da semana
+	
+	// ARMAZENA OS EVENTOS DA SEMANA DO TIPO LOCALIZESENAC E EXCLUI
+	$eventosSemanaisIcloud = $icloud_calendar->get_events($diaAtualRemocao, $diaFinalRemocao); // armazena os eventos no periodo da semana atual
+	
+	echo "Dia inicial de remocao: " . $diaAtualRemocao . "\n";
+	echo "Dia final de remocao: " . $diaFinalRemocao . "\n";
+	
+	//echo "Array de eventos semanais iCloud:\n";
+	//print_r($eventosSemanaisIcloud);
+	//echo "\n";
+	
+	if($eventosSemanaisIcloud){ // se existirem eventos na semana
+		$eventosDiariosExcluir = []; // cria o array de eventos a excluir
+		
+		foreach($eventosSemanaisIcloud as $eventoDiario){ // laço que percorre cada evento diario
+			
+			if (substr($eventoDiario['SUMMARY'], 0, 13) == "LocalizeSenac"){ // se o evento for do tipo Localizesenac
+				//$icloud_calendar->remove_event($eventoDiario['UID']);
+				
+				if(!in_array($eventoDiario['UID'], $eventosDiariosExcluir)){ // se o id do evento ja nao estiver no array de exclusao
+					
+					array_push($eventosDiariosExcluir,$eventoDiario['UID']); // envia o elemento pro array
+				
+				}
+				
+			}
+		}
+		
+		echo "Array de eventos a excluir:\n";
+		print_r($eventosDiariosExcluir);
+		echo "\n";
+		
+		
+		foreach($eventosDiariosExcluir as $eventoParaExcluir) // laço que percorre todos os UID's de eventos a excluir
+			$icloud_calendar->remove_event($eventoParaExcluir); // remove o evento com o UID fornecido
+		
+	}
+	// METODO 1 - FINAL DO PROCESSO DE EXCLUSAO DE TODOS OS EVENTOS DA SEMANA QUE FOREM DO TIPO ICLOUD
+	
+	// INICIO DO PROCESSO DE EXCLUSAO DE TODOS OS LEMBRETES DO USUARIO DO TIPO ICLOUD DA TABELA aluno_lembrete
+	
+	// definir o charset do banco
+	mysql_set_charset('UTF8', $_SG['link']);
+	
+	// monta a query de pesquisa de lembretes do icloud
+	$sqlPesquisa = "SELECT
+				aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+			FROM
+				aluno_lembrete, aluno
+			WHERE
+				matricula = \"{$_SESSION['usuarioLogin']}\"
+			AND
+				tipo = 'icloud'";
+	
+	// executa a query para verificar se o aluno ja possui lembretes
+	$resultPesquisa = mysql_query($sqlPesquisa) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+
+	// EXCLUI OS LEMBRETES DO icloud DA TABELA aluno_lembrete
+	if(mysql_num_rows($resultPesquisa) != 0){ // se encontrou lembretes icloud para o aluno
+		while($row = mysql_fetch_array($resultPesquisa)) { // para cada linha do resultset
+				$sqlDelete = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
+				$resultDelete = mysql_query($sqlDelete) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		}
+	}
+	// FINAL DO PROCESSO DE EXCLUSAO DE TODOS OS LEMBRETES DO USUARIO DO TIPO ICLOUD DA TABELA aluno_lembrete
+	
+	
+	
+	/*
+	// ARMAZENA OS DIAS DA SEMANA SEM EVENTOS PARA EXCLUIR LEMBRETES DESMARCADOS
+	$arrayDiasDaSemana = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]; // array com dias da semana para comparacao
+	$arrayDiasDaSemanaLembretes = []; // array para armazenar os dias da semana com lembrete para comparacao
+	
+	foreach($arrayLembretes as $lembrete){ // para cada lembrete
+		array_push($arrayDiasDaSemanaLembretes, $lembrete['dia']); // armazena os dias dos lembretes no arrayDiasDaSemanaLembretes
+	}
+	
+	// ARMAZENA OS DIAS SEM LEMBRETES PARA EXCLUSAO
+	foreach($arrayDiasDaSemana as $diaDaSemana){// para cada dia da semana
+		if (!in_array($diaDaSemana, $arrayDiasDaSemanaLembretes)){ // se um dia da semana nao constar no array de lembretes
+			
+			$data = getDataDiaDaSemana($diaDaSemana);// descobrir a data do dia da semana
+			
+			$inicioDataRemocao = ($data . 'T00:00:00.000z'); // define o inicio do dia de remocao
+			$finalDataRemocao = (($data, strtotime("+6 days")) . 'T23:59:59.000z'); // define o final do dia de remocao
+			
+			$eventosSemanaisIcloud = $icloud_calendar->get_events($inicioDataRemocao, $finalDataRemocao); // armazena os eventos no periodo da semana atual
+			// listar os eventos do icloud no diaDaSemana
+			// armazenar o(s) UID(s) do(s) evento(s) do diaDaSemana
+			// verificar se os eventos sao do tipo localizesenac
+				//$icloud_calendar->remove_event($eventoDiario['UID']); // excluir os eventos do tipo localizesenac do icloud no dia da semana
+				// excluir os eventos do tipo do tipo icloud na tabela aluno_lembrete no dia da semana
+		}
+	}
+	*/
+
 	// DESMEMBRA O ARRAY DE DISCIPLINAS, ARMAZENA NAS VARIAVEIS LOCAIS E EFETUA A CRIACAO DOS EVENTOS POR DISCIPLINA
 	foreach($arrayDisciplinas as $campoDisciplina) {
 		//disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
@@ -58,7 +193,6 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
 		$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade. ' - Sala: ' . $sala;
 		
-		date_default_timezone_set('America/Sao_Paulo'); // define o timezone
 
 		// DEFINE OS PERIODOS MAXIMOS DIARIOS DOS LEMBRETES
 		$horaInicioDiaLetivo = '07:00:00';
@@ -104,7 +238,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 			//$diaSemanaAtual = getDiaSemana($diaAtual); // atualizar a variavel diaSemanaAtual
 			$diaSemanaAtual = getNomeDiaSemana(getDiaSemana($diaAtual)); // atualizar a variavel diaSemanaAtual (pega o dia abrevidado pela data, pega o dia estendido pelo dia abreviado)
 			
-			if($diaSemanaAtual == $dia){ // verifica se o dia da semana atual e igual ao dia recebido como parametro
+			if($diaSemanaAtual == $dia){ // verifica se o dia da semana atual e igual ao dia recebido como parametro de insercao de lembrete
 				$dataDoEvento = $diaAtual; // varivel de data do evento recebe a data do proximo dia da semana correspondente
 				$i = 7; // forca a saida do FOR
 			}
@@ -120,44 +254,12 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		$final = ($dataDoEvento. 'T' . $horaFinalDiaLetivo . '.000z'); // cria a string com o dia atual e ultimo horario letivo
 		//$final = ($dataDoEvento. 'T' . $horaFinalAula . '.000Z'); // cria a string com o dia atual e ultimo horario do turno
 	
-		// cria um array com os valores dos servidores iCloud
-		$icloudServers = array();
-		for($i = 1; $i < 25; $i++)
-			$icloudServers[] = "p" . str_pad($i, 2, '0', STR_PAD_LEFT);
-	
-		// Connection settings
-		//$my_icloud_server = 'p02';
-		$my_icloud_server = $icloudServers[rand(0,23)]; // seleciona um dos servidores aleatoriamente
-		
-		//echo "Servidor iCloud selecionado: " . $my_icloud_server . "\n";
-		
-		//$my_user_id = '1759380956';
-		$my_user_id = $idIcloud; // armazena o id do usuario vindo do POST
-		$my_calendar_id= 'home'; // define o calendario pessoal como o calendario de destino do evento
-		//$my_icloud_username = 'xxx@icloud.com';
-		$my_icloud_username = $userIcloud; // define o usuario para cadastrar o evento
-		//$my_icloud_password = 'xxx';
-		$my_icloud_password = $pwIcloud; // define a senha para cadastrar o evento
-
-		// iCloud calendar object
-		$icloud_calendar = new php_icloud_calendar($my_icloud_server, $my_user_id, $my_calendar_id, $my_icloud_username, $my_icloud_password);
-
-		//foreach($my_events as $event) echo $event->SUMMARY;
-
 		$dataHoraInicioEvento = ($dataDoEvento . 'T' . $horaInicioAula. '.000'); // define a data e hora de inicio do evento
 		$dataHoraFinalEvento = ($dataDoEvento . 'T' . $horaFinalAula. '.000'); // define a data e hora de final do evento
-
-		// Get iCloud events
-		//$my_range_date_time_from = date("Y-m-d H:i:s", strtotime("-1 week"));
-		//$my_range_date_time_to = date("Y-m-d H:i:s", strtotime("+1 week"));
-
-		//$my_events = $icloud_calendar->get_events($my_range_date_time_from, $my_range_date_time_to);
 		
-		// ARMAZENA OS EVENTOS DENTRO DO PERIODO DO EVENTO QUE ESTA SENDO INCLUIDO
+		/*
+		// METODO 2 - ARMAZENA OS EVENTOS DENTRO DO PERIODO DO EVENTO QUE ESTA SENDO INCLUIDO
 		$my_events = $icloud_calendar->get_events($dataHoraInicioEvento, $dataHoraFinalEvento);
-		
-		//echo "Eventos no dia" . $dataDoEvento . "\n";
-		//var_dump($my_events);
 		
 		// SE RETORNOU EVENTOS NO MESMO PERIODO
 		if($my_events){
@@ -181,6 +283,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 				
 			}
 		}
+		*/
 		
 		// Add iCloud event
 		$icloud_calendar->add_event($dataHoraInicioEvento, 
@@ -195,9 +298,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		
 		
 		
-		// PROCEDIMENTO DE INCLUIR OS LEMBRETES NO BANCO DE DADOS
-		// conectar no banco
-		mysql_set_charset('UTF8', $_SG['link']);
+		// PROCEDIMENTO DE INCLUIR OS LEMBRETES NA TABELA aluno_lembrete NO BANCO DE DADOS
 		
 		$dia = strtoupper(substr($dia, 0, 3)); // armazena os tres primeiros caracteres do dia
 		
@@ -218,7 +319,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		// executa a query para verificar se o aluno ja possui lembretes
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		
-		echo "O numero de lembretes icloud e: " . mysql_num_rows($result) . "\n";
+		//echo "O numero de lembretes icloud e: " . mysql_num_rows($result) . "\n";
 		
 		$disciplina = trim($disciplina);
 		
@@ -263,7 +364,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		// EXCLUI LEMBRETES PARA DISCIPLINAS INEXISTENTES PARA O ALUNO 
 		if(mysql_num_rows($result6) != 0){ // se encontrou lembretes sem disciplina associada ao aluno
 			while($row = mysql_fetch_array($result6)) { // para cada linha do resultset
-					echo "Exclui o lembrete ID: " . $row['id'] . "\n";
+					//echo "Exclui o lembrete ID: " . $row['id'] . "\n";
 					$sql7 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
 					$result7 = mysql_query($sql7) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 			}
@@ -274,7 +375,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		if(mysql_num_rows($result) != 0){ // se encontrou lembretes icloud para o aluno
 			while($row = mysql_fetch_array($result)) { // para cada linha do resultset
 					$sql4 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
-					echo "SQL4: " . $sql4 . "\n";
+					//echo "SQL4: " . $sql4 . "\n";
 					$result4 = mysql_query($sql4) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 			}
 		}
