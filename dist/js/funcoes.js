@@ -310,6 +310,46 @@ function armazenaDisciplinas() {
 		return disciplinasDiaDaSemana; // retorna o array com as disciplinas de todos os dias da semana
     } // function armazenaDisciplinas()
 
+function verificaEventoApple(){
+	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
+	var url = "verificarEventoApple.php";
+	var objLembretesJson;
+	
+		// recebe como retorno um json com os lembretes (lembretesJson)
+	$.post(url, function(lembretesJsonIcloud) {
+		if (lembretesJsonIcloud == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+			console.log("O usuario logado não possui lembretes de disciplinas!");
+		}
+		else{ // se retornou com disciplinas
+			console.log("Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
+			
+			objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
+			console.log(objLembretesJson);	
+			
+			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
+			for (i = 0; i < objLembretesJson.length; i++) {
+				
+				diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJson[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
+				//alert(diaDaSemanaLembrete);
+				
+				var inputIcloud = "#minutosIcloud"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+				var labelIcloud = "#labelIcloud"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+
+				var arrayMinutos = objLembretesJson[i].minutos; // recebe os minutos do lembrete
+				
+				$(inputIcloud).show(); // exibe o input para os minutos de Email neste dia da semana
+				$(labelIcloud).show(); // exibe o label do input para os minutos de Email neste dia da semana
+				$(inputIcloud).val(arrayMinutos[0]); // recebe o valor de antecedencia do lembrete
+						
+				$('#lembrarIcloud'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox
+			} //for (i = 0; i < objLembretesJson.length; i++)
+			
+		
+		} // se identificou disciplinas com lembretes	
+		
+	});
+	
+}
 
 function verificaEventoGoogle(){
 
@@ -570,8 +610,12 @@ function carregaCalendarioSemana(){
 		$('.minutosSms').val('');
 
 
-		// funcao que verifica se existem eventos gravados na ageda
-		verificaEventoGoogle();			
+		// verificar se o aluno for autenticado pelo google mandar verificar eventos google
+		if(tipoUsuario == "google"){
+			verificaEventoGoogle();	// funcao que verifica se existem eventos gravados na agenda
+		}
+		// para todos verificar os lembretes Pemail, Zsms, icloud
+		verificaEventoApple();
 		
 		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
 		$('.lembrarSms').change(function () { // quando algum checkbox desta classe mudar de status

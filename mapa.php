@@ -81,6 +81,7 @@
 	
 	<script>
 	$( document ).ready(function() {
+		$('#menuCategoria > ul').removeClass('in'); // fecha os menus laterais da pagina principal
 		resetPanel();
 		setTimeout(map.invalidateSize.bind(map),200);
 	});

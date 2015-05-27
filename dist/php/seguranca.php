@@ -32,7 +32,11 @@ mysql_select_db($_SG['banco'], $_SG['link']) or die("MySQL: Não foi possível c
 
 // Verifica se precisa iniciar a sessão
 if ($_SG['abreSessao'] == true) {
-session_start();
+	
+	if(!isset($_SESSION)){
+		session_start();
+	}
+//session_start();
 }
 
 $_SESSION['conexao'] = $_SG['link'];

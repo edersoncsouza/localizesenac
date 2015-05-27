@@ -11,6 +11,7 @@ require_once('addons/ics-parser/class.iCalReader.php');
 // Load iCloud Calendar class
 require_once('class.iCloudCalendar.class.php');
 include('../dist/php/funcoes.php');
+include('../dist/php/seguranca.php'); // Inclui o arquivo com o sistema de segurança
 session_start();
 
 // iCloud CalDAV URL looks like:
@@ -44,6 +45,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		$unidade = $campoDisciplina['unidade'];
 		$disciplina = $campoDisciplina['disciplina'];
 		
+		$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete icloud
+		
 		// DESMEMBRA O ARRAY DE LEMBRETES E ARMAZENA OS MINUTOS DE ANTECEDENCIA DO DIA DA  SEMANA DA DISCIPLINA ATUAL 
 		foreach($arrayLembretes as $campoLembrete) {
 			$diaLembrete = $campoLembrete['dia'];
@@ -67,6 +70,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 			$dataInicioSemestre = '20150223T070000Z'; // 20150710T230000Z - Formato Classe class.iCloudCalendar.class.php
 			//$dataFinalSemestre = '2015-07-10T23:00:00.000Z'; // formato API PHP Google Calendar
 			$dataFinalSemestre = '20150710T230000Z'; // 20150710T230000Z - Formato Classe class.iCloudCalendar.class.php
+			$dataFinal = '2015-07-10T23:00:00.000Z'; // incluido para inserir o lembrete na tabela aluno_lembrete
 			//echo "Primeiro Semestre <BR>";
 		}
 		else{ // se for de julho a dezembro
@@ -74,6 +78,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 			$dataInicioSemestre = '20150801T070000Z'; // 20150710T230000Z - Formato Classe class.iCloudCalendar.class.php
 			//$dataFinalSemestre = '2015-12-12T23:00:00.000Z'; // formato API PHP Google Calendar
 			$dataFinalSemestre = '20151212T235959Z'; // 20150710T230000Z - Formato Classe class.iCloudCalendar.class.php
+			$dataFinal = '2015-12-12T23:59:59.000Z'; // incluido para inserir o lembrete na tabela aluno_lembrete
 			//echo "Segundo Semestre <BR>";
 		}
 		
@@ -151,8 +156,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		// ARMAZENA OS EVENTOS DENTRO DO PERIODO DO EVENTO QUE ESTA SENDO INCLUIDO
 		$my_events = $icloud_calendar->get_events($dataHoraInicioEvento, $dataHoraFinalEvento);
 		
-		echo "Eventos no dia" . $dataDoEvento . "\n";
-		var_dump($my_events);
+		//echo "Eventos no dia" . $dataDoEvento . "\n";
+		//var_dump($my_events);
 		
 		// SE RETORNOU EVENTOS NO MESMO PERIODO
 		if($my_events){
@@ -169,11 +174,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 				
 					// SE O EVENTO FOR DO TIPO LOCALIZESENAC APAGA O MESMO
 					if (substr($event['SUMMARY'], 0, 13) == "LocalizeSenac"){
-						//echo "SUMARIO do evento: " . $event['SUMMARY'] . "\n";
-							// deletar o evento a partir do UID // http://www.simplemachines.org/community/index.php?topic=520893.0
-						//$UID_evento
-							 $icloud_calendar->remove_event($UID_evento);
-							 echo "UID do evento removido: " . $UID_evento . "\n";
+						 $icloud_calendar->remove_event($UID_evento);
+						 echo "UID do evento removido: " . $UID_evento . "\n";
 					}
 				}
 				
@@ -191,6 +193,101 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 									$dataFinalSemestre
 									);
 		
+		
+		
+		// PROCEDIMENTO DE INCLUIR OS LEMBRETES NO BANCO DE DADOS
+		// conectar no banco
+		mysql_set_charset('UTF8', $_SG['link']);
+		
+		$dia = strtoupper(substr($dia, 0, 3)); // armazena os tres primeiros caracteres do dia
+		
+		// monta a query de pesquisa de lembretes do icloud
+		$sql = "SELECT
+					aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+				FROM
+					aluno_lembrete, aluno
+				WHERE
+					matricula = \"{$_SESSION['usuarioLogin']}\"
+				AND 
+					dia_semana = \"{$dia}\"
+				AND
+					turno = \"{$turno}\"
+				AND
+					tipo = \"{$tipoLembrete}\"";
+					
+		// executa a query para verificar se o aluno ja possui lembretes
+		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		
+		echo "O numero de lembretes icloud e: " . mysql_num_rows($result) . "\n";
+		
+		$disciplina = trim($disciplina);
+		
+		// monta a query de pesquisa de id de disciplina
+		$sql2 = "SELECT id FROM disciplina WHERE nome = \"$disciplina\"";
+		// executa a query para armazenar o id da disciplina
+		$result2 = mysql_query($sql2) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+	
+		$idDisciplina =  mysql_result($result2,0); // recebe o id da disciplina
+		
+		$andarSala = substr($sala, 0, 1); // recebe o primeiro caractere do numero da sala como andar
+
+		// monta a query de pesquisa de id de usuario
+		$sql3 = "SELECT id FROM aluno WHERE matricula = \"{$_SESSION['usuarioLogin']}\"";
+		// executa a query para armazenar o id do aluno
+		$result3 = mysql_query($sql3) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		
+		$idAluno = mysql_result($result3,0); // recebe o id do aluno
+		
+		// ARMAZENA A ID DE LEMBRETES PARA DISCIPLINAS INEXISTENTES PARA O ALUNO
+		$sql6 = "SELECT
+					id
+				FROM
+					aluno_lembrete
+				WHERE
+					`fk_id_aluno` = \"{$idAluno}\"
+				AND
+					tipo = \"icloud\"
+				AND
+					(fk_id_aluno, fk_id_disciplina, dia_semana, turno)
+
+				NOT IN (
+					SELECT
+						fk_id_aluno, fk_id_disciplina, dia_semana, turno
+					FROM 
+						aluno_disciplina
+					WHERE
+						`fk_id_aluno` =  \"{$idAluno}\"
+				)";
+		$result6 = mysql_query($sql6) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		
+		// EXCLUI LEMBRETES PARA DISCIPLINAS INEXISTENTES PARA O ALUNO 
+		if(mysql_num_rows($result6) != 0){ // se encontrou lembretes sem disciplina associada ao aluno
+			while($row = mysql_fetch_array($result6)) { // para cada linha do resultset
+					echo "Exclui o lembrete ID: " . $row['id'] . "\n";
+					$sql7 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
+					$result7 = mysql_query($sql7) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+			}
+		}
+			
+			
+		// EXCLUI OS LEMBRETES DO icloud DA TABELA aluno_lembrete
+		if(mysql_num_rows($result) != 0){ // se encontrou lembretes icloud para o aluno
+			while($row = mysql_fetch_array($result)) { // para cada linha do resultset
+					$sql4 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
+					echo "SQL4: " . $sql4 . "\n";
+					$result4 = mysql_query($sql4) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+			}
+		}
+		
+		// INSERE OS LEMBRETES NA TABELA aluno_lembrete
+		
+		// monta a query de insercao de lembrete
+		$sql5 = "INSERT INTO
+			`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
+		VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$minutosAntec}', '{$dataDoEvento}', '{$dataFinal}'  ) "; 						
+		// executa a query para armazenar o lembrete em banco na tabela aluno_lembrete
+		$result5 = mysql_query($sql5) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+
 	}	
 }//if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes']))
 else

@@ -188,7 +188,7 @@ function defineAcordion(){
 
     while ($consulta = mysql_fetch_array($result)) {
 	
-        echo "<li id=\"menuCategoria\">"; // cria a estrutura do menu de categoria
+        echo "<li id=\"menuCategoria\" class=\"\">"; // cria a estrutura do menu de categoria
 			echo "<a href=\"#\"><i class=\" {$consulta['parametro_imagem']} \"></i> $consulta[nome] <span class=\"fa arrow\"></span></a>";
 
 			/* Escrever itens secundarios do menu */

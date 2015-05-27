@@ -71,14 +71,14 @@ PENDENCIAS LOCAIS:
 	<!-- Bootbox -->
 	<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
 
-	<!-- Underscore -->
-	<script src="dist/components/underscore/js/underscore-min.js" type="text/javascript"></script>	
+	<!-- Underscore 
+	<script src="dist/components/underscore/js/underscore-min.js" type="text/javascript"></script>	-->
 	
 	<!-- Moment -->
-	<script src="dist/components/moment/js/moment.js" type="text/javascript"></script>
+	<script src="dist/components/moment/js/moment.js" type="text/javascript"></script> 
 
-	<!-- CLNDR -->
-	<script src="dist/components/CLNDR/js/clndr.min.js" type="text/javascript"></script>
+	<!-- CLNDR 
+	<script src="dist/components/CLNDR/js/clndr.min.js" type="text/javascript"></script> -->
 	
 	<!-- eventCalendar -->
 	<script src="dist/components/eventCalendar/js/jquery.eventCalendar.min.js" type="text/javascript"></script>	
@@ -86,10 +86,7 @@ PENDENCIAS LOCAIS:
 <script>
 $(document).ready(function() {
 	
-	
-	$('#collapseOne').collapse("hide"); // tentar iniciar com os menus fechados
-	//$('ul.child').hide();
-	
+	$('#collapseOne').collapse("hide"); // oculta o calendário da agenda academica
 	
 	// eventos "inline" para a agenda
 	var eventsInline = [
@@ -197,7 +194,10 @@ $(document).ready(function() {
 	selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 	
 	//$("#inlineEventcalendar").load('testeClndr/calendario.php'); // carrega o conteudo da pagina de agenda de eventos na div inlineEventcalendar
-			
+	//$('li#menuCategoria').removeClass('active'), 10000);
+	//#menuCategoria
+
+
 });
 </script>
 
@@ -256,7 +256,7 @@ $(document).ready(function() {
             <div class="navbar-default sidebar" role="navigation">
 			
                 <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
+                    <ul class="nav in" id="side-menu">
                         
 						<!-- caixa de pesquisa -->
 						
@@ -293,7 +293,7 @@ $(document).ready(function() {
 						
 						<!-- função PHP que faz a query e cria o menu lateral e seus itens -->
 						<!-- tambem cria o vetor com as salas para utilizacao do typeahead -->
-						<?php defineAcordion(); ?>
+						<?php  defineAcordion(); ?>
 						
 						
 						<script type="text/javascript">

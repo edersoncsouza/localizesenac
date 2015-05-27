@@ -300,7 +300,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				// conectar no banco
 				mysql_set_charset('UTF8', $_SG['link']);
 				
-				$dia = substr($dia, 0, 3);
+				$dia = strtoupper(substr($dia, 0, 3));
 				
 				// monta a query de pesquisa de lembretes do google (sms ou email)
 				$sql = "SELECT
@@ -318,9 +318,6 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 							
 				// executa a query para verificar se o aluno ja possui lembretes
 				$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
-
-				echo "SQL: " . $sql . "\n";
-				echo "numero de linhas de sql: " . mysql_num_rows($result) . "\n";
 				
 				$disciplina = trim($disciplina);
 				// monta a query de pesquisa de id de disciplina
@@ -338,6 +335,37 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$result3 = mysql_query($sql3) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 				
 				$idAluno = mysql_result($result3,0);
+				
+				// ARMAZENA A ID DE LEMBRETES PARA DISCIPLINAS INEXISTENTES PARA O ALUNO
+				$sql6 = "SELECT
+							id
+						FROM
+							aluno_lembrete
+						WHERE
+							`fk_id_aluno` = \"{$idAluno}\"
+						AND
+							(tipo = 'sms' OR tipo = 'email')
+						AND
+							(fk_id_aluno, fk_id_disciplina, dia_semana, turno)
+
+						NOT IN (
+							SELECT
+								fk_id_aluno, fk_id_disciplina, dia_semana, turno
+							FROM 
+								aluno_disciplina
+							WHERE
+								`fk_id_aluno` =  \"{$idAluno}\"
+						)";
+				$result6 = mysql_query($sql6) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+				
+				// EXCLUI LEMBRETES PARA DISCIPLINAS INEXISTENTES PARA O ALUNO 
+				if(mysql_num_rows($result6) != 0){ // se encontrou lembretes sem disciplina associada ao aluno
+					while($row = mysql_fetch_array($result6)) { // para cada linha do resultset
+							echo "Exclui o lembrete ID: " . $row['id'] . "\n";
+							$sql7 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
+							$result7 = mysql_query($sql7) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+					}
+				}
 				
 				// EXCLUI OS LEMBRETES DO GOOGLE DA TABELA aluno_lembrete
 				if(mysql_num_rows($result) != 0){ // se encontrou lembretes do google para o aluno
