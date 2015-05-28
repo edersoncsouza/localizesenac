@@ -255,6 +255,28 @@ function defineAcordion(){
         //$i++;
     }
 }
+
+
+function existeLembrete($tipoLembrete){
+
+	// monta a query de pesquisa de lembretes do tipo fornecido
+	$sql = "SELECT
+				aluno_lembrete.id
+			FROM
+				aluno_lembrete, aluno
+			WHERE
+				matricula = \"{$_SESSION['usuarioLogin']}\"
+			AND
+				tipo = \"{$tipoLembrete}\"";
+				
+	// executa a query para verificar se o aluno possui lembretes do tipo fornecido
+	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+	
+	if(mysql_num_rows($result) > 0) // se houverem lembretes do tipo fornecido
+		return true;
+	else
+		return false;
+}
 	
 ?>
 

@@ -114,15 +114,23 @@ function diaDaSemanaIntermediario(diaNumerico) {
     return n; // retorna o dia da semana
 }
 
-function getNomeDiaSemana(data) {
+// funcao auxiliar para transformar nomes reduzidos e em maiusculas para nomes intermediarios em minusculas
+function getNomeDiaSemana(diaReduzidoMaiusculas) {
 	var apelidoDiaSemana = new Array("DOM","SEG","TER","QUA","QUI","SEX","SAB");
 	var nomeDiaSemana = new Array("domingo","segunda","terça","quarta","quinta","sexta","sábado");
 	
-	var indice = apelidoDiaSemana.indexOf(data);
+	var indice = apelidoDiaSemana.indexOf(diaReduzidoMaiusculas);
 	var retornoNomeDiaSemana = nomeDiaSemana[indice];
 	
 	return retornoNomeDiaSemana;
 	
+}
+
+// funcao auxiliar para retornar o numero do dia da semana pelo nome do dia da semana
+function getIndexDia(){
+	
+	
+
 }
 
 // function armazenaLembretes() -  
@@ -358,7 +366,6 @@ function verificaEventoGoogle(){
 
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
 	var url = "verificarEvento.php";
-	var objJson;
 
 	// recebe como retorno um json com os lembretes (lembretesJson)
 	$.post(url, function(lembretesJson) {
@@ -461,7 +468,6 @@ function carregaCalendarioSemana(){
 		// apos carregar insere a funcionalidade de voltar a pagina principal ao botao sairDisciplina
 		$('button#sairDisciplina').click( function() {
 			
-			//var diaDaSemana = $(this).attr('id').toUpperCase().substr(0,3); // constroe e armazena a string do dia da semana ex.: SEG
 			var arrayLembretes = armazenaLembretes();
 			var arrayDisciplinas = armazenaDisciplinas();
 			var arrayLembretesPhpmailer = [];
@@ -479,7 +485,7 @@ function carregaCalendarioSemana(){
 			// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE
 			for (i = 0; i < arrayLembretes.length; i++){ // laço que percorre todos os lembretes e desmembra por tipo
 				
-				if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){							
+				if( (arrayLembretes[i].tipoLembrete == "sms") || (arrayLembretes[i].tipoLembrete == "email")){ // se for lembrete Google						
 					arrayLembretesGoogle.push(arrayLembretes[i]); // adiciona o lembrete do dia da semana ao array
 					diaDaSemana = arrayLembretes[i].dia; // armazena o dia da semana do lembrete
 					
@@ -560,6 +566,43 @@ function carregaCalendarioSemana(){
 			
 			if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple não estiver vazio
 				
+				// RETORNA E COMPARA OS LEMBRETES DO USUARIO DA TABELA aluno_lembrete COM OS LEMBRETES ARMAZENADOS DE alunoConfig
+				var url = "verificarEventoApple.php";
+					var objLembretesJson;
+	
+				// recebe como retorno um json com os lembretes (lembretesJson)
+				$.post(url, function(lembretesJsonIcloud) {
+					if (lembretesJsonIcloud == 0){// caso o retorno de verificarEventoApple.php seja = 0
+						console.log("if(arrayLembretesApple[0] != null) : O usuario logado não possui lembretes de disciplinas!");
+					}
+					else{ // se retornou com disciplinas
+						console.log("if(arrayLembretesApple[0] != null): Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
+						objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
+						console.log("if(arrayLembretesApple[0] != null): Array de objetos de lembretes: " + JSON.stringify(objLembretesJson));	
+						
+						// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
+						for (i = 0; i < objLembretesJson.length; i++) {
+							
+							objLembretesJson[i].diaDaSemana = getNomeDiaSemana(objLembretesJson[i].diaDaSemana); // altera os nomes dos dias de TER para terça por exemplo
+							var diaCompara = objLembretesJson[i].diaDaSemana; // recebe os dias da semana do lembrete vindo de aluno_lembrete
+							var minutosCompara = objLembretesJson[i].minutos; // recebe os minutos do lembrete vindo de aluno_lembrete
+						}
+						
+						console.log("if(arrayLembretesApple[0] != null): Array de objetos de lembretes com nomes por extenso: " + JSON.stringify(objLembretesJson));
+						
+						// COMPARA SE NÃO HOUVERAM ALTERACOES NO TIPO DE LEMBRETE E MINUTOS
+						// comparar se qtdade de registros de objLembretesJson e igual a de arrayLembretesApple
+						// ordenar ambos arrays e comparar se o conjunto de valores dos registros sao iguais
+						
+						// COMPARA SE NÃO HOUVERAM ALTERACOES NAS DISCIPLINAS E TURNOS POR DIA
+						// verificar em aluno_lembrete, se no dia e turno de cada lembrete a unidade, sala e disciplina sao as mesmas de arrayDisciplinas
+						// ex. arrayDisciplinas: [{"unidade":"1","turno":"N","dia":"segunda","sala":"301","disciplina":" Tópicos Avançados em ADS "},{"unidade":"1","turno":"M","dia":"segunda","sala":"102","disciplina":" Algoritmos e Programação I"},
+						
+						// SE HOUVERAM ALTERACOES ENVIA PARA ICLOUD-ORIGINAL.PHP
+						// SENAO APENAS RETORNA PARA PRINCIPAL.PHP
+					}
+				});
+				
 				// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
 				localStorage.clear();
 				localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
@@ -568,13 +611,28 @@ function carregaCalendarioSemana(){
 				// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
 				window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
 				
+			}else{ // se o array de lembretes icloud vindo de configAluno.php estiver vazio
+				
+				// verifica se existem lembretes icloud no aluno_lembrete
+				var url = "verificarEventoApple.php";
+	
+				// recebe como retorno um json com os lembretes (lembretesJsonIcloud)
+				$.post(url, function(lembretesJsonIcloud) {
+					if (lembretesJsonIcloud != 0){// caso o retorno de verificarEventoApple.php seja diferente de 0
+						// se houverem 
+							// apagar os lembretes do banco
+							$.post("icloud_calendar/excluirLembretesApple.php");
+							
+							// autenticar no icloud e apagar eventos
+							window.location.href = "icloud_calendar/excluirEventoApple.php";
+					}
+				});	
 			}
-			else{
-				// DEPOIS DE GRAVAR TODOS OS LEMBRETES NA AGENDA DO USUARIO VOLTA A PAGINA PRINCIPAL
-				var url = "principal.php";
-				$("body").load(url);	
-			}
-
+			
+			// DEPOIS DE GRAVAR TODOS OS LEMBRETES NA AGENDA DO USUARIO VOLTA A PAGINA PRINCIPAL
+			var url = "principal.php";
+			$("body").load(url);
+			
 		}); // $('button#sairDisciplina').click( function()
 		
 		// apos carregar insere a funcionalidade de abrir o modal aos botoes incluiDisciplina e editaDisciplina
