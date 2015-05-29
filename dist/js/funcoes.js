@@ -126,13 +126,6 @@ function getNomeDiaSemana(diaReduzidoMaiusculas) {
 	
 }
 
-// funcao auxiliar para retornar o numero do dia da semana pelo nome do dia da semana
-function getIndexDia(){
-	
-	
-
-}
-
 // function armazenaLembretes() -  
 // verifica quais checkboxes de lembretes estao marcados em cada dia da semana
 // armazena os tipos e minutos de antecedencia de lembretes
@@ -322,7 +315,7 @@ function armazenaDisciplinas() {
  */
 function verificaEventoApple(){
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
-	var url = "verificarEventoApple.php";
+	var url = "icloud_calendar/verificarEventoApple.php";
 	var objLembretesJson;
 	
 		// recebe como retorno um json com os lembretes (lembretesJson)
@@ -564,61 +557,174 @@ function carregaCalendarioSemana(){
 					);
 			}
 			
-			if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple não estiver vazio
+			if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple contiver lembretes icloud
+				
+				var elementosIguais = false; // inicia com a variavel afirmando que a quantidade de lembretes ou minutos nao sao iguais
+				var disciplinasIguais = false; // inicia com a variavel afirmando que as disciplinas com lembretes na tela e em aluno_lembrete nao sao iguais
 				
 				// RETORNA E COMPARA OS LEMBRETES DO USUARIO DA TABELA aluno_lembrete COM OS LEMBRETES ARMAZENADOS DE alunoConfig
-				var url = "verificarEventoApple.php";
-					var objLembretesJson;
+				var url = "icloud_calendar/verificarEventoApple.php";
+					var objLembretesJson; // array javascript de lembretes vindos de aluno_lembrete
 	
-				// recebe como retorno um json com os lembretes (lembretesJson)
+				// RECEBE COMO RETORNO UM JSON COM OS LEMBRETES (lembretesJson)
 				$.post(url, function(lembretesJsonIcloud) {
-					if (lembretesJsonIcloud == 0){// caso o retorno de verificarEventoApple.php seja = 0
-						console.log("if(arrayLembretesApple[0] != null) : O usuario logado não possui lembretes de disciplinas!");
+					if (lembretesJsonIcloud == 0){// se nao houverem lembretes icloud no banco
+						console.log("if(arrayLembretesApple[0] != null) : O usuario logado ainda não possui lembretes de disciplinas do tipo icloud!");
+						
+						// se chegou aqui ainda nem existem lembretes gravados e tem que inserir os lembretes
+						
+						// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+						localStorage.clear();
+						localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+						localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+						
+						// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+						window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
 					}
 					else{ // se retornou com disciplinas
-						console.log("if(arrayLembretesApple[0] != null): Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
-						objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
-						console.log("if(arrayLembretesApple[0] != null): Array de objetos de lembretes: " + JSON.stringify(objLembretesJson));	
+					
+						console.log("if(arrayLembretesApple[0] != null) lembretesJsonIcloud: " + lembretesJsonIcloud);
+
+						objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array (ordenado por dia)	
 						
-						// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
-						for (i = 0; i < objLembretesJson.length; i++) {
+						arrayLembretesApple.sort(dynamicSort("dia")); // ordena o array pelo dia da semana para comparacao
+						
+						// PROCESSO DE VERIFICACAO SE HOUVE ALTERACOES NOS LEMBRETES ICLOUD DE CADA DIA
+						// O array arrayLembretesApple vem da verificacao de todos os checkboxes do tipo icloud da area academico
+						// O array objLembretesJson vem do retorno da query na tabela aluno_lembrete
+						
+						if(arrayLembretesApple.length == objLembretesJson.length){ // se os dois arrays tiverem o mesmo tamanho
 							
-							objLembretesJson[i].diaDaSemana = getNomeDiaSemana(objLembretesJson[i].diaDaSemana); // altera os nomes dos dias de TER para terça por exemplo
-							var diaCompara = objLembretesJson[i].diaDaSemana; // recebe os dias da semana do lembrete vindo de aluno_lembrete
-							var minutosCompara = objLembretesJson[i].minutos; // recebe os minutos do lembrete vindo de aluno_lembrete
-						}
+							elementosIguais = true; // parte do principio que sao iguais
+							
+							for (j = 0; j < arrayLembretesApple.length; j++) { // laco que percorre todo o array
+								
+								// se em algum dos elementos os nomes dos dias e minutos nao forem iguais em ambos
+								if ( !( (arrayLembretesApple[j].dia == getNomeDiaSemana(objLembretesJson[j].diaDaSemana)) && (arrayLembretesApple[j].minutos == objLembretesJson[j].minutos) )){
+									
+									//alert("DIA - Array tela: " + arrayLembretesApple[j].dia + " - Array banco: " + objLembretesJson[j].diaDaSemana);
+									//alert("MINUTOS - Array tela: " + arrayLembretesApple[j].minutos + " - Array banco: " + objLembretesJson[j].minutos);
+									elementosIguais = false; // afirma que algum dos elementos nao e igual
+								}
+								
+							}
+													
+							if(elementosIguais){ // se os dias e minutos dos lembretes forem iguais, confirma as disciplinas
+								
+								// COMPARA SE NÃO HOUVERAM ALTERACOES NAS DISCIPLINAS E TURNOS POR DIA
+								// verificar em aluno_lembrete, se no dia e turno de cada lembrete a unidade, sala e disciplina sao as mesmas de arrayDisciplinas
+								// ex. objLembretesJson: [{"diaDaSemana":"QUA","minutos":"7","turno":"N","unidade":"1","sala":"603","disciplina":"28"},{"diaDaSemana":"QUI","minutos":"8","turno":"N","unidade":"1","sala":"409","disciplina":"31"},
+								// ex. objDisciplinasAlunoJson: [{"dia":"QUA","turno":"N","unidade":"1","sala":"603","disciplina":"28"},
+								
+								var urlDisciplina = "buscarDisciplinasAluno.php";
+								var objDisciplinasAlunoJson; // array de objetos javascript para as disciplinas de aluno_disciplina
+								
+								$.post(urlDisciplina, function(disciplinasAluno) {
+								
+									if (disciplinasAluno == 0){// se nao houverem disciplinas para o aluno
+										console.log("buscarDisciplinasAluno : O usuario logado não possui disciplinas!");
+									}
+									else{ 
+										objDisciplinasAlunoJson = $.parseJSON(disciplinasAluno); // transforma em array de objetos javascript
+										
+										console.log("Disciplinas com lembretes icloud(Array objLembretesJson, vindo de aluno_lembrete): " +  JSON.stringify(objLembretesJson));
+										console.log("Disciplinas do aluno(Array: objDisciplinasAlunoJson, vindo de aluno_disciplina): " +  JSON.stringify(objDisciplinasAlunoJson));
+										
+										disciplinasIguais = true; //inicia afirmando que as disciplinas sao iguais pois a logica do filter adiante e ao contrario
+										
+										for (i = 0; i < arrayLembretesApple.length; i++) { // laco que percorre todo o array de disciplinas com lembretes icloud
+
+											
+											if(!(
+													objDisciplinasAlunoJson.filter(function (el) { // filtra um registro de aluno_disciplina exatamente igual ao aluno_lembrete
+													  return el.dia == objLembretesJson[i].diaDaSemana &&
+															 el.turno == objLembretesJson[i].turno &&
+															 el.unidade == objLembretesJson[i].unidade &&
+															 el.sala == objLembretesJson[i].sala &&
+															 el.disciplina == objLembretesJson[i].disciplina;
+													}) 
+												) // nega o resultado 
+											){ // se nao encontrou executa o alert e muda o valor do boolean
+												alert("Esta disciplina nao combina com aluno_lembrete: " + JSON.stringify(objDisciplinasAlunoJson[i]));
+												disciplinasIguais = false;
+											}
+											else{ // se achou igual
+												console.log("Achei disciplina em aluno_disciplina que combina com aluno_lembrete: " + JSON.stringify(objDisciplinasAlunoJson[i]));
+											}
+											
+										}
+										
+										if(disciplinasIguais){ // se os lembretes vindos da tela sao iguais aos armazenados em banco
+											
+											// carrega a pagina principal evitando alteracoes
+											var url = "principal.php";
+											$("body").load(url);
+											window.location.href = "principal.php";
+										}
+										else{ // se chegou aqui houveram alteracoes nas disciplinas e tem que reinserir os lembretes
+											
+											
+											// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+											localStorage.clear();
+											localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+											localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+											
+											// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+											window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+											
+										}										
+	
+									}
+								});
+								
+								
+								// SE HOUVERAM ALTERACOES ENVIA PARA ICLOUD-ORIGINAL.PHP
+								// SENAO APENAS RETORNA PARA PRINCIPAL.PHP
+								
+							} // FIM DO if(elementosIguais){ // se os dias e minutos dos lembretes forem iguais, confirma as disciplinas
+							
+							// se chegou aqui, a quantidade de lembretes e igual mas os dias ou minutos sao diferentes e tem que reinserir os lembretes
+							
+							$(document).ajaxStop(function () { // se nao houver nenhuma requisicao ajax rodando
+								  
+								if(!elementosIguais){
+									// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+									localStorage.clear();
+									localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+									localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+									
+									// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+									window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+								}
+							});
+							
+							
+						} //FIM DO if(arrayLembretesApple.length == objLembretesJson.length){ // se os dois arrays tiverem o mesmo tamanho
 						
-						console.log("if(arrayLembretesApple[0] != null): Array de objetos de lembretes com nomes por extenso: " + JSON.stringify(objLembretesJson));
-						
-						// COMPARA SE NÃO HOUVERAM ALTERACOES NO TIPO DE LEMBRETE E MINUTOS
-						// comparar se qtdade de registros de objLembretesJson e igual a de arrayLembretesApple
-						// ordenar ambos arrays e comparar se o conjunto de valores dos registros sao iguais
-						
-						// COMPARA SE NÃO HOUVERAM ALTERACOES NAS DISCIPLINAS E TURNOS POR DIA
-						// verificar em aluno_lembrete, se no dia e turno de cada lembrete a unidade, sala e disciplina sao as mesmas de arrayDisciplinas
-						// ex. arrayDisciplinas: [{"unidade":"1","turno":"N","dia":"segunda","sala":"301","disciplina":" Tópicos Avançados em ADS "},{"unidade":"1","turno":"M","dia":"segunda","sala":"102","disciplina":" Algoritmos e Programação I"},
-						
-						// SE HOUVERAM ALTERACOES ENVIA PARA ICLOUD-ORIGINAL.PHP
-						// SENAO APENAS RETORNA PARA PRINCIPAL.PHP
+							$(document).ajaxStop(function () { // se nao houver nenhuma requisicao ajax rodando
+								if(arrayLembretesApple.length != objLembretesJson.length){
+									// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+									localStorage.clear();
+									localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+									localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+									
+									// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+									window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+								}
+							});
 					}
-				});
 				
-				// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
-				localStorage.clear();
-				localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
-				localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+				}); // fim do postverificarEventoApple.php
 				
-				// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
-				window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
 				
-			}else{ // se o array de lembretes icloud vindo de configAluno.php estiver vazio
+			}else{ // se o array de lembretes icloud vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes icloud)
 				
-				// verifica se existem lembretes icloud no aluno_lembrete
-				var url = "verificarEventoApple.php";
+				// verifica se existem lembretes icloud na tabela aluno_lembrete
+				var url = "icloud_calendar/verificarEventoApple.php";
 	
 				// recebe como retorno um json com os lembretes (lembretesJsonIcloud)
 				$.post(url, function(lembretesJsonIcloud) {
-					if (lembretesJsonIcloud != 0){// caso o retorno de verificarEventoApple.php seja diferente de 0
+					if (lembretesJsonIcloud != 0){// caso existam eventos do tipo icloud em aluno_lembrete
 						// se houverem 
 							// apagar os lembretes do banco
 							$.post("icloud_calendar/excluirLembretesApple.php");
@@ -780,6 +886,29 @@ function carregaCalendarioSemana(){
 		
 	});// final do load calendarioSemana.php	
 }
+
+// funcao vinda de: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-property-value-in-javascript
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
+
+function atualizaIcloud(){
+	// ARMAZENA OS ARRAYS UTILIZANDO O STORAGE API DO HTML5
+	localStorage.clear();
+	localStorage.setItem('arrayLembretesApple', JSON.stringify(arrayLembretesApple));
+	localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
+	
+	// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
+	window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+}
 	
 /* FUNCOES PARA USO COM O TYPEAHEAD */
 
@@ -935,5 +1064,6 @@ function validaBusca() {
 
     });
 }
+
 
 	

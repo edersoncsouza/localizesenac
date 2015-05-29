@@ -35,7 +35,7 @@
 	<script>
 		$(document).ready(function() {
 			if(($('#appleID').val() == ""))
-			  bootbox.alert("Você selecionou a opção de receber aviso do iCalendar! Entre com suas credenciais");
+			  bootbox.alert("Você efetuou alterações em avisos do iCalendar! Entre com suas credenciais para efetivar as mudanças!");
 		  
 			$('#cancelaIcloud').click( function() {
 					var url = "../../../../principal.php";
