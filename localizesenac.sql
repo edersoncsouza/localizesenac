@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Máquina: localhost
--- Data de Criação: 25-Maio-2015 às 19:04
+-- Data de Criação: 29-Maio-2015 às 20:33
 -- Versão do servidor: 5.6.13
 -- versão do PHP: 5.4.17
 
@@ -85,7 +85,6 @@ INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_
 (41, 'QUI', 'N', 26, 1, 4, 409, 31),
 (27, 'SEG', 'N', 1, 1, 3, 301, 32),
 (38, 'SEG', 'N', 26, 1, 3, 301, 32),
-(35, 'SEX', 'M', 1, 1, 0, 102, 1),
 (17, 'SEX', 'N', 1, 1, 7, 704, 23),
 (42, 'SEX', 'N', 26, 1, 7, 704, 23),
 (14, 'TER', 'N', 1, 1, 6, 603, 30),
@@ -107,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `aluno_lembrete` (
   `fk_numero_sala` int(11) NOT NULL COMMENT 'FK da sala',
   `fk_id_disciplina` int(11) NOT NULL COMMENT 'FK da disciplina',
   `tipo` char(6) COLLATE utf8_unicode_ci NOT NULL COMMENT 'tipo de lembrete',
+  `minutosantec` int(11) DEFAULT NULL,
   `dt_inicio` date NOT NULL,
   `dt_final` date NOT NULL,
   PRIMARY KEY (`fk_id_aluno`,`dia_semana`,`turno`,`tipo`),
@@ -114,14 +114,24 @@ CREATE TABLE IF NOT EXISTS `aluno_lembrete` (
   KEY `fk_aluno_lembrete_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_lembrete_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
   KEY `fk_aluno_lembrete_disciplina1_idx` (`fk_id_disciplina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='tabela de lembretes' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='tabela de lembretes' AUTO_INCREMENT=210 ;
 
 --
 -- Extraindo dados da tabela `aluno_lembrete`
 --
 
-INSERT INTO `aluno_lembrete` (`id`, `fk_id_aluno`, `dia_semana`, `turno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `dt_inicio`, `dt_final`) VALUES
-(1, 26, 'SEG', 'N', 1, 3, 301, 32, 'sms', '2015-05-25', '2015-07-10');
+INSERT INTO `aluno_lembrete` (`id`, `fk_id_aluno`, `dia_semana`, `turno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `minutosantec`, `dt_inicio`, `dt_final`) VALUES
+(207, 1, 'QUA', 'N', 1, 6, 603, 28, 'icloud', 10, '2015-06-03', '2015-07-10'),
+(208, 1, 'QUI', 'N', 1, 4, 409, 31, 'icloud', 10, '2015-06-04', '2015-07-10'),
+(205, 1, 'SEG', 'N', 1, 3, 301, 32, 'icloud', 10, '2015-06-01', '2015-07-10'),
+(209, 1, 'SEX', 'N', 1, 7, 704, 23, 'icloud', 10, '2015-05-29', '2015-07-10'),
+(206, 1, 'TER', 'N', 1, 6, 603, 30, 'icloud', 10, '2015-06-02', '2015-07-10'),
+(107, 26, 'QUA', 'N', 1, 6, 603, 28, 'sms', 15, '2015-05-27', '2015-07-10'),
+(108, 26, 'QUI', 'N', 1, 4, 409, 31, 'sms', 20, '2015-05-28', '2015-07-10'),
+(105, 26, 'SEG', 'N', 1, 3, 301, 32, 'email', 5, '2015-06-01', '2015-07-10'),
+(104, 26, 'SEG', 'N', 1, 3, 301, 32, 'sms', 15, '2015-06-01', '2015-07-10'),
+(109, 26, 'SEX', 'N', 1, 7, 704, 23, 'sms', 15, '2015-05-29', '2015-07-10'),
+(106, 26, 'TER', 'N', 1, 6, 603, 30, 'sms', 15, '2015-05-26', '2015-07-10');
 
 -- --------------------------------------------------------
 
