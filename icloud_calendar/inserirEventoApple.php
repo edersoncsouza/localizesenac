@@ -299,7 +299,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		
 		
 		// PROCEDIMENTO DE INCLUIR OS LEMBRETES NA TABELA aluno_lembrete NO BANCO DE DADOS
-		
+		$dia = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $dia ) ); // remove acentuacao do dia (sábado)
 		$dia = strtoupper(substr($dia, 0, 3)); // armazena os tres primeiros caracteres do dia
 		
 		// monta a query de pesquisa de lembretes do icloud

@@ -13,17 +13,25 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 */	
 	//$tipoLembrete = $_POST[$tipoLembrete];
 	//$turno = $_POST['turno'];
-	$turno = "N";
+	$turno = "M";
 	$tipoLembrete = "icloud";
 	
 	$data = [];
 	
 	date_default_timezone_set('America/Sao_Paulo'); // define o timezone
-	//setlocale (LC_ALL, 'pt_BR');
 	setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf-8", "portuguese");
 
+	//setup php for working with Unicode data
+	mb_internal_encoding('UTF-8');
+	mb_http_output('UTF-8');
+	mb_http_input('UTF-8');
+	mb_language('uni');
+	mb_regex_encoding('UTF-8');
+	ob_start('mb_output_handler');
+
 	$diaAtual = date('d-m-Y'); // 29/05/15
-	$diaDaSemana = strtoupper(strftime("%a", strtotime($diaAtual))); // SEX
+	$diaDaSemana = strtoupper(strftime("%a", strtotime($diaAtual))); // (SÁB)
+	$diaDaSemana = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', utf8_encode($diaDaSemana) ) ); // remove acentos do dia da semana (SAB)
 	
 	$diaEnvio = date('d/m/Y', strtotime($diaAtual))	;
 	
@@ -67,8 +75,6 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 			
 			$data[] = array('celular' => "55" . preg_replace("/[^0-9]/","", $row[0]), 'disciplina' => "Aula - " . $row[1], 'unidade' => "Unidade " . $row[2], 'sala' => "Sala " . $row[3], 'idMensagem' => "id" . $row[4], 'enviadoPor' => "LocalizeSenac.com", 'agendadoPara' => $agendado);
 			
-			echo $data['agendadoPara'] . "<br>";
-			
 		}
 	}
 	
@@ -77,6 +83,19 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 		echo json_encode($data);
 	else
 		echo 0;
+	
+	echo "<br>";
+	print_r($data);
+	echo "<br>";
+	
+	$stringSms = "";
+	foreach($data as $sms) { //foreach element in $arr
+		$stringSms .= $sms['celular'];
+		$stringSms .= ";" . $sms['disciplina'] . " - " . $sms['unidade'] . " - " . $sms['sala'] . ";" . $sms['idMensagem'] . ";" . $sms['enviadoPor'] . ";". $sms['agendadoPara'];
+	}
+	
+	echo $stringSms . "<br>";
+	
 	
 /*
 }	

@@ -14,6 +14,10 @@ include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segur
 			WHERE
 				matricula = \"{$_SESSION['usuarioLogin']}\"
 			AND
+				fk_id_aluno = aluno.id
+			AND
+				autenticacao = \"{$_SESSION['tipoUsuario']}\"
+			AND
 				tipo = 'icloud'";
 				
 	// executa a query para verificar se o aluno ja possui lembretes

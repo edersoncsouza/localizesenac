@@ -9,7 +9,11 @@ function imprimeSessao(){
 	
 }
 
-//include("configBanco.php"); // Inclui o arquivo com a configuração do banco
+
+
+function retiraAcentos($texto){
+ return strtr($texto,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+}
 	
 function defineDiaSemana(){
 	

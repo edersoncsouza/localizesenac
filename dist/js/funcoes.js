@@ -316,7 +316,7 @@ function armazenaDisciplinas() {
 function verificaEventoApple(){
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
 	var url = "icloud_calendar/verificarEventoApple.php";
-	var objLembretesJson;
+	var objLembretesJsonApple;
 	
 		// recebe como retorno um json com os lembretes (lembretesJson)
 	$.post(url, function(lembretesJsonIcloud) {
@@ -326,19 +326,19 @@ function verificaEventoApple(){
 		else{ // se retornou com disciplinas
 			//console.log("Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
 			
-			objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
-			//console.log("Array de objetos de lembretes: " + objLembretesJson);	
+			objLembretesJsonApple = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
+			console.log(objLembretesJsonApple);	
 			
 			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
-			for (i = 0; i < objLembretesJson.length; i++) {
+			for (i = 0; i < objLembretesJsonApple.length; i++) {
 				
-				diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJson[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
+				diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJsonApple[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
 				//alert(diaDaSemanaLembrete);
 				
 				var inputIcloud = "#minutosIcloud"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
 				var labelIcloud = "#labelIcloud"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
 
-				var arrayMinutos = objLembretesJson[i].minutos; // recebe os minutos do lembrete
+				var arrayMinutos = objLembretesJsonApple[i].minutos; // recebe os minutos do lembrete
 				
 				$(inputIcloud).show(); // exibe o input para os minutos de Email neste dia da semana
 				$(labelIcloud).show(); // exibe o label do input para os minutos de Email neste dia da semana
@@ -346,7 +346,7 @@ function verificaEventoApple(){
 				
 				
 				$('#lembrarIcloud'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox
-			} //for (i = 0; i < objLembretesJson.length; i++)
+			} //for (i = 0; i < objLembretesJsonApple.length; i++)
 			
 		
 		} // se identificou disciplinas com lembretes	
@@ -978,8 +978,9 @@ function getAndarSala(descricao){
 	for (var i = 0; i < JsonNomeAndarNumeroObj.length; i++) {
 
 		if(JsonNomeAndarNumeroObj[i].descricao == descricao){
-						
-			insereMarker(JsonNomeAndarNumeroObj[i].andar, JsonNomeAndarNumeroObj[i].numero);
+			
+			mudaAndarMapa(JsonNomeAndarNumeroObj[i].andar);	// muda o andar no mapa		
+			insereMarker(JsonNomeAndarNumeroObj[i].andar, JsonNomeAndarNumeroObj[i].numero); // acrescenta o marker no mapa
 
 		}
 	}
