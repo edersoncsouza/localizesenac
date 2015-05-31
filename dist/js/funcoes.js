@@ -351,7 +351,53 @@ function verificaEventoApple(){
 		
 		} // se identificou disciplinas com lembretes	
 		
+		// se o usuario nao tiver celular cadastrado
+		if($('#celular').val() == ""){
+			// define uma dica ao posicionar o mouse sobre a div do checkbox
+			$(".checkboxesZenvia").tooltip({trigger: "hover", title : 'Para receber alertas por SMS cadastre seu celular na guia PERFIL'});
+			$('.lembrarZenvia').prop("disabled", true); // desabilita os checkboxes de sms
+		}
+		
 	});
+	
+}
+
+function verificaEventoZenvia(){
+	
+	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
+	var url = "zenvia/verificarEventoZenvia.php";
+	
+		// recebe como retorno um json com os lembretes (lembretesJsonZenvia)
+	$.post(url, function(lembretesJsonZenvia) {
+		if (lembretesJsonZenvia == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+			//bootbox.alert('Erro no envio de parâmetros!');
+			console.log("O usuario logado não possui lembretes de disciplinas!");
+		}
+		else{ // se retornou com disciplinas
+			objLembretesJsonZenvia = $.parseJSON(lembretesJsonZenvia); // transforma a string JSON em Javascript Array
+			
+			console.log(objLembretesJsonZenvia);
+									
+			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
+			for (i = 0; i < objLembretesJsonZenvia.length; i++) {
+				
+				diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJsonZenvia[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
+				
+				var inputSmsZenvia = "#minutosZenvia"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+				var labelSmsZenvia = "#labelZenvia"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+
+				//var arrayMinutos = objLembretesJsonZenvia[i].minutos; // recebe os minutos do lembrete
+				
+				$(inputSmsZenvia).show(); // exibe o input para os minutos de SMS neste dia da semana
+				$(labelSmsZenvia).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+				
+				$(inputSmsZenvia).val(objLembretesJsonZenvia[i].minutos); // recebe o valor de antecedencia do lembrete de sms
+				
+				$('#lembrarZenvia'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms
+			}
+		} // se identificou disciplinas com lembretes
+		
+	}); // $.post(url, function(lembretesJson) 
 	
 }
 
@@ -542,7 +588,7 @@ function carregaCalendarioSemana(){
 			}
 			
 			if(arrayLembretesZenvia[0] != null){ // se o array de lembretes Zenvia não estiver vazio
-				var url = "inserirEventoZenvia.php";
+				var url = "zenvia/inserirEventoZenvia.php";
 					$.post(
 							url,
 							{'arrayLembretes' : arrayLembretesZenvia, 'arrayDisciplinas' : arrayDisciplinasZenvia}
@@ -587,7 +633,20 @@ function carregaCalendarioSemana(){
 
 						objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array (ordenado por dia)	
 						
-						arrayLembretesApple.sort(dynamicSort("dia")); // ordena o array pelo dia da semana para comparacao
+						//arrayLembretesApple.sort(dynamicSort("dia")); // ordena o array pelo dia da semana para comparacao
+						
+						arrayLembretesApple.sort(function(a, b){ //funcao que ordena o array de lembretesApple
+							
+							 var nameA=tiraAcentos(a.dia.toLowerCase()), nameB=tiraAcentos(b.dia.toLowerCase()); // remove os acentos para garantir a ordenacao
+							 if (nameA < nameB) //sort string ascending
+							  return -1 ;
+							 if (nameA > nameB)
+							  return 1;
+							 return 0; //default return value (no sorting)
+							});
+						
+						console.log("if(arrayLembretesApple[0] != null) arrayLembretesApple: ");
+						console.log(arrayLembretesApple);
 						
 						// PROCESSO DE VERIFICACAO SE HOUVE ALTERACOES NOS LEMBRETES ICLOUD DE CADA DIA
 						// O array arrayLembretesApple vem da verificacao de todos os checkboxes do tipo icloud da area academico
@@ -605,6 +664,8 @@ function carregaCalendarioSemana(){
 									//alert("DIA - Array tela: " + arrayLembretesApple[j].dia + " - Array banco: " + objLembretesJson[j].diaDaSemana);
 									//alert("MINUTOS - Array tela: " + arrayLembretesApple[j].minutos + " - Array banco: " + objLembretesJson[j].minutos);
 									elementosIguais = false; // afirma que algum dos elementos nao e igual
+									console.log("O dia em configAluno(arrayLembretesApple[j].dia): " + arrayLembretesApple[j].dia + " e diferente do dia em aluno_lembrete(objLembretesJson[j].diaDaSemana): " + getNomeDiaSemana(objLembretesJson[j].diaDaSemana));
+									console.log("Ou os minutos em configAluno: " + arrayLembretesApple[j].minutos + " e diferente em aluno_lembrete: " + objLembretesJson[j].minutos);
 								}
 								
 							}
@@ -781,7 +842,8 @@ function carregaCalendarioSemana(){
 		if(tipoUsuario == "google"){
 			verificaEventoGoogle();	// funcao que verifica se existem eventos gravados na agenda
 		}
-		// para todos verificar os lembretes Pemail, Zsms, icloud
+		// para todos verificar os lembretes Zsms, icloud, Pemail
+		verificaEventoZenvia();
 		verificaEventoApple();
 		
 		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
@@ -884,7 +946,10 @@ function carregaCalendarioSemana(){
 			}
 		});
 		
-	});// final do load calendarioSemana.php	
+	});// final do load calendarioSemana.php
+	
+	
+				
 }
 
 // funcao vinda de: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-property-value-in-javascript
@@ -898,6 +963,13 @@ function dynamicSort(property) {
         var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }
+}
+
+function tiraAcentos(s) {
+    if (s.normalize != undefined) {
+        s = s.normalize ("NFKD");
+    }
+    return s.replace (/[\u0300-\u036F]/g, "");
 }
 
 function atualizaIcloud(){

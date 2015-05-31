@@ -34,4 +34,6 @@
 		  font-size: 40px;
 		}
 			
-		} 
+		.tooltip.top .tooltip-inner {
+			background-color:#337ab7;
+		}

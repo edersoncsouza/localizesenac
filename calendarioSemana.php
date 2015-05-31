@@ -97,9 +97,9 @@ $(document).ready(function() {
 									'<label class="labelIcloud" id="labelIcloud'+$(this).parent().attr("id")+'"><input class="minutosIcloud" id="minutosIcloud'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
 								'</div>'+
 							'</div>'+
-							'<div id="divCheckboxesZenvia" class="row" style="text-align: center;">'+
+							'<div id="divCheckboxesZenvia" class="row checkboxesZenvia" style="text-align: center;" data-title="Cadastre seu celular para receber SMS">'+
 								'<div class="row">'+
-									'<label><input class="lembrarZenvia" id="lembrarZenvia'+$(this).parent().attr("id")+'" name="lembrarZenvia" value="zenvia" type="checkbox" >Receber SMS</label>'+
+									'<label><input class="lembrarZenvia" id="lembrarZenvia'+$(this).parent().attr("id")+'" name="lembrarZenvia" value="zenvia" type="checkbox">Receber SMS</label>'+
 									'<label class="labelZenvia" id="labelZenvia'+$(this).parent().attr("id")+'"><input class="minutosZenvia" id="minutosZenvia'+$(this).parent().attr("id")+'" type="number" min="1" max="60" step="1" style="text-align: center; margin:auto;"> minutos antes.</label>'+
 								'</div>'+
 							'</div>'+

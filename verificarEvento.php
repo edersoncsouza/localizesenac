@@ -130,7 +130,7 @@
 					
 
 					$data[] = $retornoLembretesDiaDaSemana; // armazena o array do dia no array de retorno final
-					$retornoLembretesDiaDaSemana = array(); // sera o array do dia
+					$retornoLembretesDiaDaSemana = array(); // zera o array do dia
 				}
 			}
 			// CODIFICA O ARRAY EM FORMATO JSON E DEVOLVE COMO RETORNO

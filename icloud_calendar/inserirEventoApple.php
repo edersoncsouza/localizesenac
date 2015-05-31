@@ -126,6 +126,10 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 			WHERE
 				matricula = \"{$_SESSION['usuarioLogin']}\"
 			AND
+				autenticacao = \"{$_SESSION['tipoUsuario']}\"
+			AND
+				fk_id_aluno = aluno.id
+			AND
 				tipo = 'icloud'";
 	
 	// executa a query para verificar se o aluno ja possui lembretes
@@ -309,6 +313,10 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 					aluno_lembrete, aluno
 				WHERE
 					matricula = \"{$_SESSION['usuarioLogin']}\"
+				AND
+					autenticacao = \"{$_SESSION['tipoUsuario']}\"
+				AND
+					fk_id_aluno = aluno.id
 				AND 
 					dia_semana = \"{$dia}\"
 				AND

@@ -32,7 +32,7 @@ PENDENCIAS LOCAIS:
 	include("dist/php/funcoes.php");
 	protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
-	//imprimeSessao();
+
 	
 	echo "<script> var idP = {$_SESSION['usuarioID']}; </script>";
 	
@@ -231,6 +231,8 @@ PENDENCIAS LOCAIS:
 					}
 				});
 			});
+			
+
 			
 	}); //documentReady
 
@@ -470,13 +472,18 @@ PENDENCIAS LOCAIS:
 				// executa o post enviando os parametros id, passwordAtual, password
 				$.post(url,{ id: idP, nome: nomeP, email: emailP,  celular: celularP}, function(result) {
 
-					if (result == 1){// caso o retorno de mudarInfo.php seja = 1, o processo foi OK
+					if (result == 1){ // caso o retorno de mudarInfo.php seja = 1, o processo foi OK
 
-						bootbox.alert('Informações atualizadas com sucesso!', function() {// apos OK executa a funcao
+						bootbox.alert('Informações atualizadas com sucesso!', function() { // apos OK executa a funcao
 						  //location.reload();
 						  $('#configuracoes').trigger( "click" );
 						});
-
+					
+						if($('#celular').val() != ""){ // caso o usuario tenha cadastrado celular
+							$('.lembrarZenvia').prop("disabled", false); // habilita os checkboxes para receber sms
+							$(".checkboxesZenvia").tooltip('disabled'); // remove as dicas ao posicionar o mouse
+						}
+						
 					}
 					else{
 						bootbox.alert('A informações não foram alteradas!');
