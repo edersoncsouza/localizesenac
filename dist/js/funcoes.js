@@ -635,6 +635,7 @@ function carregaCalendarioSemana(){
 						
 						//arrayLembretesApple.sort(dynamicSort("dia")); // ordena o array pelo dia da semana para comparacao
 						
+						// fonte: http://www.javascriptkit.com/javatutors/arraysort2.shtml
 						arrayLembretesApple.sort(function(a, b){ //funcao que ordena o array de lembretesApple
 							
 							 var nameA=tiraAcentos(a.dia.toLowerCase()), nameB=tiraAcentos(b.dia.toLowerCase()); // remove os acentos para garantir a ordenacao
@@ -965,6 +966,7 @@ function dynamicSort(property) {
     }
 }
 
+// fonte: http://stackoverflow.com/questions/286921/efficiently-replace-all-accented-characters-in-a-string?lq=1
 function tiraAcentos(s) {
     if (s.normalize != undefined) {
         s = s.normalize ("NFKD");

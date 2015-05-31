@@ -10,7 +10,7 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 	// sanitiza as entradas
 	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
 
-	$tipoLembrete = $_POST[$tipoLembrete];
+	$tipoLembrete = $_POST['tipoLembrete'];
 	$turno = $_POST['turno'];
 	//$tipoLembrete = "icloud";
 	//$turno = "M";
@@ -31,6 +31,8 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 	$diaAtual = date('d-m-Y'); // armazena a data atual 29-05-15
 	$diaDaSemana = strtoupper(strftime("%a", strtotime($diaAtual))); // recebe o dia da semana reduzido e transforma em maiusculas (SÁB)
 	$diaDaSemana = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', utf8_encode($diaDaSemana) ) ); // remove acentos do dia da semana (SAB)
+	
+	echo "Procurei apenas por mensagens do tipo " . $tipoLembrete . " no turno " . $turno . " no dia: " . $diaDaSemana . "<br>";
 	
 	$diaEnvio = date('d/m/Y', strtotime($diaAtual))	; // formata a data atual para 29/05/2015
 

@@ -6,7 +6,7 @@
 
 $(document).ready(function() {
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
-	var url = "buscarLembretes.php";
+	var url = "dist/php/buscarLembretes.php";
 
 	// recebe como retorno um json com os lembretes (lembretesJson)
 	$.post(url,{ tipoLembrete: "zsms", turno: "M"}, function(lembretesJson) {
@@ -21,6 +21,7 @@ $(document).ready(function() {
 			//console.log("Foram retornados lembretes");
 			
 		}
+	});
 });
 
 </script>
