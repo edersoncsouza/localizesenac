@@ -5,29 +5,35 @@
 <script>
 
 $(document).ready(function() {
-	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
-	var url = "zenvia/buscarLembretes.php";
+	
+	var timerId = setInterval(timerMethod, 60000);    //60,000 milisegundos, ou seja, um minuto
+	
+	var contador = 60;
 
-	for (i = 60; i > 0; i--){ // laco para fornecer os minutos de antecedencia
+// funcao que chama o buscar lembretes fornecendo o tipo como "pemail", o turno como "N" e os minutos de antecedencia como contador
+function timerMethod() {
+    
+    if(contador < 0) clearInterval(timerId); // se contador valer menos que zero limpa o temporizador de execucao timerId
 		
-		setTimeout(function(){ // aguarda 1 minuto e executa a funcao abaixo
+		// define a pagina a ser chamada por post
+		var url = "zenvia/buscarLembretes.php";
 		
-			// recebe como retorno um json com os lembretes (lembretesJson)
-			$.post(url,{ tipoLembrete: "pemail", turno: "M", antecedenciaEmail: i}, function(lembretesJson) {
+		// recebe como retorno um json com os lembretes (lembretesJson)
+		$.post(url,{ tipoLembrete: "pemail", turno: "M", antecedenciaEmail: contador}, function(lembretesJson) {
 
-				if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-					console.log("Não existiam lembretes do tipo pemail no banco de dados no turno da noite!");
-				}
-				else{ // se retornou com disciplinas
-					console.log("Foram retornados lembretes:");
-					console.log(lembretesJson);
-				}
-				
-			});	
+			if (lembretesJson == 0){// caso o retorno de buscarLembretes.php seja = 0
+				console.log("Não existiam lembretes do tipo pemail no banco de dados no turno da noite com intervalo de " + contador + " minutos!");
+			}
+			else{ // se retornou com disciplinas
+				console.log("Retornado um lembrete do tipo pemail no turno da noite com intervalo de " + contador + " minutos!");
+				console.log(lembretesJson);
+			}
+			
+		});	
 		
-		},60000);
-		
-	}
+	contador--;
+	
+}
 	
 });
 

@@ -8,7 +8,7 @@ include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segur
 function enviaEmail($corpo, $destinatario, $nome){
 
 	require_once('../phpmailer/class.phpmailer.php');
-	//include("class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
+	include("../phpmailer/class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
 	$mail             = new PHPMailer();
 
@@ -90,7 +90,6 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 		$horaEnvio = "19:00:00";
 	if ($turno == "M")
 		$horaEnvio = "08:00:00";
-		//$horaEnvio = "14:47:00";
 	
 	// monta a query de pesquisa de lembretes do icloud
 	$sql = "SELECT
