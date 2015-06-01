@@ -197,6 +197,10 @@ $(document).ready(function() {
 	//$('li#menuCategoria').removeClass('active'), 10000);
 	//#menuCategoria
 
+	// AO CLICAR NO CAMPO DE BUSCA APAGA OS VALORES ANTIGOS
+	$('#inputBusca').on("click",function(e){
+			$('#inputBusca').val('');
+	});
 
 });
 </script>
@@ -268,6 +272,7 @@ $(document).ready(function() {
 									<!-- typeahead -->
 									<div id="scrollable-dropdown-menu">
 										<input 
+											id="inputBusca"
 											type="text" 
 											name="busca"
 											class="form-control typeahead"

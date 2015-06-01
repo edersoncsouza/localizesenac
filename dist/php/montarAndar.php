@@ -14,30 +14,35 @@
 		$unidade = $_POST['unidade'];
 		
 		// busca as salas do andar recebido
-		$result = mysql_query("	SELECT
-									numero 
-								FROM
-									sala
-								WHERE
-									fk_id_unidade = {$unidade}
-								AND
-									andar = {$andar}
-								AND
-									fk_id_categoria = 2
-								ORDER BY
-									numero");
-		
-		//cria o array data
-		$data;//= []; 
+		$sql = "SELECT
+					numero 
+				FROM
+					sala
+				WHERE
+					fk_id_unidade = {$unidade}
+				AND
+					andar = {$andar}
+				AND
+					fk_id_categoria = 2
+				ORDER BY
+					numero";
 
-		// armazena no array os nomes das disciplinas para o select
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-			 $data[] = $row['numero']; 
+		// executa a query para verificar se existem salas na unidade e andar fornecidos
+		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+		
+		if(mysql_num_rows($result) > 0){ // se houverem lembretes do tipo recebido
+		
+			//cria o array data
+			$data;//= []; 
+
+			// armazena no array os nomes das disciplinas para o select
+			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				 $data[] = $row['numero']; 
+			}
+			
+			// codifica o array em formato Json e devolve como retorno
+			echo json_encode($data);
 		}
-		
-		// codifica o array em formato Json e devolve como retorno
-		echo json_encode($data);
-
 	}
 	else // caso não tenha recebido os parametros
 		echo 0;//("Não recebi os parametros para mudança de senha");

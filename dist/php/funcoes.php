@@ -9,12 +9,14 @@ function imprimeSessao(){
 	
 }
 
-
-
 function retiraAcentos($texto){
- return strtr($texto,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-}
+	$retorno="";
 	
+	$retorno = preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $texto ) );
+	
+	return $retorno;
+}
+
 function defineDiaSemana(){
 	
     $diaPorExtenso = array("Domingo","segunda","Terça","Quarta","Quinta","Sexta","Sábado");

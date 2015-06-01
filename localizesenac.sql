@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.0.4.2
--- http://www.phpmyadmin.net
---
--- Máquina: localhost
--- Data de Criação: 29-Maio-2015 às 20:33
--- Versão do servidor: 5.6.13
--- versão do PHP: 5.4.17
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -39,17 +30,28 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   `ativo` enum('N','S') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
   PRIMARY KEY (`matricula`,`autenticacao`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
 
 --
 -- Extraindo dados da tabela `aluno`
 --
 
 INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `autenticacao`, `ativo`) VALUES
-(1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersonadssenac@gmail.com', 'local', 'S'),
+(1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersoncsouza@outlook.com', 'local', 'S'),
 (2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'local', 'S'),
-(26, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'google', 'S'),
-(27, 'edersoncsouza@hotmail.com', '1615212108690478', 'Ederson Souza', '', 'edersoncsouza@hotmail.com', 'facebook', 'S');
+(39, 'edersoncsouza@hotmail.com', '1615212108690478', 'Ederson Souza', '', 'edersoncsouza@hotmail.com', 'facebook', 'S'),
+(21, 'welausen@gmail.com', '112575832058914146452', 'fillipe welausen', '', 'welausen@gmail.com', 'google', 'S'),
+(22, 'edmundo312@gmail.com', '110557500865567486503', 'Edmundo Neto', '', 'edmundo312@gmail.com', 'google', 'S'),
+(23, 'susian.santos@gmail.com', '116932191462002151614', 'Susian Santos', '', 'susian.santos@gmail.com', 'google', 'S'),
+(24, 'itauafm@gmail.com', '100559544575170068722', 'ItauÃ¡ Machado', '', 'itauafm@gmail.com', 'google', 'S'),
+(25, 'canyslupus@gmail.com', '106916398041147643890', 'Morvana Bonin', '', 'canyslupus@gmail.com', 'google', 'S'),
+(26, 'flander.severo@gmail.com', '105759300564266388068', 'Flander Severo', '', 'flander.severo@gmail.com', 'google', 'S'),
+(27, 'pmarques.cunha89@gmail.com', '111060928174974094412', 'paulo marques', '', 'pmarques.cunha89@gmail.com', 'google', 'S'),
+(28, 'ms.castanheira@gmail.com', '115759477160083315631', 'Marcos Silva Castanheira', '', 'ms.castanheira@gmail.com', 'google', 'S'),
+(34, 'procurandovitoriafacebook@outlook.com', '457007277799896', 'Procurando Vitoria', '', 'procurandovitoriafacebook@outlook.com', 'facebook', 'S'),
+(38, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'google', 'S'),
+(36, 'caeb.smed@gmail.com', '104426759409554655556', 'Proid Smed', '', 'caeb.smed@gmail.com', 'google', 'S'),
+(37, 'rqlrenner@gmail.com', '113808092695654027678', 'Raquel R.', '', 'rqlrenner@gmail.com', 'google', 'S');
 
 -- --------------------------------------------------------
 
@@ -80,15 +82,32 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
 
 INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
 (3, 'QUA', 'N', 1, 1, 6, 603, 28),
-(40, 'QUA', 'N', 26, 1, 6, 603, 28),
 (16, 'QUI', 'N', 1, 1, 4, 409, 31),
-(41, 'QUI', 'N', 26, 1, 4, 409, 31),
-(27, 'SEG', 'N', 1, 1, 3, 301, 32),
-(38, 'SEG', 'N', 26, 1, 3, 301, 32),
+(12, 'SEG', 'N', 1, 1, 3, 301, 32),
+(36, 'SEG', 'N', 39, 1, 3, 301, 32),
 (17, 'SEX', 'N', 1, 1, 7, 704, 23),
-(42, 'SEX', 'N', 26, 1, 7, 704, 23),
 (14, 'TER', 'N', 1, 1, 6, 603, 30),
-(39, 'TER', 'N', 26, 1, 6, 603, 30);
+(54, 'QUA', 'N', 26, 1, 5, 503, 19),
+(21, 'QUA', 'N', 21, 1, 7, 704, 10),
+(25, 'SEX', 'N', 21, 1, 6, 601, 20),
+(23, 'TER', 'N', 21, 1, 6, 602, 24),
+(24, 'QUI', 'N', 21, 1, 5, 504, 12),
+(26, 'SEG', 'N', 21, 1, 7, 704, 26),
+(27, 'SEG', 'N', 22, 1, 6, 603, 28),
+(28, 'QUA', 'N', 23, 1, 6, 603, 28),
+(29, 'QUI', 'N', 23, 1, 6, 603, 30),
+(30, 'SEG', 'N', 24, 1, 0, 102, 1),
+(53, 'SEG', 'N', 26, 1, 6, 604, 25),
+(39, 'SEG', 'N', 36, 1, 3, 101, 21),
+(35, 'SEG', 'N', 28, 1, 5, 503, 19),
+(40, 'TER', 'N', 39, 1, 6, 603, 30),
+(43, 'QUA', 'M', 39, 1, 6, 603, 28),
+(42, 'SEG', 'N', 37, 2, 5, 502, 26),
+(44, 'QUI', 'N', 39, 1, 4, 409, 31),
+(45, 'SEX', 'N', 39, 1, 7, 701, 23),
+(46, 'SEG', 'N', 2, 1, 7, 701, 20),
+(48, 'TER', 'N', 2, 1, 7, 701, 10),
+(49, 'QUA', 'M', 2, 1, 7, 702, 15);
 
 -- --------------------------------------------------------
 
@@ -125,13 +144,7 @@ INSERT INTO `aluno_lembrete` (`id`, `fk_id_aluno`, `dia_semana`, `turno`, `fk_sa
 (208, 1, 'QUI', 'N', 1, 4, 409, 31, 'icloud', 10, '2015-06-04', '2015-07-10'),
 (205, 1, 'SEG', 'N', 1, 3, 301, 32, 'icloud', 10, '2015-06-01', '2015-07-10'),
 (209, 1, 'SEX', 'N', 1, 7, 704, 23, 'icloud', 10, '2015-05-29', '2015-07-10'),
-(206, 1, 'TER', 'N', 1, 6, 603, 30, 'icloud', 10, '2015-06-02', '2015-07-10'),
-(107, 26, 'QUA', 'N', 1, 6, 603, 28, 'sms', 15, '2015-05-27', '2015-07-10'),
-(108, 26, 'QUI', 'N', 1, 4, 409, 31, 'sms', 20, '2015-05-28', '2015-07-10'),
-(105, 26, 'SEG', 'N', 1, 3, 301, 32, 'email', 5, '2015-06-01', '2015-07-10'),
-(104, 26, 'SEG', 'N', 1, 3, 301, 32, 'sms', 15, '2015-06-01', '2015-07-10'),
-(109, 26, 'SEX', 'N', 1, 7, 704, 23, 'sms', 15, '2015-05-29', '2015-07-10'),
-(106, 26, 'TER', 'N', 1, 6, 603, 30, 'sms', 15, '2015-05-26', '2015-07-10');
+(206, 1, 'TER', 'N', 1, 6, 603, 30, 'icloud', 10, '2015-06-02', '2015-07-10');
 
 -- --------------------------------------------------------
 
@@ -1013,7 +1026,7 @@ CREATE TABLE IF NOT EXISTS `sala` (
   KEY `id` (`id`),
   KEY `fk_sala_unidade1_idx` (`fk_id_unidade`),
   KEY `fk_sala_categoria1_idx` (`fk_id_categoria`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=87 ;
 
 --
 -- Extraindo dados da tabela `sala`
@@ -1064,7 +1077,48 @@ INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`)
 (42, 1, 3, 301, 2),
 (44, 1, 4, 409, 2),
 (43, 1, 6, 603, 2),
-(45, 1, 7, 704, 2);
+(45, 1, 7, 704, 2),
+(46, 1, 6, 604, 2),
+(47, 1, 6, 602, 2),
+(48, 1, 5, 504, 2),
+(49, 1, 6, 601, 2),
+(50, 2, 5, 502, 2),
+(51, 1, 5, 502, 2),
+(59, 1, 2, 202, 2),
+(53, 1, 5, 501, 2),
+(54, 1, 5, 503, 2),
+(55, 1, 7, 702, 2),
+(56, 1, 7, 703, 2),
+(57, 1, 7, 701, 2),
+(58, 2, 2, 201, 2),
+(60, 1, 2, 203, 2),
+(61, 1, 2, 204, 2),
+(62, 1, 2, 205, 2),
+(63, 1, 3, 302, 2),
+(64, 1, 3, 303, 2),
+(65, 1, 3, 304, 2),
+(66, 1, 3, 305, 2),
+(67, 1, 4, 401, 2),
+(68, 1, 4, 402, 2),
+(69, 1, 4, 403, 2),
+(70, 1, 4, 404, 2),
+(71, 1, 4, 405, 2),
+(72, 1, 4, 406, 2),
+(73, 1, 4, 407, 2),
+(74, 1, 4, 408, 2),
+(75, 1, 4, 410, 2),
+(76, 1, 5, 505, 2),
+(77, 1, 6, 605, 2),
+(78, 1, 7, 705, 2),
+(79, 1, 8, 801, 2),
+(80, 1, 8, 802, 2),
+(81, 1, 8, 803, 2),
+(82, 1, 8, 804, 2),
+(83, 1, 8, 805, 2),
+(84, 1, 1, 101, 2),
+(85, 1, 1, 104, 2),
+(86, 1, 1, 105, 2);
+
 
 -- --------------------------------------------------------
 

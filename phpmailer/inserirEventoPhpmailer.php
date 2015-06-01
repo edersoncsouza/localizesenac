@@ -14,7 +14,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 	
 	date_default_timezone_set('America/Sao_Paulo'); // define o timezone	
 	
-	// INICIO DO PROCESSO DE EXCLUSAO DE TODOS OS LEMBRETES DO USUARIO DO TIPO ICLOUD DA TABELA aluno_lembrete
+	// INICIO DO PROCESSO DE EXCLUSAO DE TODOS OS LEMBRETES DO USUARIO DO TIPO pemail DA TABELA aluno_lembrete
 	
 	// definir o charset do banco
 	mysql_set_charset('UTF8', $_SG['link']);
@@ -31,19 +31,19 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 			AND
 				fk_id_aluno = aluno.id
 			AND
-				tipo = 'zsms'";
+				tipo = 'pemail'";
 	
 	// executa a query para verificar se o aluno ja possui lembretes
 	$resultPesquisa = mysql_query($sqlPesquisa) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 
-	// EXCLUI OS LEMBRETES DO TIPO zsms DA TABELA aluno_lembrete
+	// EXCLUI OS LEMBRETES DO TIPO pemail DA TABELA aluno_lembrete
 	if(mysql_num_rows($resultPesquisa) != 0){ // se encontrou lembretes icloud para o aluno
 		while($row = mysql_fetch_array($resultPesquisa)) { // para cada linha do resultset
 				$sqlDelete = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
 				$resultDelete = mysql_query($sqlDelete) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		}
 	}
-	// FINAL DO PROCESSO DE EXCLUSAO DE TODOS OS LEMBRETES DO USUARIO DO TIPO ICLOUD DA TABELA aluno_lembrete
+	// FINAL DO PROCESSO DE EXCLUSAO DE TODOS OS LEMBRETES DO USUARIO DO TIPO pemail DA TABELA aluno_lembrete
 	
 	// DESMEMBRA O ARRAY DE DISCIPLINAS, ARMAZENA NAS VARIAVEIS LOCAIS E EFETUA A CRIACAO DOS EVENTOS POR DISCIPLINA
 	foreach($arrayDisciplinas as $campoDisciplina) {
@@ -54,7 +54,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		$unidade = $campoDisciplina['unidade'];
 		$disciplina = $campoDisciplina['disciplina'];
 		
-		$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete zsms
+		$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete pemail
 		
 		// DESMEMBRA O ARRAY DE LEMBRETES E ARMAZENA OS MINUTOS DE ANTECEDENCIA DO DIA DA  SEMANA DA DISCIPLINA ATUAL 
 		foreach($arrayLembretes as $campoLembrete) {
@@ -62,10 +62,6 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 			if($diaLembrete == $dia)
 				$minutosAntec = $campoLembrete['minutos'];
 		}
-		
-		// MONTA AS STRINGS PARA O EVENTO
-		$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
-		$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade. ' - Sala: ' . $sala;
 
 		// DEFINE AS DATAS DE INICIO E FINAL DE SEMESTRE PARA LIMITAR OS ENVIOS DOS SMS 
 		if(date('n') < 8){ // se o mes for ate julho

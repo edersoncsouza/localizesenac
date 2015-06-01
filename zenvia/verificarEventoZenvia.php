@@ -5,6 +5,8 @@
 
 	// definir o charset do banco
 	mysql_set_charset('UTF8', $_SG['link']);
+
+	$data = []; // cria o array de retorno
 	
 	// monta a query de pesquisa de lembretes
 	$sqlPesquisa = "SELECT

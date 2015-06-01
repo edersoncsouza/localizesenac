@@ -18,16 +18,16 @@ include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segur
 			AND
 				autenticacao = \"{$_SESSION['tipoUsuario']}\"
 			AND
-				tipo = 'icloud'
+				tipo = 'pemail'
 			ORDER BY
 				dia_semana";
 				
 	// executa a query para verificar se o aluno ja possui lembretes
 	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 	
-	//echo "O numero de lembretes icloud e: " . mysql_num_rows($result) . "\n";
+	//echo "O numero de lembretes pemail e: " . mysql_num_rows($result) . "\n";
 	
-	if(mysql_num_rows($result) > 0){ // se houverem lembretes do tipo icloud
+	if(mysql_num_rows($result) > 0){ // se houverem lembretes do tipo pemail
 		while ($row = mysql_fetch_array($result, MYSQL_NUM)) { // para cada linha
 			//$data[] = array('diaDaSemana' => $row[0], 'minutos' => $row[1]); // armazena o dia da semana e os minutos em um array associativo
 			$data[] = array('diaDaSemana' => $row[0], 'minutos' => $row[1], 'turno' => $row[2], 'unidade' => $row[3], 'sala' => $row[4], 'disciplina' => $row[5]); // armazena o dia da semana e os minutos em um array associativo

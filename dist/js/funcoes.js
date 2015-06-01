@@ -12,9 +12,9 @@ function mudaAndarMapa(andarTab){
 function existeDisciplina(conteudoPainel){
 	existe = true;
 	
-	if(conteudoPainel.replace(/\s+/g, '') == ("Não tem aulas no dia de hoje").replace(/\s+/g, ''))
+	if(conteudoPainel.replace(/\s+/g, '') == ("Não tem aulas no dia de hoje").replace(/\s+/g, '')){
 			existe = false;
-	
+	}
 	return existe;
 	
 }
@@ -401,6 +401,48 @@ function verificaEventoZenvia(){
 	
 }
 
+
+function verificaEventoPhpmailer(){
+	
+	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
+	var url = "phpmailer/verificarEventoPhpmailer.php";
+	
+		// recebe como retorno um json com os lembretes (lembretesJsonPhpmailer)
+	$.post(url, function(lembretesJsonPhpmailer) {
+		if (lembretesJsonPhpmailer == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+			//bootbox.alert('Erro no envio de parâmetros!');
+			console.log("O usuario logado não possui lembretes de email para as disciplinas!");
+		}
+		else{ // se retornou com disciplinas
+			objLembretesJsonPhpmailer = $.parseJSON(lembretesJsonPhpmailer); // transforma a string JSON em Javascript Array
+			
+			console.log(objLembretesJsonPhpmailer);
+									
+			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
+			for (i = 0; i < objLembretesJsonPhpmailer.length; i++) {
+				
+				diaDaSemanaLembrete = getNomeDiaSemana(objLembretesJsonPhpmailer[i].diaDaSemana); // recebe o dia da semana por extenso a partir de reduzido ex.: SEG -> segunda
+				
+				var inputPhpmailer = "#minutosPhpmailer"+diaDaSemanaLembrete; // concatena a string para o input do dia da semana
+				var labelPhpmailer = "#labelPhpmailer"+diaDaSemanaLembrete; // concatena a string para o label do dia da semana
+
+				//var arrayMinutos = objLembretesJsonPhpmailer[i].minutos; // recebe os minutos do lembrete
+				
+				$(inputPhpmailer).show(); // exibe o input para os minutos de SMS neste dia da semana
+				$(labelPhpmailer).show(); // exibe o label do input para os minutos de SMS neste dia da semana
+				
+				$(inputPhpmailer).val(objLembretesJsonPhpmailer[i].minutos); // recebe o valor de antecedencia do lembrete de sms
+				
+				$('#lembrarPhpmailer'+diaDaSemanaLembrete).prop('checked', true); // marca a checkbox de sms
+			}
+		} // se identificou disciplinas com lembretes
+		
+	}); // $.post(url, function(lembretesJson) 
+	
+}
+
+
+
 function verificaEventoGoogle(){
 
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
@@ -593,14 +635,50 @@ function carregaCalendarioSemana(){
 							url,
 							{'arrayLembretes' : arrayLembretesZenvia, 'arrayDisciplinas' : arrayDisciplinasZenvia}
 					);
+			}else{ // se o array de lembretes zsms vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes Zenvia)
+				
+				// verifica se existem lembretes zsms na tabela aluno_lembrete
+				var url = "zenvia/verificarEventoZenvia.php";
+	
+				// recebe como retorno um json com os lembretes (lembretesJsonZenvia)
+				$.post(url, function(lembretesJsonZenvia) {
+					if (lembretesJsonZenvia != 0){// caso existam eventos do tipo zsms em aluno_lembrete
+						// se houverem 
+							// apagar os lembretes do banco
+							$.post("zenvia/excluirLembretesZenvia.php");
+							
+							// carrega a pagina principal evitando alteracoes
+							var url = "principal.php";
+							$("body").load(url);
+							window.location.href = "principal.php";
+					}
+				});	
 			}
 			
 			if(arrayLembretesPhpmailer[0] != null){ // se o array de lembretes Phpmailer não estiver vazio
-				var url = "inserirEventoPhpmailer.php";
+				var url = "phpmailer/inserirEventoPhpmailer.php";
 					$.post(
 							url,
 							{'arrayLembretes' : arrayLembretesPhpmailer, 'arrayDisciplinas' : arrayDisciplinasPhpmailer}
 					);
+			}else{ // se o array de lembretes pemail vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes Phpmailer)
+				
+				// verifica se existem lembretes pemail na tabela aluno_lembrete
+				var url = "phpmailer/verificarEventoPhpmailer.php";
+	
+				// recebe como retorno um json com os lembretes (lembretesJsonPhpmailer)
+				$.post(url, function(lembretesJsonPhpmailer) {
+					if (lembretesJsonPhpmailer != 0){// caso existam eventos do tipo icloud em aluno_lembrete
+						// se houverem 
+							// apagar os lembretes do banco
+							$.post("phpmailer/excluirLembretesPhpmailer.php");
+							
+							// carrega a pagina principal evitando alteracoes
+							var url = "principal.php";
+							$("body").load(url);
+							window.location.href = "principal.php";
+					}
+				});	
 			}
 			
 			if(arrayLembretesApple[0] != null){ // se o array de lembretes Apple contiver lembretes icloud
@@ -845,6 +923,7 @@ function carregaCalendarioSemana(){
 		}
 		// para todos verificar os lembretes Zsms, icloud, Pemail
 		verificaEventoZenvia();
+		verificaEventoPhpmailer();
 		verificaEventoApple();
 		
 		// define o que fazer ao selecionar/desselecionar os chekboxes de lembrete de SMS
@@ -1044,6 +1123,7 @@ function onSelected($e, datum) {
 	console.log(datum); // loga no console o objeto de dados selecionado
 	console.log(datum.value); // loga no console a propriedade valor do objeto de dados selecionado
 	getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
+	$('#inputBusca').val('');
 }
 
 // funcao que busca a correspondencia da descrição da sala com andar e numero da sala

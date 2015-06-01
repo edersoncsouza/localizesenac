@@ -426,7 +426,7 @@ PENDENCIAS LOCAIS:
 				$.post(url,{ andar: andarP, unidade: unidadeP}, function(json) {
 					
 					if (json == 0){// caso o retorno de montarGrade.php seja = 0
-						bootbox.alert('Erro no envio de parâmetros!');
+						bootbox.alert('Não existem salas neste andar!');
 					}
 					else{
 							var objJson = JSON.parse(json); // transforma a string recebida em objeto
