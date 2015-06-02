@@ -620,18 +620,49 @@ function carregaCalendarioSemana(){
 				
 			} // laco do array de lembretes
 			
-			console.log(arrayLembretesGoogle);
+			console.log("Array de Lembretes do Google:");
+			console.log(JSON.stringify(arrayLembretesGoogle));
 			
 			// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
 			if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
 			
+				var arrayDiasLembretes=[]; // array que armazena os dias com lembretes do Google
 				
-			
+				// ARMAZENA OS DIAS COM LEMBRETES DO GOOGLE
+				for (var j = 0; j < arrayLembretesGoogle.length; j++){ // percorre todo o array de lembretes Google
+				
+					if ($.inArray(arrayLembretesGoogle[j].dia, arrayDiasLembretes) == -1) // se o dia do lembrete ainda nao estiver no arrayDiasLembretes
+						arrayDiasLembretes.push(arrayLembretesGoogle[j].dia); // armazena o dia no array de lembretes
+				}
+				
+				var arrayDiasEventosExcluir=[]; // array que armazena os dias com eventos do Google a excluir
+				
+				// ARMAZENA OS DIAS DE EVENTOS A EXCLUIR
+				for (var k = 0; k <= 6; k++){
+					if ($.inArray(diaDaSemanaIntermediario(k),arrayDiasLembretes) == -1) // se o dia da semana nao estiver no array de lembretes
+						arrayDiasEventosExcluir.push(diaDaSemanaIntermediario(k)); // armazena o dia da semana no array de eventos a excluir
+				}
+
+				console.log("Array de eventos do Google a excluir:");
+				console.log(JSON.stringify(arrayDiasEventosExcluir));
+				
+				// EFETUA O POST PARA EXCLUIR OS EVENTOS DOS DIAS SEM CHECKBOX MARCADO
+				var url = "Google/excluirEventosSemanaisGoogle.php";
+					$.post(
+							url,
+							{'arrayDiasDaSemana' : arrayDiasEventosExcluir}
+					);
+				
+				
+				// EFETUA O POST PARA INSERIR OS EVENTOS ARMAZENADOS
 				var url = "inserirEvento.php";
 					$.post(
 							url,
 							{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle}
 					);
+					
+				// OBS: Pode executar a exclusao e insercao em posts assincronos pois cada um vai alterar a agenda em dias da semana diferentes
+				
 			}else{ // se o array de lembretes google vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes google)
 				
 				console.log("Oh my God! foram zerados os eventos do Google!!!");
@@ -642,25 +673,6 @@ function carregaCalendarioSemana(){
 				// apagar todos eventos Localizesenac a partir do dia atual do Google
 				$.post("Google/excluirEventoGoogle.php");
 				
-				/*
-				// verifica se existem lembretes Google na tabela aluno_lembrete
-				var url = "Google/verificarEventoGoogle.php";
-	
-				// recebe como retorno um json com os lembretes (lembretesJsonGoogle)
-				$.post(url, function(lembretesJsonGoogle) {
-					if (lembretesJsonGoogle != 0){// caso existam eventos do tipo icloud em aluno_lembrete
-						// se houverem 
-						
-							console.log("Existem eventos Google:");
-							console.log(lembretesJsonGoogle);
-							// apagar os lembretes do banco
-							$.post("Google/excluirLembretesGoogle.php");
-							
-							// apagar os eventos online no Google
-							$.post("Google/excluirEventoGoogle.php");
-					}
-				});	
-				*/
 			}
 			
 			if(arrayLembretesZenvia[0] != null){ // se o array de lembretes Zenvia não estiver vazio

@@ -103,34 +103,39 @@
 					
 					$lembretes = $eventos[0]->getReminders()->getOverrides(); // armazena em um array os lembretes do primeiro evento
 
-					// EXECUTA O LACO PARA ARMAZENAR TODOS OS LEMBRETES E MINUTOS DE UM DOS EVENTOS DO DIA
-					foreach($lembretes as $lembrete){ // para cada lembrete
-						$metodos[] = $lembrete->getMethod(); // armazena em um array o metodo
-						$minutos[] = $lembrete->getMinutes(); // armazena em um array os minutos
-					}
+					if (count($lembretes)){ // se existem lembretes
+						
+						// EXECUTA O LACO PARA ARMAZENAR TODOS OS LEMBRETES E MINUTOS DE UM DOS EVENTOS DO DIA
+						foreach($lembretes as $lembrete){ // para cada lembrete
+							$metodos[] = $lembrete->getMethod(); // armazena em um array o metodo
+							$minutos[] = $lembrete->getMinutes(); // armazena em um array os minutos
+						}
 
-					// ARMAZENA OS DADOS DE DIA E LEMBRETES NO ARRAY DE RETORNO
-					$retornoLembretesDiaDaSemana['diaDaSemana'] = $dia; // armazena o dia da semana no array de retorno
-					$retornoLembretesDiaDaSemana['lembretes'] = $metodos; // armazena o array de metodos de lembretes no array de retorno
-					$retornoLembretesDiaDaSemana['minutos'] = $minutos; // armazena o array de minutos de lembretes no array de retorno
-					
-					/*
-					// IMPRIME A DATA OS METODOS E MINUTOS DE ANTECEDENCIA DOS LEMBRETES
-					echo "<br>=========== Data e Lembretes ============<br>";
-					echo $dia . " - " . $dataDoEvento . "<br>"; // imprime a data do evento
-					for ($i = 0; $i <  count($metodos); $i++){ // executa o laco para percorrer os arrays de metodo e minutos
-						echo "<br> Metodo: " . $metodos[$i] . "<br>"; // imprime o metodo
-						echo "<br> Minutos: " . $minutos[$i] . "<br>"; // imprime os minutos
-					}
-					*/
-					
-					// RESETA OS ARRAYS DE LEMBRETES PARA EVITAR INCREMENTO PARA OUTROS DIAS
-					$metodos = array(); // zera o array de metodos
-					$minutos = array(); // zera o array de minutos
-					
+						// ARMAZENA OS DADOS DE DIA E LEMBRETES NO ARRAY DE RETORNO
+						$retornoLembretesDiaDaSemana['diaDaSemana'] = $dia; // armazena o dia da semana no array de retorno
+						$retornoLembretesDiaDaSemana['lembretes'] = $metodos; // armazena o array de metodos de lembretes no array de retorno
+						$retornoLembretesDiaDaSemana['minutos'] = $minutos; // armazena o array de minutos de lembretes no array de retorno
+						
+						/*
+						// IMPRIME A DATA OS METODOS E MINUTOS DE ANTECEDENCIA DOS LEMBRETES
+						echo "<br>=========== Data e Lembretes ============<br>";
+						echo $dia . " - " . $dataDoEvento . "<br>"; // imprime a data do evento
+						for ($i = 0; $i <  count($metodos); $i++){ // executa o laco para percorrer os arrays de metodo e minutos
+							echo "<br> Metodo: " . $metodos[$i] . "<br>"; // imprime o metodo
+							echo "<br> Minutos: " . $minutos[$i] . "<br>"; // imprime os minutos
+						}
+						*/
+						
+						// RESETA OS ARRAYS DE LEMBRETES PARA EVITAR INCREMENTO PARA OUTROS DIAS
+						$metodos = array(); // zera o array de metodos
+						$minutos = array(); // zera o array de minutos
+						
 
-					$data[] = $retornoLembretesDiaDaSemana; // armazena o array do dia no array de retorno final
-					$retornoLembretesDiaDaSemana = array(); // zera o array do dia
+						$data[] = $retornoLembretesDiaDaSemana; // armazena o array do dia no array de retorno final
+						$retornoLembretesDiaDaSemana = array(); // zera o array do dia
+					
+					}
+					//echo "Existe o evento na agenda para " . $diaSemanaAtual . " mas o evento nao possui lembretes (sms, email).<br>";
 				}
 			}
 			// CODIFICA O ARRAY EM FORMATO JSON E DEVOLVE COMO RETORNO
