@@ -620,13 +620,47 @@ function carregaCalendarioSemana(){
 				
 			} // laco do array de lembretes
 			
+			console.log(arrayLembretesGoogle);
+			
 			// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
 			if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
+			
+				
+			
 				var url = "inserirEvento.php";
 					$.post(
 							url,
 							{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle}
 					);
+			}else{ // se o array de lembretes google vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes google)
+				
+				console.log("Oh my God! foram zerados os eventos do Google!!!");
+				
+				// apagar os lembretes do banco
+				$.post("Google/excluirLembretesGoogle.php");
+				
+				// apagar todos eventos Localizesenac a partir do dia atual do Google
+				$.post("Google/excluirEventoGoogle.php");
+				
+				/*
+				// verifica se existem lembretes Google na tabela aluno_lembrete
+				var url = "Google/verificarEventoGoogle.php";
+	
+				// recebe como retorno um json com os lembretes (lembretesJsonGoogle)
+				$.post(url, function(lembretesJsonGoogle) {
+					if (lembretesJsonGoogle != 0){// caso existam eventos do tipo icloud em aluno_lembrete
+						// se houverem 
+						
+							console.log("Existem eventos Google:");
+							console.log(lembretesJsonGoogle);
+							// apagar os lembretes do banco
+							$.post("Google/excluirLembretesGoogle.php");
+							
+							// apagar os eventos online no Google
+							$.post("Google/excluirEventoGoogle.php");
+					}
+				});	
+				*/
 			}
 			
 			if(arrayLembretesZenvia[0] != null){ // se o array de lembretes Zenvia não estiver vazio

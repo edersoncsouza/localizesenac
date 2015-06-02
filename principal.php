@@ -370,7 +370,7 @@ $(document).ready(function() {
             <!-- /.row -->
 			
 			<div class="row"> <!-- Eventos Acadêmicos -->
-                <div id="agendaAcademica" class="hidden-xs col-lg-6 col-md-6">
+                <div id="agendaAcademica" class="col-lg-6 col-md-6">
 					
 					<div class="panel panel-primary"> <!-- Agenda Acadêmica -->
                         <div class="panel-footer">

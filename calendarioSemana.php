@@ -69,10 +69,12 @@ $(document).ready(function() {
         <p class="TabContent">
 					Não tem aulas no dia de hoje */
 	
+	var Id; // variavel usada para identificar o dia da semana
+	
 	// verifica o conteudo das pills dos dias de semana
 	$('div.tab-pane>p') // div classe tab-pane, conteudo p
 		.filter(function() {
-			var Id = $(this).parent().attr("id");   
+			Id = $(this).parent().attr("id");   
 			return (Id == 'segunda' || Id == 'terça'|| Id == 'quarta'|| Id == 'quinta'|| Id == 'sexta'|| Id == 'sábado'|| Id == 'domingo');
 		}) // se o id for um dia da semana
 			.each(function(){ // com todos eles
@@ -86,6 +88,23 @@ $(document).ready(function() {
 										'<button type="button" id="sairDisciplina" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:3px; padding-left:3px;" ><i class="fa fa-home"></i> Voltar</button>'+
 										'</p>'
 										);
+						
+						// ZERA TODOS OS INPUTBOX E CHECKBOX DE LEMBRETES DO DIA
+						
+						// zera os inputboxes dos lembretes
+						$("#minutosSms"+Id).val('');
+						$("#minutosEmail"+Id).val('');
+						$("#minutosIcloud"+Id).val('');
+						$("#minutosZenvia"+Id).val('');
+						$("#minutosPhpmailer"+Id).val('');
+
+						// desmarca os checkboxes dos lembretes
+						$("#lembrarSms"+Id).prop('checked', false);
+						$("#lembrarEmail"+Id).prop('checked', false);
+						$("#lembrarIcloud"+Id).prop('checked', false);
+						$("#lembrarZenvia"+Id).prop('checked', false);
+						$("#lembrarPhpmailer"+Id).prop('checked', false);
+						
 					}
 					else{ // se ja existirem disciplinas cadastradas no dia 
 						

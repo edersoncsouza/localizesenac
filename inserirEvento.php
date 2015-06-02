@@ -400,7 +400,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				//$createdEvent = $cl_service->events->update('primary', $evento->getId(), $event);
 
 		}// ******************* FINAL DO FOR DE DISCIPLINAS ************************
-			
+		
 	}//if(isset($_POST['unidade'], $_POST['turno'], $_POST['dia'], $_POST['sala'], $_POST['disciplina'], $_POST['lembrete'], $_POST['minutos']))
 	
 

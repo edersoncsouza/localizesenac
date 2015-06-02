@@ -28,7 +28,7 @@ function enviaEmail($corpo, $destinatario, $nome){
 	$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
 	$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
 	$mail->Username   = "localizesenac@gmail.com";  // GMAIL username
-	$mail->Password   = "";            // GMAIL password
+	$mail->Password   = "N1kolatesla";            // GMAIL password
 
 	$mail->SetFrom('localizesenac@gmail.com', 'LocalizeSenac');
 
