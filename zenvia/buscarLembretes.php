@@ -28,7 +28,7 @@ function enviaEmail($corpo, $destinatario, $nome){
 	$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
 	$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
 	$mail->Username   = "localizesenac@gmail.com";  // GMAIL username
-	$mail->Password   = "";            // GMAIL password
+	$mail->Password   = "N1kolatesla";            // GMAIL password
 
 	$mail->SetFrom('localizesenac@gmail.com', 'LocalizeSenac');
 
@@ -52,15 +52,15 @@ function enviaEmail($corpo, $destinatario, $nome){
 }
 
 // se recebeu os parametros por POST
-if(isset($_POST['tipoLembrete'], $_POST['turno'])){ 
+if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 
 	// sanitiza as entradas
 	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
 
 	$tipoLembrete = $_POST['tipoLembrete'];
 	$turno = $_POST['turno'];
-	//$tipoLembrete = "icloud";
-	//$turno = "M";
+	//$tipoLembrete = "pemail";
+	//$turno = "N";
 	
 	$data = [];
 	
@@ -112,11 +112,14 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 	
 	if(mysql_num_rows($result) > 0){ // se houverem lembretes do tipo recebido
 		
+		echo "achou lembretes pemail";
+		
 		if($tipoLembrete == "pemail"){ // se o lembrete for do tipo email
 		
 			if(isset($_POST['antecedenciaEmail'])){ // se recebeu os minutos de antecedencia por parametro
 				
-				$antecedenciaEmail = $_POST['antecedenciaEmail']; // armazena a atencedencia
+				//$antecedenciaEmail = 60;
+				$antecedenciaEmail = $_POST['antecedenciaEmail']; // armazena a antencedencia
 				
 				while ($row = mysql_fetch_array($result, MYSQL_NUM)) { // para cada linha
 					
@@ -126,7 +129,7 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 							$nome = $row[8];
 							$destinatario = $row[9];
 							enviaEmail($corpo, $destinatario, $nome);
-							
+							echo "Email enviado para " . $destinatario . "<br>";
 						}
 						
 				}
@@ -178,10 +181,11 @@ foreach ($responses as $response)  { // desmembra o array de retorno
 }
 */
 
+
 }	
 else
 	echo 0;
-	
+
 
 
 ?>

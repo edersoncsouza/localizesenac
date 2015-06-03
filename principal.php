@@ -119,6 +119,8 @@ $(document).ready(function() {
 		txt_GoToEventUrl: "Ir ao evento"
 	});
 	
+		//dateSlider("current", 2015, 06);
+	$("#inlineEventcalendar").hide;
 	
 	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
 	$('#configuracoes').click( function() {
@@ -202,7 +204,7 @@ $(document).ready(function() {
 			$('#inputBusca').val('');
 	});
 
-	//jquery.eventCalendar.min.js
+
 	
 });
 </script>

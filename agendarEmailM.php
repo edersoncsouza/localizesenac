@@ -18,6 +18,8 @@ function timerMethod() {
 		// define a pagina a ser chamada por post
 		var url = "zenvia/buscarLembretes.php";
 		
+		console.log("Contador agora vale: " + contador);
+		
 		// recebe como retorno um json com os lembretes (lembretesJson)
 		$.post(url,{ tipoLembrete: "pemail", turno: "M", antecedenciaEmail: contador}, function(lembretesJson) {
 

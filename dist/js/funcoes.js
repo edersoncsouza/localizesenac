@@ -648,13 +648,16 @@ function carregaCalendarioSemana(){
 				console.log("Array de eventos do Google a excluir:");
 				console.log(JSON.stringify(arrayDiasEventosExcluir));
 				
+				// teste de envio imediato para a pagina sem esperar final do post
+				window.location.href = "principal.php";
+				
 				// EFETUA O POST PARA EXCLUIR OS EVENTOS DOS DIAS SEM CHECKBOX MARCADO
 				var url = "Google/excluirEventosSemanaisGoogle.php";
 					$.post(
 							url,
 							{'arrayDiasDaSemana' : arrayDiasEventosExcluir}
 					);
-				
+								
 				
 				// EFETUA O POST PARA INSERIR OS EVENTOS ARMAZENADOS
 				var url = "inserirEvento.php";
@@ -665,6 +668,8 @@ function carregaCalendarioSemana(){
 					);
 					
 				// OBS: Pode executar a exclusao e insercao em posts assincronos pois cada um vai alterar a agenda em dias da semana diferentes
+				
+
 				
 			}else{ // se o array de lembretes google vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes google)
 				
