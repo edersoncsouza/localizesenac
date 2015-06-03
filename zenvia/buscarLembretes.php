@@ -151,12 +151,12 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 		
 	}
 
-/*
+
 // CONFIGURA O ACESSO AO SISTEMA ZENVIA
 $humanMultipleSend = new HumanMultipleSend("dsx.assessoria", "wryuvGT12E"); // instancia a classe e fornece usuario e senha
 $tipo = HumanMultipleSend::TYPE_E; // define o tipo de mensagem [numero;mensagem;id;sender;agenda]
 $callBack = HumanMultipleSend::CALLBACK_FINAL_STATUS; // define o retorno (callback)
-*/
+
 
 	// monta a string de mensagens
 	if($tipoLembrete == "zsms"){
@@ -169,7 +169,7 @@ $callBack = HumanMultipleSend::CALLBACK_FINAL_STATUS; // define o retorno (callb
 		echo $msg_list . "<br>";
 	}
 	
-/*
+
 // FAZ O ENVIO DAS MENSAGENS AO SISTEMA ZENVIA
 $responses = $humanMultipleSend->sendMultipleList($tipo, $msg_list, $callBack); // envia as mensagens e armazena o retorno
 
@@ -177,7 +177,7 @@ foreach ($responses as $response)  { // desmembra o array de retorno
     echo $response->getCode();
     echo $response->getMessage();
 }
-*/
+
 
 
 }	
