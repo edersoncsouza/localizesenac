@@ -560,7 +560,7 @@ function carregaCalendarioSemana(){
 			arrayDisciplinasGoogle = [];
 			arrayDisciplinasApple = [];
 			
-			console.log("=== CONFIG ALUNO === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
+			console.log("=== CONFIG ALUNO depois de armazenaLembretes() === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
 			console.log("Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
 			
 			// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE
@@ -622,6 +622,8 @@ function carregaCalendarioSemana(){
 			
 			console.log("Array de Lembretes do Google:");
 			console.log(JSON.stringify(arrayLembretesGoogle));
+			console.log("Array disciplinas do Google:");
+			console.log(JSON.stringify(arrayDisciplinasGoogle));
 			
 			// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
 			if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
@@ -656,6 +658,7 @@ function carregaCalendarioSemana(){
 				
 				// EFETUA O POST PARA INSERIR OS EVENTOS ARMAZENADOS
 				var url = "inserirEvento.php";
+				console.log("VOU CHAMAR O INSERIR EVENTO PORQUE arrayLembretesGoogle[0] != null");
 					$.post(
 							url,
 							{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle}

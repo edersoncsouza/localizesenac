@@ -105,7 +105,14 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			$jaLimpei = FALSE; // cria variavel booleana para efetuar limpeza dos eventos uma unica vez
 			$eventosExcluidosDia = []; //cria um array com eventos a excluir
 			
-		foreach($_POST['arrayDisciplinas'] as $campoDisciplina) {
+			$disciplinas = $_POST['arrayDisciplinas']; // armazena o array que pode estar duplicado pois existem dois tipos de lembretes do Google
+			$disciplinas = array_unique($disciplinas, SORT_REGULAR); // remove os objetos duplicados do array fonte: http://stackoverflow.com/questions/2426557/array-unique-for-objects
+			
+			$lembretes = $_POST['arrayLembretes']; // armazena o array dos lembretes
+			
+			
+			
+		foreach($disciplinas as $campoDisciplina) {
 				//disciplinasDiaDaSemana.push({ "unidade": unidadeP, "turno": turnoP, "dia": diaP, "sala": salaP, "disciplina": disciplinaP});
 				//echo "Disciplina: " . $result['disciplina'] . '<br>';
 				$dia = $campoDisciplina['dia'];
@@ -113,7 +120,9 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				$turno = $campoDisciplina['turno'];
 				$unidade = $campoDisciplina['unidade'];
 				$disciplina = $campoDisciplina['disciplina'];
-			
+
+			echo "AGORA A DISCIPLINA E: " . $disciplina . "<br>";	
+				
 			// monta as strings para o evento
 			$sumarioEvento = 'LocalizeSenac - Aula -  ' . $disciplina;
 			$unidadeEvento = 'Faculdade Senac Porto Alegre - Unidade ' .$unidade. ' - Sala: ' . $sala;
@@ -183,13 +192,15 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			
 			$eventos = $listaEventos->getItems(); // recebe os itens da lista de eventos
 
-			//$existeEvento = FALSE; // cria variavel booleana para identificar se ja existe o evento
+			echo "A quantidade de eventos de " . $inicio . " ate " . $final . " e: " . count($eventos) . "<br>";
+			
 			
 			if(count($eventos)>0){ // se existem eventos no dia da disciplina
 			
-				echo "Entrei para apagar eventos \n";
+				echo "Entrei para apagar " . count($eventos) . " eventos <br>";
 				
 				if(!in_array($dia, $eventosExcluidosDia)){ // se o dia ainda nao estiver no array
+					echo "O dia " . $dia . " não estava cadastrado como dia de evento excluido, por isso vou excluir<br>";
 					
 					array_push($eventosExcluidosDia,$dia); // envia o dia pro array
 					$deleteParams = array('timeMin' => $inicio); // parametros para apagar os eventos recorrentes
@@ -213,22 +224,29 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 								// deleta o evento encontrado
 								//$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
 								
-								/* TENTATIVA DE EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work */
+								// EXCLUSAO DE EVENTOS RECORRENTES http://stackoverflow.com/questions/20561258/how-recurring-events-in-google-calendar-work 
 								$eventosRecorrentes = $cl_service->events->instances('primary', $idEventoExistente, $deleteParams); // armazena todas as instancias do evento recorrente
 								
 								if ($eventosRecorrentes && count($eventosRecorrentes->getItems())) { // se houverem eventosRecorrentes
 								  foreach ($eventosRecorrentes->getItems() as $instance) { // laco para percorrer todos os eventos recorrentes
-									  echo "Instancia do evento encontrada ID: " . $instance->getId() . "<br>";
+									echo "Instancia do evento encontrada, deletei o evento ID: " . $instance->getId() . "<br>";
 									$cl_service->events->delete('primary', $instance->getId()); // deleta cada instancia do evento
 								  }
 								}
+								else{ // se o evento LocalizeSenac existe mas nao tem recorrencia
+									$cl_service->events->delete('primary', $idEventoExistente); // exlui um evento unico, sem recorrencia
+									echo "Deletei o evento sem recorrencia id: " . $idEventoExistente . "<br>";
+								}
 
-							}
+							} // se o sumario e LocalizeSenac
+							
 						} // foreach ($eventos as $evento) 
 				
 				} //if(!in_array(dia, eventosExcluidosDia))
 				
-			} // se existem eventos
+			} // se existem eventos no dia da disciplina
+			
+			
 			
 			// cria o evento calendar
 			$event = new Google_Service_Calendar_Event(); // cria o novo evento
@@ -261,7 +279,9 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 			$remindersArray = array(); // cria o array para acumular as notificacoes
 			$arrayLembretesTipo = array(); // criado para armazenar os lembretes para a tabela aluno_lembrete
 			
-			foreach($_POST['arrayLembretes'] as $campoLembrete) {
+			//$lembretes = $_POST['arrayLembretes']; colocado no inicio do arquivo
+			
+			foreach($lembretes as $campoLembrete) {
 				
 				$reminder = new Google_Service_Calendar_EventReminder(); // instancia a notificacao
 				
@@ -371,7 +391,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				if(mysql_num_rows($result) != 0){ // se encontrou lembretes do google para o aluno
 					while($row = mysql_fetch_array($result)) { // para cada linha do resultset
 							$sql4 = "DELETE FROM aluno_lembrete WHERE id = \"{$row['id']}\""; // exclui o registro da tabela aluno_lembrete
-							echo "SQL4: " . $sql4 . "\n";
+							echo "SQL4: " . $sql4 . "<br>";
 							$result4 = mysql_query($sql4) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 					}
 				}
