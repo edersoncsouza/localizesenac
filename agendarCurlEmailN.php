@@ -7,7 +7,7 @@ for ($contador = 60; $contador >= 1; $contador--) {
 	// monta o array com os campos de POST
 	$params = array(
 	   "tipoLembrete" => "pemail",
-	   "turno" => "M",
+	   "turno" => "N",
 	   "antecedenciaEmail" => $contador
 	);
 	 

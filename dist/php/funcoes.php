@@ -1,5 +1,38 @@
 <?php
 
+function httpPost($url,$params){
+  $postData = '';
+
+  // cria o arquivo de log de erros
+  $fp = fopen(dirname(__FILE__).'/logs/errorlog.txt', 'w');
+
+  //create name value pairs separated by &
+   foreach($params as $k => $v) 
+   { 
+      $postData .= $k . '='.$v.'&'; 
+   }
+   rtrim($postData, '&');
+ 
+    $ch = curl_init();  
+ 
+    curl_setopt($ch,CURLOPT_URL,$url);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($ch,CURLOPT_HEADER, false); 
+    curl_setopt($ch, CURLOPT_POST, count($postData));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);    
+ 
+	// define verbosidade para verificar erros no curl
+	curl_setopt($ch, CURLOPT_VERBOSE, true);
+	// define a saida de erros
+	curl_setopt($ch, CURLOPT_STDERR, $fp);
+ 
+    $output=curl_exec($ch);
+ 
+    curl_close($ch);
+    return $output;
+ 
+}
+
 function imprimeSessao(){
     //session_start();
     echo "<h3> PHP List All Session Variables</h3>";

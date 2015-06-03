@@ -1,0 +1,361 @@
+
+2015-06-03 17:38:06	SERVER -> CLIENT: 220 mx.google.com ESMTP m73sm755718qkh.26 - gsmtp
+2015-06-03 17:38:06	CLIENT -> SERVER: EHLO localhost
+2015-06-03 17:38:06	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-STARTTLS
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 17:38:06	CLIENT -> SERVER: STARTTLS
+2015-06-03 17:38:06	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+2015-06-03 17:38:07	CLIENT -> SERVER: EHLO localhost
+2015-06-03 17:38:07	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN XOAUTH
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 17:38:07	CLIENT -> SERVER: AUTH LOGIN
+2015-06-03 17:38:07	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+2015-06-03 17:38:07	CLIENT -> SERVER: bG9jYWxpemVzZW5hY0BnbWFpbC5jb20=
+2015-06-03 17:38:08	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+2015-06-03 17:38:08	CLIENT -> SERVER: TjFrb2xhdGVzbGE=
+2015-06-03 17:38:08	SERVER -> CLIENT: 235 2.7.0 Accepted
+2015-06-03 17:38:08	CLIENT -> SERVER: MAIL FROM:<localizesenac@gmail.com>
+2015-06-03 17:38:08	SERVER -> CLIENT: 250 2.1.0 OK m73sm755718qkh.26 - gsmtp
+2015-06-03 17:38:08	CLIENT -> SERVER: RCPT TO:<edersonadssenac@gmail.com>
+2015-06-03 17:38:08	SERVER -> CLIENT: 250 2.1.5 OK m73sm755718qkh.26 - gsmtp
+2015-06-03 17:38:08	CLIENT -> SERVER: DATA
+2015-06-03 17:38:09	SERVER -> CLIENT: 354  Go ahead m73sm755718qkh.26 - gsmtp
+2015-06-03 17:38:09	CLIENT -> SERVER: Date: Wed, 3 Jun 2015 14:38:05 -0300
+2015-06-03 17:38:09	CLIENT -> SERVER: To: Ederson Senac Souza <edersonadssenac@gmail.com>
+2015-06-03 17:38:09	CLIENT -> SERVER: From: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 17:38:09	CLIENT -> SERVER: Reply-To: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 17:38:09	CLIENT -> SERVER: Subject: Aula: Gestao da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:38:09	CLIENT -> SERVER: Message-ID: <ed45490b7f1e03052c0db338327dab5e@localhost>
+2015-06-03 17:38:09	CLIENT -> SERVER: X-Priority: 3
+2015-06-03 17:38:09	CLIENT -> SERVER: X-Mailer: PHPMailer 5.2.10 (https://github.com/PHPMailer/PHPMailer/)
+2015-06-03 17:38:09	CLIENT -> SERVER: MIME-Version: 1.0
+2015-06-03 17:38:09	CLIENT -> SERVER: Content-Type: multipart/alternative;
+2015-06-03 17:38:09	CLIENT -> SERVER: 	boundary="b1_ed45490b7f1e03052c0db338327dab5e"
+2015-06-03 17:38:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: This is a multi-part message in MIME format.
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: --b1_ed45490b7f1e03052c0db338327dab5e
+2015-06-03 17:38:09	CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+2015-06-03 17:38:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: --b1_ed45490b7f1e03052c0db338327dab5e
+2015-06-03 17:38:09	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+2015-06-03 17:38:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: --b1_ed45490b7f1e03052c0db338327dab5e--
+2015-06-03 17:38:09	CLIENT -> SERVER:
+2015-06-03 17:38:09	CLIENT -> SERVER: .
+2015-06-03 17:38:10	SERVER -> CLIENT: 250 2.0.0 OK 1433353086 m73sm755718qkh.26 - gsmtp
+2015-06-03 17:38:10	CLIENT -> SERVER: QUIT
+2015-06-03 17:38:10	SERVER -> CLIENT: 221 2.0.0 closing connection m73sm755718qkh.26 - gsmtp
+Message sent!<br> Email enviado para edersonadssenac@gmail.com<br>
+2015-06-03 17:41:06	SERVER -> CLIENT: 220 mx.google.com ESMTP 188sm752786qhu.15 - gsmtp
+2015-06-03 17:41:06	CLIENT -> SERVER: EHLO localhost
+2015-06-03 17:41:07	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-STARTTLS
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 17:41:07	CLIENT -> SERVER: STARTTLS
+2015-06-03 17:41:07	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+2015-06-03 17:41:07	CLIENT -> SERVER: EHLO localhost
+2015-06-03 17:41:07	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN XOAUTH
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 17:41:07	CLIENT -> SERVER: AUTH LOGIN
+2015-06-03 17:41:08	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+2015-06-03 17:41:08	CLIENT -> SERVER: bG9jYWxpemVzZW5hY0BnbWFpbC5jb20=
+2015-06-03 17:41:08	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+2015-06-03 17:41:08	CLIENT -> SERVER: TjFrb2xhdGVzbGE=
+2015-06-03 17:41:08	SERVER -> CLIENT: 235 2.7.0 Accepted
+2015-06-03 17:41:08	CLIENT -> SERVER: MAIL FROM:<localizesenac@gmail.com>
+2015-06-03 17:41:08	SERVER -> CLIENT: 250 2.1.0 OK 188sm752786qhu.15 - gsmtp
+2015-06-03 17:41:08	CLIENT -> SERVER: RCPT TO:<edersonadssenac@gmail.com>
+2015-06-03 17:41:09	SERVER -> CLIENT: 250 2.1.5 OK 188sm752786qhu.15 - gsmtp
+2015-06-03 17:41:09	CLIENT -> SERVER: DATA
+2015-06-03 17:41:09	SERVER -> CLIENT: 354  Go ahead 188sm752786qhu.15 - gsmtp
+2015-06-03 17:41:09	CLIENT -> SERVER: Date: Wed, 3 Jun 2015 14:41:05 -0300
+2015-06-03 17:41:09	CLIENT -> SERVER: To: Ederson Senac Souza <edersonadssenac@gmail.com>
+2015-06-03 17:41:09	CLIENT -> SERVER: From: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 17:41:09	CLIENT -> SERVER: Reply-To: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 17:41:09	CLIENT -> SERVER: Subject: Aula: Gestao da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:41:09	CLIENT -> SERVER: Message-ID: <745aa7c565ea3b8726ee9763c6dcc723@localhost>
+2015-06-03 17:41:09	CLIENT -> SERVER: X-Priority: 3
+2015-06-03 17:41:09	CLIENT -> SERVER: X-Mailer: PHPMailer 5.2.10 (https://github.com/PHPMailer/PHPMailer/)
+2015-06-03 17:41:09	CLIENT -> SERVER: MIME-Version: 1.0
+2015-06-03 17:41:09	CLIENT -> SERVER: Content-Type: multipart/alternative;
+2015-06-03 17:41:09	CLIENT -> SERVER: 	boundary="b1_745aa7c565ea3b8726ee9763c6dcc723"
+2015-06-03 17:41:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: This is a multi-part message in MIME format.
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: --b1_745aa7c565ea3b8726ee9763c6dcc723
+2015-06-03 17:41:09	CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+2015-06-03 17:41:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: --b1_745aa7c565ea3b8726ee9763c6dcc723
+2015-06-03 17:41:09	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+2015-06-03 17:41:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: --b1_745aa7c565ea3b8726ee9763c6dcc723--
+2015-06-03 17:41:09	CLIENT -> SERVER:
+2015-06-03 17:41:09	CLIENT -> SERVER: .
+2015-06-03 17:41:09	SERVER -> CLIENT: 250 2.0.0 OK 1433353265 188sm752786qhu.15 - gsmtp
+2015-06-03 17:41:09	CLIENT -> SERVER: QUIT
+2015-06-03 17:41:10	SERVER -> CLIENT: 221 2.0.0 closing connection 188sm752786qhu.15 - gsmtp
+Message sent!<br> Email enviado para edersonadssenac@gmail.com<br>
+2015-06-03 17:42:28	SERVER -> CLIENT: 220 mx.google.com ESMTP r31sm762375qkr.42 - gsmtp
+2015-06-03 17:42:28	CLIENT -> SERVER: EHLO localhost
+2015-06-03 17:42:28	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-STARTTLS
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 17:42:28	CLIENT -> SERVER: STARTTLS
+2015-06-03 17:42:28	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+2015-06-03 17:42:29	CLIENT -> SERVER: EHLO localhost
+2015-06-03 17:42:29	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN XOAUTH
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 17:42:29	CLIENT -> SERVER: AUTH LOGIN
+2015-06-03 17:42:29	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+2015-06-03 17:42:29	CLIENT -> SERVER: bG9jYWxpemVzZW5hY0BnbWFpbC5jb20=
+2015-06-03 17:42:29	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+2015-06-03 17:42:29	CLIENT -> SERVER: TjFrb2xhdGVzbGE=
+2015-06-03 17:42:29	SERVER -> CLIENT: 235 2.7.0 Accepted
+2015-06-03 17:42:29	CLIENT -> SERVER: MAIL FROM:<localizesenac@gmail.com>
+2015-06-03 17:42:30	SERVER -> CLIENT: 250 2.1.0 OK r31sm762375qkr.42 - gsmtp
+2015-06-03 17:42:30	CLIENT -> SERVER: RCPT TO:<edersonadssenac@gmail.com>
+2015-06-03 17:42:30	SERVER -> CLIENT: 250 2.1.5 OK r31sm762375qkr.42 - gsmtp
+2015-06-03 17:42:30	CLIENT -> SERVER: DATA
+2015-06-03 17:42:30	SERVER -> CLIENT: 354  Go ahead r31sm762375qkr.42 - gsmtp
+2015-06-03 17:42:30	CLIENT -> SERVER: Date: Wed, 3 Jun 2015 14:42:27 -0300
+2015-06-03 17:42:30	CLIENT -> SERVER: To: Ederson Senac Souza <edersonadssenac@gmail.com>
+2015-06-03 17:42:30	CLIENT -> SERVER: From: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 17:42:30	CLIENT -> SERVER: Reply-To: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 17:42:30	CLIENT -> SERVER: Subject: Aula: Gestao da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:42:30	CLIENT -> SERVER: Message-ID: <54ce9aac04c22739d15d2e7dd7034aa4@localhost>
+2015-06-03 17:42:30	CLIENT -> SERVER: X-Priority: 3
+2015-06-03 17:42:30	CLIENT -> SERVER: X-Mailer: PHPMailer 5.2.10 (https://github.com/PHPMailer/PHPMailer/)
+2015-06-03 17:42:30	CLIENT -> SERVER: MIME-Version: 1.0
+2015-06-03 17:42:30	CLIENT -> SERVER: Content-Type: multipart/alternative;
+2015-06-03 17:42:30	CLIENT -> SERVER: 	boundary="b1_54ce9aac04c22739d15d2e7dd7034aa4"
+2015-06-03 17:42:30	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: This is a multi-part message in MIME format.
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: --b1_54ce9aac04c22739d15d2e7dd7034aa4
+2015-06-03 17:42:30	CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+2015-06-03 17:42:30	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: --b1_54ce9aac04c22739d15d2e7dd7034aa4
+2015-06-03 17:42:30	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+2015-06-03 17:42:30	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: --b1_54ce9aac04c22739d15d2e7dd7034aa4--
+2015-06-03 17:42:30	CLIENT -> SERVER:
+2015-06-03 17:42:30	CLIENT -> SERVER: .
+2015-06-03 17:42:31	SERVER -> CLIENT: 250 2.0.0 OK 1433353347 r31sm762375qkr.42 - gsmtp
+2015-06-03 17:42:31	CLIENT -> SERVER: QUIT
+2015-06-03 17:42:31	SERVER -> CLIENT: 221 2.0.0 closing connection r31sm762375qkr.42 - gsmtp
+Message sent!
+ Email enviado para edersonadssenac@gmail.com
+
+2015-06-03 18:08:24	SERVER -> CLIENT: 220 mx.google.com ESMTP w127sm808066qkw.32 - gsmtp
+2015-06-03 18:08:24	CLIENT -> SERVER: EHLO localhost
+2015-06-03 18:08:24	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-STARTTLS
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 18:08:24	CLIENT -> SERVER: STARTTLS
+2015-06-03 18:08:24	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+2015-06-03 18:08:25	CLIENT -> SERVER: EHLO localhost
+2015-06-03 18:08:25	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN XOAUTH
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 18:08:25	CLIENT -> SERVER: AUTH LOGIN
+2015-06-03 18:08:25	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+2015-06-03 18:08:25	CLIENT -> SERVER: bG9jYWxpemVzZW5hY0BnbWFpbC5jb20=
+2015-06-03 18:08:25	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+2015-06-03 18:08:25	CLIENT -> SERVER: TjFrb2xhdGVzbGE=
+2015-06-03 18:08:26	SERVER -> CLIENT: 235 2.7.0 Accepted
+2015-06-03 18:08:26	CLIENT -> SERVER: MAIL FROM:<localizesenac@gmail.com>
+2015-06-03 18:08:26	SERVER -> CLIENT: 250 2.1.0 OK w127sm808066qkw.32 - gsmtp
+2015-06-03 18:08:26	CLIENT -> SERVER: RCPT TO:<edersonadssenac@gmail.com>
+2015-06-03 18:08:26	SERVER -> CLIENT: 250 2.1.5 OK w127sm808066qkw.32 - gsmtp
+2015-06-03 18:08:26	CLIENT -> SERVER: DATA
+2015-06-03 18:08:28	SERVER -> CLIENT: 354  Go ahead w127sm808066qkw.32 - gsmtp
+2015-06-03 18:08:28	CLIENT -> SERVER: Date: Wed, 3 Jun 2015 15:08:23 -0300
+2015-06-03 18:08:28	CLIENT -> SERVER: To: Ederson Senac Souza <edersonadssenac@gmail.com>
+2015-06-03 18:08:28	CLIENT -> SERVER: From: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 18:08:28	CLIENT -> SERVER: Reply-To: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 18:08:28	CLIENT -> SERVER: Subject: Aula: Gestao da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 18:08:28	CLIENT -> SERVER: Message-ID: <5711153d2a57df5629a35e76d6110e37@localhost>
+2015-06-03 18:08:28	CLIENT -> SERVER: X-Priority: 3
+2015-06-03 18:08:28	CLIENT -> SERVER: X-Mailer: PHPMailer 5.2.10 (https://github.com/PHPMailer/PHPMailer/)
+2015-06-03 18:08:28	CLIENT -> SERVER: MIME-Version: 1.0
+2015-06-03 18:08:28	CLIENT -> SERVER: Content-Type: multipart/alternative;
+2015-06-03 18:08:28	CLIENT -> SERVER: 	boundary="b1_5711153d2a57df5629a35e76d6110e37"
+2015-06-03 18:08:28	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: This is a multi-part message in MIME format.
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: --b1_5711153d2a57df5629a35e76d6110e37
+2015-06-03 18:08:28	CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+2015-06-03 18:08:28	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: --b1_5711153d2a57df5629a35e76d6110e37
+2015-06-03 18:08:28	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+2015-06-03 18:08:28	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: --b1_5711153d2a57df5629a35e76d6110e37--
+2015-06-03 18:08:28	CLIENT -> SERVER:
+2015-06-03 18:08:28	CLIENT -> SERVER: .
+2015-06-03 18:08:29	SERVER -> CLIENT: 250 2.0.0 OK 1433354905 w127sm808066qkw.32 - gsmtp
+2015-06-03 18:08:29	CLIENT -> SERVER: QUIT
+2015-06-03 18:08:29	SERVER -> CLIENT: 221 2.0.0 closing connection w127sm808066qkw.32 - gsmtp
+Message sent!
+ Email enviado para edersonadssenac@gmail.com
+
+
+
+
+
+
+2015-06-03 18:14:06	SERVER -> CLIENT: 220 mx.google.com ESMTP 4sm817008qkv.22 - gsmtp
+2015-06-03 18:14:06	CLIENT -> SERVER: EHLO localhost
+2015-06-03 18:14:06	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-STARTTLS
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 18:14:06	CLIENT -> SERVER: STARTTLS
+2015-06-03 18:14:07	SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+2015-06-03 18:14:07	CLIENT -> SERVER: EHLO localhost
+2015-06-03 18:14:07	SERVER -> CLIENT: 250-mx.google.com at your service, [201.25.50.162]
+                   	                  250-SIZE 35882577
+                   	                  250-8BITMIME
+                   	                  250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN XOAUTH
+                   	                  250-ENHANCEDSTATUSCODES
+                   	                  250-PIPELINING
+                   	                  250-CHUNKING
+                   	                  250 SMTPUTF8
+2015-06-03 18:14:07	CLIENT -> SERVER: AUTH LOGIN
+2015-06-03 18:14:08	SERVER -> CLIENT: 334 VXNlcm5hbWU6
+2015-06-03 18:14:08	CLIENT -> SERVER: bG9jYWxpemVzZW5hY0BnbWFpbC5jb20=
+2015-06-03 18:14:08	SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+2015-06-03 18:14:08	CLIENT -> SERVER: TjFrb2xhdGVzbGE=
+2015-06-03 18:14:08	SERVER -> CLIENT: 235 2.7.0 Accepted
+2015-06-03 18:14:08	CLIENT -> SERVER: MAIL FROM:<localizesenac@gmail.com>
+2015-06-03 18:14:08	SERVER -> CLIENT: 250 2.1.0 OK 4sm817008qkv.22 - gsmtp
+2015-06-03 18:14:08	CLIENT -> SERVER: RCPT TO:<edersonadssenac@gmail.com>
+2015-06-03 18:14:08	SERVER -> CLIENT: 250 2.1.5 OK 4sm817008qkv.22 - gsmtp
+2015-06-03 18:14:08	CLIENT -> SERVER: DATA
+2015-06-03 18:14:09	SERVER -> CLIENT: 354  Go ahead 4sm817008qkv.22 - gsmtp
+2015-06-03 18:14:09	CLIENT -> SERVER: Date: Wed, 3 Jun 2015 15:14:06 -0300
+2015-06-03 18:14:09	CLIENT -> SERVER: To: Ederson Senac Souza <edersonadssenac@gmail.com>
+2015-06-03 18:14:09	CLIENT -> SERVER: From: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 18:14:09	CLIENT -> SERVER: Reply-To: LocalizeSenac <localizesenac@gmail.com>
+2015-06-03 18:14:09	CLIENT -> SERVER: Subject: Aula: Gestao da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 18:14:09	CLIENT -> SERVER: Message-ID: <ed99aa393aa3cc4450c957c87e3b5faf@localhost>
+2015-06-03 18:14:09	CLIENT -> SERVER: X-Priority: 3
+2015-06-03 18:14:09	CLIENT -> SERVER: X-Mailer: PHPMailer 5.2.10 (https://github.com/PHPMailer/PHPMailer/)
+2015-06-03 18:14:09	CLIENT -> SERVER: MIME-Version: 1.0
+2015-06-03 18:14:09	CLIENT -> SERVER: Content-Type: multipart/alternative;
+2015-06-03 18:14:09	CLIENT -> SERVER: 	boundary="b1_ed99aa393aa3cc4450c957c87e3b5faf"
+2015-06-03 18:14:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: This is a multi-part message in MIME format.
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: --b1_ed99aa393aa3cc4450c957c87e3b5faf
+2015-06-03 18:14:09	CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+2015-06-03 18:14:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: --b1_ed99aa393aa3cc4450c957c87e3b5faf
+2015-06-03 18:14:09	CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+2015-06-03 18:14:09	CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: Aula: Gestão da TI - Unidade: 1 - Turno: N - Dia: QUA - Sala: 604
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: --b1_ed99aa393aa3cc4450c957c87e3b5faf--
+2015-06-03 18:14:09	CLIENT -> SERVER:
+2015-06-03 18:14:09	CLIENT -> SERVER: .
+2015-06-03 18:14:09	SERVER -> CLIENT: 250 2.0.0 OK 1433355245 4sm817008qkv.22 - gsmtp
+2015-06-03 18:14:09	CLIENT -> SERVER: QUIT
+2015-06-03 18:14:09	SERVER -> CLIENT: 221 2.0.0 closing connection 4sm817008qkv.22 - gsmtp
+Message sent!
+ Email enviado para edersonadssenac@gmail.com

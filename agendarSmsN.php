@@ -1,30 +1,25 @@
-<!DOCTYPE HTML>
-<html lang="pt-br">
-<head>
-    <script src="dist/components/jquery/dist/jquery.min.js"></script>
-<script>
+<?php
 
-$(document).ready(function() {
-	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
-	var url = "zenvia/buscarLembretes.php";
+include("dist/php/funcoes.php");
 
-	// recebe como retorno um json com os lembretes (lembretesJson)
-	$.post(url,{ tipoLembrete: "zsms", turno: "N"}, function(lembretesJson) {
+	// monta o array com os campos de POST
+	$params = array(
+	   "tipoLembrete" => "zsms",
+	   "turno" => "N"
+	);
+	 
+	// Define a URL
+	$form_url = "http://localhost:8080/projetos/localizesenac/zenvia/buscarLembretes.php";
 
-		if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+	// executa a funcao httpPost e armazena na variavel retorno
+	$retorno = httpPost($form_url,$params);
 
-			console.log("Não existiam lembretes do tipo sms no banco de dados no turno da manhã!");
-		
-		}
-		else{ // se retornou com disciplinas
-			
-			console.log("Foram retornados lembretes:");
-			console.log(lembretesJson);
-			
-		}
-	});
-});
+	// caso haja retorno
+	if($retorno){
+		// grava o retorno no log de sucesso
+		file_put_contents('logs/successlog.txt', $retorno, FILE_APPEND);
+	}
+	
+}
 
-</script>
-</head>
-</html>
+?>

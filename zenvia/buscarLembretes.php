@@ -112,8 +112,6 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 	
 	if(mysql_num_rows($result) > 0){ // se houverem lembretes do tipo recebido
 		
-		echo "achou lembretes pemail";
-		
 		if($tipoLembrete == "pemail"){ // se o lembrete for do tipo email
 		
 			if(isset($_POST['antecedenciaEmail'])){ // se recebeu os minutos de antecedencia por parametro
@@ -129,7 +127,7 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 							$nome = $row[8];
 							$destinatario = $row[9];
 							enviaEmail($corpo, $destinatario, $nome);
-							echo "Email enviado para " . $destinatario . "<br>";
+							echo "\n Email enviado para " . $destinatario . "\n";
 						}
 						
 				}
