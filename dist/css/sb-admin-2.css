@@ -27,6 +27,12 @@ body {
     }
 }
 
+#painelAdministrador{
+
+	background-color: #000;
+	border-color: #000;
+}
+
 .navbar-top-links {
     margin-right: 0;
 }

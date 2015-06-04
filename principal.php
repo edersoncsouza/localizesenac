@@ -90,21 +90,23 @@ $(document).ready(function() {
 	
 	// eventos "inline" para a agenda
 	var eventsInline = [
-						{ 	"date": "2015-05-08 21:40:00",
+						{ 	"date": "2015-06-01 21:40:00",
 							"type": "Orientação",
-							"title": "Orientação sobre andamento do projeto",
-							"url": "http://www.event1.com/" },
-						{ "date": "2015-05-19 17:30:00",
+							"title": "Orientação sobre andamento do projeto, sala 503",
+							"url": "http://www.event1.com/" 
+						},
+						{ "date": "2015-06-19 17:30:00",
 							"type": "Reunião",
 							"title": "Reunião com a equipe de segurança",
-							"url": "http://www.event2.com/" }
+							"url": "http://www.event2.com/" 
+						}
 						];
 	
 	// parametros de configuracao do eventCalendar
 	
 	$("#inlineEventcalendar").eventCalendar({
-		//jsonData: eventsInline,
-		eventsjson: 'event.humanDate.json.php',
+		jsonData: eventsInline,
+		//eventsjson: 'event.humanDate.json.php',
 		eventsScrollable: true,
 		jsonDateFormat: 'human',
 		monthNames: [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho","Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ],
