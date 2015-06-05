@@ -1,6 +1,8 @@
 <?php
 
 include("dist/php/funcoes.php");
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+date_default_timezone_set('America/Sao_Paulo');
 
 	// monta o array com os campos de POST
 	$params = array(
@@ -16,10 +18,30 @@ include("dist/php/funcoes.php");
 
 	// caso haja retorno
 	if($retorno){
+		// armazena a mensagem de erro em uma variavel
+		$mensagemDeSucesso = "Job de SMS executado em " . strftime('%A, %d de %B de %Y', strtotime('today'));
+		
 		// grava o retorno no log de sucesso
-		file_put_contents('logs/successlog.txt', $retorno, FILE_APPEND);
+		file_put_contents(dirname(__FILE__).'/logs/successlog.txt', $retorno, FILE_APPEND);
+		
+		// imprime o log para verificar na area Advanced Cron Job
+		echo $mensagemDeSucesso;
 	}
-	
-}
+	else{
+		// armazena a mensagem de erro em uma variavel
+		$mensagemDeErro = "Não houve retorno no Job de SMS executado em " . strftime('%A, %d de %B de %Y', strtotime('today'));
+		
+		// grava mensagem de erro no log de erros
+		file_put_contents(dirname(__FILE__).'logs/errorlog.txt', $mensagemDeErro, FILE_APPEND);
+		
+		// imprime o log para verificar na area Advanced Cron Job
+		echo $mensagemDeErro;
+	}
 
 ?>
+
+
+
+
+
+

@@ -19,7 +19,7 @@
 			
 		// faz a verificação do resultado
 		//echo (mysql_affected_rows()) ? "Senha alterada com sucesso!" : "A senha não pode ser alterada!"; 
-		echo (mysql_affected_rows()) ? 1 : 0; // retorna 1 caso a senha tenha sido alterada ou 0 se não alterou	
+		echo (mysql_affected_rows()) ? 1 : 0; // retorna 1 caso alterações tenham acontecido ou 0 se não alterou	
 	}
 	else // caso não tenha recebido os parametros
 		echo 0;//("Não recebi os parametros para atualização de dados");

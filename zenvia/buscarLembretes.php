@@ -5,17 +5,18 @@ include_once("human_gateway_client_api/HumanClientMain.php");
 include("../dist/php/funcoes.php");
 include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
 
+/*
 function enviaEmail($corpo, $destinatario, $nome){
 
 	require_once('../phpmailer/class.phpmailer.php');
-	include("../phpmailer/class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
+	include_once("../phpmailer/class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
 	$mail             = new PHPMailer();
 
-	/*
-	$body             = file_get_contents('contents.html');
-	$body             = eregi_replace("[\]",'',$body);
-	*/
+	
+	//$body             = file_get_contents('contents.html');
+	//$body             = eregi_replace("[\]",'',$body);
+	
 	$body = $corpo;
 	
 	$mail->IsSMTP(); // telling the class to use SMTP
@@ -50,6 +51,7 @@ function enviaEmail($corpo, $destinatario, $nome){
 	}
 	
 }
+*/
 
 // se recebeu os parametros por POST
 if(isset($_POST['tipoLembrete'], $_POST['turno'])){
@@ -135,6 +137,8 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 		}
 		
 		if($tipoLembrete == "zsms"){ // se o tipo de lembrete do SMS da Zenvia
+			
+			// EXECUTA O LACO PARA RECUPERAR AS INFORMACOES PARA OS SMS's
 			while ($row = mysql_fetch_array($result, MYSQL_NUM)) { // para cada linha
 				// armazena os minutos de antecedencia do registro
 				$antecedencia = $row[6];
@@ -147,17 +151,42 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 				// formata e armazena os campos necessarios a mensagem em um array
 				$data[] = array('celular' => "55" . preg_replace("/[^0-9]/","", $row[0]), 'disciplina' => "Aula - " . retiraAcentos($row[1]), 'unidade' => "Unidade " . $row[2], 'sala' => "Sala " . $row[3], 'idMensagem' => "id" . $row[4], 'enviadoPor' => "LocalizeSenac.com", 'agendadoPara' => $agendado);	
 			}
+			
+			// CONFIGURA O ACESSO AO SISTEMA ZENVIA
+			$humanMultipleSend = new HumanMultipleSend("dsx.assessoria", "wryuvGT12E"); // instancia a classe e fornece usuario e senha
+			$tipo = HumanMultipleSend::TYPE_E; // define o tipo de mensagem [numero;mensagem;id;sender;agenda]
+			$callBack = HumanMultipleSend::CALLBACK_FINAL_STATUS; // define o retorno (callback)
+			
+			// MONTA A STRING COM AS MENSAGENS
+			$msg_list = "";
+			
+			foreach($data as $sms) {
+				$msg_list .= $sms['celular'];
+				$msg_list .= ";" . $sms['disciplina'] . " - " . $sms['unidade'] . " - " . $sms['sala'] . ";" . $sms['idMensagem'] . ";" . $sms['enviadoPor'] . ";". $sms['agendadoPara']."\n";
+			}
+			
+			echo $msg_list . "<br>";
+			
+			// FAZ O ENVIO DAS MENSAGENS AO SISTEMA ZENVIA
+			$responses = $humanMultipleSend->sendMultipleList($tipo, $msg_list, $callBack); // envia as mensagens e armazena o retorno
+
+			foreach ($responses as $response)  { // desmembra o array de retorno
+				echo $response->getCode();
+				echo $response->getMessage();
+			}
+			
 		}
 		
 	}
 
+	/*
+	// CONFIGURA O ACESSO AO SISTEMA ZENVIA
+	$humanMultipleSend = new HumanMultipleSend("dsx.assessoria", "wryuvGT12E"); // instancia a classe e fornece usuario e senha
+	$tipo = HumanMultipleSend::TYPE_E; // define o tipo de mensagem [numero;mensagem;id;sender;agenda]
+	$callBack = HumanMultipleSend::CALLBACK_FINAL_STATUS; // define o retorno (callback)
+	*/
 
-// CONFIGURA O ACESSO AO SISTEMA ZENVIA
-$humanMultipleSend = new HumanMultipleSend("dsx.assessoria", "wryuvGT12E"); // instancia a classe e fornece usuario e senha
-$tipo = HumanMultipleSend::TYPE_E; // define o tipo de mensagem [numero;mensagem;id;sender;agenda]
-$callBack = HumanMultipleSend::CALLBACK_FINAL_STATUS; // define o retorno (callback)
-
-
+	/*
 	// monta a string de mensagens
 	if($tipoLembrete == "zsms"){
 		$msg_list = "";
@@ -168,16 +197,17 @@ $callBack = HumanMultipleSend::CALLBACK_FINAL_STATUS; // define o retorno (callb
 		
 		echo $msg_list . "<br>";
 	}
-	
+	*/
 
-// FAZ O ENVIO DAS MENSAGENS AO SISTEMA ZENVIA
-$responses = $humanMultipleSend->sendMultipleList($tipo, $msg_list, $callBack); // envia as mensagens e armazena o retorno
+	/*
+	// FAZ O ENVIO DAS MENSAGENS AO SISTEMA ZENVIA
+	$responses = $humanMultipleSend->sendMultipleList($tipo, $msg_list, $callBack); // envia as mensagens e armazena o retorno
 
-foreach ($responses as $response)  { // desmembra o array de retorno
-    echo $response->getCode();
-    echo $response->getMessage();
-}
-
+	foreach ($responses as $response)  { // desmembra o array de retorno
+		echo $response->getCode();
+		echo $response->getMessage();
+	}
+	*/
 
 
 }	

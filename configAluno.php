@@ -118,8 +118,12 @@ PENDENCIAS LOCAIS:
 			if(emailP!==emailConfirmacao){
 				bootbox.alert('Os emails não conferem!');
 			}
-			else			
+			else{			
 				atualizaInfo(nomeP, emailP, celularP); // chama a funcao para atualizar as informacoes
+			}
+			
+			console.log("(#formMudaInfo).submit: saindo do submit do form");
+			
 		});
 
 // CONFIGURACOES PARA A GUIA SEGURANCA
@@ -474,23 +478,34 @@ PENDENCIAS LOCAIS:
 
 					if (result == 1){ // caso o retorno de mudarInfo.php seja = 1, o processo foi OK
 
-						bootbox.alert('Informações atualizadas com sucesso!', function() { // apos OK executa a funcao
-						  //location.reload();
-						  $('#configuracoes').trigger( "click" );
-						});
+						bootbox.alert('Informações atualizadas com sucesso!', 
+										function() { // apos OK executa a funcao
+										  //$('#configuracoes').trigger( "click" );
+											$('#configAluno').load( "configAluno.php" );
+										}
+						);
 					
+												  
+						console.log("Função atualizaInfo: Vou verificar ('celular').val(): ");
+						console.log($('#celular').val());
+						
 						if($('#celular').val() != ""){ // caso o usuario tenha cadastrado celular
 							$('.lembrarZenvia').prop("disabled", false); // habilita os checkboxes para receber sms
-							$(".checkboxesZenvia").tooltip('disabled'); // remove as dicas ao posicionar o mouse
+							//$('.checkboxesZenvia').tooltip("disabled"); // remove as dicas ao posicionar o mouse
 						}
+						
+						console.log("Função atualizaInfo: Passei pelo I F");
 						
 					}
 					else{
 						bootbox.alert('A informações não foram alteradas!');
 					}
 					
+					console.log("Função atualizaInfo: Estou saindo do POST para mudarInfo.php");
+					
 				});
 				
+				console.log("Função atualizaInfo: Estou saindo da função atualizaInfo");
 			}
 			
 			// funcao que executa o post dos parametros para inserir ou editar a disciplina por jQuery

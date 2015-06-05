@@ -41,7 +41,7 @@ function insereMarker(andarP, salaP){
 		map.addLayer(markers);
 	}
 	catch(e) {
-		console.log(e.name + ' - ' + e.message);
+		console.log("Erro ao inserir o marker: " + e.name + ' - ' + e.message);
 	}
 	
 	
@@ -321,12 +321,13 @@ function verificaEventoApple(){
 		// recebe como retorno um json com os lembretes (lembretesJson)
 	$.post(url, function(lembretesJsonIcloud) {
 		if (lembretesJsonIcloud == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-			console.log("O usuario logado não possui lembretes de disciplinas!");
+			console.log("Função: verificaEventoApple: O usuario logado não possui lembretes Apple para disciplinas!");
 		}
 		else{ // se retornou com disciplinas
 			//console.log("Lembretes de verificarEventoApple: " + lembretesJsonIcloud);
 			
 			objLembretesJsonApple = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array
+			console.log("Função: verificaEventoApple: objLembretesJsonApple vindo de verificarEventoApple.php:");	
 			console.log(objLembretesJsonApple);	
 			
 			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
@@ -351,6 +352,9 @@ function verificaEventoApple(){
 		
 		} // se identificou disciplinas com lembretes	
 		
+		console.log("Função: verificaEventoApple: Vou verificar se o usuario tem celular cadastrado.");
+		console.log("O valor de ('#celular').val() e: " + $('#celular').val());
+		
 		// se o usuario nao tiver celular cadastrado
 		if($('#celular').val() == ""){
 			// define uma dica ao posicionar o mouse sobre a div do checkbox
@@ -371,11 +375,11 @@ function verificaEventoZenvia(){
 	$.post(url, function(lembretesJsonZenvia) {
 		if (lembretesJsonZenvia == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
 			//bootbox.alert('Erro no envio de parâmetros!');
-			console.log("O usuario logado não possui lembretes de disciplinas!");
+			console.log("Função: verificaEventoZenvia: O usuario logado não possui lembretes de SMS Zenvia para disciplinas!");
 		}
 		else{ // se retornou com disciplinas
 			objLembretesJsonZenvia = $.parseJSON(lembretesJsonZenvia); // transforma a string JSON em Javascript Array
-			
+			console.log("Função: verificaEventoZenvia: objLembretesJsonZenvia vindo de verificarEventoZenvia.php:");	
 			console.log(objLembretesJsonZenvia);
 									
 			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
@@ -411,11 +415,11 @@ function verificaEventoPhpmailer(){
 	$.post(url, function(lembretesJsonPhpmailer) {
 		if (lembretesJsonPhpmailer == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
 			//bootbox.alert('Erro no envio de parâmetros!');
-			console.log("O usuario logado não possui lembretes de email para as disciplinas!");
+			console.log("Função: verificaEventoPhpmailer: O usuario logado não possui lembretes de email para as disciplinas!");
 		}
 		else{ // se retornou com disciplinas
 			objLembretesJsonPhpmailer = $.parseJSON(lembretesJsonPhpmailer); // transforma a string JSON em Javascript Array
-			
+			console.log("Função: verificaEventoPhpmailer: objLembretesJsonPhpmailer vindo de verificarEventoPhpmailer.php:");	
 			console.log(objLembretesJsonPhpmailer);
 									
 			// PERCORRE TODAS AS DISCIPLINAS DO DIA QUE POSSUAM LEMBRETES
@@ -452,11 +456,11 @@ function verificaEventoGoogle(){
 	$.post(url, function(lembretesJson) {
 		if (lembretesJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
 			//bootbox.alert('Erro no envio de parâmetros!');
-			console.log("O usuario logado não possui lembretes de disciplinas!");
+			console.log("Função: verificaEventoGoogle: O usuario logado não possui lembretes de disciplinas!");
 		}
 		else{ // se retornou com disciplinas
 			objLembretesJson = $.parseJSON(lembretesJson); // transforma a string JSON em Javascript Array
-			
+			console.log("Função: verificaEventoGoogle: objLembretesJson vindo de verificarEvento.php:");				
 			console.log(objLembretesJson);
 			//[{"diaDaSemana":"TER","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUA","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"QUI","lembretes":["sms"],"minutos":[20]},{"diaDaSemana":"SEX","lembretes":["email","sms"],"minutos":[10,20]},{"diaDaSemana":"SEG","lembretes":["sms"],"minutos":[20]}] 
 			//console.log("Aqui o objLembretesJson e: "+objLembretesJson);
@@ -560,8 +564,8 @@ function carregaCalendarioSemana(){
 			arrayDisciplinasGoogle = [];
 			arrayDisciplinasApple = [];
 			
-			console.log("=== CONFIG ALUNO depois de armazenaLembretes() === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
-			console.log("Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
+			console.log("Disparado por button#sairDisciplina \n === CONFIG ALUNO depois de armazenaLembretes() === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
+			console.log("Disparado por button#sairDisciplina \n Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
 			
 			// SEPARA OS LEMBRETES POR TIPO DE LEMBRETE
 			for (i = 0; i < arrayLembretes.length; i++){ // laço que percorre todos os lembretes e desmembra por tipo
@@ -620,9 +624,9 @@ function carregaCalendarioSemana(){
 				
 			} // laco do array de lembretes
 			
-			console.log("Array de Lembretes do Google:");
+			console.log("Disparado por button#sairDisciplina \n Array de Lembretes do Google:");
 			console.log(JSON.stringify(arrayLembretesGoogle));
-			console.log("Array disciplinas do Google:");
+			console.log("Disparado por button#sairDisciplina \n Array disciplinas do Google:");
 			console.log(JSON.stringify(arrayDisciplinasGoogle));
 			
 			// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
@@ -645,7 +649,7 @@ function carregaCalendarioSemana(){
 						arrayDiasEventosExcluir.push(diaDaSemanaIntermediario(k)); // armazena o dia da semana no array de eventos a excluir
 				}
 
-				console.log("Array de eventos do Google a excluir:");
+				console.log("Disparado por button#sairDisciplina \n Array de eventos do Google a excluir:");
 				console.log(JSON.stringify(arrayDiasEventosExcluir));
 				
 				// teste de envio imediato para a pagina sem esperar final do post
@@ -673,7 +677,7 @@ function carregaCalendarioSemana(){
 				
 			}else{ // se o array de lembretes google vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes google)
 				
-				console.log("Oh my God! foram zerados os eventos do Google!!!");
+				console.log("Disparado por button#sairDisciplina \n Oh my God! foram zerados os eventos do Google!!!");
 				
 				// apagar os lembretes do banco
 				$.post("Google/excluirLembretesGoogle.php");
@@ -747,7 +751,7 @@ function carregaCalendarioSemana(){
 				// RECEBE COMO RETORNO UM JSON COM OS LEMBRETES (lembretesJson)
 				$.post(url, function(lembretesJsonIcloud) {
 					if (lembretesJsonIcloud == 0){// se nao houverem lembretes icloud no banco
-						console.log("if(arrayLembretesApple[0] != null) : O usuario logado ainda não possui lembretes de disciplinas do tipo icloud!");
+						console.log("Disparado por button#sairDisciplina \n if(arrayLembretesApple[0] != null) : O usuario logado ainda não possui lembretes de disciplinas do tipo icloud!");
 						
 						// se chegou aqui ainda nem existem lembretes gravados e tem que inserir os lembretes
 						
@@ -761,7 +765,7 @@ function carregaCalendarioSemana(){
 					}
 					else{ // se retornou com disciplinas
 					
-						console.log("if(arrayLembretesApple[0] != null) lembretesJsonIcloud: " + lembretesJsonIcloud);
+						console.log("Disparado por button#sairDisciplina \n if(arrayLembretesApple[0] != null) lembretesJsonIcloud: " + lembretesJsonIcloud);
 
 						objLembretesJson = $.parseJSON(lembretesJsonIcloud); // transforma a string JSON em Javascript Array (ordenado por dia)	
 						
@@ -778,7 +782,7 @@ function carregaCalendarioSemana(){
 							 return 0; //default return value (no sorting)
 							});
 						
-						console.log("if(arrayLembretesApple[0] != null) arrayLembretesApple: ");
+						console.log("Disparado por button#sairDisciplina \n if(arrayLembretesApple[0] != null) arrayLembretesApple: ");
 						console.log(arrayLembretesApple);
 						
 						// PROCESSO DE VERIFICACAO SE HOUVE ALTERACOES NOS LEMBRETES ICLOUD DE CADA DIA
@@ -797,8 +801,8 @@ function carregaCalendarioSemana(){
 									//alert("DIA - Array tela: " + arrayLembretesApple[j].dia + " - Array banco: " + objLembretesJson[j].diaDaSemana);
 									//alert("MINUTOS - Array tela: " + arrayLembretesApple[j].minutos + " - Array banco: " + objLembretesJson[j].minutos);
 									elementosIguais = false; // afirma que algum dos elementos nao e igual
-									console.log("O dia em configAluno(arrayLembretesApple[j].dia): " + arrayLembretesApple[j].dia + " e diferente do dia em aluno_lembrete(objLembretesJson[j].diaDaSemana): " + getNomeDiaSemana(objLembretesJson[j].diaDaSemana));
-									console.log("Ou os minutos em configAluno: " + arrayLembretesApple[j].minutos + " e diferente em aluno_lembrete: " + objLembretesJson[j].minutos);
+									console.log("Disparado por button#sairDisciplina \n O dia em configAluno(arrayLembretesApple[j].dia): " + arrayLembretesApple[j].dia + " e diferente do dia em aluno_lembrete(objLembretesJson[j].diaDaSemana): " + getNomeDiaSemana(objLembretesJson[j].diaDaSemana));
+									console.log("Disparado por button#sairDisciplina \n Ou os minutos em configAluno: " + arrayLembretesApple[j].minutos + " e diferente em aluno_lembrete: " + objLembretesJson[j].minutos);
 								}
 								
 							}
@@ -816,13 +820,13 @@ function carregaCalendarioSemana(){
 								$.post(urlDisciplina, function(disciplinasAluno) {
 								
 									if (disciplinasAluno == 0){// se nao houverem disciplinas para o aluno
-										console.log("buscarDisciplinasAluno : O usuario logado não possui disciplinas!");
+										console.log("Disparado por button#sairDisciplina \n buscarDisciplinasAluno : O usuario logado não possui disciplinas!");
 									}
 									else{ 
 										objDisciplinasAlunoJson = $.parseJSON(disciplinasAluno); // transforma em array de objetos javascript
 										
-										console.log("Disciplinas com lembretes icloud(Array objLembretesJson, vindo de aluno_lembrete): " +  JSON.stringify(objLembretesJson));
-										console.log("Disciplinas do aluno(Array: objDisciplinasAlunoJson, vindo de aluno_disciplina): " +  JSON.stringify(objDisciplinasAlunoJson));
+										console.log("Disparado por button#sairDisciplina \n Disciplinas com lembretes icloud(Array objLembretesJson, vindo de aluno_lembrete): " +  JSON.stringify(objLembretesJson));
+										console.log("Disparado por button#sairDisciplina \n Disciplinas do aluno(Array: objDisciplinasAlunoJson, vindo de aluno_disciplina): " +  JSON.stringify(objDisciplinasAlunoJson));
 										
 										disciplinasIguais = true; //inicia afirmando que as disciplinas sao iguais pois a logica do filter adiante e ao contrario
 										
@@ -839,11 +843,11 @@ function carregaCalendarioSemana(){
 													}) 
 												) // nega o resultado 
 											){ // se nao encontrou executa o alert e muda o valor do boolean
-												alert("Esta disciplina nao combina com aluno_lembrete: " + JSON.stringify(objDisciplinasAlunoJson[i]));
+												alert("Disparado por button#sairDisciplina \n Esta disciplina nao combina com aluno_lembrete: " + JSON.stringify(objDisciplinasAlunoJson[i]));
 												disciplinasIguais = false;
 											}
 											else{ // se achou igual
-												console.log("Achei disciplina em aluno_disciplina que combina com aluno_lembrete: " + JSON.stringify(objDisciplinasAlunoJson[i]));
+												console.log("Disparado por button#sairDisciplina \n Achei disciplina em aluno_disciplina que combina com aluno_lembrete: " + JSON.stringify(objDisciplinasAlunoJson[i]));
 											}
 											
 										}
@@ -1206,6 +1210,7 @@ function consultarAluno(matriculaP, senhaP, nomeP, tipoUsuarioP){
 	// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
 	$.post(url,{ matricula: matriculaP, autenticacao: tipoUsuarioP }, function(alunoJson) {
 		
+		console.log("Função consultarAluno : alunoJson vindo de consultarAlunoOauth2.php")
 		console.log(alunoJson); // envia para o console o Json do usuario
 		
 		if (alunoJson == 0){// caso o retorno de consultarAluno.php seja = 0
