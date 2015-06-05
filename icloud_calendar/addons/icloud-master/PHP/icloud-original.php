@@ -232,7 +232,7 @@
 			// ARMAZENA O ARRAY DE AUTENTICACAO EM UM ARRAY JAVASCRIPT
 			echo "<script type=\"text/javascript\">
 					var arrayAutenticacaoApple =" . $arrayRetornoJson . ";
-					console.log(arrayAutenticacaoApple);
+					//console.log(arrayAutenticacaoApple);
 					
 				</script>";
 			

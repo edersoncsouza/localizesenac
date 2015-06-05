@@ -12,14 +12,14 @@
 
     <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 	
-	<!-- jQuery -->
-    <script src="dist/components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- Bootstrap Core CSS -->
     <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom Fonts -->
     <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!-- jQuery -->
+    <script src="dist/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
 	
 	<!-- formValidation -->
     <link rel="stylesheet" 		   href="dist/components/formValidation/dist/css/formValidation.css"/>
@@ -31,6 +31,9 @@
 	
 	<!-- RobinHerbots/jquery.inputmask: https://github.com/RobinHerbots/jquery.inputmask -->
 	<script type="text/javascript" src="dist/components/jquery.inputmask/jquery.inputmask.js"></script>
+	
+	<!-- funcoes personalizadas -->
+	<script type="text/javascript" src="dist/js/funcoes.js"></script>
 	
 <?php
 
@@ -62,166 +65,166 @@ if (isset($_POST['submitted'])) {
 
 <body>
 
-<div class="container">
+	<div class="container">
 
-<div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-		
-		<form id="formCadastraAluno" role="form" action='' method='POST'>
-			<h2>LocalizeSenac <small>Cadastro de Alunos</small></h2>
-			<hr class="colorgraph">
-			
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-                        <input 
-							type="text"
-							name="matricula"
-							id="matricula"
-							title="Senha: de 4 a 30 caracteres"
-							placeholder="Matrícula"
-							class="form-control input-lg"
-							tabindex="1"
-							required
-						>
-					</div>
-				</div>
-
-			</div>
-			
-			<div class="row">
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					<div class="form-group">
-						<input 
-							type="password"
-							name="password"
-							id="password"							
-							title="Senha: de 6 a 10 caracteres"
-							placeholder="Senha"
-							class="form-control input-lg" 
-							tabindex="2"
-							required
-						>
-					</div>
-				</div>
+		<div class="row clearfix">
+			<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 				
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					<div class="form-group">	
-						<input     
-							type="password"
-							name="password2"
-							id="password2"
-							title="Confirmação de senha"
-							placeholder="Confirme a Senha"
-							class="form-control input-lg"
-							tabindex="3"
-							required
-						>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-                        <input
-							type="text"
-							name="nome"
-							id="nome"
-							title="Nome completo"
-							placeholder="Nome completo"
-							class="form-control input-lg"
-							tabindex="4"
-							required
-						>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<input
-							type="email"
-							name="email"
-							id="email"
-							title="E-mail"
-							placeholder="E-mail"
-							class="form-control input-lg"
-							tabindex="5"
-							required
-						>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<input
-							type="email"
-							name="confirmaEmail"
-							id="confirmaEmail"
-							title="Confirme o E-mail"
-							placeholder="Confirme o E-mail"
-							class="form-control input-lg"
-							tabindex="6"
-							required
-						>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div class="form-group">
-						<input
-							type="text"
-							name="celular"
-							id="celular"
-							title="Celular"
-							placeholder="Celular"
-							class="form-control input-lg" 
-							tabindex="7"
-							required="required" maxlength="15"
-							data-inputmask="'alias':'celular'"
-						/>
+				<form id="formCadastraAluno" role="form" action='' method='POST'>
+					<h2>LocalizeSenac <small>Cadastro de Alunos</small></h2>
+					<hr class="colorgraph">
+					
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<input 
+									type="text"
+									name="matricula"
+									id="matricula"
+									title="Senha: de 4 a 30 caracteres"
+									placeholder="Matrícula"
+									class="form-control input-lg"
+									tabindex="1"
+									required
+								>
+							</div>
+						</div>
 
 					</div>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12">
-					<div>
-						<div class="form-group">
-							<label >
-								<input type="radio" id="ativado" name="ativo" value="S" /> Ativado
-							</label> 
-							<label >
-								<input type="radio" id="desativado" name="ativo" value="N" /> Desativado
-							</label>
+					
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<input 
+									type="password"
+									name="password"
+									id="password"							
+									title="Senha: de 6 a 10 caracteres"
+									placeholder="Senha"
+									class="form-control input-lg" 
+									tabindex="2"
+									required
+								>
+							</div>
+						</div>
+						
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">	
+								<input     
+									type="password"
+									name="password2"
+									id="password2"
+									title="Confirmação de senha"
+									placeholder="Confirme a Senha"
+									class="form-control input-lg"
+									tabindex="3"
+									required
+								>
+							</div>
 						</div>
 					</div>
-				</div>
+					
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<input
+									type="text"
+									name="nome"
+									id="nome"
+									title="Nome completo"
+									placeholder="Nome completo"
+									class="form-control input-lg"
+									tabindex="4"
+									required
+								>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<input
+									type="email"
+									name="email"
+									id="email"
+									title="E-mail"
+									placeholder="E-mail"
+									class="form-control input-lg"
+									tabindex="5"
+									required
+								>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<input
+									type="email"
+									name="confirmaEmail"
+									id="confirmaEmail"
+									title="Confirme o E-mail"
+									placeholder="Confirme o E-mail"
+									class="form-control input-lg"
+									tabindex="6"
+									required
+								>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div class="form-group">
+								<input
+									type="text"
+									name="celular"
+									id="celular"
+									title="Celular"
+									placeholder="Celular"
+									class="form-control input-lg" 
+									tabindex="7"
+									required="required" maxlength="15"
+									data-inputmask="'alias':'celular'"
+								/>
+
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<div>
+								<div class="form-group">
+									<label >
+										<input type="radio" id="ativado" name="ativo" value="S" /> Ativado
+									</label> 
+									<label >
+										<input type="radio" id="desativado" name="ativo" value="N" /> Desativado
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<br>
+						<div class="col-xs-6 col-md-6"><input type="submit" value="Cadastrar Aluno" class="btn btn-success btn-block btn-lg" tabindex="7"></div>
+						<div class="col-xs-6 col-md-6"><input value="Voltar" class="btn btn-danger btn-block btn-lg"></div>
+						<input type='hidden' value='1' name='submitted' /> 
+					</div>
+
+				</form>
 			</div>
-			
-			<div class="row">
-				<br>
-				<div class="col-xs-6 col-md-6"><input type="submit" value="Cadastrar Aluno" class="btn btn-success btn-block btn-lg" tabindex="7"></div>
-				<div class="col-xs-6 col-md-6"><input value="Voltar" class="btn btn-danger btn-block btn-lg"></div>
-				<input type='hidden' value='1' name='submitted' /> 
+
+			<div class="form-group">
+
 			</div>
 
-		</form>
+		</div>
 	</div>
-
-	<div class="form-group">
-
-	</div>
-
-
-</div>
 	
 </body>
 

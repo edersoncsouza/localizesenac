@@ -158,13 +158,12 @@ PENDENCIAS LOCAIS:
 		});
 		
 		// captura a alteracao no value do input de ANDAR
-		$("input#inputAndarDisciplina").bind("input", function() { // substituida a linha abaixo na madrugada
-		//$("input[type='number']").bind("input", function() {
+		$("input#inputAndarDisciplina").bind("input", function() {
 		  
 		  $('#sala').empty(); // zera os itens previos do select sala
 		  
 		  var andarP = this.value; // armazena o andar
-		  var unidadeP = $("#unidade").val();
+		  var unidadeP = $("#unidade").val(); // armazena a unidade
 
 		  montarAndar(andarP, unidadeP); // chama a funcao para montar a grade
 		  
@@ -430,7 +429,7 @@ PENDENCIAS LOCAIS:
 				$.post(url,{ andar: andarP, unidade: unidadeP}, function(json) {
 					
 					if (json == 0){// caso o retorno de montarGrade.php seja = 0
-						bootbox.alert('Não existem salas neste andar!');
+						//bootbox.alert('Não existem salas neste andar!');
 					}
 					else{
 							var objJson = JSON.parse(json); // transforma a string recebida em objeto
@@ -574,7 +573,7 @@ PENDENCIAS LOCAIS:
 
                             <div>
                                 <h3> CONFIGURAÇÕES DO USUÁRIO </h3>
-								<br> <?php echo $nome; ?> <i class="fa fa-user fa-fw"></i>
+								<br> <?php //echo $nome; ?> <!-- <i class="fa fa-user fa-fw"></i> -->
 								
                             </div>
                         </div>

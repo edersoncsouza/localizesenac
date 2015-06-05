@@ -346,7 +346,7 @@ $(document).ready(function() {
 
 	<div id="page-wrapper">
 			<!-- novo posicionamento do mapa -->
-			<div class="row">
+			<div id="rowMapa" class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading" style="background-color:#337ab7; color: #FFFFFF;">

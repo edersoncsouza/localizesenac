@@ -1,3 +1,12 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.4.2
+-- http://www.phpmyadmin.net
+--
+-- Máquina: localhost
+-- Data de Criação: 05-Jun-2015 às 20:11
+-- Versão do servidor: 5.6.13
+-- versão do PHP: 5.4.17
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -39,19 +48,19 @@ CREATE TABLE IF NOT EXISTS `aluno` (
 INSERT INTO `aluno` (`id`, `matricula`, `senha`, `nome`, `celular`, `email`, `autenticacao`, `ativo`) VALUES
 (1, '630610028', 'qaz123', 'Ederson C Souza', '(51) 8424-8825', 'edersoncsouza@outlook.com', 'local', 'S'),
 (2, 'aline', 'qaz123', 'Aline de Campos', NULL, 'alinedecampos@gmail.com', 'local', 'S'),
-(39, 'edersoncsouza@hotmail.com', '1615212108690478', 'Ederson Souza', '', 'edersoncsouza@hotmail.com', 'facebook', 'S'),
-(21, 'welausen@gmail.com', '112575832058914146452', 'fillipe welausen', '', 'welausen@gmail.com', 'google', 'S'),
-(22, 'edmundo312@gmail.com', '110557500865567486503', 'Edmundo Neto', '', 'edmundo312@gmail.com', 'google', 'S'),
-(23, 'susian.santos@gmail.com', '116932191462002151614', 'Susian Santos', '', 'susian.santos@gmail.com', 'google', 'S'),
-(24, 'itauafm@gmail.com', '100559544575170068722', 'ItauÃ¡ Machado', '', 'itauafm@gmail.com', 'google', 'S'),
-(25, 'canyslupus@gmail.com', '106916398041147643890', 'Morvana Bonin', '', 'canyslupus@gmail.com', 'google', 'S'),
-(26, 'flander.severo@gmail.com', '105759300564266388068', 'Flander Severo', '', 'flander.severo@gmail.com', 'google', 'S'),
-(27, 'pmarques.cunha89@gmail.com', '111060928174974094412', 'paulo marques', '', 'pmarques.cunha89@gmail.com', 'google', 'S'),
-(28, 'ms.castanheira@gmail.com', '115759477160083315631', 'Marcos Silva Castanheira', '', 'ms.castanheira@gmail.com', 'google', 'S'),
-(34, 'procurandovitoriafacebook@outlook.com', '457007277799896', 'Procurando Vitoria', '', 'procurandovitoriafacebook@outlook.com', 'facebook', 'S'),
-(38, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'google', 'S'),
 (36, 'caeb.smed@gmail.com', '104426759409554655556', 'Proid Smed', '', 'caeb.smed@gmail.com', 'google', 'S'),
-(37, 'rqlrenner@gmail.com', '113808092695654027678', 'Raquel R.', '', 'rqlrenner@gmail.com', 'google', 'S');
+(25, 'canyslupus@gmail.com', '106916398041147643890', 'Morvana Bonin', '', 'canyslupus@gmail.com', 'google', 'S'),
+(38, 'edersonadssenac@gmail.com', '117364421816163498409', 'Ederson Senac Souza', '', 'edersonadssenac@gmail.com', 'google', 'S'),
+(39, 'edersoncsouza@hotmail.com', '1615212108690478', 'Ederson Souza', '', 'edersoncsouza@hotmail.com', 'facebook', 'S'),
+(22, 'edmundo312@gmail.com', '110557500865567486503', 'Edmundo Neto', '', 'edmundo312@gmail.com', 'google', 'S'),
+(26, 'flander.severo@gmail.com', '105759300564266388068', 'Flander Severo', '', 'flander.severo@gmail.com', 'google', 'S'),
+(24, 'itauafm@gmail.com', '100559544575170068722', 'ItauÃ¡ Machado', '', 'itauafm@gmail.com', 'google', 'S'),
+(28, 'ms.castanheira@gmail.com', '115759477160083315631', 'Marcos Silva Castanheira', '', 'ms.castanheira@gmail.com', 'google', 'S'),
+(27, 'pmarques.cunha89@gmail.com', '111060928174974094412', 'paulo marques', '', 'pmarques.cunha89@gmail.com', 'google', 'S'),
+(34, 'procurandovitoriafacebook@outlook.com', '457007277799896', 'Procurando Vitoria', '', 'procurandovitoriafacebook@outlook.com', 'facebook', 'S'),
+(37, 'rqlrenner@gmail.com', '113808092695654027678', 'Raquel R.', '', 'rqlrenner@gmail.com', 'google', 'S'),
+(23, 'susian.santos@gmail.com', '116932191462002151614', 'Susian Santos', '', 'susian.santos@gmail.com', 'google', 'S'),
+(21, 'welausen@gmail.com', '112575832058914146452', 'fillipe welausen', '', 'welausen@gmail.com', 'google', 'S');
 
 -- --------------------------------------------------------
 
@@ -74,40 +83,44 @@ CREATE TABLE IF NOT EXISTS `aluno_disciplina` (
   KEY `fk_aluno_disciplina_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_disciplina_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
   KEY `fk_aluno_disciplina_disciplina1_idx` (`fk_id_disciplina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=60 ;
 
 --
 -- Extraindo dados da tabela `aluno_disciplina`
 --
 
 INSERT INTO `aluno_disciplina` (`id`, `dia_semana`, `turno`, `fk_id_aluno`, `fk_sala_fk_id_unidade`, `fk_andar_sala`, `fk_numero_sala`, `fk_id_disciplina`) VALUES
+(49, 'QUA', 'M', 2, 1, 7, 702, 15),
+(43, 'QUA', 'M', 39, 1, 6, 603, 28),
 (3, 'QUA', 'N', 1, 1, 6, 603, 28),
-(16, 'QUI', 'N', 1, 1, 4, 409, 31),
-(12, 'SEG', 'N', 1, 1, 3, 301, 32),
-(36, 'SEG', 'N', 39, 1, 3, 301, 32),
-(17, 'SEX', 'N', 1, 1, 7, 704, 23),
-(14, 'TER', 'N', 1, 1, 6, 603, 30),
-(54, 'QUA', 'N', 26, 1, 5, 503, 19),
 (21, 'QUA', 'N', 21, 1, 7, 704, 10),
-(25, 'SEX', 'N', 21, 1, 6, 601, 20),
-(23, 'TER', 'N', 21, 1, 6, 602, 24),
+(28, 'QUA', 'N', 23, 1, 6, 603, 28),
+(54, 'QUA', 'N', 26, 1, 5, 503, 19),
+(57, 'QUA', 'N', 38, 1, 6, 604, 28),
+(16, 'QUI', 'N', 1, 1, 4, 409, 31),
 (24, 'QUI', 'N', 21, 1, 5, 504, 12),
+(29, 'QUI', 'N', 23, 1, 6, 603, 30),
+(58, 'QUI', 'N', 38, 1, 4, 409, 31),
+(44, 'QUI', 'N', 39, 1, 4, 409, 31),
+(12, 'SEG', 'N', 1, 1, 3, 301, 32),
+(46, 'SEG', 'N', 2, 1, 7, 701, 20),
 (26, 'SEG', 'N', 21, 1, 7, 704, 26),
 (27, 'SEG', 'N', 22, 1, 6, 603, 28),
-(28, 'QUA', 'N', 23, 1, 6, 603, 28),
-(29, 'QUI', 'N', 23, 1, 6, 603, 30),
 (30, 'SEG', 'N', 24, 1, 0, 102, 1),
 (53, 'SEG', 'N', 26, 1, 6, 604, 25),
-(39, 'SEG', 'N', 36, 1, 3, 101, 21),
 (35, 'SEG', 'N', 28, 1, 5, 503, 19),
-(40, 'TER', 'N', 39, 1, 6, 603, 30),
-(43, 'QUA', 'M', 39, 1, 6, 603, 28),
 (42, 'SEG', 'N', 37, 2, 5, 502, 26),
-(44, 'QUI', 'N', 39, 1, 4, 409, 31),
+(55, 'SEG', 'N', 38, 1, 3, 301, 1),
+(36, 'SEG', 'N', 39, 1, 3, 301, 32),
+(17, 'SEX', 'N', 1, 1, 7, 704, 23),
+(25, 'SEX', 'N', 21, 1, 6, 601, 20),
+(59, 'SEX', 'N', 38, 1, 7, 701, 23),
 (45, 'SEX', 'N', 39, 1, 7, 701, 23),
-(46, 'SEG', 'N', 2, 1, 7, 701, 20),
+(14, 'TER', 'N', 1, 1, 6, 603, 30),
 (48, 'TER', 'N', 2, 1, 7, 701, 10),
-(49, 'QUA', 'M', 2, 1, 7, 702, 15);
+(23, 'TER', 'N', 21, 1, 6, 602, 24),
+(56, 'TER', 'N', 38, 1, 6, 604, 30),
+(40, 'TER', 'N', 39, 1, 6, 603, 30);
 
 -- --------------------------------------------------------
 
@@ -133,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `aluno_lembrete` (
   KEY `fk_aluno_lembrete_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_aluno_lembrete_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`),
   KEY `fk_aluno_lembrete_disciplina1_idx` (`fk_id_disciplina`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='tabela de lembretes' AUTO_INCREMENT=210 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='tabela de lembretes' AUTO_INCREMENT=274 ;
 
 --
 -- Extraindo dados da tabela `aluno_lembrete`
@@ -144,7 +157,18 @@ INSERT INTO `aluno_lembrete` (`id`, `fk_id_aluno`, `dia_semana`, `turno`, `fk_sa
 (208, 1, 'QUI', 'N', 1, 4, 409, 31, 'icloud', 10, '2015-06-04', '2015-07-10'),
 (205, 1, 'SEG', 'N', 1, 3, 301, 32, 'icloud', 10, '2015-06-01', '2015-07-10'),
 (209, 1, 'SEX', 'N', 1, 7, 704, 23, 'icloud', 10, '2015-05-29', '2015-07-10'),
-(206, 1, 'TER', 'N', 1, 6, 603, 30, 'icloud', 10, '2015-06-02', '2015-07-10');
+(206, 1, 'TER', 'N', 1, 6, 603, 30, 'icloud', 10, '2015-06-02', '2015-07-10'),
+(272, 38, 'QUA', 'N', 1, 6, 604, 28, 'email', 6, '2015-06-03', '2015-07-10'),
+(273, 38, 'QUA', 'N', 1, 6, 604, 28, 'pemail', 60, '2015-06-03', '2015-07-10'),
+(271, 38, 'QUA', 'N', 1, 6, 604, 28, 'sms', 6, '2015-06-03', '2015-07-10'),
+(259, 38, 'QUI', 'N', 1, 4, 409, 31, 'email', 6, '2015-06-04', '2015-07-10'),
+(258, 38, 'QUI', 'N', 1, 4, 409, 31, 'sms', 6, '2015-06-04', '2015-07-10'),
+(268, 38, 'SEG', 'N', 1, 3, 301, 1, 'email', 11, '2015-06-08', '2015-07-10'),
+(267, 38, 'SEG', 'N', 1, 3, 301, 1, 'sms', 11, '2015-06-08', '2015-07-10'),
+(235, 38, 'SEX', 'N', 1, 7, 701, 23, 'email', 6, '2015-06-05', '2015-07-10'),
+(234, 38, 'SEX', 'N', 1, 7, 701, 23, 'sms', 6, '2015-06-05', '2015-07-10'),
+(270, 38, 'TER', 'N', 1, 6, 604, 30, 'email', 2, '2015-06-09', '2015-07-10'),
+(269, 38, 'TER', 'N', 1, 6, 604, 30, 'sms', 2, '2015-06-09', '2015-07-10');
 
 -- --------------------------------------------------------
 
@@ -894,7 +918,6 @@ INSERT INTO `disciplina_curso` (`fk_id_disciplina`, `fk_id_curso`) VALUES
 CREATE TABLE IF NOT EXISTS `evento_aluno` (
   `id` int(11) NOT NULL,
   `descricao` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `dia_semana` char(3) COLLATE utf8_unicode_ci NOT NULL,
   `fk_id_aluno` int(11) NOT NULL,
   `fk_sala_fk_id_unidade` int(11) NOT NULL,
   `fk_numero_sala` int(11) NOT NULL,
@@ -905,6 +928,31 @@ CREATE TABLE IF NOT EXISTS `evento_aluno` (
   KEY `fk_evento_aluno_aluno1_idx` (`fk_id_aluno`),
   KEY `fk_evento_aluno_sala1_idx` (`fk_sala_fk_id_unidade`,`fk_andar_sala`,`fk_numero_sala`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `evento_geral`
+--
+
+CREATE TABLE IF NOT EXISTS `evento_geral` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id do evento',
+  `data_inicio` date NOT NULL COMMENT 'data de inicio do evento',
+  `hora_inicio` time NOT NULL DEFAULT '00:00:00' COMMENT 'hora de inicio do evento',
+  `data_final` date NOT NULL COMMENT 'data final do evento',
+  `hora_final` time NOT NULL DEFAULT '00:00:00' COMMENT 'hora final do evento',
+  `descricao` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'descricao do evento',
+  `local_evento` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'local do evento',
+  PRIMARY KEY (`data_inicio`,`hora_inicio`,`data_final`,`hora_final`,`descricao`,`local_evento`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Extraindo dados da tabela `evento_geral`
+--
+
+INSERT INTO `evento_geral` (`id`, `data_inicio`, `hora_inicio`, `data_final`, `hora_final`, `descricao`, `local_evento`) VALUES
+(3, '2015-06-10', '12:00:00', '2015-06-03', '13:04:00', 'Evento Legal', 'Local de teste');
 
 -- --------------------------------------------------------
 
@@ -1074,26 +1122,14 @@ INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`)
 (39, 1, 0, 196, 1),
 (40, 1, 0, 197, 1),
 (41, 1, 0, 198, 1),
-(42, 1, 3, 301, 2),
-(44, 1, 4, 409, 2),
-(43, 1, 6, 603, 2),
-(45, 1, 7, 704, 2),
-(46, 1, 6, 604, 2),
-(47, 1, 6, 602, 2),
-(48, 1, 5, 504, 2),
-(49, 1, 6, 601, 2),
-(50, 2, 5, 502, 2),
-(51, 1, 5, 502, 2),
+(84, 1, 1, 101, 2),
+(85, 1, 1, 104, 2),
+(86, 1, 1, 105, 2),
 (59, 1, 2, 202, 2),
-(53, 1, 5, 501, 2),
-(54, 1, 5, 503, 2),
-(55, 1, 7, 702, 2),
-(56, 1, 7, 703, 2),
-(57, 1, 7, 701, 2),
-(58, 2, 2, 201, 2),
 (60, 1, 2, 203, 2),
 (61, 1, 2, 204, 2),
 (62, 1, 2, 205, 2),
+(42, 1, 3, 301, 2),
 (63, 1, 3, 302, 2),
 (64, 1, 3, 303, 2),
 (65, 1, 3, 304, 2),
@@ -1106,19 +1142,30 @@ INSERT INTO `sala` (`id`, `fk_id_unidade`, `andar`, `numero`, `fk_id_categoria`)
 (72, 1, 4, 406, 2),
 (73, 1, 4, 407, 2),
 (74, 1, 4, 408, 2),
+(44, 1, 4, 409, 2),
 (75, 1, 4, 410, 2),
+(53, 1, 5, 501, 2),
+(51, 1, 5, 502, 2),
+(54, 1, 5, 503, 2),
+(48, 1, 5, 504, 2),
 (76, 1, 5, 505, 2),
+(49, 1, 6, 601, 2),
+(47, 1, 6, 602, 2),
+(43, 1, 6, 603, 2),
+(46, 1, 6, 604, 2),
 (77, 1, 6, 605, 2),
+(57, 1, 7, 701, 2),
+(55, 1, 7, 702, 2),
+(56, 1, 7, 703, 2),
+(45, 1, 7, 704, 2),
 (78, 1, 7, 705, 2),
 (79, 1, 8, 801, 2),
 (80, 1, 8, 802, 2),
 (81, 1, 8, 803, 2),
 (82, 1, 8, 804, 2),
 (83, 1, 8, 805, 2),
-(84, 1, 1, 101, 2),
-(85, 1, 1, 104, 2),
-(86, 1, 1, 105, 2);
-
+(58, 2, 2, 201, 2),
+(50, 2, 5, 502, 2);
 
 -- --------------------------------------------------------
 

@@ -11,29 +11,38 @@
     <meta name="author" content="Ederson Souza">
 
     <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom Fonts -->
+    <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!-- jQuery -->
+    <script src="dist/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- formValidation -->
+    <link rel="stylesheet" 		   href="dist/components/formValidation/dist/css/formValidation.css"/>
+    <script type="text/javascript" src="dist/components/formValidation/dist/js/formValidation.js"></script>
+    <script type="text/javascript" src="dist/components/formValidation/dist/js/framework/bootstrap.js"></script>
+
+	<!-- Configuracao para validação dos formularios -->
+	<script type="text/javascript" src="dist/js/configFormValidation.js"></script>
+
+	<!-- RobinHerbots/jquery.inputmask: https://github.com/RobinHerbots/jquery.inputmask -->
+	<script type="text/javascript" src="dist/components/jquery.inputmask/jquery.inputmask.js"></script>
 	
+	<!-- funcoes personalizadas -->
+	<script type="text/javascript" src="dist/js/funcoes.js"></script>
+
 <?php
+
     include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
     include("dist/php/funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	//imprimeSessao();
 ?>
-	
-    <!-- Bootstrap Core CSS -->
-    <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-	<!-- Custom Fonts -->
-    <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	
-	<!-- jQuery -->
-    <script src="dist/components/jquery/dist/jquery.min.js"></script>
-	
-    <!-- Bootstrap Core JavaScript -->
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
-	
-	<!-- funcoes personalizadas -->
-	<script type="text/javascript" src="dist/js/funcoes.js"></script>
 	
 </head>
 	<body>

@@ -1,11 +1,11 @@
-* Adding handle: conn: 0x72dde68
+* Adding handle: conn: 0x6ef5548
 * Adding handle: send: 0
 * Adding handle: recv: 0
 * Curl_addHandleToPipeline: length: 1
-* - Conn 119 (0x72dde68) send_pipe: 1, recv_pipe: 0
-* About to connect() to localhost port 8080 (#119)
+* - Conn 476 (0x6ef5548) send_pipe: 1, recv_pipe: 0
+* About to connect() to localhost port 8080 (#476)
 *   Trying ::1...
-* Connected to localhost (::1) port 8080 (#119)
+* Connected to localhost (::1) port 8080 (#476)
 > POST /projetos/localizesenac/zenvia/buscarLembretes.php HTTP/1.1
 Host: localhost:8080
 Accept: */*
@@ -14,15 +14,15 @@ Content-Type: application/x-www-form-urlencoded
 
 * upload completely sent off: 49 out of 49 bytes
 < HTTP/1.1 200 OK
-< Date: Thu, 04 Jun 2015 18:32:12 GMT
+< Date: Fri, 05 Jun 2015 13:55:38 GMT
 * Server Apache/2.4.6 (Win32) PHP/5.4.17 is not blacklisted
 < Server: Apache/2.4.6 (Win32) PHP/5.4.17
 < X-Powered-By: PHP/5.4.17
-< Set-Cookie: PHPSESSID=dev2dl4lkpk3i67iv7vionnf46; path=/
+< Set-Cookie: PHPSESSID=rjj6g4tkb36ljjoebbbkhhl0t6; path=/
 < Expires: Thu, 19 Nov 1981 08:52:00 GMT
 < Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
 < Pragma: no-cache
 < Content-Length: 2
 < Content-Type: text/html; charset=UTF-8
 < 
-* Connection #119 to host localhost left intact
+* Connection #476 to host localhost left intact

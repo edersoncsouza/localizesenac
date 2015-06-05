@@ -63,7 +63,25 @@
 			float: left;
 			margin-right: 8px;
 			opacity: 0.7;
-			clear: both;
+			clear: both; <!-- colocado para consertar erro na legenda no Chrome para Mac -->
+		}
+		
+		
+		<!-- Alterações para o painel lateral com informações das salas -->
+		#painel{ 
+			
+		}
+		h4{
+			font-size: 16px;
+			font-size: 1.1vw; 
+		}
+		h3{
+			font-size: 18px;
+			font-size: 1.5vw; 
+		}
+		img {
+			max-width: 100%;
+			height: auto;
 		}
 
 	</style>
@@ -90,14 +108,12 @@
     </head>
 
 	<body>
-        <div id="map"> <!-- class="row" --> 
-
-            <div id="painel" class="leaflet-info-pane col-md-12" hidden>
-                <div id="infopane" class="content">	</div>
-            </div>
-
-        </div>
-
+			<div id="map"> <!-- class="row" --> 
+				<div id="painel" class="leaflet-info-pane col-md-12" hidden>
+					<div id="infopane" class="content">
+					</div>
+				</div>
+			</div>
     </body>
 
 </html>
