@@ -33,7 +33,7 @@ PENDENCIAS LOCAIS:
 	protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 
-	
+/*	
 	echo "<script> var idP = {$_SESSION['usuarioID']}; </script>";
 	
 	$sql = "SELECT nome, email, celular FROM aluno WHERE id=".$_SESSION['usuarioID'];
@@ -45,6 +45,7 @@ PENDENCIAS LOCAIS:
 		$email = $row['email'];
 		$celular = $row['celular'];
 	}
+*/
 ?>			
 
 		<!-- Bootstrap Core CSS -->
@@ -77,12 +78,13 @@ PENDENCIAS LOCAIS:
 <script>
 	$(document).ready(function(){
 	
+	/*
 		// ao clicar nos botoes de sair encaminha de volta ao principal.php
 		$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
 			var url = "principal.php";
 			$("body").load(url);
 		});
-		
+	*/	
 	});	
 </script>
 
@@ -117,7 +119,7 @@ PENDENCIAS LOCAIS:
 
                             <div>
                                 <h3> PAINEL DE ADMINISTRAÇÃO </h3>
-								<br> <?php echo $nome; ?> <i class="fa fa-user fa-fw"></i>
+								<br> <?php //echo $nome; ?> <!-- <i class="fa fa-user fa-fw"></i> -->
 								
                             </div>
                         </div>
@@ -421,35 +423,7 @@ PENDENCIAS LOCAIS:
                 </p>
 				
             </div>
-			<!--
-			<div class="tab-pane" id="icloud">
-                <p class="TabContent">
 
-					<form id="formConfiguraIcloud" action="#" title="Configurar o iCloud" method='POST'> 
-						
-						
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<h4> INTEGRAÇÃO COM ICLOUD </h4>
-							
-							
-							<input type="checkbox" name="integrarIcloud" value="integrarIcloud" />Configurar integração com iCloud <br /> 
-							
-							<input type="text" name="usuarioIcloud" id="usuarioIcloud" title="Usuário iCloud" placeholder="Usuário iCloud" class="form-control input-lg" tabindex="1" value="" required="">
-							<input type="password" name="senhaIcloud" id="senhaIcloud" title="Senha iCloud" placeholder="Senha iCloud" class="form-control input-lg" tabindex="2" value="" required="">
-							
-							<button id="botaoTestarIcloud" type="button" class="btn btn-success">Testar</button>
-						
-						</div>
-						
-						
-						<div id="testeIcloud">
-							
-						</div>
-						
-					</form>
-				</p>
-			</div>
-				-->
 
         </div>
 		

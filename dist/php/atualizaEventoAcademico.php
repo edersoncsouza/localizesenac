@@ -32,10 +32,7 @@
         //mysql_query("UPDATE aluno SET nome='{$nome}', email='{$email}', celular='{$celular}'  where id='{$id}'") or die(mysql_error());
 			
 		// faz a verificação do resultado
-		//echo (mysql_affected_rows()) ? "Disciplina inserida/alterada com sucesso!" : "A disciplina não pode ser inserida/alterada!"; 
-		echo (mysql_affected_rows()) ? 1 : 99; // retorna 1 caso a disciplina tenha sido inserida/alterada ou 0 se não inseriu/alterou
-
-		//echo $local . " - " . $dataInicio . " - " . $horaInicio . " - " . $dataFinal . " - " . $horaFinal . " - " . $descricaoEvento . " - " . $local;
+		echo (mysql_affected_rows()) ? 1 : 0; // retorna 1 caso a disciplina tenha sido inserida/alterada ou 0 se não inseriu/alterou
 	}
 	else // caso não tenha recebido os parametros
 		echo 0;//("Não recebi os parametros para inserir ou alterar os dados");

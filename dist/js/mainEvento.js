@@ -1,7 +1,7 @@
 $(function() {
 
-var entidade = 'Alunos';
-var labelform = 'Incluir um novo Aluno';
+var entidade = 'EventosAcademicos';
+var labelform = 'Incluir um novo Evento';
 
   var oMemTable = $('#tabela'+ entidade).dataTable({
 	  "sPaginationType": "full_numbers",
@@ -43,46 +43,46 @@ var labelform = 'Incluir um novo Aluno';
 		sDeleteRowButtonId: "btnDeleteMemRow",
 		
 		'aoColumns': [
-									{
-										tooltip: 'Matrícula',
-										oValidationOptions : { rules:{ value: {minlength: 9 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 9'} } }
+									{//^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$ // fonte: http://stackoverflow.com/questions/15491894/regex-to-validate-date-format-dd-mm-yyyy
+										tooltip: 'Data de início do evento',
+										oValidationOptions : { rules:{ value: {required : true, date : true }  }, 
+										messages: { value: {date: 'A data deve ser informada no formato dd/mm/aaaa',required: 'Este campo é obrigatório'} } }
 									},
 									{
-										tooltip: 'Senha',
-										oValidationOptions : { rules:{ value: {minlength: 5 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 5'} } },
+										tooltip: 'Hora de início do evento',
+										oValidationOptions : { rules:{ value: {required : true/*value: {minlength: 5*/ }  },
+										messages: { value: {/*minlength: 'Tamanho mínimo - 5'*/required: 'Este campo é obrigatório'} } },
 
 									},
 									{
-										tooltip: 'Nome',
-										oValidationOptions : { rules:{ value: {minlength: 5 }  },
-										messages: { value: {minlength: 'Tamanho mínimo - 5'} } }
+										tooltip: 'Data final do evento',
+										oValidationOptions : { rules:{ value: {required : true/*value: {minlength: 5*/ }  },
+										messages: { value: {/*minlength: 'Tamanho mínimo - 5'*/required: 'Este campo é obrigatório'} } },
 									},
 									{
-										tooltip: 'Celular',
-										oValidationOptions :{ rules:{ value: {required : true, number : true, minlength: 8} },
-										messages: { value: {minlength: 'Tamanho mínimo - 8', number: 'Por favor digite apenas números', required: 'Este campo é obrigatório'} } }
+										tooltip: 'Hora final do evento',
+										oValidationOptions :{ rules:{ value: {required : true/*, number : true, minlength: 8*/} },
+										messages: { value: {/*minlength: 'Tamanho mínimo - 5'*/required: 'Este campo é obrigatório'} } },
 									},
 									{
-										tooltip: 'E-mail',
-										cssclass:"email",
+										tooltip: 'Descrição do evento',
+										oValidationOptions :{ rules:{ value: {required : true/*, number : true, minlength: 8*/} },
+										messages: { value: {/*minlength: 'Tamanho mínimo - 5'*/required: 'Este campo é obrigatório'} } },
 									},
 									{
-										tooltip: 'Ativo',
-										type: 'select',
-										data: "{'S':'Ativo','N':'Desativado'}",
-										submit: 'Ok',
+										tooltip: 'Local do evento',
+										oValidationOptions :{ rules:{ value: {required : true/*, number : true, minlength: 8*/} },
+										messages: { value: {/*minlength: 'Tamanho mínimo - 5'*/required: 'Este campo é obrigatório'} } },
 									}
 								],
 	
 
 			oAddNewRowButtonOptions: { label: "Incluir...",
-				icons: {primary: "btn btn-default glyphicon glyphicon-floppy-save btn-md"}
+				icons: {primary: "btn btn-default btn-md fa fa-plus-square-o"} //glyphicon glyphicon-floppy-save
 				//icons: {primary: "btn-default glyphicon glyphicon-floppy-save btn-md"} //glyphicon-plus btn-md"}
 			},
 			oDeleteRowButtonOptions: { label: "Remover",
-				icons: {primary: "btn btn-default glyphicon glyphicon-remove-circle btn-md"}
+				icons: {primary: "btn btn-default btn-md fa fa-minus-square-o"} //glyphicon glyphicon-remove-circle
 				//icons: {primary: "btn-default glyphicon glyphicon-remove-circle btn-md"} //glyphicon-remove btn-md"}
 			},
 			oAddNewRowFormOptions: {

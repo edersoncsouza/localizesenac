@@ -1,9 +1,10 @@
 <?php
 
-//var $entidades = array('aluno', 'area_ensino', 'categoria', 'curso', 'disciplina', 'evento_aluno', 'nivel_ensino', 'sala', 'unidade');
+//var $entidades = array('aluno', 'area_ensino', 'categoria', 'curso', 'disciplina', 'evento_aluno', 'evento_geral', 'nivel_ensino', 'sala', 'unidade');
 
 if ($_GET) {
-    require_once('dist/classes/CMySQL.php');
+    //require_once('dist/classes/CMySQL.php');
+	require_once('../classes/CMySQL.php');
 
 	switch ($_GET['entidade']) {
 
@@ -34,6 +35,10 @@ if ($_GET) {
 			case 'Eventos':
 				$aColumns = array('descricao', 'dia_semana', 'dt_final','dt_inicio','andar','aluno','numero_sala','unidade');
 				$entidade = 'evento_aluno';
+				break;
+			case 'EventosAcademicos':
+				$aColumns = array('data_inicio','hora_inicio' ,'data_final','hora_final','descricao','local_evento');
+				$entidade = 'evento_geral';
 				break;
 			case 'Niveis':
 				$aColumns = array('descricao');
@@ -190,6 +195,9 @@ function getMembersAjx() {
 			case 'evento_aluno':
 				$aItem = array( $aInfo['descricao'], $aInfo['dia_semana'], $aInfo['dt_final'], $aInfo['dt_inicio'], $aInfo['andar'], $aInfo['aluno'], $aInfo['numero_sala'], $aInfo['unidade'], 'DT_RowId' => $aInfo['id'] );
 				break;
+			case 'evento_geral':
+				$aItem = array( $aInfo['data_inicio'], $aInfo['hora_inicio'], $aInfo['data_final'], $aInfo['hora_final'], $aInfo['descricao'], $aInfo['local_evento'], 'DT_RowId' => $aInfo['id'] );
+				break;
 			case 'nivel_ensino':
 				$aItem = array( $aInfo['descricao'], 'DT_RowId' => $aInfo['id'] );
 				break;
@@ -210,6 +218,8 @@ function updateMemberAjx() {
     $sVal = $GLOBALS['MySQL']->escape($_POST['value']);
 	global $entidade;
 
+	// campos da tabela evento_geral: 'data_inicio','hora_inicio' ,'data_final','hora_final','descricao','local_evento'
+	
     $iId = (int)$_POST['id'];
     if ($iId && $sVal !== FALSE) {
         switch ($_POST['columnName']) {
@@ -237,7 +247,24 @@ function updateMemberAjx() {
 			case 'DESCRICAO':
 				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `descricao`='{$sVal}' WHERE `id`='{$iId}'");
                 break;
-			
+			case 'DATA DE INICIO':
+				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `data_inicio`='{$sVal}' WHERE `id`='{$iId}'");
+                break;
+			case 'HORA DE INICIO':
+				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `hora_inicio`='{$sVal}' WHERE `id`='{$iId}'");
+                break;
+			case 'DATA FINAL':
+				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `data_final`='{$sVal}' WHERE `id`='{$iId}'");
+                break;
+			case 'HORA FINAL':
+				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `hora_final`='{$sVal}' WHERE `id`='{$iId}'");
+                break;
+			case 'DESCRICAO EVENTO':
+				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `descricao`='{$sVal}' WHERE `id`='{$iId}'");
+                break;
+			case 'LOCAL EVENTO':
+				$GLOBALS['MySQL']->res("UPDATE {$entidade} SET `local_evento`='{$sVal}' WHERE `id`='{$iId}'");
+                break;
         }
         echo 'Salvo com sucesso';
     }

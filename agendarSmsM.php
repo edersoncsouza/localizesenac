@@ -3,6 +3,8 @@
 include("dist/php/funcoes.php");
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
+$data = date('d/m/Y H:i');
+$dataExtensa = strftime('%A, %d de %B de %Y', strtotime('today'));
 
 	// monta o array com os campos de POST
 	$params = array(
@@ -19,7 +21,7 @@ date_default_timezone_set('America/Sao_Paulo');
 	// caso haja retorno
 	if($retorno){
 		// armazena a mensagem de erro em uma variavel
-		$mensagemDeSucesso = "Job de SMS executado em " . strftime('%A, %d de %B de %Y', strtotime('today'));
+		$mensagemDeSucesso = "SMS jox executed at " . $data);
 		
 		// grava o retorno no log de sucesso
 		file_put_contents(dirname(__FILE__).'/logs/successlog.txt', $retorno, FILE_APPEND);
