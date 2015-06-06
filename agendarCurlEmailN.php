@@ -6,6 +6,8 @@ date_default_timezone_set('America/Sao_Paulo');
 $data = date('d/m/Y H:i');
 $dataExtensa = strftime('%A, %d de %B de %Y', strtotime('today'));
 
+set_time_limit(0); // tentativa de evitar o limite que causa o erro: Fatal error: Maximum execution time of 300 seconds exceeded  
+
 for ($contador = 60; $contador >= 1; $contador--) {
 
 	// monta o array com os campos de POST
@@ -25,7 +27,7 @@ for ($contador = 60; $contador >= 1; $contador--) {
 	if($retorno){
 		// armazena a mensagem de erro em uma variavel
 		//$mensagemDeSucesso = "Job de e-mails com " . $contador . " minutos de antecedencia, do turno M executado em " . strftime('%A, %d de %B de %Y', strtotime('today')) . "<br>";
-		$mensagemDeSucesso = "E-mail Job with " . $contador . " min of advance, Morning shift executed at " . $data . "<br>";
+		$mensagemDeSucesso = "E-mail Job with " . $contador . " min of advance, Morning shift executed at " . date('d/m/Y H:i') . "<br>";
 
 		// grava o retorno no log de sucesso
 		file_put_contents(dirname(__FILE__).'/logs/successlog.txt', $retorno, FILE_APPEND);

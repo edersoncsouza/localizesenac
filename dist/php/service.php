@@ -3,7 +3,6 @@
 //var $entidades = array('aluno', 'area_ensino', 'categoria', 'curso', 'disciplina', 'evento_aluno', 'evento_geral', 'nivel_ensino', 'sala', 'unidade');
 
 if ($_GET) {
-    //require_once('dist/classes/CMySQL.php');
 	require_once('../classes/CMySQL.php');
 
 	switch ($_GET['entidade']) {
@@ -273,6 +272,21 @@ function updateMemberAjx() {
 
 function addMemberAjx() {
 
+	global $aColumns;
+	global $entidade; // utiliza o escopo global das variaveis	
+	/*
+	$aColumns = array('data_inicio','hora_inicio' ,'data_final','hora_final','descricao','local_evento');
+	$entidade = 'evento_geral';
+	*/
+
+	switch ($entidade) {
+		
+		case 'aluno':
+		
+		break;
+		
+	}
+	
  $matricula = $GLOBALS['MySQL']->escape($_POST["matricula"]);
  $senha = $GLOBALS['MySQL']->escape($_POST["senha"]);
  $nome = $GLOBALS['MySQL']->escape($_POST["nome"]);
