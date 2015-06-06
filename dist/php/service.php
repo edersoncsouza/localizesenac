@@ -67,7 +67,7 @@ if ($_GET) {
             break;
 		case 'addMemberAjx':
 			addMemberAjx();
-        break;
+			break;
     }
     exit;
 }
@@ -213,6 +213,14 @@ function getMembersAjx() {
     }
     echo json_encode($output);
 }
+
+/*
+ * updateMemberAjx: esta funcao faz o update das informações para todas as tabelas
+ *					aqui todos os campos de todas as entidades estao misturados
+ *					podem acontecer problemas se houveram campos com nomes iguais
+ *					em entidades diferentes e com tipos diferentes
+ */
+
 function updateMemberAjx() {
     $sVal = $GLOBALS['MySQL']->escape($_POST['value']);
 	global $entidade;
@@ -272,21 +280,10 @@ function updateMemberAjx() {
 
 function addMemberAjx() {
 
+/*
 	global $aColumns;
 	global $entidade; // utiliza o escopo global das variaveis	
-	/*
-	$aColumns = array('data_inicio','hora_inicio' ,'data_final','hora_final','descricao','local_evento');
-	$entidade = 'evento_geral';
-	*/
 
-	switch ($entidade) {
-		
-		case 'aluno':
-		
-		break;
-		
-	}
-	
  $matricula = $GLOBALS['MySQL']->escape($_POST["matricula"]);
  $senha = $GLOBALS['MySQL']->escape($_POST["senha"]);
  $nome = $GLOBALS['MySQL']->escape($_POST["nome"]);
@@ -296,14 +293,35 @@ function addMemberAjx() {
  
 		$GLOBALS['MySQL']->res("INSERT INTO `aluno`(`id` ,`matricula` ,`senha` ,`nome` ,`celular` ,`email` ,`ativo`) VALUES (NULL ,  '{$matricula}', '{$senha}', '{$nome}', '{$celular}', '{$email}', '{$status}')");
 		echo 'Salvo com sucesso';
+exit;
+	*/
 
+	global $aColumns;
+	global $entidade; // utiliza o escopo global das variaveis	
+		
+	foreach(array_keys($_POST) as $key){$postLimpo[$key] = mysql_real_escape_string($_POST[$key]);} // limpa as entradas de $_POST
+	
+	// monta a string de insercao
+	$sql = "insert into ".$entidade."(`";
+	$sql .= implode("`,`",$aColumns);
+	$sql .= "`) values('";
+	$sql .= implode("','",$postLimpo);
+	$sql .= "')";
+
+	$GLOBALS['MySQL']->res($sql); // executa o metodo de query
+	echo 'Salvo com sucesso';
+	
     exit;
 }
 
 function deleteMember() {
+	
+	global $entidade; // utiliza o escopo global das variaveis	
+		
     $iId = (int)$_POST['id'];
     if ($iId) {
-        $GLOBALS['MySQL']->res("DELETE FROM `aluno` WHERE `id`='{$iId}'");
+        //$GLOBALS['MySQL']->res("DELETE FROM `aluno` WHERE `id`='{$iId}'");
+		$GLOBALS['MySQL']->res("DELETE FROM `{$entidade}` WHERE `id`='{$iId}'");
         return;
     }
     echo 'Error';exit;
