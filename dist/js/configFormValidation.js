@@ -153,6 +153,7 @@ $(document).ready(function() {
     });
 
 	$('#formAddNewRow').formValidation({
+		framework: 'bootstrap',
     	excluded: [':disabled'],
 		message: 'Este não é um valor válido',
         icon: {
@@ -165,7 +166,11 @@ $(document).ready(function() {
 				validators: {
 					notEmpty: {
 						message: 'O horário é obrigatório'
-					}
+					},
+					regexp: {
+                        regexp: /^([1-9]|1[0-2]):[0-5]\d(:[0-5]\d(\.\d{1,3})?)?$/,
+                        message: 'O horário deve estar no formato hh:mm:ss'
+                    }
 				}
 			}
 			

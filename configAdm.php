@@ -84,7 +84,8 @@ PENDENCIAS LOCAIS:
 			var url = "principal.php";
 			$("body").load(url);
 		});
-	*/	
+	*/
+	
 	});	
 </script>
 
