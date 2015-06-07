@@ -245,8 +245,8 @@
 	                "level": "0",
 					"room": "164",
 					"category": "Apoio",
-                    "name": "Sanitário Masculino",
-					"image": "",
+                    "name": "Sanitário Masculino 1",
+					"image": "sanitario_masculino_1",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -278,8 +278,8 @@
 	                "level": "0",
 					"room": "165",
 					"category": "Apoio",
-                    "name": "Sanitário Feminino",
-					"image": "",
+                    "name": "Sanitário Feminino 1",
+					"image": "sanitario_feminino_1",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -312,8 +312,8 @@
 	                "level": "0",
 					"room": "166",
 					"category": "Acessos",
-                    "name": "Escada",
-					"image": "",
+                    "name": "Escada - 1 andar e subsolo",
+					"image": "escada_-_1_andar_e_subsolo",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -345,8 +345,8 @@
 	                "level": "0",
 					"room": "167",
 					"category": "Apoio",
-                    "name": "Shaft",
-					"image": "",
+                    "name": "Shaft térreo",
+					"image": "shaft_terreo",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -379,7 +379,7 @@
 					"room": "168",
 					"category": "Acessos",
                     "name": "Elevador de Carga",
-					"image": ""
+					"image": "elevador_de_carga"
                 },
                 "relations": [
                     {
@@ -399,39 +399,112 @@
                 ]
             }
 		},
-		{
-            "type": "Feature",
-            "id": "009",
-            "properties": {
-                "tags": {
-					"unidade" : "1",
-	                "level": "0",
-					"room": "169",
-					"category": "Serviços Administrativos",
-                    "name": "Administrativo Comunicação Marketing Eventos",
-					"image": "",
-					"horario": "8:00 às 21:00",
-					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
-                },
-                "relations": [
-                    {
-                        "reltags": {
-						    "buildingpart": "room",
-                            "level": "0",
-							"room": ""
-                        }
-                    }
-                ]
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [	[-51.226176466385255, -30.035235553546684], [-51.226091887087314, -30.035283321364677], [-51.226114565163165, -30.035313415865367],
-						[-51.226199144461106, -30.03526564806186], [-51.226176466385255,-30.035235553546684]	]
-                ]
+    {
+      "type": "Feature",
+      "id": "009",
+      "properties": {
+        "tags": {
+          "unidade": "1",
+          "level": "0",
+          "room": "169",
+          "category": "Serviços Administrativos",
+          "name": "Administrativo Comunicação Marketing Eventos",
+          "image": "administrativo_comunicacao_marketing_eventos",
+          "horario": "8:00 às 21:00",
+          "email": "@senacrs.com.br",
+          "telefone": "(51) 302210"
+        },
+        "relations": [
+          {
+            "reltags": {
+              "buildingpart": "room",
+              "level": "0",
+              "room": ""
             }
-		},
+          }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.226147413253784,
+              -30.035251433671583
+            ],
+            [
+              -51.226091887087314,
+              -30.035283321364677
+            ],
+            [
+              -51.226114565163165,
+              -30.035313415865367
+            ],
+            [
+              -51.22617423534393,
+              -30.035283942164455
+            ],
+            [
+              -51.226147413253784,
+              -30.035251433671583
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "009",
+      "properties": {
+        "tags": {
+          "unidade": "1",
+          "level": "0",
+          "room": "169",
+          "category": "Serviços Administrativos",
+          "name": "Sala de reuniões",
+          "image": "sala_de_reunioes",
+          "horario": "8:00 às 21:00",
+          "email": "@senacrs.com.br",
+          "telefone": "(51) 302210"
+        },
+        "relations": [
+          {
+            "reltags": {
+              "buildingpart": "room",
+              "level": "0",
+              "room": ""
+            }
+          }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.2261715552609,
+              -30.03523479783349
+            ],
+            [
+              -51.22614703777593,
+              -30.035247937255853
+            ],
+            [
+              -51.226182062754475,
+              -30.03529240913397
+            ],
+            [
+              -51.22620910406113,
+              -30.0352792980947
+            ],
+            [
+              -51.2261715552609,
+              -30.03523479783349
+            ]
+          ]
+        ]
+      }
+    },
 		{
             "type": "Feature",
             "id": "010",
@@ -441,8 +514,8 @@
 	                "level": "0",
 					"room": "170",
 					"category": "Serviços Administrativos",
-                    "name": "Indeterminado",
-					"image": "",
+                    "name": "Sala Docentes TI",
+					"image": "sala_docentes_ti",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -467,39 +540,6 @@
 		},
 		{
             "type": "Feature",
-            "id": "012",
-            "properties": {
-                "tags": {
-					"unidade" : "1",
-	                "level": "0",
-					"room": "171",
-					"category": "Acessos",
-                    "name": "Porta corta-fogo",
-					"image": "",
-					"horario": "8:00 às 21:00",
-					"email": "@senacrs.com.br",
-					"telefone": "(51) 302210"
-                },
-                "relations": [
-                    {
-                        "reltags": {
-						    "buildingpart": "room",
-                            "level": "0",
-							"room": ""
-                        }
-                    }
-                ]
-            },
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [	[-51.226119699020884, -30.035322788440762], [-51.22610104493147, -30.035333307360226], [-51.22612670833349, -30.035367416352535],
-						[-51.22614536242292, -30.035356897436714], [-51.226119699020884, -30.035322788440762]	]
-                ]
-            }
-		},
-		{
-            "type": "Feature",
             "id": "013",
             "properties": {
                 "tags": {
@@ -507,8 +547,8 @@
 	                "level": "0",
 					"room": "172",
 					"category": "Acessos",
-                    "name": "Escada",
-					"image": "",
+                    "name": "Escada de incêndio térreo - 1 andar",
+					"image": "escada_de_incendio_terreo_-_1_andar",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -541,7 +581,7 @@
 					"room":"173",
 					"category": "Alimentação",
                     "name": "Área da Cantina",
-					"image": "",
+					"image": "area_da_cantina",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -575,7 +615,7 @@
 					"room": "174",
 					"category": "Alimentação",
                     "name": "Cantina",
-					"image": "",
+					"image": "cantina",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -608,7 +648,7 @@
 					"room": "175",
 					"category": "Serviços",
                     "name": "Reprografia",
-					"image": "",
+					"image": "reprografia",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -641,7 +681,7 @@
 					"room": "176",
 					"category": "Serviços Administrativos",
                     "name": "Coordenação de Ensino Superior",
-					"image": "",
+					"image": "coordenacao_de_ensino_superior",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -674,7 +714,7 @@
 					"room": "177",
 					"category": "Apoio",
                     "name": "Sala dos Professores",
-					"image": "",
+					"image": "sala_dos_professores",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -706,8 +746,8 @@
 	                "level": "0",
 					"room": "102",
 					"category": "Salas de Aula",
-                    "name": "Laboratório Produção Multimídia",
-					"image": "",
+                    "name": "Laboratório Produção Multimídia 1",
+					"image": "laboratorio_producao_multimidia_1",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -740,8 +780,8 @@
 	                "level": "0",
 					"room": "103",
 					"category": "Salas de Aula",
-                    "name": "Laboratório Produção Multimídia",
-					"image": "",
+                    "name": "Laboratório Produção Multimídia 2",
+					"image": "laboratorio_producao_multimidia_2",
 					"horario": "8:00 às 21:00",
 					"email": "@senacrs.com.br",
 					"telefone": "(51) 302210"
@@ -1289,8 +1329,8 @@
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
-                    [	[-51.226235092931276, -30.035330694704484], [-51.226193682286464, -30.03535393808277], [-51.22622503552083, -30.035395802655092],
-						[-51.226266446165646, -30.03537255928661], [-51.226235092931276, -30.035330694704484]	]
+                    [	[-51.22627265114349, -30.03531014993138], [-51.226193682286464, -30.03535393808277], [-51.22622503552083, -30.035395802655092],
+						[-51.22630499812646, -30.035356775354792], [-51.22627265114349, -30.03531014993138]	]
                 ]
             }
 			

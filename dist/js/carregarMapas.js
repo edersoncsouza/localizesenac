@@ -46,7 +46,7 @@
 	// variavel que contem os dados do senac qdo nenhum ambiente foi selecionado
 	var infoSenac = "<h3>Faculdade Senac Porto Alegre<h3>" +
 			"<a href=\"http://portal.senacrs.com.br/unidades.asp?unidade=63\">WWW.SENACRS.COM.BR</a>" +
-			"<img src=\"dist/images/fotos/fachadaSenac.jpg\" height=\"250\" width=\"250\" alt=\"Clio de ouro maciço da Prof. Aline de Campos\"/img></br>" +
+			"<img src=\"dist/images/fotos/unidade1/fachadaSenac.jpg\" height=\"250\" width=\"250\" alt=\"Clio de ouro maciço da Prof. Aline de Campos\"/img></br>" +
 			"<br><h4>Rua Coronel Genuino, 130</br>" +
 			"Porto Alegre / RS</br>" +
 			"CEP 90010350<br>" +
