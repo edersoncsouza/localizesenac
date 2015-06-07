@@ -77,7 +77,7 @@ PENDENCIAS LOCAIS:
 		
 <script>
 	$(document).ready(function(){
-	
+		$("#conteudoEventosAcademicos").load("listaEventosAcademicos.html");
 	/*
 		// ao clicar nos botoes de sair encaminha de volta ao principal.php
 		$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
@@ -129,7 +129,7 @@ PENDENCIAS LOCAIS:
                 <div class="panel-footer" id="pills">
                     <ul class="nav nav-pills nav-justified">
                         <li class="active">
-                            <a href="#perfil" data-toggle="pill">
+                            <a href="#evento" data-toggle="pill">
                                 <i class="fa fa-calendar fa-2x">
                                 </i>
                                 EVENTOS
@@ -169,72 +169,16 @@ PENDENCIAS LOCAIS:
             <div class="tab-pane active" id="evento">
                 <p class="TabContent">
 
-					<form id="formMudaSenha" action="#" title="Cadastrar o evento" method='POST'> 
-
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<h4>
-								CADASTRAR O EVENTO 
-							</h4>
+					<form id="formEventosAcademicos" action="#" title="Modificar Eventos Academicos" method=''> 
+					
+						<div id="conteudoEventosAcademicos" class="col-xs-12 col-sm-12 col-md-12">
+						<!-- carrega aqui o conteudo de listaEventosAcademicos.html -->
 						</div>
-
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group">
-								<input 
-									type="password"
-									name="passwordAtual"
-									id="passwordAtual"							
-									title="Senha atual: de 6 a 10 caracteres"
-									placeholder="Senha atual"
-									class="form-control input-lg" 
-									tabindex="1"
-									required
-									/>
-							</div>
-						</div>
-
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group">
-								<input 
-									type="password"
-									name="password"
-									id="password"							
-									title="Nova senha: de 6 a 10 caracteres"
-									placeholder="Nova senha"
-									class="form-control input-lg" 
-									tabindex="2"
-									required
-									/>
-							</div>
-						</div>
-
-
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<div class="form-group">
-								<input     
-									type="password"
-									name="password2"
-									id="password2"
-									title="Confirmação de senha"
-									placeholder="Confirme a nova senha"
-									class="form-control input-lg"
-									tabindex="3"
-									required
-									/>
-							</div>
-						</div>
-
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<br>
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input id="salvaSenha" type="submit" value="Salvar" class="btn btn-success btn-block btn-lg" >
-							</div>
-
-							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg">
-							</div>
-						</div> 
+					
 					</form>
+					
                 </p>
+				
             </div>
 
             <div class="tab-pane" id="seguranca">

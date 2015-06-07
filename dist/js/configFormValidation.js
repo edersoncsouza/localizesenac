@@ -151,6 +151,27 @@ $(document).ready(function() {
             }
         }
     });
+
+	$('#formAddNewRow').formValidation({
+    	excluded: [':disabled'],
+		message: 'Este não é um valor válido',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+			horaInicio: {
+				validators: {
+					notEmpty: {
+						message: 'O horário é obrigatório'
+					}
+				}
+			}
+			
+		}
+    });
+	
 	
 	    $('#formMudaSenha, #formMudaInfo').formValidation({
         		excluded: [':disabled'],
