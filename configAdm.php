@@ -78,6 +78,7 @@ PENDENCIAS LOCAIS:
 <script>
 	$(document).ready(function(){
 		$("#conteudoEventosAcademicos").load("listaEventosAcademicos.html");
+		$("#conteudoSalaMapa").load("desenharSalas.php");
 	/*
 		// ao clicar nos botoes de sair encaminha de volta ao principal.php
 		$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
@@ -148,6 +149,13 @@ PENDENCIAS LOCAIS:
                                 <i class="fa fa-user fa-2x">
                                 </i>
                                 USUÁRIOS
+                            </a>
+                        </li>
+						<li >
+                            <a href="#salaMapa" class="salaMapa" data-toggle="pill">
+                                <i class="fa fa-room fa-2x">
+                                </i>
+                                SALAS
                             </a>
                         </li>
 						<!--
@@ -361,7 +369,7 @@ PENDENCIAS LOCAIS:
 
 							</div> <!-- class="modal-dialog" -->
 
-						</div> <!-- <div class="modal fade"  -->
+						</div> <!-- div class="modal fade"  -->
 						
 					</form>
 				
@@ -369,6 +377,22 @@ PENDENCIAS LOCAIS:
 				
             </div>
 
+			<div class="tab-pane" id="salaMapa">
+                <p class="TabContent">
+				
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<h4>
+								EDIÇÃO DE SALAS 
+							</h4>
+						</div>
+						
+						<form id="formMudaSala" role="form">
+							<div id="conteudoSalaMapa" class="col-xs-12 col-sm-12 col-md-12">
+							<!-- carrega aqui o conteudo de desenharSalas.php -->
+							</div>
+						</form>
+				</p>
+			</div>
 
         </div>
 		
