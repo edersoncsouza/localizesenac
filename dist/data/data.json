@@ -248,8 +248,8 @@
           "level": "0",
           "room": "161",
           "category": "Acessos",
-          "name": "Elevador 1",
-          "image": "",
+          "name": "Elevador 1 Térreo",
+          "image": "elevador_1_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -301,8 +301,8 @@
           "level": "0",
           "room": "162",
           "category": "Acessos",
-          "name": "Elevador 2",
-          "image": "",
+          "name": "Elevador 2 Térreo",
+          "image": "elevador_2_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -407,8 +407,8 @@
           "level": "0",
           "room": "164",
           "category": "Apoio",
-          "name": "Sanitário Masculino 1",
-          "image": "sanitario_masculino_1",
+          "name": "Sanitário Masculino 1 Térreo",
+          "image": "sanitario_masculino_1_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -460,8 +460,8 @@
           "level": "0",
           "room": "165",
           "category": "Apoio",
-          "name": "Sanitário Feminino 1",
-          "image": "sanitario_feminino_1",
+          "name": "Sanitário Feminino 1 Térreo",
+          "image": "sanitario_feminino_1_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -513,8 +513,8 @@
           "level": "0",
           "room": "166",
           "category": "Acessos",
-          "name": "Escada - 1 andar e subsolo",
-          "image": "escada_-_1_andar_e_subsolo",
+          "name": "Escada - 2 andar e subsolo",
+          "image": "escada_-_2_andar_e_subsolo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -725,8 +725,8 @@
           "level": "0",
           "room": "172",
           "category": "Acessos",
-          "name": "Escada de incêndio térreo - 1 andar",
-          "image": "escada_de_incendio_terreo_-_1_andar",
+          "name": "Escada de incêndio térreo - 2 andar",
+          "image": "escada_de_incendio_terreo_-_2_andar",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1150,8 +1150,8 @@
           "level": "0",
           "room": "178",
           "category": "Serviços Administrativos",
-          "name": "Interagir",
-          "image": "",
+          "name": "Financeiro",
+          "image": "financeiro",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1175,12 +1175,12 @@
         "coordinates": [
           [
             [
-              -51.2256217302247,
-              -30.035644301464888
+              -51.22565659894195,
+              -30.035689580968988
             ],
             [
-              -51.225574218041174,
-              -30.035671093186412
+              -51.225609757310565,
+              -30.035713470147325
             ],
             [
               -51.2256676598513,
@@ -1191,8 +1191,8 @@
               -30.035768493671586
             ],
             [
-              -51.2256217302247,
-              -30.035644301464888
+              -51.22565659894195,
+              -30.035689580968988
             ]
           ]
         ]
@@ -1204,7 +1204,7 @@
           "room": "179",
           "category": "Serviços Administrativos",
           "name": "Coordenação de Pós Graduação",
-          "image": "",
+          "image": "coordenacao_de_pos_graduacao",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1257,7 +1257,7 @@
           "room": "180",
           "category": "Serviços Administrativos",
           "name": "Soluções Corporativas",
-          "image": "",
+          "image": "solucoes_corporativas",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1310,7 +1310,7 @@
           "room": "181",
           "category": "Apoio",
           "name": "Área de Convivência Terceirizados",
-          "image": "",
+          "image": "area_de_convivencia_terceirizados",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1362,8 +1362,8 @@
           "level": "0",
           "room": "182",
           "category": "Apoio",
-          "name": "Sanitário Masculino",
-          "image": "",
+          "name": "Sanitário e vestiário Masculino Térreo",
+          "image": "sanitario_e_vestiario_masculino_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1415,8 +1415,8 @@
           "level": "0",
           "room": "183",
           "category": "Apoio",
-          "name": "Sanitário Feminino",
-          "image": "",
+          "name": "Sanitário e Vestiário Feminino Térreo",
+          "image": "sanitario_e_vestiario_feminino_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1468,8 +1468,8 @@
           "level": "0",
           "room": "184",
           "category": "Serviços Administrativos",
-          "name": "Financeiro",
-          "image": "",
+          "name": "Interagir",
+          "image": "Interagir",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1522,7 +1522,7 @@
           "room": "185",
           "category": "Serviços Administrativos",
           "name": "Atendimento SEAP - Outros Cursos",
-          "image": "",
+          "image": "atendimento_seap_-_outros_cursos",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1575,7 +1575,7 @@
           "room": "186",
           "category": "Serviços Administrativos",
           "name": "Ouvidoria",
-          "image": "",
+          "image": "ouvidoria",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1628,7 +1628,7 @@
           "room": "187",
           "category": "Serviços Administrativos",
           "name": "Atendimento SEAP Graduação",
-          "image": "",
+          "image": "atendimento_seap_graduacao",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1680,8 +1680,8 @@
           "level": "0",
           "room": "188",
           "category": "Apoio",
-          "name": "Sanitário Feminino",
-          "image": "",
+          "name": "Sanitário Feminino 2 Térreo",
+          "image": "sanitario_feminino_2_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1733,8 +1733,8 @@
           "level": "0",
           "room": "189",
           "category": "Apoio",
-          "name": "Sanitário Masculino",
-          "image": "",
+          "name": "Sanitário Masculino 2 Térreo",
+          "image": "sanitario_masculino_2_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1758,12 +1758,12 @@
         "coordinates": [
           [
             [
-              -51.22631674443994,
-              -30.035439809206842
+              -51.22631406223087,
+              -30.03543458463656
             ],
             [
-              -51.22620175070654,
-              -30.03550435394791
+              -51.22620040960203,
+              -30.035497968366126
             ],
             [
               -51.226223024040166,
@@ -1774,8 +1774,8 @@
               -30.035468214515674
             ],
             [
-              -51.22631674443994,
-              -30.035439809206842
+              -51.22631406223087,
+              -30.03543458463656
             ]
           ]
         ]
@@ -1786,8 +1786,8 @@
           "level": "0",
           "room": "190",
           "category": "Salas de Aula",
-          "name": "Estúdio de rádio",
-          "image": "",
+          "name": "Estúdio de rádio Térreo",
+          "image": "estudio_de_radio_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1811,24 +1811,24 @@
         "coordinates": [
           [
             [
-              -51.22629661038485,
-              -30.035413469699385
+              -51.22629728093705,
+              -30.03541056715961
             ],
             [
-              -51.22625513828007,
-              -30.03543674755509
+              -51.22625580883232,
+              -30.035433845015998
             ],
             [
-              -51.22626975546734,
-              -30.035456265217743
+              -51.226270426019596,
+              -30.035453362679235
             ],
             [
-              -51.226311227572126,
-              -30.03543298736665
+              -51.22631189812438,
+              -30.03543008482745
             ],
             [
-              -51.22629661038485,
-              -30.035413469699385
+              -51.22629728093705,
+              -30.03541056715961
             ]
           ]
         ]
@@ -1839,8 +1839,8 @@
           "level": "0",
           "room": "191",
           "category": "Acessos",
-          "name": "Escada",
-          "image": "",
+          "name": "Escada - 2 Andar",
+          "image": "escada_-_2_andar",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1864,24 +1864,24 @@
         "coordinates": [
           [
             [
-              -51.2262695883083,
-              -30.035377575848077
+              -51.22623740180006,
+              -30.035331135184602
             ],
             [
-              -51.22622870808959,
-              -30.035400521492747
+              -51.22619719213367,
+              -30.035352339315104
             ],
             [
-              -51.22625169243412,
-              -30.0354312114479
+              -51.22625437464313,
+              -30.035430050432193
             ],
             [
-              -51.22629257265288,
-              -30.03540826581036
+              -51.22629525486195,
+              -30.035407104794388
             ],
             [
-              -51.2262695883083,
-              -30.035377575848077
+              -51.22623740180006,
+              -30.035331135184602
             ]
           ]
         ]
@@ -1893,7 +1893,7 @@
           "room": "192",
           "category": "Serviços Administrativos",
           "name": "Direção",
-          "image": "",
+          "image": "direcao",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1917,24 +1917,24 @@
         "coordinates": [
           [
             [
-              -51.22627265114352,
-              -30.03531014993138
+              -51.226270639486756,
+              -30.035311310948476
             ],
             [
-              -51.226193682286464,
-              -30.03535393808277
+              -51.22624129149648,
+              -30.035328395714462
             ],
             [
-              -51.22622503552083,
-              -30.035395802655092
+              -51.22627331528315,
+              -30.03537142131395
             ],
             [
-              -51.226304998126466,
-              -30.035356775354792
+              -51.226302986469705,
+              -30.03535793637133
             ],
             [
-              -51.22627265114352,
-              -30.03531014993138
+              -51.226270639486756,
+              -30.035311310948476
             ]
           ]
         ]
@@ -1945,8 +1945,8 @@
           "level": "0",
           "room": "193",
           "category": "Serviços Administrativos",
-          "name": "Assessoria Direção",
-          "image": "",
+          "name": "Assessoria da Direção",
+          "image": "assessoria_da_direcao",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -1998,8 +1998,8 @@
           "level": "0",
           "room": "194",
           "category": "Acessos",
-          "name": "Escada",
-          "image": "",
+          "name": "Escada de Incêndio Portaria - 2 Andar",
+          "image": "escada_de_incendio_portaria_-_2_andar",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -2052,7 +2052,7 @@
           "room": "195",
           "category": "Serviços Administrativos",
           "name": "Protocolo",
-          "image": "",
+          "image": "protocolo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -2088,8 +2088,8 @@
               -30.035356775354792
             ],
             [
-              -51.226379910680635,
-              -30.035315959149024
+              -51.22638259288965,
+              -30.035315378640504
             ],
             [
               -51.22635024590659,
@@ -2105,7 +2105,7 @@
           "room": "196",
           "category": "Serviços Administrativos",
           "name": "Direção de Ensino",
-          "image": "",
+          "image": "direcao_de_ensino",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -2263,8 +2263,8 @@
           "level": "0",
           "room": "100",
           "category": "Serviços Administrativos",
-          "name": "xxxx",
-          "image": "xxxx",
+          "name": "Pedagógico",
+          "image": "pedagogico",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -2278,7 +2278,7 @@
             }
           }
         ]
-	  }
+      }
     },
     {
       "type": "Feature",
@@ -2313,10 +2313,10 @@
         "tags": {
           "unidade": "1",
           "level": "0",
-          "room": "102",
+          "room": "169",
           "category": "Serviços Administrativos",
-          "name": "xxxx",
-          "image": "xxxx",
+          "name": "Administrativo Comunicação Marketing Eventos",
+          "image": "administrativo_comunicacao_marketing_eventos",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -2330,7 +2330,7 @@
             }
           }
         ]
-	  }
+      }
     },
     {
       "type": "Feature",
@@ -2365,10 +2365,10 @@
         "tags": {
           "unidade": "1",
           "level": "0",
-          "room": "103",
-          "category": "Serviços Administrativos",
-          "name": "xxxx",
-          "image": "xxxx",
+          "room": "168",
+          "category": "Acessos",
+          "name": "Elevador de carga Térreo",
+          "image": "elevador_de_carga_terreo",
           "horario": "8:00 às 21:00",
           "email": "@senacrs.com.br",
           "telefone": "(51) 302210"
@@ -2382,7 +2382,59 @@
             }
           }
         ]
-	  }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.22565496596508,
+              -30.035688555906606
+            ],
+            [
+              -51.22560869785957,
+              -30.035712937169716
+            ],
+            [
+              -51.22557584079914,
+              -30.035665916156916
+            ],
+            [
+              -51.22562143835239,
+              -30.035641534882245
+            ],
+            [
+              -51.22565496596508,
+              -30.035688555906606
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "tags": {
+          "unidade": "1",
+          "level": "0",
+          "room": "103",
+          "category": "Serviços Administrativos",
+          "name": "Sala de Convivência de Funcionários",
+          "image": "sala_de_convivencia_de_funcionarios",
+          "horario": "8:00 às 21:00",
+          "email": "@senacrs.com.br",
+          "telefone": "(51) 302210"
+        },
+        "relations": [
+          {
+            "reltags": {
+              "buildingpart": "room",
+              "level": "0",
+              "room": ""
+            }
+          }
+        ]
+      }
     }
   ]
 }
