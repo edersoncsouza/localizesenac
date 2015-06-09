@@ -15,10 +15,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.css" />
     <link rel="stylesheet" href="dist/components/leafletdraw/dist/css/leaflet.draw.css" />
+	    <!-- Custom Fonts -->
+    <link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
     <script type="text/javascript" src="dist/components/leaflet/dist/js/leaflet.js"></script>
     <script type="text/javascript" src="dist/components/leafletdraw/dist/js/leaflet.draw.js"></script>
+	<script type="text/javascript" src="dist/components/leaflet.filelayer/dist/js/leaflet.filelayer.js"></script>
     <script type="text/javascript" src="dist/js/limitesUnidade1Senac.js"></script>
     <!-- arquivo com o GeoJson do limite da unidade 1 -->
 
@@ -58,12 +61,60 @@
             };
         }
 
-        // armazena o GeoJson na variavel
+        // armazena o GeoJson dos limites do andar na variavel
         var geojson = L.geoJson(limites, {
             //style: style
         }).addTo(map);
 
 
+
+		// INSTANCIA O CONTROLE DE CARREGAMENTO DE ARQUIVO PARA O MAPA
+		L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
+		/*
+		L.Control.fileLayerLoad({
+			// See http://leafletjs.com/reference.html#geojson-options
+			layerOptions: {style: {color:'red'}},
+			// Add to map after loading (default: true) ?
+			addToMap: true,
+			// File size limit in kb (default: 1024) ?
+			fileSizeLimit: 1024,
+			// Restrict accepted file formats (default: .geojson, .kml, and .gpx) ?
+			formats: [
+				'.geojson',
+				'.kml'
+			]
+		}).addTo(map);
+		*/
+		
+		// cria um grupo de features
+
+		var controleArquivo = new L.Control.fileLayerLoad({
+			// See http://leafletjs.com/reference.html#geojson-options
+			layerOptions: {style: {color:'red'}},
+			// Add to map after loading (default: true) ?
+			addToMap: true,
+			// File size limit in kb (default: 1024) ?
+			fileSizeLimit: 1024,
+			// Restrict accepted file formats (default: .geojson, .kml, and .gpx) ?
+			formats: [
+				'.geojson',
+				'.kml'
+			]
+		}).addTo(map);
+
+
+		// evento disparado quando as salas sao carregadas
+        controleArquivo.loader.on('data:loaded', function(e) {
+            var type = e.layerType,
+                layer = e.layer;
+				console.log(layer);
+				alert("foi carregado");
+				console.log(e);
+		});
+				
+				
+				
+				
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
 
@@ -160,6 +211,7 @@
 
             drawnItems.addLayer(layer);
         });
+		
 
         /*
          *  Inicio do armazenamento das formas para enviar ao banco
