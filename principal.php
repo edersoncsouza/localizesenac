@@ -26,6 +26,28 @@ PENDENCIAS LOCAIS:
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	//imprimeSessao();
+
+/*
+
+// PROCEDIMENTO PARA PESQUISAR NO BANCO E TRAZER OS EVENTOS PARA O EVENTCALENDAR
+$sql = "select concat(data_inicio, ' ', hora_inicio) as date, descricao as title from evento_geral"; //replace emp_info with your table name
+
+$result = mysql_query($sql);
+
+//create an array
+    $emparray[] = array();
+    while($row =mysql_fetch_assoc($result))
+    {
+        $emparray[] = $row;
+    }
+
+//echo json_encode($emparray);
+$arrayJson = json_encode($emparray);
+
+echo "<script> var eventsInline = {$arrayJson};</script>";
+//echo "<script> alert(eventsInline.stringfy);</script>";
+*/
+
 ?>
 	
     <!-- Bootstrap Core CSS -->
@@ -89,6 +111,7 @@ $(document).ready(function() {
 	$('#collapseOne').collapse("hide"); // oculta o calendário da agenda academica
 	
 	// eventos "inline" para a agenda
+
 	var eventsInline = [
 						{ 	"date": "2015-06-01 21:40:00",
 							"type": "Orientação",
@@ -101,6 +124,7 @@ $(document).ready(function() {
 							"url": "http://www.event2.com/" 
 						}
 						];
+
 	
 	// parametros de configuracao do eventCalendar
 	
@@ -207,7 +231,22 @@ $(document).ready(function() {
 	});
 
 
-	
+	/* // Tentativa de POST para retornar os eventos para eventCalendar
+	var url = "dist/php/buscaEventosGerais.php";
+				
+	// executa o post enviando o parametro dia
+	// recebe como retorno um json com as disciplinas (diaJson)
+	$.post(url, function(eventosJson) { // depois vou inserir o periodo do evento
+		
+		if (eventosJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
+			bootbox.alert('Não existem eventos!');
+		}
+		else{
+				var objJson = JSON.parse(diaJson);
+				var eventsInline = objJson;
+		}
+	});
+	*/
 });
 </script>
 

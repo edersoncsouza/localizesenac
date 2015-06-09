@@ -152,8 +152,8 @@ PENDENCIAS LOCAIS:
                             </a>
                         </li>
 						<li >
-                            <a href="#salaMapa" class="salaMapa" data-toggle="pill">
-                                <i class="fa fa-room fa-2x">
+                            <a  href="desenharSalas.php" onclick="window.open(this.href, 'child', 'fullscreen=yes'); return false" class="salaMapa" data-toggle="pill"> <!-- href="#salaMapa" -->
+                                <i class="fa fa-codepen fa-2x">
                                 </i>
                                 SALAS
                             </a>
@@ -378,19 +378,22 @@ PENDENCIAS LOCAIS:
             </div>
 
 			<div class="tab-pane" id="salaMapa">
-                <p class="TabContent">
+			
+                <p  class="TabContent">
 				
-						<div class="col-xs-12 col-sm-12 col-md-12">
+						<div  class="col-xs-12 col-sm-12 col-md-12">
 							<h4>
 								EDIÇÃO DE SALAS 
 							</h4>
 						</div>
 						
 						<form id="formMudaSala" role="form">
-							<div id="conteudoSalaMapa" class="col-xs-12 col-sm-12 col-md-12">
-							<!-- carrega aqui o conteudo de desenharSalas.php -->
-							</div>
+							
 						</form>
+						
+						<div id="conteudoSalaMapa" class="col-xs-12 col-sm-12 col-md-12">
+							<!-- carrega aqui o conteudo de desenharSalas.php -->
+						</div>
 				</p>
 			</div>
 
