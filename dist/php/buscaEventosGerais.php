@@ -1,18 +1,24 @@
 <?php
     include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
-	//protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	
-	$sql = "select concat(data_inicio, ' ', hora_inicio) as date, descricao as title from evento_geral"; //replace emp_info with your table name
-
-
-// executa a query para verificar se o aluno ja possui lembretes
+	//setup php for working with Unicode data
+	mb_internal_encoding('UTF-8');
+	mb_http_output('UTF-8');
+	mb_http_input('UTF-8');
+	mb_language('uni');
+	mb_regex_encoding('UTF-8');
+	ob_start('mb_output_handler');
+	
+	// monta a query de pesquisa de eventos no banco de dados
+	$sql = "select concat(data_inicio, ' ', hora_inicio) as date, descricao as title from evento_geral";
+	
+	// executa a query para verificar se o aluno ja possui eventos
 	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 	
-	if(mysql_num_rows($result) > 0){ // se houverem lembretes do tipo recebido
+	if(mysql_num_rows($result) > 0){ // se houverem eventos
 		
-	//create an array
-		$data[] = array();
+		$data = array(); //cria o array
 		while($row =mysql_fetch_assoc($result))
 		{
 			$data[] = $row;

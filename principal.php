@@ -27,27 +27,6 @@ PENDENCIAS LOCAIS:
     mysql_set_charset('UTF8', $_SG['link']);
 	//imprimeSessao();
 
-/*
-
-// PROCEDIMENTO PARA PESQUISAR NO BANCO E TRAZER OS EVENTOS PARA O EVENTCALENDAR
-$sql = "select concat(data_inicio, ' ', hora_inicio) as date, descricao as title from evento_geral"; //replace emp_info with your table name
-
-$result = mysql_query($sql);
-
-//create an array
-    $emparray[] = array();
-    while($row =mysql_fetch_assoc($result))
-    {
-        $emparray[] = $row;
-    }
-
-//echo json_encode($emparray);
-$arrayJson = json_encode($emparray);
-
-echo "<script> var eventsInline = {$arrayJson};</script>";
-//echo "<script> alert(eventsInline.stringfy);</script>";
-*/
-
 ?>
 	
     <!-- Bootstrap Core CSS -->
@@ -92,16 +71,10 @@ echo "<script> var eventsInline = {$arrayJson};</script>";
 
 	<!-- Bootbox -->
 	<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
-
-	<!-- Underscore 
-	<script src="dist/components/underscore/js/underscore-min.js" type="text/javascript"></script>	-->
 	
 	<!-- Moment -->
 	<script src="dist/components/moment/js/moment.js" type="text/javascript"></script> 
 
-	<!-- CLNDR 
-	<script src="dist/components/CLNDR/js/clndr.min.js" type="text/javascript"></script> -->
-	
 	<!-- eventCalendar -->
 	<script src="dist/components/eventCalendar/js/jquery.eventCalendar.min.js" type="text/javascript"></script>	
 	
@@ -110,8 +83,8 @@ $(document).ready(function() {
 	
 	$('#collapseOne').collapse("hide"); // oculta o calendário da agenda academica
 	
+	/*
 	// eventos "inline" para a agenda
-
 	var eventsInline = [
 						{ 	"date": "2015-06-01 21:40:00",
 							"type": "Orientação",
@@ -124,29 +97,16 @@ $(document).ready(function() {
 							"url": "http://www.event2.com/" 
 						}
 						];
+	*/
 
-	
-	// parametros de configuracao do eventCalendar
-	
-	$("#inlineEventcalendar").eventCalendar({
-		jsonData: eventsInline,
-		//eventsjson: 'event.humanDate.json.php',
-		eventsScrollable: true,
-		jsonDateFormat: 'human',
-		monthNames: [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho","Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ],
-		dayNames: [ 'Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado' ],
-		dayNamesShort: [ 'Dom','Seg','Ter','Qua', 'Qui','Sex','Sáb' ],
-		txt_noEvents: "Não existem eventos para este período",
-		txt_SpecificEvents_prev: "",
-		txt_SpecificEvents_after: "eventos:",
-		txt_next: "seguinte",
-		txt_prev: "anterior",
-		txt_NextEvents: "Próximos eventos:",
-		txt_GoToEventUrl: "Ir ao evento"
+
+	// AO CLICAR NO CAMPO DE BUSCA APAGA OS VALORES ANTIGOS
+	$('#inputBusca').on("click",function(e){
+			$('#inputBusca').val('');
 	});
-	
-		//dateSlider("current", 2015, 06);
-	$("#inlineEventcalendar").hide;
+
+
+	$("#inlineEventcalendar").hide; //oculta o calendario de eventos academicos
 	
 	// chama a pagina de configuracao ao clicar no link configuracoes do menu do usuario
 	$('#configuracoes').click( function() {
@@ -221,33 +181,29 @@ $(document).ready(function() {
 	$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
 	selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 	
-	//$("#inlineEventcalendar").load('testeClndr/calendario.php'); // carrega o conteudo da pagina de agenda de eventos na div inlineEventcalendar
-	//$('li#menuCategoria').removeClass('active'), 10000);
-	//#menuCategoria
-
-	// AO CLICAR NO CAMPO DE BUSCA APAGA OS VALORES ANTIGOS
-	$('#inputBusca').on("click",function(e){
-			$('#inputBusca').val('');
-	});
-
-
-	/* // Tentativa de POST para retornar os eventos para eventCalendar
-	var url = "dist/php/buscaEventosGerais.php";
-				
-	// executa o post enviando o parametro dia
-	// recebe como retorno um json com as disciplinas (diaJson)
-	$.post(url, function(eventosJson) { // depois vou inserir o periodo do evento
-		
-		if (eventosJson == 0){// caso o retorno de buscarDisciplinasDia.php seja = 0
-			bootbox.alert('Não existem eventos!');
-		}
-		else{
-				var objJson = JSON.parse(diaJson);
-				var eventsInline = objJson;
-		}
-	});
-	*/
 });
+	
+	// CHAMA A FUNCAO QUE BUSCA OS EVENTOS E CONFIGURA EVENTCALENDAR
+	buscaEventosAcademicos(); // busca todos os eventos
+
+	// PROCEDIMENTO PARA BUSCAR A QUANTIDADE DE EVENTOS POR MES E EXIBIR NA AGENDA ACADEMICA
+	//FONTE: http://stackoverflow.com/questions/22283177/events-from-db-by-given-month-and-year-or-other-suggestion
+	
+	
+	
+	/*
+	function setselectedday(day) {
+		if (day > '') {
+			var flags = $("#inlineEventcalendar");
+			flags.find('.current').removeClass('current');
+			flags.find('#dayList_' + day).addClass('current');
+		}
+	}
+	
+	setselectedday(32);
+	setselectedday(1);
+	*/
+	
 </script>
 
 </head>

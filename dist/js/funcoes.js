@@ -1,6 +1,44 @@
 // variavel de vetor de objetos nome andar e numero para fazer correspondencia na insercao do marker
 var JsonNomeAndarNumeroObj;
 
+function buscaEventosAcademicos(){
+
+	var url = "dist/php/buscaEventosGerais.php";
+	var eventsInline = []; // define o array que alimentara o eventCalendar
+	
+	// executa o post enviando o parametro dia
+	// recebe como retorno um json com as disciplinas (eventosJson)
+	$.post(url, function(eventosJson) { // depois vou inserir o periodo do evento
+		
+		if (eventosJson == 0){// caso o retorno de buscaEventosGerais.php seja = 0
+			bootbox.alert('Não existem eventos!');
+		}
+		else{
+				var objJson = JSON.parse(eventosJson); // converte o retorno
+				eventsInline = objJson; // armazena os eventos para o EventCalendar
+
+					// parametros de configuracao do eventCalendar
+					$("#inlineEventcalendar").eventCalendar({
+						jsonData: eventsInline,
+						//eventsjson: 'event.humanDate.json.php',
+						eventsScrollable: true,
+						jsonDateFormat: 'human',
+						monthNames: [ "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho","Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" ],
+						dayNames: [ 'Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado' ],
+						dayNamesShort: [ 'Dom','Seg','Ter','Qua', 'Qui','Sex','Sáb' ],
+						txt_noEvents: "Não existem eventos para este período",
+						txt_SpecificEvents_prev: "",
+						txt_SpecificEvents_after: "eventos:",
+						txt_next: "seguinte",
+						txt_prev: "anterior",
+						txt_NextEvents: "Próximos eventos:",
+						txt_GoToEventUrl: "Ir ao evento"
+					});
+					
+		}
+	});	
+}
+
 // funcao que muda o andar do mapa
 function mudaAndarMapa(andarTab){
 
