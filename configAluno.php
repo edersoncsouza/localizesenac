@@ -235,7 +235,7 @@ PENDENCIAS LOCAIS:
 				});
 			});
 			
-
+		
 			
 	}); //documentReady
 
@@ -589,7 +589,7 @@ PENDENCIAS LOCAIS:
                                 PERFIL
                             </a>
                         </li>
-                        <li>
+                        <li id="liSeguranca">
                             <a href="#seguranca" data-toggle="pill">
                                 <i class="fa fa-lock fa-2x">
                                 </i>

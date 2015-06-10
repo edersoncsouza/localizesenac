@@ -1016,7 +1016,12 @@ function carregaCalendarioSemana(){
 		// verificar se o aluno for autenticado pelo google mandar verificar eventos google
 		if(tipoUsuario == "google"){
 			verificaEventoGoogle();	// funcao que verifica se existem eventos gravados na agenda
+			ocultaAreaSeguranca(); // oculta a area de seguranca onde e permitido trocar a senha	
 		}
+		
+		if(tipoUsuario == "facebook")			
+			ocultaAreaSeguranca(); // oculta a area de seguranca onde e permitido trocar a senha
+		
 		// para todos verificar os lembretes Zsms, icloud, Pemail
 		verificaEventoZenvia();
 		verificaEventoPhpmailer();
@@ -1126,6 +1131,10 @@ function carregaCalendarioSemana(){
 	
 	
 				
+}
+
+function ocultaAreaSeguranca(){
+	$(#liSeguranca, #seguranca).hide();
 }
 
 // funcao vinda de: http://stackoverflow.com/questions/1129216/sort-array-of-objects-by-property-value-in-javascript
