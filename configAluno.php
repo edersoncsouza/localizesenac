@@ -126,6 +126,8 @@ PENDENCIAS LOCAIS:
 			
 		});
 
+		ocultaAreaSeguranca(); // chama a funcao que oculta a guia de segurança para os usuários do google e facebook
+		
 // CONFIGURACOES PARA A GUIA SEGURANCA
 
 		// captura o evento submit do formMudaSenha e chama a funcao atualizaSenha
