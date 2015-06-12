@@ -126,7 +126,7 @@ PENDENCIAS LOCAIS:
 			
 		});
 
-		ocultaAreaSeguranca(); // chama a funcao que oculta a guia de segurança para os usuários do google e facebook
+		//ocultaAreaSeguranca(); // chama a funcao que oculta a guia de segurança para os usuários do google e facebook
 		
 // CONFIGURACOES PARA A GUIA SEGURANCA
 
@@ -397,9 +397,6 @@ PENDENCIAS LOCAIS:
 					}
 					else{
 						var objJson = JSON.parse(json); // transforma a string recebida em objeto
-	
-						//alert(objJson[0].id);
-						//alert(objJson[0].nome);
 
 						var listaItens; // cria uma lista de itens para inserir uma unica vez
 						var nomeDisciplina;
@@ -707,7 +704,8 @@ PENDENCIAS LOCAIS:
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input id="sairInfo" type="button" value="Sair" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-target="#configModal">
+								<!-- <input id="sairInfo" type="button" value="Sair" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-target="#configModal"> -->
+								<button type="button" id="sairInfo" value="Sair" class="btn btn-primary btn-block btn-lg" data-dismiss="modal" data-target="#configModal" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>
 							</div>
 						</div> 
 					
@@ -780,7 +778,8 @@ PENDENCIAS LOCAIS:
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg">
+								<!-- <input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg"> -->
+								<button type="button" id="sairSenha" value="Sair" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>
 							</div>
 						</div> 
 					</form>

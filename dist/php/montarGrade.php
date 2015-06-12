@@ -1,6 +1,6 @@
 <?php
-    include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
-    protegePagina(); // Chama a função que protege a página
+    include("seguranca.php"); // inclui o arquivo com as funcoes php de seguranca
+    protegePagina(); // chama a funcao que protege a pagina
     mysql_set_charset('UTF8', $_SG['link']);
 	
 	// se recebe os parametros por POST

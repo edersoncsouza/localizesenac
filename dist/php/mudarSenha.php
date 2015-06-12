@@ -11,8 +11,8 @@
 		
 		// armazena os parametros recebidos
 		$id = $_POST['id'];
-		$passwordAtual = $_POST['passwordAtual'];
-		$password = $_POST['password'];
+		$passwordAtual = md5($_POST['passwordAtual']);
+		$password = md5($_POST['password']);
 		
 		// busca a senha atual do usuario no banco
 		$result = mysql_query("SELECT senha FROM aluno WHERE id={$id}");
