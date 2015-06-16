@@ -18,9 +18,9 @@ include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segur
 			AND
 				autenticacao = \"{$_SESSION['tipoUsuario']}\"
 			AND
-				tipo = 'pemail'
+				fk_id_lembrete_tipo = 1
 			ORDER BY
-				dia_semana";
+				dia_semana"; // pemail = 1
 				
 	// executa a query para verificar se o aluno ja possui lembretes
 	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());

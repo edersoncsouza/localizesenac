@@ -174,7 +174,7 @@
 								</A:prop>
 							</A:propfind>";
 		//$response=simplexml_load_string(doRequest($user, $pw, $_POST['server'], $principal_request));
-		$response=simplexml_load_string(doRequest($user, $pw, $icloudUrls[rand(0,23)], $principal_request));
+		$response=simplexml_load_string(doRequest($user, $pw, $icloudUrls[rand(0,23)], $principal_request)); // randomiza o numero do servidor
 		
 		if($response[0]->head->title == "Unauthorized"){
 			echo "<script>bootbox.alert(\"Erro na autenticação, tente novamente ou clique no botão Cancelar para desistir\"); </script>";

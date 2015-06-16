@@ -5,54 +5,6 @@ include_once("human_gateway_client_api/HumanClientMain.php");
 include("../dist/php/funcoes.php");
 include("../dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
 
-/*
-function enviaEmail($corpo, $destinatario, $nome){
-
-	require_once('../phpmailer/class.phpmailer.php');
-	include_once("../phpmailer/class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
-
-	$mail             = new PHPMailer();
-
-	
-	//$body             = file_get_contents('contents.html');
-	//$body             = eregi_replace("[\]",'',$body);
-	
-	$body = $corpo;
-	
-	$mail->IsSMTP(); // telling the class to use SMTP
-	$mail->Host       = "mx1.hostinger.com.br"; // SMTP server
-	$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
-											   // 1 = errors and messages
-											   // 2 = messages only
-	$mail->SMTPAuth   = true;                  // enable SMTP authentication
-	$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-	$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-	$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-	$mail->Username   = "localizesenac@gmail.com";  // GMAIL username
-	$mail->Password   = "N1kolatesla";            // GMAIL password
-
-	$mail->SetFrom('localizesenac@gmail.com', 'LocalizeSenac');
-
-	$mail->AddReplyTo('localizesenac@gmail.com',"LocalizeSenac");
-
-	$mail->Subject    = retiraAcentos($corpo);
-
-	$mail->AltBody    = $body; // optional, comment out and test
-
-	$mail->MsgHTML($body);
-
-	$address = $destinatario;
-	$mail->AddAddress($address, $nome);
-
-	if(!$mail->Send()) {
-	  echo "Mailer Error: " . $mail->ErrorInfo;
-	} else {
-	  echo "Message sent!";
-	}
-	
-}
-*/
-
 // se recebeu os parametros por POST
 if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 
@@ -60,6 +12,13 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 	foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); }
 
 	$tipoLembrete = $_POST['tipoLembrete'];
+	
+	// converte o valor de string para a FK correspondente na tabela lembrete_tipo
+	if ($tipoLembrete == "pemail")
+		$fk_TipoLembrete = 1;
+	if ($tipoLembrete == "zsms")
+		$fk_TipoLembrete = 2;	
+	
 	$turno = $_POST['turno'];
 	//$tipoLembrete = "pemail";
 	//$turno = "N";
@@ -107,7 +66,7 @@ if(isset($_POST['tipoLembrete'], $_POST['turno'])){
 			AND
 				turno = \"{$turno}\"
 			AND
-				tipo = \"{$tipoLembrete}\"";
+				fk_id_lembrete_tipo = \"{$fk_TipoLembrete}\"";
 				
 	// executa a query para verificar se o aluno ja possui lembretes
 	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());

@@ -18,7 +18,7 @@ include('../dist/php/seguranca.php'); // Inclui o arquivo com o sistema de segur
 			AND
 				fk_id_aluno = aluno.id
 			AND
-				tipo = 'zsms'";
+				fk_id_lembrete_tipo = 2"; // zsms = 2
 	
 	// executa a query para verificar se o aluno ja possui lembretes
 	$resultPesquisa = mysql_query($sqlPesquisa) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());

@@ -21,7 +21,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 	
 	// monta a query de pesquisa de lembretes
 	$sqlPesquisa = "SELECT
-				aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+				aluno_lembrete.id, fk_id_aluno, dia_semana, turno, fk_id_lembrete_tipo
 			FROM
 				aluno_lembrete, aluno
 			WHERE
@@ -31,7 +31,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 			AND
 				fk_id_aluno = aluno.id
 			AND
-				tipo = 'zsms'";
+				fk_id_lembrete_tipo = 2"; // zsms = 2
 	
 	// executa a query para verificar se o aluno ja possui lembretes
 	$resultPesquisa = mysql_query($sqlPesquisa) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
@@ -54,7 +54,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		$unidade = $campoDisciplina['unidade'];
 		$disciplina = $campoDisciplina['disciplina'];
 		
-		$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete zsms
+		// removido pois sempre vai inserir o mesmo tipo de lembrete e agora existe a tabela lembrete_tipo onde zsms = 2
+		//$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete zsms
 		
 		// DESMEMBRA O ARRAY DE LEMBRETES E ARMAZENA OS MINUTOS DE ANTECEDENCIA DO DIA DA  SEMANA DA DISCIPLINA ATUAL 
 		foreach($arrayLembretes as $campoLembrete) {
@@ -131,8 +132,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
 		
 		// monta a query de insercao de lembrete
 		$sql5 = "INSERT INTO
-			`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
-		VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$minutosAntec}', '{$dataDoEvento}', '{$dataFinal}'  ) "; 						
+			`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `fk_id_lembrete_tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
+		VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', 2, '{$minutosAntec}', '{$dataDoEvento}', '{$dataFinal}'  ) "; 						
 		// executa a query para armazenar o lembrete em banco na tabela aluno_lembrete
 		$result5 = mysql_query($sql5) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 		

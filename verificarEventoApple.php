@@ -8,13 +8,15 @@ include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de seguran�
 		
 	// monta a query de pesquisa de lembretes do icloud
 	$sql = "SELECT
-				dia_semana, minutosantec
+				dia_semana, minutosantec, lembrete_tipo.nome
 			FROM
-				aluno_lembrete, aluno
+				aluno_lembrete, aluno, lembrete_tipo
 			WHERE
 				matricula = \"{$_SESSION['usuarioLogin']}\"
 			AND
-				tipo = 'icloud'";
+				fk_id_lembrete_tipo = lembrete_tipo.id
+			AND
+				lembrete_tipo.nome = 'icloud'";
 				
 	// executa a query para verificar se o aluno ja possui lembretes
 	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());

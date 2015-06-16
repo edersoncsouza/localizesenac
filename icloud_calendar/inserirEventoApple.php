@@ -120,7 +120,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 	
 	// monta a query de pesquisa de lembretes do icloud
 	$sqlPesquisa = "SELECT
-				aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+				aluno_lembrete.id, fk_id_aluno, dia_semana, turno, fk_id_lembrete_tipo
 			FROM
 				aluno_lembrete, aluno
 			WHERE
@@ -130,7 +130,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 			AND
 				fk_id_aluno = aluno.id
 			AND
-				tipo = 'icloud'";
+				fk_id_lembrete_tipo = 3"; // icloud = 3
 	
 	// executa a query para verificar se o aluno ja possui lembretes
 	$resultPesquisa = mysql_query($sqlPesquisa) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
@@ -184,7 +184,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		$unidade = $campoDisciplina['unidade'];
 		$disciplina = $campoDisciplina['disciplina'];
 		
-		$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete icloud
+		// desativado pois sempre vai estar executando acoes em lembretes do tipo icloud e agora a tabela aluno_lembrete nao possui mais a coluna tipo e sim fk_id_lembrete_tipo
+		//$tipoLembrete = $arrayLembretes[0]['tipoLembrete']; // armazena o tipo de lembrete icloud
 		
 		// DESMEMBRA O ARRAY DE LEMBRETES E ARMAZENA OS MINUTOS DE ANTECEDENCIA DO DIA DA  SEMANA DA DISCIPLINA ATUAL 
 		foreach($arrayLembretes as $campoLembrete) {
@@ -308,7 +309,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		
 		// monta a query de pesquisa de lembretes do icloud
 		$sql = "SELECT
-					aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+					aluno_lembrete.id, fk_id_aluno, dia_semana, turno, fk_id_lembrete_tipo
 				FROM
 					aluno_lembrete, aluno
 				WHERE
@@ -322,7 +323,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 				AND
 					turno = \"{$turno}\"
 				AND
-					tipo = \"{$tipoLembrete}\"";
+					fk_id_lembrete_tipo = 3"; // icloud = 3
 					
 		// executa a query para verificar se o aluno ja possui lembretes
 		$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
@@ -355,7 +356,7 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 				WHERE
 					`fk_id_aluno` = \"{$idAluno}\"
 				AND
-					tipo = \"icloud\"
+					fk_id_lembrete_tipo = 3
 				AND
 					(fk_id_aluno, fk_id_disciplina, dia_semana, turno)
 
@@ -392,8 +393,8 @@ if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'], $_POST['arrayAute
 		
 		// monta a query de insercao de lembrete
 		$sql5 = "INSERT INTO
-			`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
-		VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$minutosAntec}', '{$dataDoEvento}', '{$dataFinal}'  ) "; 						
+			`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `fk_id_lembrete_tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
+		VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', 3, '{$minutosAntec}', '{$dataDoEvento}', '{$dataFinal}'  ) "; 						
 		// executa a query para armazenar o lembrete em banco na tabela aluno_lembrete
 		$result5 = mysql_query($sql5) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 
