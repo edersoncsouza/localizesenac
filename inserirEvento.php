@@ -95,8 +95,15 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 	  
 	/************************************************/
 
+	echo "<script>alert(\"Tenho Token do Google\"); console.log(\"Tenho Token do Google\");</script>";
+	
+	$disciplinas = $_POST['arrayDisciplinas'];
+	print_r($disciplinas);
+	
 	// verifica se recebeu os parametros por POST
 	if(isset($_POST['arrayDisciplinas'], $_POST['arrayLembretes'])){
+			
+			echo "<script>alert(\"Recebi o arrayDisciplinas e arrayLembretes\"); console.log(\"Recebi o arrayDisciplinas e arrayLembretes\");</script>";
 			
 			// sanitiza as entradas
 			//foreach($_POST AS $key => $value) {	$_POST[$key] = mysql_real_escape_string($value); }
@@ -324,7 +331,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				
 				// monta a query de pesquisa de lembretes do google (sms ou email)
 				$sql = "SELECT
-							aluno_lembrete.id, fk_id_aluno, dia_semana, turno, tipo
+							aluno_lembrete.id, fk_id_aluno, dia_semana, turno, fk_id_lembrete_tipo
 						FROM
 							aluno_lembrete, aluno
 						WHERE
@@ -334,7 +341,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 						AND
 							turno = \"{$turno}\"
 						AND
-							(tipo = 'sms' OR tipo = 'email')";
+							(fk_id_lembrete_tipo = 5 OR fk_id_lembrete_tipo = 6)"; // email = 5, sms = 6
 							
 				// executa a query para verificar se o aluno ja possui lembretes
 				$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
@@ -364,7 +371,7 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 						WHERE
 							`fk_id_aluno` = \"{$idAluno}\"
 						AND
-							(tipo = 'sms' OR tipo = 'email')
+							(fk_id_lembrete_tipo = 5 OR fk_id_lembrete_tipo = 6)
 						AND
 							(fk_id_aluno, fk_id_disciplina, dia_semana, turno)
 
@@ -399,12 +406,18 @@ http://www.google.com/calendar/event?action=TEMPLATE&dates=20140611T170000Z%2F20
 				// INSERE OS LEMBRETES NA TABELA aluno_lembrete
 				foreach($arrayLembretesTipo as $lembreteGoogle){ // ESTAMOS DENTRO DE UM FOR POR DISCIPLINA/TURNO E EM CADA ITERACAO PODE TER MAIS DE UM TIPO DE LEMBRETE
 					$tipoLembrete = $lembreteGoogle['tipo'];
+					
+					if ($tipoLembrete == "email")
+						$fkTipoLembrete = 5;
+					if ($tipoLembrete == "sms")
+						$fkTipoLembrete = 6;
+					
 					$minutosLembrete = $lembreteGoogle['minutos'];
 					
 					// monta a query de insercao de lembrete
 					$sql5 = "INSERT INTO
-						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
-					VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$tipoLembrete}', '{$minutosLembrete}', '{$dataDoEvento}', '{$dataFinalSemestre}'  ) "; 						
+						`aluno_lembrete` ( `fk_id_aluno` ,  `dia_semana` ,  `turno` ,  `fk_sala_fk_id_unidade` ,  `fk_andar_sala` , `fk_numero_sala`, `fk_id_disciplina`, `fk_id_lembrete_tipo`, `minutosantec`,`dt_inicio`,`dt_final`)
+					VALUES(  '{$idAluno}', '{$dia}', '{$turno}', '{$unidade}', '{$andarSala}', '{$sala}', '{$idDisciplina}', '{$fkTipoLembrete}', '{$minutosLembrete}', '{$dataDoEvento}', '{$dataFinalSemestre}'  ) "; 						
 					// executa a query para armazenar o lembrete em banco na tabela aluno_lembrete
 					$result5 = mysql_query($sql5) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 					

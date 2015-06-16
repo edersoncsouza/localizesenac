@@ -18,7 +18,7 @@ include('../dist/php/seguranca.php'); // Inclui o arquivo com o sistema de segur
 			AND
 				fk_id_aluno = aluno.id
 			AND
-				(tipo = 'sms' OR tipo = 'email')";
+				(tipo = 5 OR tipo = 6)"; // email = 5, sms = 6
 	
 	// executa a query para verificar se o aluno ja possui lembretes
 	$resultPesquisa = mysql_query($sqlPesquisa) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());

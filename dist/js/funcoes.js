@@ -597,10 +597,10 @@ function carregaCalendarioSemana(){
 			var arrayLembretesZenvia = [];
 			var arrayLembretesGoogle = [];
 			var arrayLembretesApple = [];
-			arrayDisciplinasPhpmailer = [];
-			arrayDisciplinasZenvia = [];
-			arrayDisciplinasGoogle = [];
-			arrayDisciplinasApple = [];
+			var arrayDisciplinasPhpmailer = [];
+			var arrayDisciplinasZenvia = [];
+			var arrayDisciplinasGoogle = [];
+			var arrayDisciplinasApple = [];
 			
 			console.log("Disparado por button#sairDisciplina \n === CONFIG ALUNO depois de armazenaLembretes() === \n Lembrete:\n" + JSON.stringify(arrayLembretes));
 			console.log("Disparado por button#sairDisciplina \n Disciplinas:\n" + JSON.stringify(arrayDisciplinas) + "\n === CONFIG ALUNO ===");
@@ -667,6 +667,12 @@ function carregaCalendarioSemana(){
 			console.log("Disparado por button#sairDisciplina \n Array disciplinas do Google:");
 			console.log(JSON.stringify(arrayDisciplinasGoogle));
 			
+			console.log("arrayLembretesGoogle[0]:");
+			console.log(arrayLembretesGoogle[0]);
+			
+			console.log("arrayLembretesGoogle[0] != null");
+			console.log(arrayLembretesGoogle[0] != null);
+			
 			// ENVIA OS ARRAYS PARA A CRIACAO DOS EVENTOS
 			if(arrayLembretesGoogle[0] != null){ // se o array de lembretes Google não estiver vazio
 			
@@ -704,10 +710,12 @@ function carregaCalendarioSemana(){
 				// EFETUA O POST PARA INSERIR OS EVENTOS ARMAZENADOS
 				var url = "inserirEvento.php";
 				console.log("VOU CHAMAR O INSERIR EVENTO PORQUE arrayLembretesGoogle[0] != null");
-					$.post(
-							url,
-							{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle}
-					);
+				console.log("arrayLembretesGoogle:");
+				console.log(JSON.stringify(arrayLembretesGoogle));
+				console.log("arrayDisciplinas:");
+				console.log(JSON.stringify(arrayDisciplinas));
+
+					$.post( url,{'arrayLembretes' : arrayLembretesGoogle, 'arrayDisciplinas' : arrayDisciplinasGoogle});
 					
 				// OBS: Pode executar a exclusao e insercao em posts assincronos pois cada um vai alterar a agenda em dias da semana diferentes
 				
