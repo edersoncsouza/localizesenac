@@ -353,7 +353,7 @@ function armazenaDisciplinas() {
  */
 function verificaEventoApple(){
 	// executa o post para receber o retorno dos lembretes salvos na agenda do aluno
-	var url = "icloud_calendar/verificarEventoApple.php";
+	var url = "Apple/verificarEventoApple.php";
 	var objLembretesJsonApple;
 	
 		// recebe como retorno um json com os lembretes (lembretesJson)
@@ -791,7 +791,7 @@ function carregaCalendarioSemana(){
 				var disciplinasIguais = false; // inicia com a variavel afirmando que as disciplinas com lembretes na tela e em aluno_lembrete nao sao iguais
 				
 				// RETORNA E COMPARA OS LEMBRETES DO USUARIO DA TABELA aluno_lembrete COM OS LEMBRETES ARMAZENADOS DE alunoConfig
-				var url = "icloud_calendar/verificarEventoApple.php";
+				var url = "Apple/verificarEventoApple.php";
 					var objLembretesJson; // array javascript de lembretes vindos de aluno_lembrete
 	
 				// RECEBE COMO RETORNO UM JSON COM OS LEMBRETES (lembretesJson)
@@ -807,7 +807,7 @@ function carregaCalendarioSemana(){
 						localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
 						
 						// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
-						window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+						window.location.href = "Apple/addons/icloud-master/PHP/autenticacao.php";
 					}
 					else{ // se retornou com disciplinas
 					
@@ -914,7 +914,7 @@ function carregaCalendarioSemana(){
 											localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
 											
 											// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
-											window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+											window.location.href = "Apple/addons/icloud-master/PHP/autenticacao.php";
 											
 										}										
 	
@@ -938,7 +938,7 @@ function carregaCalendarioSemana(){
 									localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
 									
 									// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
-									window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+									window.location.href = "Apple/addons/icloud-master/PHP/autenticacao.php";
 								}
 							});
 							
@@ -953,7 +953,7 @@ function carregaCalendarioSemana(){
 									localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
 									
 									// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
-									window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+									window.location.href = "Apple/addons/icloud-master/PHP/autenticacao.php";
 								}
 							});
 					}
@@ -964,17 +964,17 @@ function carregaCalendarioSemana(){
 			}else{ // se o array de lembretes icloud vindo de configAluno.php estiver vazio (se desmarcou todos os checkboxes icloud)
 				
 				// verifica se existem lembretes icloud na tabela aluno_lembrete
-				var url = "icloud_calendar/verificarEventoApple.php";
+				var url = "Apple/verificarEventoApple.php";
 	
 				// recebe como retorno um json com os lembretes (lembretesJsonIcloud)
 				$.post(url, function(lembretesJsonIcloud) {
 					if (lembretesJsonIcloud != 0){// caso existam eventos do tipo icloud em aluno_lembrete
 						// se houverem 
 							// apagar os lembretes do banco
-							$.post("icloud_calendar/excluirLembretesApple.php");
+							$.post("Apple/excluirLembretesApple.php");
 							
 							// autenticar no icloud e apagar eventos
-							window.location.href = "icloud_calendar/excluirEventoApple.php";
+							window.location.href = "Apple/excluirEventoApple.php";
 					}
 				});	
 			}
@@ -1174,7 +1174,7 @@ function atualizaIcloud(){
 	localStorage.setItem('arrayDisciplinasApple',JSON.stringify(arrayDisciplinasApple));
 	
 	// ABRE A PAGINA PARA AUTENTICACAO NO ICLOUD
-	window.location.href = "icloud_calendar/addons/icloud-master/PHP/icloud-original.php";
+	window.location.href = "Apple/addons/icloud-master/PHP/autenticacao.php";
 }
 	
 /* FUNCOES PARA USO COM O TYPEAHEAD */
@@ -1266,8 +1266,8 @@ function consultarAluno(matriculaP, senhaP, nomeP, tipoUsuarioP){
 	// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)
 	$.post(url,{ matricula: matriculaP, autenticacao: tipoUsuarioP }, function(alunoJson) {
 		
-		console.log("Função consultarAluno : alunoJson vindo de consultarAlunoOauth2.php")
-		console.log(alunoJson); // envia para o console o Json do usuario
+		//console.log("Função consultarAluno : alunoJson vindo de consultarAlunoOauth2.php")
+		//console.log(alunoJson); // envia para o console o Json do usuario
 		
 		if (alunoJson == 0){// caso o retorno de consultarAluno.php seja = 0
 			// aluno nao existe no banco
