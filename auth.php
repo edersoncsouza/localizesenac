@@ -36,6 +36,7 @@ $client->addScope("https://www.googleapis.com/auth/plus.login");
 $client->addScope("https://www.googleapis.com/auth/calendar"); // adicionado escopo do Calendar (Agenda do Google)
 $client->addScope("https://www.googleapis.com/auth/userinfo.profile"); // adicionados escopos de informacoes de perfil do usuario Google
 $client->addScope("https://www.googleapis.com/auth/userinfo.email");
+$client->addScope("https://www.googleapis.com/auth/admin.directory.user"); // adicionado para permitir pegar a foto
 
 /************************************************
 

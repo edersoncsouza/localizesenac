@@ -32,7 +32,7 @@ PENDENCIAS LOCAIS:
 	include("dist/php/funcoes.php");
 	protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
-
+	//imprimeSessao();
 	
 	echo "<script> var idP = {$_SESSION['usuarioID']}; </script>";
 	
@@ -572,9 +572,16 @@ PENDENCIAS LOCAIS:
 
                             <div>
                                 <h3> CONFIGURAÇÕES DO USUÁRIO </h3>
-								<br> <?php //echo $nome; ?> <!-- <i class="fa fa-user fa-fw"></i> -->
-								
-                            </div>
+								<br>
+									<?php 
+										
+										//echo $nome; 
+										if ($_SESSION["tipoUsuario"] == "facebook")
+											echo "<img src=\"https://graph.facebook.com/" . $_SESSION['usuarioSenha'] . "/picture\">";
+										if ($_SESSION["tipoUsuario"] == "google")
+											echo "<img src=\"https://www.googleapis.com/admin/directory/v1/users/" . $_SESSION['usuarioSenha'] . "/photos/thumbnail/?key=WrIiWLHNXYJBwCwc1tUrL85A\">";
+									?> 
+                            </div><!-- <i class="fa fa-user fa-fw"></i> -->
                         </div>
                     </div>
                 </div>

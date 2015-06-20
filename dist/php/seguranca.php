@@ -1,5 +1,7 @@
 <?php
 
+include ('lib/password.php');
+
 //  Configurações do Script
 // ==============================
 $_SG['conectaServidor'] = true;    // Abre uma conexão com o servidor MySQL?
@@ -61,12 +63,30 @@ $nsenha = addslashes($senha);
 
 // Monta uma consulta SQL (query) para procurar um usuário
 //$sql = "SELECT `id`, `nome` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."' AND ".$cS." `senha` = '".$nsenha."' LIMIT 1";
-$sql = "SELECT `id`, `nome` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."' AND ".$cS." `senha` = '".md5($nsenha)."' LIMIT 1";
+//$sql = "SELECT `id`, `nome` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."' AND ".$cS." `senha` = '".md5($nsenha)."' LIMIT 1";
+$sql = "SELECT `id`, `nome`, `senha` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."'";
 $query = mysql_query($sql);
-$resultado = mysql_fetch_assoc($query);
+//$resultado = mysql_fetch_assoc($query);
+
+$usuarioExiste = false; // cria e seta a variavel booleana de verificacao de usuario
+
+while($row = mysql_fetch_assoc($query)) { // loop para cada linha de usuario encontrada no banco
+	
+	if(password_verify($nsenha,$row["senha"])){ // executa a verificacao da senha vinda do banco para saber se e compativel com a fornecida pelo usuario
+		//echo "Achei!";
+		$usuarioID = $row['id']; // caso tenha encontrado armazena o ID do usuario
+		$usuarioNome = $row['nome']; // armazena o nome do usuario
+		$usuarioExiste = true; // seta a variavel dizendo que encontrou usuario com senha compativel
+	}
+	
+}
+
 
 // Verifica se encontrou algum registro
-if (empty($resultado)) {
+//if (empty($resultado)) {]
+
+// verifica se o usuario existe
+if (!$usuarioExiste) {
 // Nenhum registro foi encontrado => o usuário é inválido
 return false;
 
@@ -74,8 +94,10 @@ return false;
 // O registro foi encontrado => o usuário é valido
 
 // Definimos dois valores na sessão com os dados do usuário
-$_SESSION['usuarioID'] = $resultado['id']; // Pega o valor da coluna 'id do registro encontrado no MySQL
-$_SESSION['usuarioNome'] = $resultado['nome']; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
+//$_SESSION['usuarioID'] = $resultado['id']; // Pega o valor da coluna 'id do registro encontrado no MySQL
+$_SESSION['usuarioID'] = $usuarioID; // Pega o valor da coluna 'id do registro encontrado no MySQL
+//$_SESSION['usuarioNome'] = $resultado['nome']; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
+$_SESSION['usuarioNome'] = $usuarioNome; // Pega o valor da coluna 'nome' do registro encontrado no MySQL
 
 // Verifica a opção se sempre validar o login
 if ($_SG['validaSempre'] == true) {
