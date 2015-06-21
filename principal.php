@@ -78,6 +78,10 @@ PENDENCIAS LOCAIS:
 	<!-- eventCalendar -->
 	<script src="dist/components/eventCalendar/js/jquery.eventCalendar.min.js" type="text/javascript"></script>	
 	
+	<!-- attrChange -->
+	<script src="dist/components/attrchange/js/attrchange.js" type="text/javascript"></script>	
+	
+	
 <script>
 $(document).ready(function() {
 	
@@ -181,11 +185,20 @@ $(document).ready(function() {
 	$("#result").load("mapa.php");	 // carrega a pagina do mapa na div result
 	selecionaTab(); // seleciona o dia da semana corrente na area Minhas Aulas
 	
+	
+	
 });
 	
 	// CHAMA A FUNCAO QUE BUSCA OS EVENTOS E CONFIGURA EVENTCALENDAR
-	buscaEventosAcademicos(); // busca todos os eventos
+	setTimeout(buscaEventosAcademicos(),400); // busca todos os eventos	
+	setTimeout(atualizaEventosMesCorrente(),500); // atualiza eventos do mes corrente
 
+	
+	//$("#inlineEventcalendar").bind("DOMSubtreeModified", function() {
+	$('#inlineEventcalendar > div.eventsCalendar-slider > a.arrow.next > span').click(function() {
+		alert("clicou na seta");
+	});
+	
 	// PROCEDIMENTO PARA BUSCAR A QUANTIDADE DE EVENTOS POR MES E EXIBIR NA AGENDA ACADEMICA
 	//FONTE: http://stackoverflow.com/questions/22283177/events-from-db-by-given-month-and-year-or-other-suggestion
 	
@@ -203,9 +216,7 @@ $(document).ready(function() {
 	setselectedday(32);
 	setselectedday(1);
 	*/
-	
-	
-	
+
 </script>
 
 </head>
@@ -387,7 +398,7 @@ $(document).ready(function() {
                                     <i class="fa fa-calendar fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div id="qtdEventos" class="huge">0</div>
                                     <div>Eventos</div>
                                 </div>
                             </div>

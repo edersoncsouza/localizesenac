@@ -1,6 +1,24 @@
 // variavel de vetor de objetos nome andar e numero para fazer correspondencia na insercao do marker
 var JsonNomeAndarNumeroObj;
 
+function atualizaEventosMesCorrente(){
+	var urlEventosMensais = "dist/php/buscaEventosMensais.php";
+	
+	hoje = new Date();
+    mesAtual = hoje.getMonth() + 1;
+    anoAtual = hoje.getFullYear();
+	
+	if (mesAtual <=9)
+		mesAtual = "0" + mesAtual;
+	
+	$.post(urlEventosMensais,{ mesEvento: mesAtual, anoEvento: anoAtual }, function(quantidadeEventosMensais) {
+			console.log(quantidadeEventosMensais);
+			$('#qtdEventos').text(quantidadeEventosMensais);
+		
+	});	
+}
+
+
 function buscaEventosAcademicos(){
 
 	var url = "dist/php/buscaEventosGerais.php";
@@ -17,6 +35,8 @@ function buscaEventosAcademicos(){
 				var objJson = JSON.parse(eventosJson); // converte o retorno
 				eventsInline = objJson; // armazena os eventos para o EventCalendar
 
+				console.log(eventsInline);
+				
 					// parametros de configuracao do eventCalendar
 					$("#inlineEventcalendar").eventCalendar({
 						jsonData: eventsInline,
@@ -35,9 +55,58 @@ function buscaEventosAcademicos(){
 						txt_GoToEventUrl: "Ir ao evento"
 					});
 					
+					// INSTANCIA E INICIALIZA VARIAVEIS PARA IDENTIFICAR MUDANCA DE MES
+					var mesAtual, anoAtual;
+					
+					// EXECUTA AO DETECTAR MUDANCA EM ATRIBUTOS DE #inlineEventcalendar
+					$('#inlineEventcalendar').attrchange({
+						trackValues: true, // Default to false, if set to true the event object is 
+									// updated with old and new value.
+						callback: function (event) { 
+							//event    	          - event object
+							//event.attributeName - Name of the attribute modified
+							//event.oldValue      - Previous value of the modified attribute
+							//event.newValue      - New value of the modified attribute
+							//Triggered when the selected elements attribute is added/updated/removed
+							
+							// PROCEDIMENTO POR JQUERY ABANDONADO POR NAO ATUALIZAR OS VALORES
+							/*
+							var currentYear= $('#inlineEventcalendar').attr("data-current-year");
+							var currentMonth = $('#inlineEventcalendar').data("current-month");
+
+							var Calendar = new Object();
+								Calendar.month = currentMonth;
+								Calendar.year  = currentYear;
+							*/
+
+							var mesAno = document.getElementById('inlineEventcalendar'); // armazena o elemento #inlineEventcalendar
+							
+							// PARA EVITAR DUPLICIDADE E PRECISO VERIFICAR SE O MES JA NAO FOI PESQUISADO
+							if ( mesAno.getAttribute('data-current-month')!= mesAtual){
+							
+								mesAtual = mesAno.getAttribute('data-current-month'); // armazena o mes atual
+								anoAtual = mesAno.getAttribute('data-current-year'); // armazena o ano atual
+								//alert("O mês é: " + mesAtual + " e o ano é: " + anoAtual);
+								
+								mesAtual++; // incrementa o mes pois o jEventCalendar trabalha com meses de 0 a 11
+								
+								if(mesAtual <= 9) // se o mes for entre 1 e 9
+									mesAtual = "0" + mesAtual; // acrescenta um zero pra montar a string de sql corretamente
+								
+								var urlEventosMensais = "dist/php/buscaEventosMensais.php";
+								
+								$.post(urlEventosMensais,{ mesEvento: mesAtual, anoEvento: anoAtual }, function(quantidadeEventosMensais) {
+										console.log(quantidadeEventosMensais);
+										$('#qtdEventos').text(quantidadeEventosMensais);
+									
+								});
+							}
+						}
+					});
 		}
 	});	
 }
+
 
 // funcao que muda o andar do mapa
 function mudaAndarMapa(andarTab){

@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 else{ // se for do tipo usuario oauth2 (google ou facebook)
 	
-	echo "<script>alert('Entrou na area de usuarios Oauth2!');</script>";
+	//echo "<script>alert('Entrou na area de usuarios Oauth2!');</script>";
 	
 	// recebe "usuario" => $emailGoogle, "senha" => $idGoogle,
 	$usuario = addslashes((isset($_SESSION['usuarioOauth2'])) ? $_SESSION['usuarioOauth2'] : '');
