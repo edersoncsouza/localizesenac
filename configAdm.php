@@ -79,15 +79,80 @@ PENDENCIAS LOCAIS:
 	$(document).ready(function(){
 		$("#conteudoEventosAcademicos").load("listaEventosAcademicos.html");
 		$("#conteudoSalaMapa").load("desenharSalas.php");
-	/*
+	
 		// ao clicar nos botoes de sair encaminha de volta ao principal.php
 		$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
 			var url = "principal.php";
 			$("body").load(url);
 		});
-	*/
 	
-	});	
+	
+	});
+	
+	
+	var hidWidth;
+var scrollBarWidths = 40;
+
+var widthOfList = function(){
+  var itemsWidth = 0;
+  $('.list li').each(function(){
+    var itemWidth = $(this).outerWidth();
+    itemsWidth+=itemWidth;
+  });
+  return itemsWidth;
+};
+
+var widthOfHidden = function(){
+  return (($('.wrapper').outerWidth())-widthOfList()-getLeftPosi())-scrollBarWidths;
+};
+
+var getLeftPosi = function(){
+  return $('.list').position().left;
+};
+
+var reAdjust = function(){
+  if (($('.wrapper').outerWidth()) < widthOfList()) {
+    $('.scroller-right').show();
+  }
+  else {
+    $('.scroller-right').hide();
+  }
+  
+  if (getLeftPosi()<0) {
+    $('.scroller-left').show();
+  }
+  else {
+    $('.item').animate({left:"-="+getLeftPosi()+"px"},'slow');
+  	$('.scroller-left').hide();
+  }
+}
+
+reAdjust();
+
+$(window).on('resize',function(e){  
+  	reAdjust();
+});
+
+$('.scroller-right').click(function() {
+  
+  $('.scroller-left').fadeIn('slow');
+  $('.scroller-right').fadeOut('slow');
+  
+  $('.list').animate({left:"+="+widthOfHidden()+"px"},'slow',function(){
+
+  });
+});
+
+$('.scroller-left').click(function() {
+  
+	$('.scroller-right').fadeIn('slow');
+	$('.scroller-left').fadeOut('slow');
+  
+  	$('.list').animate({left:"-="+getLeftPosi()+"px"},'slow',function(){
+  	
+  	});
+});    
+	
 </script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -129,7 +194,11 @@ PENDENCIAS LOCAIS:
                 </div>
 
                 <div class="panel-footer" id="pills">
-                    <ul class="nav nav-pills nav-justified">
+				<div class="container">
+                      <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+  <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+  <div class="wrapper">
+					<ul class="nav nav-pills nav-justified">
                         <li class="active">
                             <a href="#evento" data-toggle="pill">
                                 <i class="fa fa-calendar fa-2x">
@@ -168,6 +237,9 @@ PENDENCIAS LOCAIS:
                         </li>
 						-->
                     </ul>
+					
+					</div> <!-- wrapper -->
+					</div> <!-- container -->
                 </div>
             </div> 
         </div>
@@ -254,7 +326,8 @@ PENDENCIAS LOCAIS:
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg">
+								<!-- <input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg"> -->
+								<button type="button" id="sairSenha" value="Sair" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>
 							</div>
 						</div> 
 					</form>
