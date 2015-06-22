@@ -87,6 +87,16 @@ $(document).ready(function() {
 	
 	$('#collapseOne').collapse("hide"); // oculta o calendário da agenda academica
 	
+	$('.panel').on('hidden.bs.collapse', function (e) {  // ao recolher a agenda
+        $('#iconeExibirAgenda').removeClass( "fa-arrow-circle-up" );
+		$('#iconeExibirAgenda').addClass( "fa-arrow-circle-down" );
+    });
+	
+	$('.panel').on('shown.bs.collapse', function (e) { // ao expandir a agenda
+        $('#iconeExibirAgenda').removeClass( "fa-arrow-circle-down" ); // remove a classe fa-arrow-circle-down
+		$('#iconeExibirAgenda').addClass( "fa-arrow-circle-up" ); // adiciona a classe fa-arrow-circle-up
+    });
+    
 	/*
 	// eventos "inline" para a agenda
 	var eventsInline = [
@@ -411,7 +421,7 @@ $(document).ready(function() {
 								
 								<div class="panel-footer" id="agenda">
 											<span class="pull-left">Exibir Agenda</span>
-											<span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span>
+											<span class="pull-right"><i id="iconeExibirAgenda" class="fa fa-arrow-circle-down"></i></span>
 											<div class="clearfix"></div>					
 								
 								</div>
@@ -579,7 +589,7 @@ $(document).ready(function() {
 								
 								<a id="linkMostrarSala"href="#">
 									<span id="textoMostrarSala" class="pull-left">Mostrar a Sala</span>
-									<span class="pull-right"><i id="iconeMostrarSala" class="fa fa-arrow-circle-down"></i></span>
+									<span class="pull-right"><i id="iconeMostrarSala" class="fa fa-map-marker"></i></span>
 								</a>
                                 <div class="clearfix"></div>
                             </div>
@@ -600,6 +610,7 @@ $(document).ready(function() {
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
 
+	
 </body>
 
 </html>
