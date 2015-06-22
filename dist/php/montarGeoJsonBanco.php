@@ -59,11 +59,24 @@
 			'coordinates' => array()
 		);
 		
+		// cria o array de relations de salas
+		$relations = array(
+			//'buildingpart' => 'room',
+			'reltags' => array()
+		);
+		
+		$properties = array(
+			'relations' => array()
+		);
+		
+		
+		$tags="";
+		
 		// cria o array de features
 		$feature = array(
 			'type' => 'Feature',
 			//'geometry' => array(),
-			'properties' => array()
+			//'properties' => array()
 		);
 		
 		// cria o array geoJson
@@ -90,17 +103,31 @@
 					
 					// adiciona o registro geometry em feature para encerrar a sala anterior
 					//array_push($feature['geometry'], $geometry);
-					//$feature['geometry'] = json_encode($geometry);
-					$feature['geometry'] = $geometry;
+					$feature['geometry'] = $geometry; // adiciona as coordenadas ao campo geometry da feature
+					
+					$tags['unidade'] = $row['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida
+					$tags['level'] = $row['fk_andar_sala']; // armazena a unidade da linha lida
+					$tags['room'] = $row['fk_numero_sala']; // armazena a unidade da linha lida
+					
+					$reltags['buildingpart'] = "room"; //fixando room por enquanto
+					$reltags['level'] = $row['fk_andar_sala'];
+					$reltags['room'] = $row['fk_numero_sala'];
+					$relations['reltags'] = $reltags; // adiciona as reltags ao campo realtags de relations
+					
+					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties
+					array_push($properties['relations'],$relations); // adiciona as relations ao array properties
+					$feature['properties'] = $properties; // adiciona properties ao campo properties
 					
 					// adiciona o registro feature em geojson para encerrar a sala anterior
 					array_push($geojson['features'], $feature);	
+					
+					//echo json_encode($geojson, JSON_NUMERIC_CHECK);
 					
 					// cria um novo registro feature para iniciar uma nova sala
 					$feature = array(
 						'type' => 'Feature',
 						//'geometry' => array(),
-						'properties' => array()
+						//'properties' => array()
 					);
 					
 					// cria um novo registro geometry para iniciar uma nova sala
@@ -158,8 +185,8 @@
 
 		encerraGeoJson(); // funcao que armazena os dados da ultima sala para encerrar
 		
-		echo json_encode($geojson, JSON_NUMERIC_CHECK);
-		//echo json_encode($feature, JSON_NUMERIC_CHECK);
+		echo json_encode($geojson, JSON_NUMERIC_CHECK); // GeoJson resultado final
+		
 
 /*		
 		echo "<br>";
@@ -198,9 +225,9 @@
 							},
 							"properties": {
 								"tags": {
-									"unidade": "1", 				=> info_locais.fk_sala_fk_id_unidade
-									"level": "3", 					=> info_locais.fk_andar_sala
-									"room": "301", 					=> info_locais.fk_numero_sala
+									"unidade": "1", 				=> coordenadas.fk_sala_fk_id_unidade
+									"level": "3", 					=> coordenadas.fk_andar_sala
+									"room": "301", 					=> coordenadas.fk_numero_sala
 									"category": "Apoio",			=> sala.fk_id_categoria -> categoria
 									"name": "Portaria",				=> info_locais.descricao
 									"image": "portaria",			=> info_locais.descricao (retiraAcentos + strToLower)
@@ -212,7 +239,7 @@
 									{
 										"reltags": {
 											"buildingpart": "room",
-											"level": "3",			=> info_locais.fk_andar_sala 
+											"level": "3",			=> coordenadas.fk_andar_sala 
 											"room": ""
 										}
 									}
@@ -225,7 +252,7 @@
 	
 	function encerraGeoJson(){
 		
-		global $coordinate, $geometry, $feature, $geojson;
+		global $properties, $coordinate, $geometry, $feature, $geojson, $row;
 		
 		// duplica o primeiro par de coordenadas em coordinate para fechar o polygon
 		array_push($coordinate, $coordinate[0]);
@@ -237,7 +264,20 @@
 		//array_push($feature['geometry'], $geometry);
 		$feature['geometry'] = $geometry;
 					
-		
+					$tags['unidade'] = $row['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida
+					$tags['level'] = $row['fk_andar_sala']; // armazena a unidade da linha lida
+					$tags['room'] = $row['fk_numero_sala']; // armazena a unidade da linha lida
+					
+					$reltags['buildingpart'] = "room"; //fixando room por enquanto
+					$reltags['level'] = $row['fk_andar_sala'];
+					$reltags['room'] = $row['fk_numero_sala'];
+					$relations['reltags'] = $reltags; // adiciona as reltags ao campo realtags de relations
+					
+					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties
+					array_push($properties['relations'],$relations); // adiciona as relations ao array properties
+					$feature['properties'] = $properties; // adiciona properties ao campo properties
+
+					
 		// adiciona o registro feature em geojson para encerrar a sala anterior
 		array_push($geojson['features'], $feature);		
 	}
