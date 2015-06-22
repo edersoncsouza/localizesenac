@@ -44,25 +44,6 @@
 							
 		$lat=""; $long="";
 
-		// cria o array geoJson
-		$geojson = array(
-		   'type'      => 'FeatureCollection',
-		   'features'  => array()
-		);
-		
-		// cria o array de features
-		$feature = array(
-			'type' => 'Feature',
-			'geometry' => array(),
-			'properties' => array()
-		);
-		
-		// cria o array de geometries de salas por enquanto so poligons
-		$geometry = array(
-			'type' => 'Polygon',
-			'coordinates' => array()
-		);
-		
 		// cria o array de pares de coordenadas
 		$coordinate = array();
 		/*
@@ -72,6 +53,25 @@
 		);
 		*/
 		
+		// cria o array de geometries de salas por enquanto so poligons
+		$geometry = array(
+			'type' => 'Polygon',
+			'coordinates' => array()
+		);
+		
+		// cria o array de features
+		$feature = array(
+			'type' => 'Feature',
+			//'geometry' => array(),
+			'properties' => array()
+		);
+		
+		// cria o array geoJson
+		$geojson = array(
+		   'type'      => 'FeatureCollection',
+		   'features'  => array()
+		);
+	
 							
 		// armazena os dados nos arrays
 		while ($row = mysql_fetch_assoc($result)) { // loop atraves de todas as linhas do resultset
@@ -82,11 +82,16 @@
 				
 				if (count($coordinate) > 1){ // se possui coordenadas armazenadas
 					
+					// duplica o primeiro par de coordenadas em coordinate para fechar o polygon
+					array_push($coordinate, $coordinate[0]);
+					
 					// adiciona o registro coordinate em geometry para encerrar a sala anterior
 					array_push($geometry['coordinates'], $coordinate);
 					
 					// adiciona o registro geometry em feature para encerrar a sala anterior
-					array_push($feature['geometry'], $geometry);
+					//array_push($feature['geometry'], $geometry);
+					//$feature['geometry'] = json_encode($geometry);
+					$feature['geometry'] = $geometry;
 					
 					// adiciona o registro feature em geojson para encerrar a sala anterior
 					array_push($geojson['features'], $feature);	
@@ -94,7 +99,7 @@
 					// cria um novo registro feature para iniciar uma nova sala
 					$feature = array(
 						'type' => 'Feature',
-						'geometry' => array(),
+						//'geometry' => array(),
 						'properties' => array()
 					);
 					
@@ -117,14 +122,10 @@
 
 				}
 				else{ // se for a primeira sala de todas da unidade
-					//echo "primeira sala<br>";
 					
 					// armazena as coordenadas da sala da linha lida
 					$long = $row['longitude'];
 					$lat = $row['latitude'];
-				
-					// cria um novo registro coordinate para iniciar uma nova sala
-					//$coordinate = array();
 					
 					// adiciona o par de coordenadas em coordinate
 					//array_push($coordinate, array('longitude' => $long, 'latitude' => $lat));
@@ -137,11 +138,11 @@
 			}
 			else{ // se for coordenada da mesma sala
 				
-				// adiciona o par de coordenadas em coordinate
+				// armazena a latitude e longitude da linha lida
 				$long = $row['longitude'];
 				$lat = $row['latitude'];
 				
-				//array_push($coordinate, array('longitude' => $long, 'latitude' => $lat));
+				// adiciona o par de coordenadas em coordinate
 				array_push($coordinate, array($long,$lat));
 				
 				// teste de string
@@ -158,14 +159,24 @@
 		encerraGeoJson(); // funcao que armazena os dados da ultima sala para encerrar
 		
 		echo json_encode($geojson, JSON_NUMERIC_CHECK);
+		//echo json_encode($feature, JSON_NUMERIC_CHECK);
+
+/*		
+		echo "<br>";
+		echo "<pre>";
+		print_r($feature);
+		echo "</pre>";
+		echo "<br>";
 		
-		/*
+
+		
+		
 		echo "<br>";
 		echo "<pre>";
 		print_r($geojson);
 		echo "</pre>";
 		echo "<br>";
-		*/
+*/		
 		
 		/*
 			$features =	"{
@@ -216,11 +227,16 @@
 		
 		global $coordinate, $geometry, $feature, $geojson;
 		
+		// duplica o primeiro par de coordenadas em coordinate para fechar o polygon
+		array_push($coordinate, $coordinate[0]);
+		
 		// adiciona o registro coordinate em geometry para encerrar a sala anterior
 		array_push($geometry['coordinates'], $coordinate);
 		
 		// adiciona o registro geometry em feature para encerrar a sala anterior
-		array_push($feature['geometry'], $geometry);
+		//array_push($feature['geometry'], $geometry);
+		$feature['geometry'] = $geometry;
+					
 		
 		// adiciona o registro feature em geojson para encerrar a sala anterior
 		array_push($geojson['features'], $feature);		
