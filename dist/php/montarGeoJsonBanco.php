@@ -1,5 +1,7 @@
 <?php
     include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
+	include("funcoes.php"); // inclui o arquivo de funcoes php
+	
     mysql_set_charset('UTF8', $_SG['link']);
 	
 	//setup php for working with Unicode data
@@ -19,19 +21,24 @@
 		$unidade = 1;//$_POST['unidade'];
 
 		$sqlUnidade = "SELECT
-								*
-						FROM
-								coordenadas
-						WHERE
-								fk_sala_fk_id_unidade = {$unidade}
-						ORDER BY
-								id";
+						coordenadas.id, longitude, latitude, coordenadas.fk_sala_fk_id_unidade, coordenadas.fk_andar_sala, coordenadas.fk_numero_sala,
+						categoria.nome AS nomecategoria,
+						info_locais.descricao, info_locais.imagem, horario, email, telefone
+				FROM
+						sala, categoria, coordenadas, info_locais
+				WHERE
+						coordenadas.fk_sala_fk_id_unidade = {$unidade}
+				AND
+						numero = coordenadas.fk_numero_sala
+				AND
+						fk_id_categoria = categoria.id
+				AND
+						info_locais.fk_numero_sala = coordenadas.fk_numero_sala
+				ORDER BY
+						id";
 								
 		// executa a query para verificar se o aluno ja possui eventos
 		$result = mysql_query($sqlUnidade) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
-		
-		//cria o array data
-			$data;//= []; 
 		
 		$salaAtual = "0";
 		$cabecalhoGeometry = "\"geometry\": {
@@ -85,8 +92,6 @@
 		   'features'  => array()
 		);
 	
-
-		
 		// armazena os dados nos arrays
 		while ($row = mysql_fetch_assoc($result)) { // loop atraves de todas as linhas do resultset
 			
@@ -109,9 +114,21 @@
 					// adiciona o registro geometry em feature para encerrar a sala anterior
 					$feature['geometry'] = $geometry; // adiciona as coordenadas ao campo geometry da feature
 					
+					// ARMAZENA AS INFORMACOES DA AREA PROPERTIES - TAGS DO GEOJSON
 					$tags['unidade'] = $linha['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida anteriormente
-					$tags['level'] = $linha['fk_andar_sala']; // armazena a unidade da linha lida anteriormente
-					$tags['room'] = $linha['fk_numero_sala']; // armazena a unidade da linha lida anteriormente
+					$tags['level'] = $linha['fk_andar_sala']; // armazena o andar da linha lida anteriormente
+					$tags['room'] = $linha['fk_numero_sala']; // armazena o numero da sala da linha lida anteriormente
+					$tags['category'] = $linha['nomecategoria']; // armazena a categoria da sala da linha lida anteriormente
+					$tags['name'] = $linha['descricao']; // armazena a descricao da sala da linha lida anteriormente
+					
+					// como ainda nao estao cadastrados no banco, faz o nome da imagem com a descricao trocando espacos por "_", passando para minusculas e removendo acentos
+					$tags['image'] = retiraAcentos(strtolower(str_replace(" ", "_", $linha['descricao'])));
+					//$tags['image'] = $linha['imagem']; // armazena a imagem da sala da linha lida anteriormente
+					
+					$tags['horario'] = $linha['horario']; // armazena o horario de funcionamento da sala da linha lida anteriormente
+					$tags['email'] = $linha['email']; // armazena o email da sala da linha lida anteriormente
+					$tags['telefone'] = $linha['telefone']; // armazena o telefone da sala da linha lida anteriormente
+					
 					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties ex.: {
 					
 					$reltags['buildingpart'] = "room"; //fixando room por enquanto
@@ -199,66 +216,7 @@
 		echo json_encode($geojson, JSON_NUMERIC_CHECK); // GeoJson resultado final
 		
 
-/*		
-		echo "<br>";
-		echo "<pre>";
-		print_r($feature);
-		echo "</pre>";
-		echo "<br>";
-		
 
-		
-		
-		echo "<br>";
-		echo "<pre>";
-		print_r($geojson);
-		echo "</pre>";
-		echo "<br>";
-*/		
-		
-		/*
-			$features =	"{
-							\"type\": \"FeatureCollection\",
-							\"features\": [";
-			
-			$features. = "{
-							\"type\": \"Feature\",
-							\"geometry\": {
-								\"type\": \"Polygon\",
-								\"coordinates\": [
-									[
-										[
-											-51.22653419020298, 	=> coordenadas.longitude
-											-30.03509282853612 		=> coordenadas.latitude
-										]
-									]
-								]
-							},
-							"properties": {
-								"tags": {
-									"unidade": "1", 				=> coordenadas.fk_sala_fk_id_unidade
-									"level": "3", 					=> coordenadas.fk_andar_sala
-									"room": "301", 					=> coordenadas.fk_numero_sala
-									"category": "Apoio",			=> sala.fk_id_categoria -> categoria
-									"name": "Portaria",				=> info_locais.descricao
-									"image": "portaria",			=> info_locais.descricao (retiraAcentos + strToLower)
-									"horario": "8:00 às 21:00",		=> info_locais.horario
-									"email": "@senacrs.com.br",		=> info_locais.email
-									"telefone": "(51) 302210"		=> info_locais.telefone
-								},
-								"relations": [
-									{
-										"reltags": {
-											"buildingpart": "room",
-											"level": "3",			=> coordenadas.fk_andar_sala 
-											"room": ""
-										}
-									}
-								]
-							},
-							"id": "043"
-						},
-		*/
 	//}
 	
 	function encerraGeoJson(){
@@ -275,18 +233,29 @@
 		//array_push($feature['geometry'], $geometry);
 		$feature['geometry'] = $geometry;
 										
-					$tags['unidade'] = $linha['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida
-					$tags['level'] = $linha['fk_andar_sala']; // armazena a unidade da linha lida
-					$tags['room'] = $linha['fk_numero_sala']; // armazena a unidade da linha lida
-					
-					$reltags['buildingpart'] = "room"; //fixando room por enquanto
-					$reltags['level'] = $linha['fk_andar_sala'];
-					$reltags['room'] = $linha['fk_numero_sala'];
-					$relations['reltags'] = $reltags; // adiciona as reltags ao campo realtags de relations
-					
-					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties
-					array_push($properties['relations'],$relations); // adiciona as relations ao array properties
-					$feature['properties'] = $properties; // adiciona properties ao campo properties
+		// ARMAZENA AS INFORMACOES DA AREA PROPERTIES - TAGS DO GEOJSON
+		$tags['unidade'] = $linha['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida anteriormente
+		$tags['level'] = $linha['fk_andar_sala']; // armazena o andar da linha lida anteriormente
+		$tags['room'] = $linha['fk_numero_sala']; // armazena o numero da sala da linha lida anteriormente
+		$tags['category'] = $linha['nomecategoria']; // armazena a categoria da sala da linha lida anteriormente
+		$tags['name'] = $linha['descricao']; // armazena a descricao da sala da linha lida anteriormente
+		
+		// como ainda nao estao cadastrados no banco, faz o nome da imagem com a descricao trocando espacos por "_", passando para minusculas e removendo acentos
+		$tags['image'] = retiraAcentos(strtolower(str_replace(" ", "_", $linha['descricao'])));
+		//$tags['image'] = $linha['imagem']; // armazena a imagem da sala da linha lida anteriormente
+		
+		$tags['horario'] = $linha['horario']; // armazena o horario de funcionamento da sala da linha lida anteriormente
+		$tags['email'] = $linha['email']; // armazena o email da sala da linha lida anteriormente
+		$tags['telefone'] = $linha['telefone']; // armazena o telefone da sala da linha lida anteriormente
+
+		$reltags['buildingpart'] = "room"; //fixando room por enquanto
+		$reltags['level'] = $linha['fk_andar_sala'];
+		$reltags['room'] = $linha['fk_numero_sala'];
+		$relations['reltags'] = $reltags; // adiciona as reltags ao campo realtags de relations
+		
+		$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties
+		array_push($properties['relations'],$relations); // adiciona as relations ao array properties
+		$feature['properties'] = $properties; // adiciona properties ao campo properties
 
 					
 		// adiciona o registro feature em geojson para encerrar a sala anterior
