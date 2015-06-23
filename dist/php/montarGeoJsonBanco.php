@@ -85,10 +85,11 @@
 		   'features'  => array()
 		);
 	
-							
+
+		
 		// armazena os dados nos arrays
 		while ($row = mysql_fetch_assoc($result)) { // loop atraves de todas as linhas do resultset
-
+$linha = $row;
 			$sala = $row['fk_numero_sala']; // armazena a sala lida
 			
 			if ($sala != $salaAtual){ // se for uma nova sala
@@ -138,6 +139,11 @@
 					
 					// cria um novo registro coordinate para iniciar uma nova sala
 					$coordinate = array();
+					
+					// cria um novo registro properties para iniciar uma nova sala
+					$properties = array(
+						'relations' => array()
+					);
 					
 					// armazena as coordenadas da sala da linha lida
 					$long = $row['longitude'];
@@ -252,7 +258,7 @@
 	
 	function encerraGeoJson(){
 		
-		global $properties, $coordinate, $geometry, $feature, $geojson, $row;
+		global $properties, $coordinate, $geometry, $feature, $geojson, $row, $linha;
 		
 		// duplica o primeiro par de coordenadas em coordinate para fechar o polygon
 		array_push($coordinate, $coordinate[0]);
@@ -263,14 +269,14 @@
 		// adiciona o registro geometry em feature para encerrar a sala anterior
 		//array_push($feature['geometry'], $geometry);
 		$feature['geometry'] = $geometry;
-					
-					$tags['unidade'] = $row['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida
-					$tags['level'] = $row['fk_andar_sala']; // armazena a unidade da linha lida
-					$tags['room'] = $row['fk_numero_sala']; // armazena a unidade da linha lida
+										
+					$tags['unidade'] = $linha['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida
+					$tags['level'] = $linha['fk_andar_sala']; // armazena a unidade da linha lida
+					$tags['room'] = $linha['fk_numero_sala']; // armazena a unidade da linha lida
 					
 					$reltags['buildingpart'] = "room"; //fixando room por enquanto
-					$reltags['level'] = $row['fk_andar_sala'];
-					$reltags['room'] = $row['fk_numero_sala'];
+					$reltags['level'] = $linha['fk_andar_sala'];
+					$reltags['room'] = $linha['fk_numero_sala'];
 					$relations['reltags'] = $reltags; // adiciona as reltags ao campo realtags de relations
 					
 					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties
