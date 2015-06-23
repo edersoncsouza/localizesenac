@@ -260,7 +260,20 @@
 
 	// variavel que busca todo o conteudo do arquivo json e armazena
 	var jsonSala = $.getJSON("dist/data/data.json");
-
+	
+	/* ---------------- ADAPTACAO DO PROCEDIMENTO DE CARREGAMENTO DO GEOJSON -------------- */
+	var urlGeojson = "../php/montarGeoJsonBanco.php";
+	$.post(url, function(salasGeojson) { // depois vou inserir o periodo do evento
+			
+			if (salasGeojson == 0){// caso o retorno de buscaEventosGerais.php seja = 0
+				bootbox.alert('Não existem salas!');
+			}
+			else{
+					var objJson = JSON.parse(salasGeojson); // converte o retorno
+			}
+	}
+	/* ---------------------------------------------------------------------------------- */
+	
 	// variavel criada para filtrar a sala desejada
 	var sala;
 	
@@ -346,13 +359,13 @@
 		});
 
 			// define o numero do nivel
-		    indoorLayer.setLevel("0");
+		    indoorLayer.setLevel("1");
 			// insere o layer no mapa
 			indoorLayer.addTo(map);
 
 			// instancia e define o controle de andares
 			levelControl = new L.Control.Level({
-                level: "0",
+                level: "1",
                 levels: indoorLayer.getLevels()
             });
 			

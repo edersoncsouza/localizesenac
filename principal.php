@@ -156,8 +156,10 @@ $(document).ready(function() {
 		if(andarTab == -1) // se nao ha disciplina no dia
 			bootbox.alert("Não há sala definida neste dia!");
 		else{
+			/*
 			if (andarTab == 1) // se as salas forem 102, 102, 160 a 198, salas do andar terreo
 			andarTab = 0; // muda o valor para 0 evitando a troca de andar no mapa
+			*/
 			
 			mudaAndarMapa(andarTab); // modifica o mapa para o andar da sala
 			try{

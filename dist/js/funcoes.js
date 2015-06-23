@@ -111,6 +111,7 @@ function buscaEventosAcademicos(){
 // funcao que muda o andar do mapa
 function mudaAndarMapa(andarTab){
 
+	console.log("O andarTab recebido por mudaAndarMapa e: " + andarTab + " e o andar no mapa e: " + indoorLayer.getLevel());
 	if(indoorLayer.getLevel() != andarTab ){ // se o andar atual do mapa for diferente do andar da sala do marcador
 		levelControl.setLevel(andarTab); // muda o andar do mapa para o andar da sala
 	}
@@ -1305,6 +1306,7 @@ function onSelected($e, datum) {
 	console.log('function onSelected'); // loga no console a funcao utilizada
 	console.log(datum); // loga no console o objeto de dados selecionado
 	console.log(datum.value); // loga no console a propriedade valor do objeto de dados selecionado
+	console.log("onSelected em funcoes.js forneceu a getAndarSala: " + datum.value );
 	getAndarSala(datum.value); // chama a funcao de busca de correspondencia de andar e sala pela descricao e atualiza o mapa
 	$('#inputBusca').val('');
 }
@@ -1312,9 +1314,13 @@ function onSelected($e, datum) {
 // funcao que busca a correspondencia da descrição da sala com andar e numero da sala
 function getAndarSala(descricao){
 
+	console.log("getAndarSala pega " + descricao + " e compara com " + (JsonNomeAndarNumeroObj));
+
 	for (var i = 0; i < JsonNomeAndarNumeroObj.length; i++) {
 
 		if(JsonNomeAndarNumeroObj[i].descricao == descricao){
+			
+			console.log("o objeto encontrado foi: " + JsonNomeAndarNumeroObj[i].descricao + " e o andar foi: " + JsonNomeAndarNumeroObj[i].andar);
 			
 			mudaAndarMapa(JsonNomeAndarNumeroObj[i].andar);	// muda o andar no mapa		
 			insereMarker(JsonNomeAndarNumeroObj[i].andar, JsonNomeAndarNumeroObj[i].numero); // acrescenta o marker no mapa

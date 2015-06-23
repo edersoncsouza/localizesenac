@@ -160,6 +160,59 @@
             },
             "id": "045"
         },
+		{
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -51.22659259044656,
+                            -30.03517054674161
+                        ],
+                        [
+                            -51.22649939650603,
+                            -30.03522224887061
+                        ],
+                        [
+                            -51.226580646303375,
+                            -30.035332011416102
+                        ],
+                        [
+                            -51.22667384024385,
+                            -30.035280309344365
+                        ],
+                        [
+                            -51.22659259044656,
+                            -30.03517054674161
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "tags": {
+                    "unidade": "1",
+                    "level": "1",
+                    "room": "159",
+                    "category": "Serviços Administrativos",
+                    "name": "Atendimento ao Público",
+                    "image": "atendimento_ao_publico",
+                    "horario": "8:00 às 21:00",
+                    "email": "@senacrs.com.br",
+                    "telefone": "(51) 302210"
+                },
+                "relations": [
+                    {
+                        "reltags": {
+                            "buildingpart": "room",
+                            "level": "1",
+                            "room": ""
+                        }
+                    }
+                ]
+            },
+            "id": "042"
+        },
         {
             "type": "Feature",
             "geometry": {
@@ -192,7 +245,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "160",
                     "category": "Apoio",
                     "name": "Portaria",
@@ -205,7 +258,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -245,7 +298,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "161",
                     "category": "Acessos",
                     "name": "Elevador 1 Térreo",
@@ -258,7 +311,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -298,7 +351,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "162",
                     "category": "Acessos",
                     "name": "Elevador 2 Térreo",
@@ -311,7 +364,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -326,7 +379,7 @@
                 "coordinates": [
                     [
                         [
-                            -51.22637924226677,
+                            -51.2263792422667,
                             -30.0351208203109
                         ],
                         [
@@ -351,7 +404,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "163",
                     "category": "Apoio",
                     "name": "Coordenação de turno",
@@ -364,8 +417,8 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
-                            "room": "666"
+                            "level": "1",
+                            "room": "163"
                         }
                     }
                 ]
@@ -404,7 +457,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "164",
                     "category": "Apoio",
                     "name": "Sanitário Masculino 1 Térreo",
@@ -417,7 +470,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -457,7 +510,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "165",
                     "category": "Apoio",
                     "name": "Sanitário Feminino 1 Térreo",
@@ -470,7 +523,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -510,7 +563,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "166",
                     "category": "Acessos",
                     "name": "Escada - 2 andar e subsolo",
@@ -523,7 +576,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -563,7 +616,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "167",
                     "category": "Apoio",
                     "name": "Shaft térreo",
@@ -576,7 +629,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -616,7 +669,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "168",
                     "category": "Acessos",
                     "name": "Elevador de carga Térreo",
@@ -629,7 +682,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -669,7 +722,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "169",
                     "category": "Serviços Administrativos",
                     "name": "Sala de reuniões",
@@ -682,7 +735,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -722,7 +775,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "170",
                     "category": "Serviços Administrativos",
                     "name": "Administrativo Comunicação Marketing Eventos",
@@ -735,7 +788,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -775,7 +828,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "171",
                     "category": "Serviços Administrativos",
                     "name": "Sala Docentes TI",
@@ -788,7 +841,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -828,7 +881,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "172",
                     "category": "Acessos",
                     "name": "Escada de incêndio térreo - 2 andar",
@@ -841,7 +894,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -881,7 +934,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "173",
                     "category": "Alimentação",
                     "name": "Área da Cantina",
@@ -894,7 +947,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -934,7 +987,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "174",
                     "category": "Alimentação",
                     "name": "Cantina",
@@ -947,7 +1000,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -987,7 +1040,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "175",
                     "category": "Serviços",
                     "name": "Reprografia",
@@ -1000,7 +1053,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1040,7 +1093,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "176",
                     "category": "Serviços Administrativos",
                     "name": "Coordenação de Ensino Superior",
@@ -1053,7 +1106,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1093,7 +1146,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "177",
                     "category": "Apoio",
                     "name": "Sala dos Professores",
@@ -1106,7 +1159,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1146,7 +1199,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "102",
                     "category": "Salas de Aula",
                     "name": "Laboratório Produção Multimídia 1",
@@ -1159,7 +1212,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": "",
                             "name": "Sala 102"
                         }
@@ -1200,7 +1253,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "103",
                     "category": "Salas de Aula",
                     "name": "Laboratório Produção Multimídia 2",
@@ -1213,7 +1266,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1253,7 +1306,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "178",
                     "category": "Serviços Administrativos",
                     "name": "Financeiro",
@@ -1266,7 +1319,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1306,7 +1359,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "179",
                     "category": "Serviços Administrativos",
                     "name": "Sala de Convivência de Funcionários",
@@ -1319,7 +1372,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1359,7 +1412,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "180",
                     "category": "Serviços Administrativos",
                     "name": "Coordenação de Pós Graduação",
@@ -1372,7 +1425,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1399,7 +1452,7 @@
                             -30.03579757197353
                         ],
                         [
-                            -51.22580444859477,
+                            -51.22580444859476,
                             -30.035764060889765
                         ],
                         [
@@ -1412,7 +1465,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "181",
                     "category": "Serviços Administrativos",
                     "name": "Soluções Corporativas",
@@ -1425,7 +1478,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1465,7 +1518,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "182",
                     "category": "Apoio",
                     "name": "Área de Convivência Terceirizados",
@@ -1478,7 +1531,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1518,7 +1571,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "183",
                     "category": "Apoio",
                     "name": "Sanitário e vestiário Masculino Térreo",
@@ -1531,7 +1584,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1571,7 +1624,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "184",
                     "category": "Apoio",
                     "name": "Sanitário e Vestiário Feminino Térreo",
@@ -1584,7 +1637,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1607,7 +1660,7 @@
                             -30.03567546501035
                         ],
                         [
-                            -51.22590430448281,
+                            -51.2259043044828,
                             -30.03570775303696
                         ],
                         [
@@ -1624,7 +1677,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "185",
                     "category": "Serviços Administrativos",
                     "name": "Interagir",
@@ -1637,7 +1690,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1660,7 +1713,7 @@
                             -30.03566387059569
                         ],
                         [
-                            -51.22592728697589,
+                            -51.22592728697588,
                             -30.035694793407686
                         ],
                         [
@@ -1677,7 +1730,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "186",
                     "category": "Serviços Administrativos",
                     "name": "Atendimento SEAP - Outros Cursos",
@@ -1690,7 +1743,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1730,7 +1783,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "187",
                     "category": "Serviços Administrativos",
                     "name": "Ouvidoria",
@@ -1743,7 +1796,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1783,7 +1836,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "188",
                     "category": "Serviços Administrativos",
                     "name": "Atendimento SEAP Graduação",
@@ -1796,7 +1849,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1836,7 +1889,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "189",
                     "category": "Apoio",
                     "name": "Sanitário Feminino 2 Térreo",
@@ -1849,7 +1902,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1889,7 +1942,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "190",
                     "category": "Apoio",
                     "name": "Sanitário Masculino 2 Térreo",
@@ -1902,7 +1955,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1942,7 +1995,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "191",
                     "category": "Salas de Aula",
                     "name": "Estúdio de rádio Térreo",
@@ -1955,7 +2008,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -1995,7 +2048,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "192",
                     "category": "Acessos",
                     "name": "Escada - 2 Andar",
@@ -2008,7 +2061,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -2048,7 +2101,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "193",
                     "category": "Serviços Administrativos",
                     "name": "Direção",
@@ -2061,7 +2114,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -2101,7 +2154,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "194",
                     "category": "Serviços Administrativos",
                     "name": "Assessoria da Direção",
@@ -2114,7 +2167,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -2154,7 +2207,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "195",
                     "category": "Acessos",
                     "name": "Escada de Incêndio Portaria - 2 Andar",
@@ -2167,7 +2220,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -2207,7 +2260,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "196",
                     "category": "Serviços Administrativos",
                     "name": "Protocolo",
@@ -2220,7 +2273,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -2260,7 +2313,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "197",
                     "category": "Serviços Administrativos",
                     "name": "Direção de Ensino",
@@ -2273,7 +2326,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
@@ -2313,7 +2366,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "198",
                     "category": "Serviços Administrativos",
                     "name": "Secretaria",
@@ -2326,66 +2379,13 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
                 ]
             },
             "id": "041"
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                            -51.22659259044656,
-                            -30.03517054674161
-                        ],
-                        [
-                            -51.22649939650603,
-                            -30.03522224887061
-                        ],
-                        [
-                            -51.226580646303375,
-                            -30.035332011416102
-                        ],
-                        [
-                            -51.22667384024385,
-                            -30.035280309344365
-                        ],
-                        [
-                            -51.22659259044656,
-                            -30.03517054674161
-                        ]
-                    ]
-                ]
-            },
-            "properties": {
-                "tags": {
-                    "unidade": "1",
-                    "level": "0",
-                    "room": "159",
-                    "category": "Serviços Administrativos",
-                    "name": "Atendimento ao Público",
-                    "image": "atendimento_ao_publico",
-                    "horario": "8:00 às 21:00",
-                    "email": "@senacrs.com.br",
-                    "telefone": "(51) 302210"
-                },
-                "relations": [
-                    {
-                        "reltags": {
-                            "buildingpart": "room",
-                            "level": "0",
-                            "room": ""
-                        }
-                    }
-                ]
-            },
-            "id": "042"
         },
         {
             "type": "Feature",
@@ -2419,7 +2419,7 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "0",
+                    "level": "1",
                     "room": "199",
                     "category": "Serviços Administrativos",
                     "name": "Pedagógico",
@@ -2432,7 +2432,7 @@
                     {
                         "reltags": {
                             "buildingpart": "room",
-                            "level": "0",
+                            "level": "1",
                             "room": ""
                         }
                     }
