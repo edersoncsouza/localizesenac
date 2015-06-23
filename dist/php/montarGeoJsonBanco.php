@@ -89,36 +89,41 @@
 		
 		// armazena os dados nos arrays
 		while ($row = mysql_fetch_assoc($result)) { // loop atraves de todas as linhas do resultset
-$linha = $row;
+			
 			$sala = $row['fk_numero_sala']; // armazena a sala lida
 			
 			if ($sala != $salaAtual){ // se for uma nova sala
 				
-				if (count($coordinate) > 1){ // se possui coordenadas armazenadas
+				if (count($coordinate) > 1){ // se possui coordenadas armazenadas (entra aqui ao ler a primeira coordenada de cada nova sala)
 					
 					// duplica o primeiro par de coordenadas em coordinate para fechar o polygon
 					array_push($coordinate, $coordinate[0]);
+					
+					// ESTRUTURA GEOJSON
+					//[feature[geometry[coordinate]]]
+					//[properties[tags,relations[reltags]]]
 					
 					// adiciona o registro coordinate em geometry para encerrar a sala anterior
 					array_push($geometry['coordinates'], $coordinate);
 					
 					// adiciona o registro geometry em feature para encerrar a sala anterior
-					//array_push($feature['geometry'], $geometry);
 					$feature['geometry'] = $geometry; // adiciona as coordenadas ao campo geometry da feature
 					
-					$tags['unidade'] = $row['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida
-					$tags['level'] = $row['fk_andar_sala']; // armazena a unidade da linha lida
-					$tags['room'] = $row['fk_numero_sala']; // armazena a unidade da linha lida
+					$tags['unidade'] = $linha['fk_sala_fk_id_unidade']; // armazena a unidade da linha lida anteriormente
+					$tags['level'] = $linha['fk_andar_sala']; // armazena a unidade da linha lida anteriormente
+					$tags['room'] = $linha['fk_numero_sala']; // armazena a unidade da linha lida anteriormente
+					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties ex.: {
 					
 					$reltags['buildingpart'] = "room"; //fixando room por enquanto
-					$reltags['level'] = $row['fk_andar_sala'];
-					$reltags['room'] = $row['fk_numero_sala'];
+					$reltags['level'] = $linha['fk_andar_sala'];
+					$reltags['room'] = $linha['fk_numero_sala'];
 					$relations['reltags'] = $reltags; // adiciona as reltags ao campo realtags de relations
 					
-					$properties['tags'] = $tags ; // adiciona as tags ao campo tags da properties
-					array_push($properties['relations'],$relations); // adiciona as relations ao array properties
+					array_push($properties['relations'],$relations); // adiciona as relations ao array properties ex.: [
+
 					$feature['properties'] = $properties; // adiciona properties ao campo properties
 					
+					// ARMAZENAMENTO FINAL NA VARIAVEL geojson
 					// adiciona o registro feature em geojson para encerrar a sala anterior
 					array_push($geojson['features'], $feature);	
 					
@@ -146,7 +151,7 @@ $linha = $row;
 					);
 					
 					// armazena as coordenadas da sala da linha lida
-					$long = $row['longitude'];
+					$long = $row['longitude']; // utiliza row para pegar informacoes da linha atual
 					$lat = $row['latitude'];
 					
 					// adiciona o primeiro par de coordenadas da nova sala em coordinate
@@ -184,7 +189,7 @@ $linha = $row;
 			}
 			
 			//echo $cabecalhoGeometry . $parCoordenadas . $cabecalhoGeometry;
-
+			$linha = $row; // armazena a linha para fechamento da ultima sala da unidade em encerraGeoJson()
 		}
 		
 		//echo $cabecalhoGeometry . $parCoordenadas . $rodapeGeometry . "<br>"; // imprime todas as coordenadas
