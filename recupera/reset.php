@@ -18,7 +18,7 @@ if(isset($_GET['action']))
         }
         else
         {
-            $message = 'Invalid key please try again. <a href="http://demo.phpgang.com/login-signup-in-php/#forget">Forget Password?</a>';
+            $message = 'Chave inválida, por favor tente novamente. <a href="http://localhost:8080/projetos/localizesenac/recupera/#forget">Esqueceu a senha?</a>';
         }
     }
 }
@@ -36,11 +36,11 @@ elseif(isset($_POST['action']))
         $query = "update aluno set senha='".md5($password)."' where id='".$Results['id']."'";
         mysql_query($query);
 //        echo $query;
-        $message = "Your password changed sucessfully <a href=\"http://demo.phpgang.com/login-signup-in-php/\">click here to login</a>.";
+        $message = "Sua senha foi modificada com sucesso <a href=\"http://localhost:8080/projetos/localizesenac/\">clique aqui para autenticar-se</a>.";
     }
     else
     {
-        $message = 'Invalid key please try again. <a href="http://demo.phpgang.com/login-signup-in-php/#forget">Forget Password?</a>';
+        $message = 'Chave inválida, por favor tente novamente. <a href="http://localhost:8080/projetos/localizesenac/recupera/#forget">Esqueceu a senha?</a>';
     }
 }
 else

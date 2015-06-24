@@ -86,10 +86,10 @@
             "properties": {
                 "tags": {
                     "unidade": "1",
-                    "level": "1",
+                    "level": "2",
                     "room": "201",
                     "category": "Acessos",
-                    "name": "Elevador 1",
+                    "name": "Elevador 1 - 2 andar",
                     "image": "",
                     "horario": "8:00 às 21:00",
                     "email": "@senacrs.com.br",

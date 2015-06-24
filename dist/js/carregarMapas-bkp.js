@@ -258,16 +258,9 @@
 	
 // TUDO ACIMA VEIO DO MAPA.PHP
 
-/* ---------------- PROCEDIMENTO DE CARREGAMENTO DO GEOJSON DO ARQUIVO -------------- */
 	// variavel que busca todo o conteudo do arquivo json e armazena
-	//var jsonSala = $.getJSON("dist/data/data.json");
-/* ---------------- PROCEDIMENTO DE CARREGAMENTO DO GEOJSON DO ARQUIVO -------------- */
-
-	
-/* ---------------- PROCEDIMENTO DE CARREGAMENTO DO GEOJSON DO WEBSERVICE -------------- */
-	var webserviceGeojson = "dist/php/montarGeoJsonBanco.php";
-	var jsonSala = $.getJSON(webserviceGeojson);
-/* ---------------- PROCEDIMENTO DE CARREGAMENTO DO GEOJSON DO WEBSERVICE -------------- */
+	var jsonSala = $.getJSON("dist/data/data.json");
+	//var jsonSala = $.getJSON("teste.json");
 
 	// variavel criada para filtrar a sala desejada
 	var sala;
@@ -354,13 +347,13 @@
 		});
 
 			// define o numero do nivel
-		    indoorLayer.setLevel("1");
+		    indoorLayer.setLevel("0");
 			// insere o layer no mapa
 			indoorLayer.addTo(map);
 
 			// instancia e define o controle de andares
 			levelControl = new L.Control.Level({
-                level: "1",
+                level: "0",
                 levels: indoorLayer.getLevels()
             });
 			

@@ -31,16 +31,16 @@ if(isset($_POST['action']))
         $numResults = mysql_num_rows($result);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) // Validate email address
         {
-            $message =  "Invalid email address please type a valid email!!";
+            $message =  "Endereço de email inválido, por favor digite um endereço válido!!";
         }
         elseif($numResults>=1)
         {
-            $message = $email." Email already exist!!";
+            $message = $email." Email existe!!";
         }
         else
         {
             mysql_query("insert into users(name,email,password) values('".$name."','".$email."','".md5($password)."')");
-            $message = "Signup Sucessfully!!";
+            $message = "Autenticado com sucesso!!";
         }
     }
     elseif($_POST['action']=="password")
@@ -48,7 +48,7 @@ if(isset($_POST['action']))
         $email      = mysql_real_escape_string($_POST['email']);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) // Validate email address
         {
-            $message =  "Invalid email address please type a valid email!!";
+            $message =  "Endereço de email inválido, por favor digite um endereço válido!!";
         }
         else
         {
@@ -63,11 +63,11 @@ if(isset($_POST['action']))
 				$nome = $Results['nome'];
 				
                 $encrypt = md5(90*13+$Results['id']);
-                $message = "Your password reset link send to your e-mail address.";
+                $message = "O link de recuperação de senha foi enviado para seu e-mail.";
                 $to=$email;
-                $subject="Forget Password";
-                $from = 'info@phpgang.com';
-                $body='Hi, <br/>' . $nome . ' <br/>Your Membership ID is '.$Results['id'].' <br><br>Click here to reset your password http://localhost:8080/projetos/localizesenac/recupera/reset.php?encrypt='.$encrypt.'&action=reset   <br/> <br/>--<br>PHPGang.com<br>Solve your problems.';
+                $subject="Recuperação de senha";
+                $from = 'localizesenac@gmail.com';
+                $body='Olá, <br/>' . $nome . ' <br/>O seu ID no sistema é '.$Results['id'].' <br><br>Clique aqui para resetar sua senha http://localhost:8080/projetos/localizesenac/recupera/reset.php?encrypt='.$encrypt.'&action=reset   <br/> <br/>--<br>localizesenac.com<br>';
                 $headers = "From: " . strip_tags($from) . "\r\n";
                 $headers .= "Reply-To: ". strip_tags($from) . "\r\n";
                 $headers .= "MIME-Version: 1.0\r\n";
@@ -83,7 +83,7 @@ if(isset($_POST['action']))
             }
             else
             {
-                $message = "Account not found please signup now!!";
+                $message = "Conta não encontrada, por favor cadastre-se agora!!";
             }
         }
     }
@@ -181,7 +181,7 @@ input[type=password]:focus
 
 
 $pre = 1;
-$title = "How to create Login and Signup form in PHP";
+$title = "LocalizeSenac - Recuperação de Senha";
 $heading = "How to create Login and Signup form in PHP.";
 //include("html.inc"); 
 echo $content;           
