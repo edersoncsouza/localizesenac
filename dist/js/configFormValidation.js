@@ -114,12 +114,12 @@ $(document).ready(function() {
                         message: 'O celular é obrigatório'
                     },
 					stringLength: {
-                        min: 10,
-                        max: 11,
+                        min: 14,
+                        max: 15,
                         message: 'O celular deve ser digitado com DDD e seus 8 ou 9 dígitos'
                     },
 					regexp: {
-                        regexp: /^\(\d{2}\)\s\d{4}[-]\d{4}[_\d]+$/, // thanx http://www.regexr.com/
+                        regexp: /^\(\d{2}\)\s\d{4}[-]\d{4}[_|\d]+$/, // thanx http://www.regexr.com/
                         message: 'O celular deve ser digitado com DDD e seus 8 ou 9 dígitos'
                     }
                 }

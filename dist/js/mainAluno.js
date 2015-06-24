@@ -43,6 +43,7 @@ var labelform = 'Incluir um novo Aluno';
 		sDeleteRowButtonId: "btnDeleteMemRow",
 		
 		'aoColumns': [
+									null,// este null faz com que a coluna matricula nao possa ser editada
 									{
 										tooltip: 'Matrícula',
 										oValidationOptions : { rules:{ value: {minlength: 9 }  },

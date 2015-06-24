@@ -17,6 +17,10 @@
 <link rel="stylesheet" type="text/css" href="dist/components/datatables/media/css/dataTables.bootstrap.css">
 
 <script src="dist/components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+
+		<!-- RobinHerbots/jquery.inputmask: https://github.com/RobinHerbots/jquery.inputmask -->
+		<script type="text/javascript" src="dist/components/jquery.inputmask/jquery.inputmask.js"></script>
+
 <script src="dist/components/datatables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
 <script src="dist/components/datatables-tabletools/js/dataTables.tableTools.js" type="text/javascript"></script>
 <script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
@@ -24,11 +28,31 @@
 <script src="dist/components/datatables-editable/js/jquery.jeditable.js" type="text/javascript"></script>
 <script src="dist/components/datatables-editable/js/jquery.dataTables.editable.min.js" type="text/javascript"></script>
 <script src="dist/components/jquery-validate/js/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="dist/components/jquery-validate/js/additional-methods.js" type="text/javascript"></script>
 
- 
+<!-- Custom Fonts -->
+<link href="dist/components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 <!-- <script src="../dist/js/main.js"></script> -->
 <script src="dist/js/mainAluno.js"></script>
+
+	<!-- formValidation -->
+    <link rel="stylesheet" 		   href="dist/components/formValidation/dist/css/formValidation.css"/>
+    <script type="text/javascript" src="dist/components/formValidation/dist/js/formValidation.js"></script>
+    <script type="text/javascript" src="dist/components/formValidation/dist/js/framework/bootstrap.js"></script>
+	<script type="text/javascript" src="dist/components/formValidation/dist/js/language/pt_BR.js"></script>
+	
+	
+	<!-- Configuracao para validação dos formularios -->
+	 <script type="text/javascript" src="dist/js/configFormValidation.js"></script> 
+<script>
+	$(document).ready(function(){
+		// mascara para o celular
+		$('#celular').inputmask('(99) 9999-9999[9]');
+		
+	 $('#matricula').data('disabled.editable', true);	
+});
+</script> 
 
 <style type="text/css">
 .dataTables_length, .DTTT, .dataTables_filter {
@@ -81,17 +105,23 @@
 						<input type="text" class="form-control" name="nome" id="nome" rel="2">
 					</div>
 					<div class="form-group">
-						<label for="message-text" class="control-label">Celular</label>
+						<label for="celular" class="control-label">Celular</label>
 						<input type="text" class="form-control" name="celular" id="celular" rel="3">
 					</div>
 					<div class="form-group">
 						<label for="message-text" class="control-label">Email</label>
 						<input type="text" class="form-control" name="email" id="email" rel="4">
 					</div>
+					
+					<div class="form-group">
+						<!-- <label for="message-text" class="control-label">Autenticacao</label>  campo hidden para enviar o tipo local-->
+						<input  class="form-control" name="autenticacao" id="autenticacao" rel="5" value="local" type="hidden">
+					</div>
+					
 					<div class="form-group">
 						<label for="message-text" class="control-label">Status</label><br />
-						<input type="radio" name="status" value="S" rel="5"> Ativo<br />
-						<input type="radio" name="status" value="N" rel="5"> Desativado<br />
+						<input type="radio" name="status" value="S" rel="6"> Ativo<br />
+						<input type="radio" name="status" value="N" rel="6"> Desativado<br />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -104,7 +134,7 @@
 </div>
 
 
-<div id="page-wrapper">
+<div id="page-wrapper2"> <!-- nome alterado para evitar formatação, causando espaco lateral esquerdo, pelo CSS sbadmin -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -155,17 +185,9 @@
             <!-- /.row -->
 </div> <!-- <div id="page-wrapper"> -->
 
-
-
-
-
 				</div>
 			</div>
-
-
-
-
-		
+	
 	</body>
 
 </html>

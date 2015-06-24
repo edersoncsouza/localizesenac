@@ -1,5 +1,5 @@
 <?php
-
+    include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
 //var $entidades = array('aluno', 'area_ensino', 'categoria', 'curso', 'disciplina', 'evento_aluno', 'evento_geral', 'nivel_ensino', 'sala', 'unidade');
 
 if ($_GET) {
@@ -8,7 +8,7 @@ if ($_GET) {
 	switch ($_GET['entidade']) {
 
             case 'Alunos':
-                $aColumns = array( 'matricula', 'senha', 'nome', 'celular', 'email', 'ativo' );
+                $aColumns = array( 'matricula', 'senha', 'nome', 'celular', 'email', 'autenticacao', 'ativo' );
 				$entidade = 'aluno';
                 break;
 			case 'Areas':
@@ -150,6 +150,10 @@ function getMembersAjx() {
         $sWhere .= ')';
     }
 	
+	// COLOQUEI ISSO PARA FILTRAR APENAS OS USUARIOS LOCAIS COM O DATATABLES - EDERSON
+	if ($entidade == "aluno")
+		$sWhere = "WHERE autenticacao = \"local\"";
+	
     //$aMembers = $GLOBALS['MySQL']->getAll("SELECT * FROM `aluno` {$sWhere} {$sOrder} {$sLimit}");
 	$aMembers = $GLOBALS['MySQL']->getAll("SELECT * FROM {$entidade} {$sWhere} {$sOrder} {$sLimit}");
     //$iCnt = (int)$GLOBALS['MySQL']->getOne("SELECT COUNT(`id`) AS 'Cnt' FROM `aluno` WHERE 1");
@@ -175,7 +179,7 @@ function getMembersAjx() {
 		switch ($entidade) {
 		
             case 'aluno':
-                $aItem = array( $aInfo['matricula'], $aInfo['senha'], $aInfo['nome'], $aInfo['celular'], $aInfo['email'], $aInfo['ativo'], 'DT_RowId' => $aInfo['id'] );
+                $aItem = array( $aInfo['matricula'], $aInfo['senha'], $aInfo['nome'], $aInfo['celular'], $aInfo['email'], $aInfo['ativo'], 'DT_RowId' => $aInfo['id'] ); //$aInfo['autenticacao'],
                 break;
 			case 'area_ensino':
 				$aItem = array( $aInfo['descricao'], $aInfo['fk_id_nivel'], 'DT_RowId' => $aInfo['id'] );
@@ -234,6 +238,9 @@ function updateMemberAjx() {
                 $GLOBALS['MySQL']->res("UPDATE {$entidade} SET `matricula`='{$sVal}' WHERE `id`='{$iId}'");
                 break;
             case 'SENHA':
+				$senhaCriptografada = password_hash($sVal, PASSWORD_BCRYPT); // cria a senha criptografada a partir do valor recebido
+				if (password_verify($sVal,$senhaCriptografada)) // verifica se a senha criptografada foi criada de forma correta
+					$sVal = $senhaCriptografada; // armazena a senha criptografada em $sVal
                 $GLOBALS['MySQL']->res("UPDATE {$entidade} SET `senha`='{$sVal}' WHERE `id`='{$iId}'");
                 break;
             case 'NOME':
@@ -308,6 +315,8 @@ exit;
 	$sql .= implode("','",$postLimpo);
 	$sql .= "')";
 
+	echo $sql;
+	
 	$GLOBALS['MySQL']->res($sql); // executa o metodo de query
 	echo 'Salvo com sucesso';
 	

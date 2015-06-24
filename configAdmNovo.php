@@ -18,6 +18,16 @@ PENDENCIAS LOCAIS:
 
     <title>LocalizeSenac 2.0 - Indoor Mapping da Faculdade Senac Porto Alegre</title>
 <?php
+/*
+		<!-- formValidation -->
+        <link rel="stylesheet" 		   href="dist/components/formValidation/dist/css/formValidation.css"/>
+        <script type="text/javascript" src="dist/components/formValidation/dist/js/formValidation.js"/>
+        <script type="text/javascript" src="dist/components/formValidation/dist/js/framework/bootstrap.js"/>
+
+        <!-- Configuracao para validação dos formularios -->
+        <script type="text/javascript" src="dist/js/configFormValidation.js" />
+*/
+
 	include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
 	include("dist/php/funcoes.php");
 	protegePagina(); // Chama a função que protege a página
@@ -61,93 +71,88 @@ PENDENCIAS LOCAIS:
 		
 		<!-- Bootbox -->
 		<script src="dist/components/bootbox/dist/js/bootbox.min.js" type="text/javascript"></script>
-
-    <script src="dist/components/datatables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="dist/components/datatables-tabletools/js/dataTables.tableTools.js" type="text/javascript"></script>
-    <script src="dist/components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="dist/components/datatables/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
-    <script src="dist/components/datatables-editable/js/jquery.jeditable.js" type="text/javascript"></script>
-    <script src="dist/components/datatables-editable/js/jquery.dataTables.editable.min.js" type="text/javascript"></script>
-	<script src="dist/components/jquery-validate/js/jquery.validate.min.js" type="text/javascript"></script>
-	<script src="dist/components/jquery-validate/js/additional-methods.js" type="text/javascript"></script> 
-	
-					<!-- formValidation -->
-        <link rel="stylesheet" 		   href="dist/components/formValidation/dist/css/formValidation.css"/>
-        <script type="text/javascript" src="dist/components/formValidation/dist/js/formValidation.js"/>
-        <script type="text/javascript" src="dist/components/formValidation/dist/js/framework/bootstrap.js"/>
-
-        <!-- Configuracao para validação dos formularios -->
-        <script type="text/javascript" src="dist/js/configFormValidation.js" />
 		
 		<!-- funcoes personalizadas -->
 		<script type="text/javascript" src="dist/js/funcoes.js"></script>
 		
 <script>
 	$(document).ready(function(){
-		//$("#conteudoEventosAcademicos").load("listaEventosAcademicos.html");
-		$("#conteudoAdministracaoUsuarios").load("listaAlunos.html");
-		//$("#conteudoSalaMapa").load("desenharSalas.php");
-	/*
+		$("#conteudoEventosAcademicos").load("listaEventosAcademicos.html");
+		$("#conteudoSalaMapa").load("desenharSalas.php");
+	
 		// ao clicar nos botoes de sair encaminha de volta ao principal.php
 		$('#sairSenha, #sairInfo, #sairDisciplina').click( function() {
 			var url = "principal.php";
 			$("body").load(url);
 		});
-	*/
-	
-			$('#enviaFormulario').click(function() {
-			
-			// armazena as datas em formato dd/mm/aaaa
-			var dataInicio = $('#dataInicio').val();
-			var dataFinal = $('#dataFinal').val();
-			
-			if (!/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/.test(dataInicio)) {
-				// desmembra, inverte a data e muda o separador para formatar em aaaa-mm-dd
-				var dataInicioFormatada = dataInicio.split("/").reverse().join("-");
-				// armazena a data formatada no imput do formulario
-				$('#dataInicio').val(dataInicioFormatada);
-			}
-			if (!/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/.test(dataFinal)) {
-				// desmembra, inverte a data e muda o separador para formatar em aaaa-mm-dd
-				var dataFinalFormatada = dataFinal.split("/").reverse().join("-");
-				// armazena a data formatada no imput do formulario
-				$('#dataFinal').val(dataFinalFormatada);
-			}
-			
-			// efetua o submit do formulario
-			$('formAddNewRow').submit();
-			
-		});
 	
 	
-	$('#formAddNewRow').formValidation({
-		framework: 'bootstrap',
-    	excluded: [':disabled'],
-		message: 'Este não é um valor válido',
-        icon: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-			horaInicio: {
-				validators: {
-					notEmpty: {
-						message: 'O horário é obrigatório'
-					},
-					regexp: {
-                        regexp: /^([1-9]|1[0-2]):[0-5]\d(:[0-5]\d(\.\d{1,3})?)?$/,
-                        message: 'O horário deve estar no formato hh:mm:ss'
-                    }
-				}
-			}
-			
-		}
-    });
+	});
+	
+	
+	var hidWidth;
+var scrollBarWidths = 40;
 
+var widthOfList = function(){
+  var itemsWidth = 0;
+  $('.list li').each(function(){
+    var itemWidth = $(this).outerWidth();
+    itemsWidth+=itemWidth;
+  });
+  return itemsWidth;
+};
 
+var widthOfHidden = function(){
+  return (($('.wrapper').outerWidth())-widthOfList()-getLeftPosi())-scrollBarWidths;
+};
+
+var getLeftPosi = function(){
+  return $('.list').position().left;
+};
+
+var reAdjust = function(){
+  if (($('.wrapper').outerWidth()) < widthOfList()) {
+    $('.scroller-right').show();
+  }
+  else {
+    $('.scroller-right').hide();
+  }
+  
+  if (getLeftPosi()<0) {
+    $('.scroller-left').show();
+  }
+  else {
+    $('.item').animate({left:"-="+getLeftPosi()+"px"},'slow');
+  	$('.scroller-left').hide();
+  }
+}
+
+reAdjust();
+
+$(window).on('resize',function(e){  
+  	reAdjust();
+});
+
+$('.scroller-right').click(function() {
+  
+  $('.scroller-left').fadeIn('slow');
+  $('.scroller-right').fadeOut('slow');
+  
+  $('.list').animate({left:"+="+widthOfHidden()+"px"},'slow',function(){
+
+  });
+});
+
+$('.scroller-left').click(function() {
+  
+	$('.scroller-right').fadeIn('slow');
+	$('.scroller-left').fadeOut('slow');
+  
+  	$('.list').animate({left:"-="+getLeftPosi()+"px"},'slow',function(){
+  	
+  	});
+});    
 	
-	});	
 </script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -189,26 +194,30 @@ PENDENCIAS LOCAIS:
                 </div>
 
                 <div class="panel-footer" id="pills">
-                    <ul class="nav nav-pills nav-justified">
+				<div class="container">
+                      <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+  <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+  <div class="wrapper">
+					<ul class="nav nav-pills nav-justified">
                         <li class="active">
-						    <a href="#usuarios" class="usuarios" data-toggle="pill">
-                                <i class="fa fa-user fa-2x">
+                            <a href="#evento" data-toggle="pill">
+                                <i class="fa fa-calendar fa-2x">
                                 </i>
-                                USUÁRIOS
+                                EVENTOS
                             </a>
                         </li>
-                        <!--<li>
+                        <li>
                             <a href="#seguranca" data-toggle="pill">
                                 <i class="fa fa-lock fa-2x">
                                 </i>
                                 SEGURANÇA
                             </a>
-                        </li>-->
+                        </li>
                         <li >
-                            <a  href="listaEventosAcademicos.html" onclick="window.open(this.href, 'child', 'fullscreen=yes'); return false" class="eventos" data-toggle="pill"> 
-                                <i class="fa fa-calendar fa-2x">
+                            <a href="#academico" class="academico" data-toggle="pill">
+                                <i class="fa fa-user fa-2x">
                                 </i>
-                                EVENTOS
+                                USUÁRIOS
                             </a>
                         </li>
 						<li >
@@ -228,6 +237,9 @@ PENDENCIAS LOCAIS:
                         </li>
 						-->
                     </ul>
+					
+					</div> <!-- wrapper -->
+					</div> <!-- container -->
                 </div>
             </div> 
         </div>
@@ -235,28 +247,24 @@ PENDENCIAS LOCAIS:
         -->
 
         <div class="tab-content">
-
-            <div class="tab-pane active" id="usuarios">
+            <div class="tab-pane active" id="evento">
                 <p class="TabContent">
-						<!--
-						<div class="col-xs-12 col-sm-12 col-md-12">
-							<h4>
-								ADMINISTRAÇÃO DE USUÁRIOS DO PORTAL SENAC 
-							</h4>
+
+					<form id="formEventosAcademicos" action="#" title="Modificar Eventos Academicos" method=''> 
+					
+						<div id="conteudoEventosAcademicos" class="col-xs-12 col-sm-12 col-md-12">
+						<!-- carrega aqui o conteudo de listaEventosAcademicos.html -->
 						</div>
-						-->
-					<form id="formAdministracaoUsuarios" action="#" title="Administrar Usuarios" method=''> 	
-						<div id="conteudoAdministracaoUsuarios" class="col-xs-12 col-sm-12 col-md-12">
-						<!-- carrega aqui o conteudo de listaAlunos.html -->
-						</div>
+					
 					</form>
+					
                 </p>
 				
             </div>
-			
-            <!--<div class="tab-pane" id="seguranca">
+
+            <div class="tab-pane" id="seguranca">
                 <p class="TabContent">
-				
+
 					<form id="formMudaSenha" action="#" title="Modificar a Senha" method='POST'> 
 
 						<div class="col-xs-12 col-sm-12 col-md-12">
@@ -318,30 +326,129 @@ PENDENCIAS LOCAIS:
 							</div>
 
 							<div class="col-xs-6 col-sm-6 col-md-6">
-								<input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg">
+								<!-- <input id="sairSenha" type="button" value="Sair" class="btn btn-danger btn-block btn-lg"> -->
+								<button type="button" id="sairSenha" value="Sair" class="btn btn-primary btn-block btn-lg" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>
 							</div>
 						</div> 
 					</form>
-					
                 </p>
-            </div>-->
+            </div>
 
-            <div class="tab-pane" id="evento">
+
+            <div class="tab-pane" id="academico">
                 <p class="TabContent">
-
-					<form id="formEventosAcademicos" action="#" title="Modificar Eventos Academicos" method=''> 
-					
-						<div id="conteudoEventosAcademicos" class="col-xs-12 col-sm-12 col-md-12">
-						<!-- carrega aqui o conteudo de listaEventosAcademicos.html -->
+				
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<h4>
+								ADMINISTRAÇÃO DE USUÁRIOS DO PORTAL SENAC 
+							</h4>
 						</div>
-					
+				
+					<form id="formMudaDisciplina" role="form">
+						
+						<div id="minhaGrade">
+						<!-- AREA DE EXIBICAO DAS SALAS POR DIA DA SEMANA -->
+						</div>
+						
+						<!-- MODAL DA AREA DE MONTAGEM DE GRADE -->
+						<div class="modal fade" id="gradeModal" tabindex="-1" role="dialog" aria-labelledby="gradeModalLabel" aria-hidden="true" >
+							<div class="modal-dialog">
+								<div class="modal-content">
+								
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">
+												DISCIPLINA DE 
+											</h4>
+									</div>
+								
+									<div class="col-xs-12 col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="curso">Nome do curso:</label>
+												<select class="form-control" id="curso" >
+													<?php
+														$sql2="SELECT id, descricao FROM curso order by descricao";
+														
+														$result2 = mysql_query($sql2, $_SESSION['conexao']);
+														
+														echo "<option value=0></option>"; 
+														
+														while ($row = mysql_fetch_assoc($result2)) {
+															
+															echo "<option value=$row[id]>$row[descricao]</option>"; 
+														
+														}
+													?>
+												</select>
+										</div>
+									</div>
+						
+									<div class="col-xs-12 col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="disciplina">Disciplina:</label>
+												<select class="form-control" id="disciplina" required></select>
+										</div>
+									</div>
+						
+									<div class="col-xs-12 col-sm-12 col-md-12">
+										<div class="form-group">
+											<label for="unidade">Unidade Senac:</label>
+												<select class="form-control" id="unidade">
+													<?php
+														$sql3="SELECT id, nome, endereco FROM unidade order by nome";
+														
+														$result3 = mysql_query($sql3, $_SESSION['conexao']);
+														
+														while ($row = mysql_fetch_assoc($result3)) {
+															
+															echo "<option value=$row[id]>$row[nome] -  $row[endereco]</option>"; 
+														
+														}
+													?>
+												</select>
+										</div>
+									</div>
+						
+									<div class="col-xs-4 col-sm-4 col-md-4">
+										<div class="form-group">
+											<label for="turno">Turno:</label>
+												<select class="form-control" id="turno" required>
+													<option value="M">Manhã</option>
+													<option value="N">Noite</option>
+												</select>
+										</div>
+									</div>
+						
+									<div class="col-xs-4 col-sm-4 col-md-4">
+										<div class="form-group">
+											<label for="andar">Andar:</label>
+											<input class="form-control" id="inputAndarDisciplina" name="andar" value="-1" type="number" min="0" max="10">
+										</div>
+									</div>
+									
+									<div class="col-xs-4 col-sm-4 col-md-4">
+										<div class="form-group">
+											<label for="sala">Sala:</label>
+												<select class="form-control" id="sala" required></select>
+										</div>
+									</div>
+									
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" id="salvarDisciplina" class="btn btn-primary">Salvar alterações</button>
+									</div>
+								
+								</div> <!-- class="modal-content" -->
+
+							</div> <!-- class="modal-dialog" -->
+
+						</div> <!-- div class="modal fade"  -->
+						
 					</form>
-					
+				
                 </p>
 				
             </div>
-			
-
 
 			<div class="tab-pane" id="salaMapa">
 			
@@ -364,7 +471,7 @@ PENDENCIAS LOCAIS:
 			</div>
 
         </div>
-
+		
     </body>
 
 </html>
