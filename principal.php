@@ -294,16 +294,14 @@ $(document).ready(function() {
                     <ul class="dropdown-menu dropdown-user">
                         <li><a id="configuracoes"  data-target="#configModal" href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
-						<?php
-							ob_start();
-							
-							if ($_SESSION['perfil'] == "1"){
-								echo "<li>
-										<a id=\"administracao\"  data-target=\"#configAdmModal\" href=\"#\"><i class=\"fa fa-gear fa-fw\"></i> Administração</a>
-									</li>
-								";
-							}
-						?>
+							<?php
+								if ($_SESSION['perfil'] == "1"){ // se o usuario logado tiver perfil de administrador
+									echo "<li>
+											<a id=\"administracao\"  data-target=\"#configAdmModal\" href=\"#\"><i class=\"fa fa-suitcase fa-fw\"></i> Administração</a>
+										</li>
+									";
+								}
+							?>
                         <li class="divider"></li>
 						<li><a href="index.php"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                         </li>

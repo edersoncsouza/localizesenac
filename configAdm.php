@@ -185,7 +185,7 @@ PENDENCIAS LOCAIS:
                     <ul class="nav nav-pills nav-justified">
                         <li class="active">
 						    <a href="#usuarios" class="usuarios" data-toggle="pill">
-                                <i class="fa fa-user fa-2x">
+                                <i class="fa fa-users fa-2x">
                                 </i>
                                 USUÁRIOS
                             </a>

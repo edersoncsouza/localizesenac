@@ -27,6 +27,28 @@ html, body {
     box-shadow: 0 0 20px black; 
 }
 
+#recuperacao {     
+    background: #fff;
+    border-radius: 5px 5px 5px 5px; 
+    width: 400px;   
+    margin: auto; 
+    padding: 20px; 
+    -moz-box-shadow: 0 0 20px black; 
+    -webkit-box-shadow: 0 0 20px black; 
+    box-shadow: 0 0 20px black; 
+}
+
+#reset {     
+    background: #fff;
+    border-radius: 5px 5px 5px 5px; 
+    width: 400px;   
+    margin: auto; 
+    padding: 20px; 
+    -moz-box-shadow: 0 0 20px black; 
+    -webkit-box-shadow: 0 0 20px black; 
+    box-shadow: 0 0 20px black; 
+}
+
 input#usuario{
     background-image: url('../images/icon_name.png');
 	background-repeat: no-repeat;

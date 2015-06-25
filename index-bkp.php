@@ -15,53 +15,7 @@
 	<?php
 		session_start();
 		session_destroy();
-		
-		include('dist/php/seguranca.php');
-		include('dist/php/funcoes.php');
-
-		if(isset($_POST['action'])){
-			
-			if($_POST['action']=="password"){
-				
-				$email      = mysql_real_escape_string($_POST['email']);
-				if (!filter_var($email, FILTER_VALIDATE_EMAIL)){ // Valida e endereco de email
-					$message =  "Endereço de email inválido, por favor digite um endereço válido!!";
-				}
-				else{
-					$query = "SELECT id, nome FROM aluno where email='".$email."' AND autenticacao = 'local'";
-					$result = mysql_query($query);
-					$Results = mysql_fetch_array($result);
-					
-					echo $Results[0];
-					
-					if(count($Results)>=1){
-						$nome = $Results['nome'];
-						
-						$encrypt = md5(90*13+$Results['id']);
-						$message = "O link de recuperação de senha foi enviado para seu e-mail.";
-						$to=$email;
-						$subject="Recuperação de senha";
-						$from = 'localizesenac@gmail.com';
-						$body='Olá, <br/>' . $nome . ' <br/>O seu ID no sistema é '.$Results['id'].' <br><br>Clique aqui para resetar sua senha http://localhost:8080/projetos/localizesenac/recupera/reset.php?encrypt='.$encrypt.'&action=reset   <br/> <br/>--<br>localizesenac.com<br>';
-						$headers = "From: " . strip_tags($from) . "\r\n";
-						$headers .= "Reply-To: ". strip_tags($from) . "\r\n";
-						$headers .= "MIME-Version: 1.0\r\n";
-						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-						
-						enviaEmailSilencioso($body, $to, $nome);
-						//mail($to,$subject,$body,$headers);
-						//$query = "SELECT id FROM users where md5(90*13+id)='".$encrypt."'";
-		//                $Results = mysql_fetch_array($result);
-		//                print_r($Results);
-		//                $message = $encrypt. $query;
-					}
-					else{
-						$message = "Conta não encontrada, por favor cadastre-se agora!!";
-					}
-				}
-			}
-		}
-?>
+	?>
 	
     <!-- Bootstrap Core CSS -->
     <link href="dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -143,7 +97,6 @@
 
 							<input type="password" id="senha" class="form-control" name="senha" placeholder="Senha" required>
 
-							<input name="action" type="hidden" value="login" />
 							<br> <a href="#forget" onclick="forgetpassword();" id="forget">Esqueceu sua senha?</a> <br>
 
 							<button type="submit" name="submit" class="btn btn-info btn-block" >OK</button>

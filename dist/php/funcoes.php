@@ -82,8 +82,8 @@ function enviaEmail($corpo, $destinatario, $nome){
 
 function enviaEmailSilencioso($corpo, $destinatario, $nome){
 
-	require_once("../phpmailer/class.phpmailer.php");
-	include_once("../phpmailer/class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
+	require_once("phpmailer/class.phpmailer.php");
+	include_once("phpmailer/class.smtp.php"); // optional, gets called from within class.phpmailer.php if not already loaded
 
 	$mail             = new PHPMailer();
 

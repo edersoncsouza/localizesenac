@@ -21,7 +21,7 @@
 			echo "<script> sala = {$sala};</script>";
 		}
 	?>
-	
+	<!-- -->
 	<link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.css" />
 	<link rel="stylesheet" href="dist/components/leaflet/dist/css/leaflet.infopane.css" />
     <!--[if lte IE 8]><link rel="stylesheet" href="libs/leaflet.ie.css" /><![endif]-->	
@@ -108,7 +108,7 @@
     </head>
 
 	<body>
-			<div id="map"> <!-- class="row" --> 
+			<div id="map" style="z-index:0"> <!-- class="row" --> 
 				<div id="painel" class="leaflet-info-pane col-md-12" hidden>
 					<div id="infopane" class="content">
 					</div>

@@ -6,24 +6,21 @@ include('../dist/php/funcoes.php');
 
 if(isset($_GET['action']))
 {          
-    if($_GET['action']=="reset")
-    {
+    if($_GET['action']=="reset"){
+		
         $encrypt = mysql_real_escape_string($_GET['encrypt']);
         $query = "SELECT id FROM aluno where md5(90*13+id)='".$encrypt."'";
         $result = mysql_query($query);
         $Results = mysql_fetch_array($result);
-        if(count($Results)>=1)
-        {
+        if(count($Results)>=1){
 
         }
-        else
-        {
+        else{
             $message = 'Chave inválida, por favor tente novamente. <a href="http://localhost:8080/projetos/localizesenac/recupera/#forget">Esqueceu a senha?</a>';
         }
     }
 }
-elseif(isset($_POST['action']))
-{
+elseif(isset($_POST['action'])){
     
     $encrypt      = mysql_real_escape_string($_POST['action']);
     $password     = mysql_real_escape_string($_POST['password']);
@@ -47,8 +44,7 @@ else
 {
     header("location: /login-signup-in-php");
 }
-
-
+/*
 $content ='<script type="text/javascript" src="jquery-1.8.0.min.js"></script> 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -78,23 +74,9 @@ input[type=password]:focus
   $(function() {
     $( "#tabs" ).tabs();
   });
-function mypasswordmatch()
-{
-    var pass1 = $("#password").val();
-    var pass2 = $("#password2").val();
-    if (pass1 != pass2)
-    {
-        alert("Passwords do not match");
-        return false;
-    }
-    else
-    {
-        $( "#reset" ).submit();
-    }
-}
-  </script>
-</head>
-<body>
+  
+  
+
 <div id="tabs" style="width: 480px;">
   <ul>
     <li><a href="#tabs-1">Reset Password</a></li>
@@ -109,7 +91,62 @@ function mypasswordmatch()
     <p><input type="button" value="Reset Password" onclick="mypasswordmatch();" /></p>
   </form>
   </div>
-</div>';
+</div>
+*/
+$content ='
+  <script>
+function mypasswordmatch(){
+	
+    var pass1 = $("#password").val();
+    var pass2 = $("#password2").val();
+	
+    if (pass1 != pass2){
+        alert("As senhas não combinam");
+        return false;
+    }
+    else{
+        $( "#reset" ).submit();
+    }
+}
+  </script>
+	
+	<!-- jQuery -->
+    <script type="text/javascript" src="../dist/components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="../dist/components/bootstrap/dist/js/bootstrap.min.js"></script>
+  
+    <!-- Bootstrap Core CSS -->
+    <link href="../dist/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../dist/components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+	
+	<link href="../dist/css/login.css" rel="stylesheet" type="text/css"/>
+  
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div role="main">
+				<div id="reset">
+					<legend id="legendaForm">RESET DE SENHA</legend>
+					
+					<img id="logo" src="../dist/images/logo_LocalizeSenac_novo_small.png" alt="logotipo localizesenac"/>
+					
+					<form class= "loginForm" action="" method="post" id="formReset" accept-charset="UTF-8">
+					
+						<input type="password" id="password" name="password" class="form-control" name="email" placeholder="Digite a nova senha" required>
+
+						<input type="password" id="password2" name="password2" class="form-control" name="email" placeholder="Repita a nova senha" required>
+						
+						<input name="action" type="hidden" value="{$encrypt}" /></p>
+						<br>
+						<button name="botaoSalvarSenha" class="btn btn-info btn-block" onclick=\"mypasswordmatch();\" >Salvar nova senha</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>';
 
 
 $pre = 1;
