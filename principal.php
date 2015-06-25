@@ -23,9 +23,10 @@ PENDENCIAS LOCAIS:
 <?php
     include("dist/php/seguranca.php"); // Inclui o arquivo com o sistema de segurança
     include("dist/php/funcoes.php");
-    protegePagina(); // Chama a função que protege a página
+	protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
 	armazenaPerfil(); // verifica se o usuario e administrador
+	//imprimeSessao();
 ?>
 	
     <!-- Bootstrap Core CSS -->
@@ -295,6 +296,7 @@ $(document).ready(function() {
                         <li><a id="configuracoes"  data-target="#configModal" href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
 							<?php
+								if(isset($_SESSION['perfil']))
 								if ($_SESSION['perfil'] == "1"){ // se o usuario logado tiver perfil de administrador
 									echo "<li>
 											<a id=\"administracao\"  data-target=\"#configAdmModal\" href=\"#\"><i class=\"fa fa-suitcase fa-fw\"></i> Administração</a>

@@ -1335,7 +1335,7 @@ function getAndarSala(descricao){
 function consultarAluno(matriculaP, senhaP, nomeP, tipoUsuarioP){
 	var url = "consultarAlunoOauth2.php";
 	
-	console.log("Sou o funcoes.js rodando a funcao consultarAluno, aqui tipoUsuario recebeu: " + tipoUsuarioP);
+	console.log("Sou o funcoes.js rodando a funcao consultarAluno, aqui tipoUsuario recebeu: " + tipoUsuarioP + " matricula: " + matriculaP + " e senha: " + senhaP );
 	
 	// executa o post enviando o parametro matricula
 	// recebe como retorno um json com o retorno da existencia do aluno (alunoJson)

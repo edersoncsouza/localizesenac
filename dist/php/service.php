@@ -151,8 +151,10 @@ function getMembersAjx() {
     }
 	
 	// COLOQUEI ISSO PARA FILTRAR APENAS OS USUARIOS LOCAIS COM O DATATABLES - EDERSON
+	
 	if ($entidade == "aluno")
 		$sWhere = "WHERE autenticacao = \"local\"";
+	
 	
     //$aMembers = $GLOBALS['MySQL']->getAll("SELECT * FROM `aluno` {$sWhere} {$sOrder} {$sLimit}");
 	$aMembers = $GLOBALS['MySQL']->getAll("SELECT * FROM {$entidade} {$sWhere} {$sOrder} {$sLimit}");
@@ -318,6 +320,16 @@ exit;
 	echo $sql;
 	
 	$GLOBALS['MySQL']->res($sql); // executa o metodo de query
+	
+	if ($entidade == "aluno"){
+		// INSERE O ALUNO NA ENTIDADE PERFIL
+		$sqlPerfil = "INSERT INTO
+				`aluno_perfil` ( `fk_id_aluno` ,  `fk_id_perfil`)
+			VALUES(  '{$_SESSION['usuarioID'] }', '3')"; 
+
+		// executa a query
+		$GLOBALS['MySQL']->res($sqlPerfil);
+	}
 	echo 'Salvo com sucesso';
 	
     exit;

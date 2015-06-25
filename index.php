@@ -143,7 +143,7 @@
 
 							<input type="password" id="senha" class="form-control" name="senha" placeholder="Senha" required>
 
-							<input name="action" type="hidden" value="login" />
+							<!-- <input name="action" type="hidden" value="login" /> -->
 							<br> <a href="#forget" onclick="forgetpassword();" id="forget">Esqueceu sua senha?</a> <br>
 
 							<button type="submit" name="submit" class="btn btn-info btn-block" >OK</button>

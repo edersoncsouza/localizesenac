@@ -64,7 +64,7 @@ $nsenha = addslashes($senha);
 // Monta uma consulta SQL (query) para procurar um usuário
 //$sql = "SELECT `id`, `nome` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."' AND ".$cS." `senha` = '".$nsenha."' LIMIT 1";
 //$sql = "SELECT `id`, `nome` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."' AND ".$cS." `senha` = '".md5($nsenha)."' LIMIT 1";
-$sql = "SELECT `id`, `nome`, `senha` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."'";
+$sql = "SELECT `id`, `nome`, `senha`, `autenticacao` FROM `".$_SG['tabela']."` WHERE ".$cS." `matricula` = '".$nusuario."'";
 $query = mysql_query($sql);
 //$resultado = mysql_fetch_assoc($query);
 
@@ -72,13 +72,17 @@ $usuarioExiste = false; // cria e seta a variavel booleana de verificacao de usu
 
 while($row = mysql_fetch_assoc($query)) { // loop para cada linha de usuario encontrada no banco
 	
-	if(password_verify($nsenha,$row["senha"])){ // executa a verificacao da senha vinda do banco para saber se e compativel com a fornecida pelo usuario
-		//echo "Achei!";
-		$usuarioID = $row['id']; // caso tenha encontrado armazena o ID do usuario
-		$usuarioNome = $row['nome']; // armazena o nome do usuario
-		$usuarioExiste = true; // seta a variavel dizendo que encontrou usuario com senha compativel
+	if($row['autenticacao'] == 'local') {
+		if(password_verify($nsenha,$row["senha"])){ // executa a verificacao da senha vinda do banco para saber se e compativel com a fornecida pelo usuario
+			echo "Achei!";
+			$usuarioID = $row['id']; // caso tenha encontrado armazena o ID do usuario
+			$usuarioNome = $row['nome']; // armazena o nome do usuario
+			$usuarioExiste = true; // seta a variavel dizendo que encontrou usuario com senha compativel
+		}
+		else{
+			//echo "verificacao de senha com problemas";
+		}
 	}
-	
 }
 
 
@@ -182,11 +186,9 @@ function armazenaPerfil(){
 	// executa a query para verificar se o aluno ja possui eventos
 	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
 	
-	if(!mysql_num_rows($result) > 0) // se houverem não houver aluno com a id logada na tabela aluno_perfil com o perfil de administrador
-		expulsaVisitante();	
-	else{
-		$row = mysql_fetch_row($result);
-		$_SESSION['perfil'] = $row[0];	
+	if(mysql_num_rows($result) > 0){ // se houverem não houver aluno com a id logada na tabela aluno_perfil com o perfil de administrador
+		$row = mysql_fetch_assoc($result);
+		$_SESSION['perfil'] = $row['fk_id_perfil'];	
 	}
 }
 

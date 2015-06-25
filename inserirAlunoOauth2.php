@@ -30,6 +30,19 @@
 			$_SESSION['tipoUsuario'] = $_POST['autenticacao']; // Pega o valor de $_POST 'autenticacao'
 			
 			echo mysql_insert_id(); // retorna o id do aluno inserido
+			
+			// INSERE O ALUNO NA ENTIDADE PERFIL
+			$sqlPerfil = "INSERT INTO
+					`aluno_perfil` ( `fk_id_aluno` ,  `fk_id_perfil`)
+				VALUES(  '{$_SESSION['usuarioID'] }', '3')"; 
+		
+			// executa a query
+			mysql_query($sqlPerfil) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+			
+			// se nao inseriu o aluno na tabela perfil
+			if(mysql_affected_rows() == 0)
+				echo 0;
+			
 		}
 		// faz a verificação do resultado
 		//echo (mysql_affected_rows()) ? "Aluno inserido." : "Nada inserido."; 
