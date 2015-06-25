@@ -22,20 +22,7 @@ PENDENCIAS LOCAIS:
 	include("dist/php/funcoes.php");
 	protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
-
-/*	
-	echo "<script> var idP = {$_SESSION['usuarioID']}; </script>";
-	
-	$sql = "SELECT nome, email, celular FROM aluno WHERE id=".$_SESSION['usuarioID'];
-	
-	$result = mysql_query($sql, $_SESSION['conexao']);
-	
-	while ($row = mysql_fetch_assoc($result)) {
-		$nome = $row['nome'];
-		$email = $row['email'];
-		$celular = $row['celular'];
-	}
-*/
+	verificaPerfil();
 ?>			
 
 		<!-- Bootstrap Core CSS -->
@@ -148,6 +135,12 @@ PENDENCIAS LOCAIS:
 
 	
 	});	
+	
+		// ao clicar nos botoes de sair encaminha de volta ao principal.php
+		$('#sairAdm').click( function() {
+			var url = "principal.php";
+			$("body").load(url);
+		});
 </script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -205,14 +198,14 @@ PENDENCIAS LOCAIS:
                             </a>
                         </li>-->
                         <li >
-                            <a  href="listaEventosAcademicos.html" onclick="window.open(this.href, 'child', 'fullscreen=yes'); return false" class="eventos" data-toggle="pill"> 
+                            <a  href="#evento" onclick="window.open('listaEventosAcademicos.html', 'child', 'fullscreen=yes');" class="eventos" data-toggle="pill"> 
                                 <i class="fa fa-calendar fa-2x">
                                 </i>
                                 EVENTOS
                             </a>
                         </li>
 						<li >
-                            <a  href="desenharSalas.php" onclick="window.open(this.href, 'child', 'fullscreen=yes'); return false" class="salaMapa" data-toggle="pill"> <!-- href="#salaMapa" -->
+                            <a  href="#salaMapa" onclick="window.open('desenharSalas.php', 'child', 'fullscreen=yes'); return false" class="salaMapa" data-toggle="pill"> <!-- href="#salaMapa" -->
                                 <i class="fa fa-codepen fa-2x">
                                 </i>
                                 SALAS
@@ -363,6 +356,11 @@ PENDENCIAS LOCAIS:
 				</p>
 			</div>
 
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<!-- <input id="sairInfo" type="button" value="Sair" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-target="#configModal"> -->
+				<button type="button" id="sairAdm" value="Sair" class="btn btn-primary btn-block btn-lg" data-dismiss="modal" data-target="#configModal" style="white-space: normal; padding-right:2px; padding-left:2px;"> <i class="fa fa-home"></i> Voltar</button>
+			</div>
+			
         </div>
 
     </body>

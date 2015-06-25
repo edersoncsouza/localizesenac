@@ -25,8 +25,7 @@ PENDENCIAS LOCAIS:
     include("dist/php/funcoes.php");
     protegePagina(); // Chama a função que protege a página
     mysql_set_charset('UTF8', $_SG['link']);
-	//imprimeSessao();
-
+	armazenaPerfil(); // verifica se o usuario e administrador
 ?>
 	
     <!-- Bootstrap Core CSS -->
@@ -129,6 +128,16 @@ $(document).ready(function() {
 		$("#configAluno").load(url); // carrega o conteudo da pagina de configuracao na div configAluno
 
 		$("#configAluno").show(); // exibe a div configAluno
+
+	} );
+	
+	// chama a pagina de administracao ao clicar no link administracao do menu do usuario
+	$('#administracao').click( function() {
+		var url = "configAdm.php"; // define a pagina de configuracao
+		$('div').hide(); // oculta todas as divs da pagina
+		$("#configAdm").load(url); // carrega o conteudo da pagina de configuracao na div configAluno
+
+		$("#configAdm").show(); // exibe a div configAluno
 
 	} );
 	
@@ -239,11 +248,23 @@ $(document).ready(function() {
 		
 </div>
 		
+<div id="configAdm">
+		
+</div>		
+
 <!-- MODAL DA AREA DE CONFIGURACAO DE ALUNO -->
 <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true" >
 	<div class="modal-dialog modal-lg">
 	
 		<div id="modalConteudo" class="modal-content">
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="configAdmModal" tabindex="-1" role="dialog" aria-labelledby="configAdmModalLabel" aria-hidden="true" >
+	<div class="modal-dialog modal-lg">
+	
+		<div id="modalAdmConteudo" class="modal-content">
 		</div>
 	</div>
 </div>
@@ -273,6 +294,16 @@ $(document).ready(function() {
                     <ul class="dropdown-menu dropdown-user">
                         <li><a id="configuracoes"  data-target="#configModal" href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
+						<?php
+							ob_start();
+							
+							if ($_SESSION['perfil'] == "1"){
+								echo "<li>
+										<a id=\"administracao\"  data-target=\"#configAdmModal\" href=\"#\"><i class=\"fa fa-gear fa-fw\"></i> Administração</a>
+									</li>
+								";
+							}
+						?>
                         <li class="divider"></li>
 						<li><a href="index.php"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                         </li>

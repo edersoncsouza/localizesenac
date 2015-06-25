@@ -145,4 +145,49 @@ session_destroy();
 // Manda pra tela de login
 header("Location: ".$_SG['paginaLogin']);
 }
+
+function verificaPerfil(){
+	global $_SG;
+	
+	$sql = "SELECT
+					id 
+			FROM
+					`aluno_perfil`
+			WHERE
+					`id` = '".$_SESSION['usuarioID']."'
+			AND
+					fk_id_perfil = '1'";
+	
+	// executa a query para verificar se o aluno ja possui eventos
+	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+	
+	if(!mysql_num_rows($result) > 0) // se houverem não houver aluno com a id logada na tabela aluno_perfil com o perfil de administrador
+		expulsaVisitante();	
+	else
+		$_SESSION['administrador'] = true;
+	
+}
+
+function armazenaPerfil(){
+	
+	global $_SG;
+	
+	$sql = "SELECT
+					fk_id_perfil 
+			FROM
+					`aluno_perfil`
+			WHERE
+					`id` = '".$_SESSION['usuarioID']."'";
+	
+	// executa a query para verificar se o aluno ja possui eventos
+	$result = mysql_query($sql) or die("Erro na operação:\n Erro número:".mysql_errno()."\n Mensagem: ".mysql_error());
+	
+	if(!mysql_num_rows($result) > 0) // se houverem não houver aluno com a id logada na tabela aluno_perfil com o perfil de administrador
+		expulsaVisitante();	
+	else{
+		$row = mysql_fetch_row($result);
+		$_SESSION['perfil'] = $row[0];	
+	}
+}
+
 ?>
